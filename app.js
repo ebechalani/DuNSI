@@ -868,9 +868,46 @@ function renderFiches() {
       ${fiche.summary ? `<div class="fiche-card-summary">${fiche.summary}</div>` : ''}
       ${fiche.code_example ? '<div class="fiche-has-code">💻 Contient un exemple de code</div>' : ''}
     `
-    card.addEventListener('click', () => showFicheEdit(fiche))
+    card.addEventListener('click', () => showFicheRead(fiche))
     list.appendChild(card)
   })
+}
+
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+function showFicheRead(fiche) {
+  showView('fiche-read')
+  currentFicheId = fiche.id
+  const sec = (label, body, opts = {}) => {
+    if (!body || !String(body).trim()) return ''
+    if (opts.code) {
+      return `<div class="doc-section"><div class="doc-label">${label}</div>` +
+             `<pre class="doc-code">${escapeHtml(body)}</pre></div>`
+    }
+    return `<div class="doc-section"><div class="doc-label">${label}</div>` +
+           `<div class="doc-body${opts.lead ? ' lead' : ''}">${escapeHtml(body)}</div></div>`
+  }
+  const parts = [
+    sec('Résumé', fiche.summary, { lead: true }),
+    sec('Objectifs pédagogiques', fiche.objectifs),
+    sec('Notes de cours', fiche.content),
+    sec('Exemple de code', fiche.code_example, { code: true }),
+    sec('Exercices pour les élèves', fiche.exercices),
+  ].filter(Boolean)
+
+  const eyebrow = [
+    fiche.bloc && BLOCS[fiche.bloc] ? BLOCS[fiche.bloc].label : '',
+    fiche.topic || '',
+  ].filter(Boolean).join('  ·  ')
+
+  document.getElementById('fiche-doc').innerHTML =
+    `${eyebrow ? `<div class="doc-eyebrow">${escapeHtml(eyebrow)}</div>` : ''}` +
+    `<h1 class="doc-title">${escapeHtml(fiche.title || '(Sans titre)')}</h1>` +
+    (parts.length ? parts.join('<hr>') : '<div class="doc-body" style="color:var(--muted)">Fiche vide — clique sur « Modifier » pour la remplir.</div>')
 }
 
 function showFicheEdit(fiche) {
@@ -1275,6 +1312,11 @@ document.getElementById('btn-eval-save').addEventListener('click', saveEvalMeta)
 
 document.getElementById('btn-new-fiche').addEventListener('click',   () => showFicheEdit(null))
 document.getElementById('btn-fiche-back').addEventListener('click',   () => navigate('fiches'))
+document.getElementById('btn-read-back').addEventListener('click',    () => navigate('fiches'))
+document.getElementById('btn-read-edit').addEventListener('click',    () => {
+  const f = allFiches.find(x => x.id === currentFicheId)
+  if (f) showFicheEdit(f)
+})
 document.getElementById('btn-fiche-save').addEventListener('click',   saveFiche)
 document.getElementById('btn-fiche-delete').addEventListener('click', deleteFiche)
 
