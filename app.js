@@ -950,19 +950,46 @@ async function saveFiche() {
 
   const btn = document.getElementById('btn-fiche-save')
   btn.disabled = true; btn.textContent = 'Sauvegarde…'
-  try {
+
+  // Tolère un schéma pas encore migré : si une colonne optionnelle
+  // n'existe pas encore (setup.sql non relancé), on réessaie sans elle.
+  const OPTIONAL = ['objectifs', 'exercices']
+  const tryWrite = async (body) => {
     if (currentFicheId) {
-      await db.from('fiches').update(payload).eq('id', currentFicheId)
+      return db.from('fiches').update(body).eq('id', currentFicheId).select().single()
+    }
+    return db.from('fiches').insert([body]).select().single()
+  }
+
+  try {
+    let body = { ...payload }
+    let { data, error } = await tryWrite(body)
+
+    // Schéma pas migré : PostgREST renvoie "Could not find the 'X' column"
+    // (code PGRST204) ou Postgres 42703. On retire la colonne fautive et on réessaie.
+    let guard = 0
+    while (error && guard++ < 5) {
+      const msg = (error.message || '') + ' ' + (error.details || '')
+      const missing = OPTIONAL.find(k => (k in body) && msg.includes(k))
+      if (!missing) break
+      delete body[missing]
+      ;({ data, error } = await tryWrite(body))
+    }
+    if (error) throw error
+
+    if (currentFicheId) {
       const idx = allFiches.findIndex(f => f.id === currentFicheId)
-      if (idx !== -1) allFiches[idx] = { ...allFiches[idx], ...payload }
+      if (idx !== -1) allFiches[idx] = { ...allFiches[idx], ...data }
     } else {
-      const { data } = await db.from('fiches').insert([payload]).select().single()
       allFiches.unshift(data)
     }
-    toast('Fiche sauvegardée ✓')
-    setTimeout(() => { navigate('fiches') }, 600)
+    const lost = OPTIONAL.filter(k => payload[k] && !(k in (data || {})))
+    toast(lost.length
+      ? 'Fiche sauvegardée ✓ (Objectifs/Exercices nécessitent setup.sql)'
+      : 'Fiche sauvegardée ✓')
+    setTimeout(() => { navigate('fiches') }, 700)
   } catch (err) {
-    toast('Erreur : ' + err.message)
+    toast('Erreur : ' + (err.message || err))
     btn.disabled = false; btn.textContent = 'Sauvegarder'
   }
 }
@@ -1049,18 +1076,20 @@ async function saveJournal() {
   btn.disabled = true; btn.textContent = 'Sauvegarde…'
   try {
     if (currentJournalId) {
-      await db.from('entries').update(payload).eq('id', currentJournalId)
+      const { data, error } = await db.from('entries').update(payload).eq('id', currentJournalId).select().single()
+      if (error) throw error
       const idx = allEntries.findIndex(e => e.id === currentJournalId)
-      if (idx !== -1) allEntries[idx] = { ...allEntries[idx], ...payload }
+      if (idx !== -1) allEntries[idx] = { ...allEntries[idx], ...data }
     } else {
-      const { data } = await db.from('entries').insert([payload]).select().single()
+      const { data, error } = await db.from('entries').insert([payload]).select().single()
+      if (error) throw error
       allEntries.unshift(data)
       allEntries.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
     }
     toast('Entrée sauvegardée ✓')
     setTimeout(() => { navigate('journal') }, 600)
   } catch (err) {
-    toast('Erreur : ' + err.message)
+    toast('Erreur : ' + (err.message || err))
     btn.disabled = false; btn.textContent = 'Sauvegarder'
   }
 }
