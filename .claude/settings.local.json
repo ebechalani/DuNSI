@@ -16,7 +16,8 @@
       "mcp__Claude_Preview__preview_start",
       "PowerShell(Get-NetTCPConnection -LocalPort 5500 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force; \"killed PID $\\($_.OwningProcess\\)\" })",
       "Bash(curl -s http://127.0.0.1:5500/app.js)",
-      "Bash(curl -s http://127.0.0.1:5500/index.html)"
+      "Bash(curl -s http://127.0.0.1:5500/index.html)",
+      "Bash(cd /c/Users/PC/Downloads && ls -la *.pdf *.sdocx 2>/dev/null | grep -iE 'programme|consigne|presentation|paradigme|bloc 0|jour1|jour 1' )"
     ]
   }
 }

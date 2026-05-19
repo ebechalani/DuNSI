@@ -43,8 +43,12 @@ const RESSOURCES_MERMET = [
   { icon: '🗄️', title: 'Bloc 4 — Programmation avancée et BDD', desc: 'SQL, paradigmes, structures de données',                   url: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Bloc4/index.html' },
 ]
 const RESSOURCES_OFFICIEL = [
+  { icon: '🎓', title: 'Moodle Eureka (Univ. Le Havre)', desc: 'Plateforme du DIU — login = identifiants wifi · mdp : /login/forgot_password.php', url: 'https://eureka.univ-lehavre.fr' },
   { icon: '📚', title: 'Eduscol NSI',      desc: 'Programmes et ressources officielles Numérique et Sciences Informatiques', url: 'https://eduscol.education.gouv.fr/5823/programmes-et-ressources-en-numerique-et-sciences-informatiques-voie-g' },
   { icon: '💬', title: 'Forum MOOC NSI',   desc: 'Échanges et ressources de la communauté NSI (INRIA)',                      url: 'https://mooc-forums.inria.fr/moocnsi' },
+  { icon: '✉️', title: 'Liste de diffusion DIU',  desc: 'diu-eil-2026@univ-lehavre.fr — communication officielle de la promo',  url: 'mailto:diu-eil-2026@univ-lehavre.fr' },
+  { icon: '📧', title: 'Liste SNT (RENATER)',     desc: 'sciences-numeriques-technologie@groupes.renater.fr',                    url: 'mailto:sciences-numeriques-technologie@groupes.renater.fr' },
+  { icon: '📧', title: 'Liste NSI (RENATER)',     desc: 'numerique-sciences-informatiques@groupes.renater.fr',                   url: 'mailto:numerique-sciences-informatiques@groupes.renater.fr' },
 ]
 
 const CALENDAR = [
