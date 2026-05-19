@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIU NSI — Le Havre</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sidebar navigation -->
+  <nav class="sidebar">
+    <div class="nav-brand">📓 DIU NSI</div>
+    <button class="nav-item active" data-view="dashboard"><span>🏠</span> Accueil</button>
+    <button class="nav-item" data-view="programme"><span>📋</span> Programme</button>
+    <button class="nav-item" data-view="fiches"><span>📝</span> Fiches</button>
+    <button class="nav-item" data-view="journal"><span>📅</span> Journal</button>
+    <button class="nav-item" data-view="eval"><span>🎯</span> Évaluation</button>
+    <button class="nav-item" data-view="ressources"><span>🔗</span> Ressources</button>
+  </nav>
+
+  <!-- Main content -->
+  <div class="content">
+
+    <!-- Dashboard -->
+    <section id="view-dashboard">
+      <h2 class="page-title">Tableau de bord</h2>
+      <div id="dash-stats" class="stats-grid"></div>
+      <h3 class="section-title">Progression par bloc</h3>
+      <div id="dash-blocs"></div>
+      <h3 class="section-title">Dernières entrées journal</h3>
+      <div id="dash-recent"></div>
+    </section>
+
+    <!-- Programme -->
+    <section id="view-programme" class="hidden">
+      <h2 class="page-title">Programme du DIU</h2>
+      <p class="page-desc">Clique sur le statut de chaque thème pour suivre ta progression.</p>
+      <div id="programme-list"></div>
+    </section>
+
+    <!-- Fiches list -->
+    <section id="view-fiches" class="hidden">
+      <div class="page-header">
+        <h2 class="page-title">Fiches de cours</h2>
+        <button id="btn-new-fiche" class="btn-primary">+ Nouvelle fiche</button>
+      </div>
+      <div class="bloc-tabs" id="fiche-tabs"></div>
+      <div id="fiche-list"></div>
+      <p id="fiche-empty" class="empty-msg hidden">Aucune fiche ici. Crée-en une !</p>
+    </section>
+
+    <!-- Fiche editor -->
+    <section id="view-fiche-edit" class="hidden">
+      <button class="btn-back" id="btn-fiche-back">← Retour aux fiches</button>
+      <div class="entry-form">
+        <div class="form-row form-row-2col">
+          <div>
+            <label for="fiche-bloc">Bloc</label>
+            <select id="fiche-bloc">
+              <option value="">— Choisir —</option>
+              <option value="bloc0">Bloc 0 — Rappels et mise à niveau</option>
+              <option value="bloc1">Bloc 1 — Données et programmation</option>
+              <option value="bloc2">Bloc 2 — Algorithmique</option>
+              <option value="bloc3">Bloc 3 — Architectures et réseaux</option>
+              <option value="bloc4">Bloc 4 — Programmation avancée et BDD</option>
+              <option value="bloc5">Bloc 5 — Algorithmique avancée</option>
+            </select>
+          </div>
+          <div>
+            <label for="fiche-topic">Thème</label>
+            <input id="fiche-topic" type="text" placeholder="Ex : Algorithmes gloutons" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="fiche-title">Titre de la fiche</label>
+          <input id="fiche-title" type="text" placeholder="Ex : Résumé des algorithmes gloutons" />
+        </div>
+        <div class="form-row">
+          <label for="fiche-summary">Résumé / définition clé</label>
+          <textarea id="fiche-summary" rows="3" placeholder="L'essentiel en 2-3 phrases…"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="fiche-content">Notes de cours détaillées</label>
+          <textarea id="fiche-content" rows="8" placeholder="Explications, exemples, schémas décrits…"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="fiche-code">Exemple de code</label>
+          <textarea id="fiche-code" rows="6" class="code-input" placeholder="# Python, pseudo-code…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button id="btn-fiche-save" class="btn-primary">Sauvegarder</button>
+          <button id="btn-fiche-delete" class="btn-danger">Supprimer</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Journal list -->
+    <section id="view-journal" class="hidden">
+      <div class="page-header">
+        <h2 class="page-title">Journal de stage</h2>
+        <button id="btn-new-day" class="btn-primary">+ Nouveau jour</button>
+      </div>
+      <input id="search" type="text" placeholder="Rechercher…" class="search-input" />
+      <div id="day-list"></div>
+      <p id="empty-msg" class="empty-msg hidden">Aucune entrée pour l'instant.</p>
+    </section>
+
+    <!-- Journal editor -->
+    <section id="view-journal-edit" class="hidden">
+      <button class="btn-back" id="btn-back">← Retour au journal</button>
+      <div class="entry-form">
+        <div class="form-row">
+          <label for="entry-date">Date</label>
+          <input id="entry-date" type="date" />
+        </div>
+        <div class="form-row">
+          <label for="entry-title">Titre du jour</label>
+          <input id="entry-title" type="text" placeholder="Ex : Première journée — présentation" />
+        </div>
+        <div class="form-row form-row-2col">
+          <div>
+            <label for="entry-bloc">Bloc abordé</label>
+            <select id="entry-bloc">
+              <option value="">— Optionnel —</option>
+              <option value="bloc0">Bloc 0 — Rappels</option>
+              <option value="bloc1">Bloc 1 — Données et programmation</option>
+              <option value="bloc2">Bloc 2 — Algorithmique</option>
+              <option value="bloc3">Bloc 3 — Architectures et réseaux</option>
+              <option value="bloc4">Bloc 4 — Programmation avancée et BDD</option>
+              <option value="bloc5">Bloc 5 — Algorithmique avancée</option>
+            </select>
+          </div>
+          <div>
+            <label for="entry-topic">Thème du jour</label>
+            <input id="entry-topic" type="text" placeholder="Ex : Algorithmes gloutons" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="entry-tasks">Ce qu'on a fait</label>
+          <textarea id="entry-tasks" rows="4" placeholder="- Cours sur…&#10;- Exercices sur…"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="entry-learned">Ce que j'ai compris</label>
+          <textarea id="entry-learned" rows="4" placeholder="Points importants, révélations…"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="entry-notes">Questions / à revoir</label>
+          <textarea id="entry-notes" rows="3" placeholder="Ce que je n'ai pas encore compris…"></textarea>
+        </div>
+        <div class="form-row mood-row">
+          <label>Humeur du jour</label>
+          <div id="mood-picker">
+            <button class="mood-btn" data-mood="😄">😄</button>
+            <button class="mood-btn" data-mood="🙂">🙂</button>
+            <button class="mood-btn" data-mood="😐">😐</button>
+            <button class="mood-btn" data-mood="😕">😕</button>
+            <button class="mood-btn" data-mood="😴">😴</button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button id="btn-save" class="btn-primary">Sauvegarder</button>
+          <button id="btn-delete" class="btn-danger">Supprimer</button>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- .content -->
+
+    <!-- Évaluation -->
+    <section id="view-eval" class="hidden">
+      <h2 class="page-title">Évaluation</h2>
+      <div id="eval-deadlines" class="deadline-grid"></div>
+      <h3 class="section-title">Rapport papier</h3>
+      <div class="checklist-group">
+        <div class="checklist-subtitle">Approche générale</div>
+        <div id="eval-rapport-general"></div>
+        <div class="checklist-subtitle" style="margin-top:12px">Détail d'une séance</div>
+        <div id="eval-rapport-seance"></div>
+      </div>
+      <h3 class="section-title">Présentation orale (25 min)</h3>
+      <div class="checklist-group" id="eval-presentation"></div>
+      <h3 class="section-title">Sujet du trinôme</h3>
+      <div class="entry-form" style="padding:20px;gap:12px">
+        <div class="form-row">
+          <label for="eval-sujet">Sujet attribué (fin octobre)</label>
+          <input id="eval-sujet" type="text" placeholder="Ex : Algorithmes de tri — Terminale NSI" />
+        </div>
+        <div class="form-row">
+          <label for="eval-trinome">Membres du trinôme</label>
+          <input id="eval-trinome" type="text" placeholder="Prénom Nom, Prénom Nom, Prénom Nom" />
+        </div>
+        <div class="form-row">
+          <label for="eval-notes">Notes / avancement</label>
+          <textarea id="eval-notes" rows="4" placeholder="Idées, répartition du travail…"></textarea>
+        </div>
+        <button id="btn-eval-save" class="btn-primary" style="align-self:flex-start">Sauvegarder</button>
+      </div>
+    </section>
+
+    <!-- Ressources -->
+    <section id="view-ressources" class="hidden">
+      <h2 class="page-title">Ressources</h2>
+      <p class="page-desc">Cours et supports fournis par les formateurs du DIU.</p>
+      <h3 class="section-title">Cours de Bruno Mermet</h3>
+      <div class="resource-grid" id="res-mermet"></div>
+      <h3 class="section-title">Sources officielles NSI</h3>
+      <div class="resource-grid" id="res-officiel"></div>
+      <h3 class="section-title">Calendrier du stage</h3>
+      <div id="res-calendar"></div>
+    </section>
+
+  <div id="toast"></div>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
