@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS topic_status (
 );
 
 ALTER TABLE topic_status ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON topic_status;
 CREATE POLICY "anon_all" ON topic_status FOR ALL USING (true) WITH CHECK (true);
 
 -- ── Champs pédagogiques supplémentaires pour les fiches ───
