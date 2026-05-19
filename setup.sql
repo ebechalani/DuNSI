@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS entries (
 ALTER TABLE entries ENABLE ROW LEVEL SECURITY;
 
 -- Politique : tout le monde peut lire/écrire (app personnelle)
+DROP POLICY IF EXISTS "anon_all" ON entries;
 CREATE POLICY "anon_all" ON entries
   FOR ALL
   USING (true)
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS fiches (
 );
 
 ALTER TABLE fiches ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON fiches;
 CREATE POLICY "anon_all" ON fiches FOR ALL USING (true) WITH CHECK (true);
 
 -- ── Statut par thème du programme ────────────────────────
