@@ -56,6 +56,391 @@ const CALENDAR = [
   { bloc: 'bloc5', label: 'Bloc 5 — Algorithmique avancée',              dates: 'nov.–déc. 2026',   lieu: 'Caen',     mode: 'distanciel', isoStart: '2026-11-01' },
 ]
 
+// ── Fiches Bloc 0 — contenu basé sur le cours du 19 mai 2026 ─────────
+const FICHES_BLOC0_SEED = [
+  {
+    bloc: 'bloc0', topic: 'Fondements de l\'informatique',
+    title: 'Les 4 piliers de l\'informatique',
+    summary: 'L\'informatique repose sur 4 piliers : les données (ce qu\'on manipule), les algorithmes (comment on le fait), les langages (comment on l\'exprime) et les machines (ce qui exécute). Une interface est le point de contact entre deux entités.',
+    content: `I. Les 4 piliers
+1. Données : toute information manipulée par un programme (nombres, texte, images, sons…)
+2. Algorithmes : suite d'instructions pour résoudre un problème — indépendant du langage
+3. Langages : moyen d'exprimer les algorithmes. Multiples niveaux (bas → haut niveau)
+4. Machines : matériel qui exécute les instructions (CPU, mémoire, entrées/sorties)
+
++ Les interfaces : point de contact entre deux systèmes (ex : clavier ↔ OS, OS ↔ programme)
+
+Idée pédagogique : montrer que chaque programme se situe dans ces 4 dimensions.
+Ex : trier une liste → données (liste), algorithme (tri à bulles), langage (Python), machine (ordinateur).`,
+    code_example: `# Exemple illustrant les 4 piliers
+# 1. Données
+nombres = [3, 1, 4, 1, 5, 9]
+
+# 2. Algorithme (tri à bulles)
+def tri_bulle(lst):
+    n = len(lst)
+    for i in range(n - 1):
+        for j in range(n - i - 1):
+            if lst[j] > lst[j + 1]:
+                lst[j], lst[j + 1] = lst[j + 1], lst[j]
+
+# 3. Langage : Python  |  4. Machine : votre ordinateur
+tri_bulle(nombres)
+print(nombres)  # [1, 1, 3, 4, 5, 9]`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Paradigme impératif',
+    title: 'Vocabulaire du paradigme impératif',
+    summary: 'Un programme impératif est une suite d\'instructions qui modifient l\'état de la machine (valeurs des variables). L\'exécution produit des effets de bord et peut être tracée étape par étape.',
+    content: `Termes clés à maîtriser :
+- Instruction : ordre élémentaire donné à la machine (ex : x = 5, print("ok"))
+- Bloc : suite d'instructions délimitée (en Python : l'indentation)
+- Grammaire : règles syntaxiques du langage (ce qui est autorisé à écrire)
+- Sémantique : sens d'une instruction (ce qu'elle fait réellement)
+- Expression : calcul qui produit une valeur (ex : 3 + x * 2)
+- Variable : espace mémoire nommé qui stocke une valeur
+- Affectation : associer une valeur à une variable (x ← 5 ou x = 5 en Python)
+- État : ensemble des valeurs de toutes les variables à un instant t
+- Trace d'exécution : historique des états successifs pendant l'exécution
+- Effet de bord : modification d'état visible hors de l'instruction (ex : affichage, écriture fichier)
+
+Idée pédagogique : faire tracer l'exécution d'un programme simple à la main avant de le lancer.`,
+    code_example: `# Tracer l'exécution ligne par ligne
+x = 3       # État : x=3
+y = x + 2   # État : x=3, y=5
+x = y * x   # État : x=15, y=5
+print(x)    # Effet de bord : affiche 15 à l'écran
+
+# Exercice élève : remplir un tableau d'états
+# | Ligne | x  | y |
+# |-------|----|----|
+# | 1     | 3  | ? |
+# | 2     | 3  | 5 |
+# | 3     | 15 | 5 |`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Typage',
+    title: 'Le typage — types de base, fort vs faible',
+    summary: 'Le type d\'une donnée définit les valeurs possibles et les opérations autorisées. Python est typé dynamiquement et fortement : une variable peut changer de type, mais les opérations entre types incompatibles provoquent une erreur explicite.',
+    content: `Types de base en Python :
+- int   : entiers (…-2, -1, 0, 1, 2…) — précision illimitée en Python
+- float : nombres à virgule flottante (attention : imprécision !)
+- bool  : True ou False — issu d'une comparaison ou opérateur logique
+- str   : séquence de caractères entre guillemets
+
+Typage fort vs faible :
+- Fort (Python, Java) : les conversions entre types doivent être explicites
+  → "3" + 3 provoque une TypeError en Python
+- Faible (JavaScript) : conversions implicites
+  → "3" + 3 donne "33" en JavaScript (concaténation silencieuse)
+
+Typage statique vs dynamique :
+- Statique (C, Java) : le type est déclaré et vérifié à la compilation
+- Dynamique (Python) : le type est déterminé à l'exécution — plus souple, erreurs détectées tard
+
+Idée pédagogique : comparer Python et JS sur "3" + 3 pour illustrer fort/faible.`,
+    code_example: `# Types en Python
+x   = 42        # int
+y   = 3.14      # float
+ok  = True      # bool
+nom = "Alice"   # str
+
+print(type(x))  # <class 'int'>
+print(type(y))  # <class 'float'>
+
+# Conversion explicite nécessaire (typage fort)
+print(str(x) + " ans")   # "42 ans"
+# print(x + " ans")      # TypeError !
+
+# Booléen issu d'une comparaison
+est_adulte = x >= 18      # True
+
+# Imprécision des flottants
+print(0.1 + 0.2)          # 0.30000000000000004 (pas 0.3 !)`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Variables et affectation',
+    title: 'Variables, affectation et stockage en mémoire',
+    summary: 'Une variable est un nom associé à un espace mémoire. En Python, l\'affectation (x = 5) lie un nom à une valeur. Les types simples sont copiés par valeur ; les objets composés (listes, dictionnaires) sont partagés par référence.',
+    content: `L'affectation :
+- Syntaxe Python : x = expression  (≠ égalité mathématique !)
+- x = x + 1 est valide : on lit x à droite, on écrit le résultat à gauche
+- En maths, x = x + 1 est une équation sans solution — différence fondamentale à expliquer
+
+Stockage par valeur vs par référence :
+- Types simples (int, float, bool, str) → copie de la valeur
+  a = 5 ; b = a ; b = 10  → a reste 5
+- Types composés (list, dict) → partage de la référence (même objet en mémoire)
+  a = [1, 2, 3] ; b = a ; b.append(4)  → a est modifié ! a = [1, 2, 3, 4]
+  → Pour copier indépendamment : b = a.copy() ou b = a[:]
+
+Nommage des variables (conventions) :
+- Python : snake_case (nom_eleve, age_maximum)
+- Java/C : camelCase (nomEleve, ageMaximum)
+- Toujours choisir un nom explicite (préférer "score" à "x", "liste_eleves" à "l")
+
+Idée pédagogique : piège du partage de liste — faire prévoir le résultat avant d'exécuter.`,
+    code_example: `# Copie par valeur (types simples)
+a = 5
+b = a
+b = 10
+print(a)  # 5 — a n'est pas modifié
+
+# Partage par référence (listes)
+liste1 = [1, 2, 3]
+liste2 = liste1        # même objet en mémoire !
+liste2.append(4)
+print(liste1)          # [1, 2, 3, 4] — surprise !
+
+# Pour copier indépendamment :
+liste3 = liste1.copy()
+liste3.append(99)
+print(liste1)          # [1, 2, 3, 4] — inchangé cette fois`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Conditionnelles',
+    title: 'Structures conditionnelles — if / elif / else',
+    summary: 'Une conditionnelle exécute un bloc d\'instructions seulement si une condition est vraie. Python utilise if / elif / else. L\'opérateur ternaire permet une forme compacte sur une seule ligne.',
+    content: `2 branches : if / else
+- Exécute le bloc A si condition vraie, sinon le bloc B
+
+Plus de 2 branches : elif
+- elif = "sinon si" : enchaîne les conditions
+- Dès qu'une condition est vraie, les suivantes sont ignorées (court-circuit)
+- L'ordre des elif est important !
+
+Opérateur ternaire (Python) :
+  valeur_si_vrai if condition else valeur_si_faux
+- Utile pour les affectations courtes et lisibles
+
+Opérateurs logiques :
+- and : les deux conditions vraies
+- or  : au moins une vraie
+- not : inverse la condition
+
+Idée pédagogique : jeu de notes (if/elif/else), puis demander si changer l'ordre des elif change le résultat.
+Attention : en Python, l'indentation est obligatoire (différent de C/Java qui utilisent {}).`,
+    code_example: `# Structure if / elif / else
+note = 15
+
+if note >= 16:
+    mention = "Très bien"
+elif note >= 14:
+    mention = "Bien"
+elif note >= 12:
+    mention = "Assez bien"
+elif note >= 10:
+    mention = "Passable"
+else:
+    mention = "Insuffisant"
+
+print(mention)  # "Bien"
+
+# Opérateur ternaire
+statut = "reçu" if note >= 10 else "recalé"
+
+# Conditions combinées
+if note >= 10 and note < 20:
+    print("Note valide")`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Boucles',
+    title: 'Boucles — bornées (for) et non bornées (while)',
+    summary: 'Les boucles répètent un bloc d\'instructions. Les boucles bornées (for) s\'exécutent un nombre connu de fois. Les boucles non bornées (while) s\'exécutent tant qu\'une condition est vraie — attention aux boucles infinies !',
+    content: `Boucles bornées :
+1. for i in range(n) → i prend les valeurs 0, 1, …, n-1
+2. for i in range(a, b) → i de a à b-1 inclus
+3. for element in collection → parcourt chaque élément (liste, chaîne, dict…)
+
+Boucles non bornées :
+1. while condition : exécute le bloc tant que la condition est vraie
+   → La condition doit finir par devenir fausse (sinon boucle infinie !)
+2. do-while (non natif en Python) : s'exécute au moins une fois, puis vérifie
+   → En Python : while True + break
+
+Quelle boucle choisir ?
+- Nombre d'itérations connu à l'avance → for
+- Nombre d'itérations inconnu (dépend d'une condition) → while
+
+Idée pédagogique :
+- for : calculer la somme de 1 à n
+- while : jeu de devinette, validation de saisie utilisateur`,
+    code_example: `# Boucle for — itération sur range
+somme = 0
+for i in range(1, 11):    # 1, 2, ..., 10
+    somme += i
+print(somme)  # 55
+
+# Boucle for — itération sur une liste
+fruits = ["pomme", "banane", "cerise"]
+for fruit in fruits:
+    print(fruit)
+
+# Boucle while — nombre d'itérations inconnu
+import random
+secret = random.randint(1, 10)
+tentative = -1
+while tentative != secret:
+    tentative = int(input("Devine (1-10) : "))
+print("Bravo !")
+
+# Équivalent do-while en Python
+while True:
+    rep = input("Continuer ? (o/n) : ")
+    if rep == 'n':
+        break`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Sauts',
+    title: 'Instructions de saut — break, continue, return, exceptions',
+    summary: 'Les sauts interrompent le flux séquentiel. break quitte la boucle, continue passe à l\'itération suivante, return quitte une fonction. Les exceptions (try/except) gèrent les erreurs de façon structurée sans crasher le programme.',
+    content: `Sauts simples :
+- break    : sort immédiatement de la boucle la plus proche
+- continue : passe directement à l'itération suivante (ignore la suite du bloc)
+- return   : quitte la fonction et renvoie éventuellement une valeur
+- goto     : absent en Python, déconseillé (code spaghetti)
+
+Exceptions (try / except) :
+- try     : bloc susceptible de lever une erreur
+- except  : bloc exécuté si l'erreur survient (peut cibler un type précis)
+- finally : toujours exécuté (nettoyage, fermeture fichier)
+- raise   : lever une exception manuellement
+
+Types d'exceptions courants :
+- ValueError       : valeur incorrecte (ex: int("abc"))
+- ZeroDivisionError : division par zéro
+- IndexError       : indice hors des limites d'une liste
+- TypeError        : opération entre types incompatibles
+
+Idée pédagogique : montrer la même boucle avec et sans break/continue pour comparer. Illustrer try/except avec une saisie utilisateur.`,
+    code_example: `# break — sortir d'une boucle
+for i in range(10):
+    if i == 5:
+        break
+    print(i)   # affiche 0, 1, 2, 3, 4
+
+# continue — sauter une itération
+for i in range(6):
+    if i % 2 == 0:
+        continue   # saute les pairs
+    print(i)       # affiche 1, 3, 5
+
+# Gestion d'exception — saisie sécurisée
+def lire_entier(message):
+    while True:
+        try:
+            return int(input(message))
+        except ValueError:
+            print("Erreur : entrez un nombre entier.")
+
+age = lire_entier("Votre âge : ")
+print(f"Vous avez {age} ans.")`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Fonctions',
+    title: 'Fonctions — paramètres, retour et récursivité',
+    summary: 'Une fonction est un bloc d\'instructions nommé et réutilisable. Elle reçoit des paramètres en entrée et peut renvoyer une valeur via return. La récursivité est le mécanisme par lequel une fonction s\'appelle elle-même — elle nécessite toujours un cas de base.',
+    content: `Anatomie d'une fonction Python :
+  def nom_fonction(param1, param2):
+      # corps
+      return valeur
+
+- Paramètre : nom dans la définition (variable locale à la fonction)
+- Argument  : valeur concrète passée lors de l'appel
+- return    : renvoie une valeur et quitte la fonction (sans return → None)
+
+Portée des variables :
+- Variable locale  : existe seulement dans la fonction (invisible dehors)
+- Variable globale : accessible partout (éviter de la modifier depuis une fonction)
+
+Récursivité :
+- Une fonction récursive s'appelle elle-même
+- Nécessite obligatoirement :
+  1. Un cas de base (condition d'arrêt) — sinon : récursion infinie → RecursionError
+  2. Un appel récursif qui se rapproche du cas de base
+- Exemples classiques : factorielle, Fibonacci, tours de Hanoï, tri fusion
+
+Idée pédagogique : partir de la version itérative, puis montrer la version récursive.
+Tracer l'arbre des appels récursifs au tableau (indispensable pour la compréhension).`,
+    code_example: `# Fonction simple
+def aire_rectangle(longueur, largeur):
+    return longueur * largeur
+
+print(aire_rectangle(4, 5))   # 20
+
+# Version itérative de la factorielle
+def fact_iteratif(n):
+    resultat = 1
+    for i in range(2, n + 1):
+        resultat *= i
+    return resultat
+
+# Version récursive de la factorielle
+def factorielle(n):
+    if n <= 1:                        # cas de base
+        return 1
+    return n * factorielle(n - 1)    # appel récursif
+
+print(factorielle(5))   # 120
+# Appels : fact(5) → 5×fact(4) → 5×4×fact(3) → 5×4×3×fact(2) → 5×4×3×2×1`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Interprétation et compilation',
+    title: 'Interprétation vs Compilation — du source à l\'exécution',
+    summary: 'Un programme source (texte) doit être traduit en instructions machine. La compilation traduit tout le code avant l\'exécution (C, C++, Rust). L\'interprétation traduit et exécute ligne par ligne (Python). Java utilise un hybride : bytecode + machine virtuelle (JVM).',
+    content: `Compilation :
+- Le compilateur traduit tout le source en code machine AVANT l'exécution
+- Produit un fichier exécutable spécifique à l'architecture matérielle
+- Avantages : rapide à l'exécution, erreurs détectées avant de lancer
+- Inconvénients : lent à compiler, peu portable entre architectures
+- Exemples : C, C++, Rust
+
+Interprétation :
+- L'interpréteur lit et exécute le source instruction par instruction
+- Avantages : flexible, immédiat, portable (l'interpréteur s'adapte à la machine)
+- Inconvénients : plus lent (traduit à chaque exécution)
+- Exemples : Python, JavaScript (navigateur), PHP
+
+Cas hybride — Java :
+1. Compilation vers du bytecode (code intermédiaire)
+2. Exécution par la JVM (Java Virtual Machine) qui optimise à la volée
+→ "Write once, run anywhere" : portable sur toute machine ayant une JVM
+
+Analogie pédagogique :
+- Compilateur = traducteur qui traduit tout le livre AVANT de le publier
+- Interprète  = traducteur simultané qui traduit en direct, phrase par phrase`,
+    code_example: `# Python est interprété : les erreurs apparaissent à l'exécution
+print("Ligne 1")    # s'exécute normalement
+print("Ligne 2")    # s'exécute normalement
+
+# En C compilé, une erreur de syntaxe bloque TOUT le programme dès la compilation.
+# En Python, seules les lignes atteintes peuvent provoquer une erreur :
+
+def fonction_cachee():
+    return 1 / 0    # ZeroDivisionError — mais seulement si appelée !
+
+print("Ligne 3")    # s'exécute malgré le bug dans fonction_cachee()
+
+# → Avantage Python : on teste petit à petit.
+# → Inconvénient : un bug peut se cacher dans un chemin rarement emprunté.`,
+  },
+]
+
+async function importFichesBloc0() {
+  const btn = document.getElementById('btn-seed-bloc0')
+  if (btn) { btn.disabled = true; btn.textContent = 'Import en cours…' }
+  try {
+    const { data, error } = await db.from('fiches').insert(FICHES_BLOC0_SEED).select()
+    if (error) throw error
+    allFiches = [...(data || []), ...allFiches]
+    toast(`${FICHES_BLOC0_SEED.length} fiches Bloc 0 importées ✓`)
+    renderFiches()
+  } catch (err) {
+    toast('Erreur import : ' + err.message)
+    if (btn) { btn.disabled = false; btn.textContent = '⬇ Importer fiches Bloc 0' }
+  }
+}
+
 const PROGRAMME = [
   { id: 'bloc0', topics: [
     { id: 'b0_archi',     label: 'Architecture des ordinateurs' },
@@ -306,6 +691,15 @@ function renderFiches() {
       renderFiches()
     })
   })
+
+  const seedZone = document.getElementById('fiche-seed-zone')
+  const hasBloc0 = allFiches.some(f => f.bloc === 'bloc0')
+  if (seedZone) {
+    seedZone.innerHTML = hasBloc0 ? '' :
+      `<button id="btn-seed-bloc0" class="btn-secondary">⬇ Importer les fiches du cours du 19 mai (Bloc 0)</button>`
+    const seedBtn = document.getElementById('btn-seed-bloc0')
+    if (seedBtn) seedBtn.addEventListener('click', importFichesBloc0)
+  }
 
   const list = document.getElementById('fiche-list')
   const empty = document.getElementById('fiche-empty')
