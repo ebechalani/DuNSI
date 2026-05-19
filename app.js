@@ -424,6 +424,105 @@ print("Ligne 3")    # s'exécute malgré le bug dans fonction_cachee()
 # → Avantage Python : on teste petit à petit.
 # → Inconvénient : un bug peut se cacher dans un chemin rarement emprunté.`,
   },
+  {
+    bloc: 'bloc0', topic: 'Variables et affectation',
+    title: 'Valeur vs Référence & gestion de la mémoire',
+    summary: 'Une variable stocke soit directement une valeur, soit une référence (adresse) vers un objet. Copier une référence fait pointer plusieurs variables vers le même objet. Les données immuables rendent ce partage sûr. La mémoire est gérée manuellement (C) ou par un ramasse-miettes (Python, Java).',
+    content: `Stockage par valeur vs par référence :
+- Par valeur : la variable contient directement la donnée (ex : entiers simples en C)
+- Par référence : la variable contient l'adresse de la donnée (tout en Python, objets en Java, pointeurs en C)
+- Copier une référence → plusieurs variables pointent le MÊME objet en mémoire
+- Modifier l'objet via une référence affecte toutes les variables qui pointent dessus
+
+Données immuables (non mutables) :
+- Valeur qui ne peut pas être modifiée après création (str, int, float, tuple en Python)
+- Partager des références vers de l'immuable est sûr : l'original ne peut pas être altéré
+- Les opérations renvoient une NOUVELLE instance plutôt que de modifier l'original
+
+Gestion de la mémoire :
+- Manuelle (C) : le programmeur alloue et libère explicitement (risque de fuites/erreurs)
+- Automatique (Python, Java) : un ramasse-miettes (garbage collector) libère les objets non référencés
+- Le GC est un peu moins efficace en théorie, mais réduit fortement les bugs de mémoire
+
+Idée pédagogique : faire prévoir le résultat du partage de liste, puis montrer qu'une chaîne (immuable) ne pose pas le problème.`,
+    code_example: `# Référence partagée (objet mutable)
+a = [1, 2, 3]
+b = a              # b et a → même objet
+b.append(4)
+print(a)           # [1, 2, 3, 4] — a aussi modifié !
+
+# Donnée immuable : pas de surprise
+s = "bonjour"
+t = s
+t = t.upper()      # crée une NOUVELLE chaîne
+print(s)           # "bonjour" — inchangé
+print(t)           # "BONJOUR"
+
+# Vérifier l'identité (même objet en mémoire ?)
+x = [1, 2]
+y = x
+z = [1, 2]
+print(x is y)      # True  (même objet)
+print(x is z)      # False (objets différents, contenu égal)
+print(x == z)      # True  (contenu égal)`,
+  },
+  {
+    bloc: 'bloc0', topic: 'Programmation fonctionnelle',
+    title: 'Introduction à la programmation fonctionnelle',
+    summary: 'Paradigme où les fonctions sont des « citoyens de première classe » : on peut les passer en argument, les retourner, les stocker. Il privilégie l\'immuabilité et l\'absence d\'effets de bord, ce qui rend le code plus sûr et plus facile à raisonner.',
+    content: `Principe : composer des fonctions plutôt qu'enchaîner des instructions qui changent l'état.
+
+Concepts clés :
+- Fonction de première classe : une fonction est une donnée (passée en paramètre, retournée, assignée à une variable)
+- Fonction d'ordre supérieur : prend une fonction en argument ou en retourne une (map, filter, reduce)
+- Lambda (fonction anonyme) : définie à la volée, sans nom
+  Python : lambda x: x + 1   |   Haskell : \\x -> x + 1
+- Évaluation paresseuse : un calcul n'est fait que lorsque son résultat est nécessaire
+  (ex : range en Python, listes infinies en Haskell)
+- Immuabilité : on ne modifie pas les variables, chaque opération crée de nouvelles données
+
+Avantages :
+- Sécurité : moins d'effets de bord → plus facile de raisonner sur le code
+- Vérification formelle facilitée
+- Code concis et expressif pour le traitement de listes (map / filter)
+- Optimisation mémoire/temps grâce à l'évaluation paresseuse
+
+Langages :
+- Haskell : fonctionnel pur (récursivité au lieu de boucles)
+- OCaml : fonctionnel mais autorise l'impératif
+- Python : impératif intégrant beaucoup de principes fonctionnels
+
+Idée pédagogique : réécrire une boucle for de transformation de liste avec map/lambda, puis avec une compréhension de liste, et comparer la lisibilité.`,
+    code_example: `# Fonction d'ordre supérieur : map + lambda
+nombres = [1, 2, 3, 4, 5]
+carres = list(map(lambda x: x ** 2, nombres))
+print(carres)            # [1, 4, 9, 16, 25]
+
+# filter : ne garder que les pairs
+pairs = list(filter(lambda x: x % 2 == 0, nombres))
+print(pairs)             # [2, 4]
+
+# Une fonction qui retourne une fonction
+def multiplicateur(facteur):
+    return lambda x: x * facteur
+
+doubler = multiplicateur(2)
+tripler = multiplicateur(3)
+print(doubler(10))       # 20
+print(tripler(10))       # 30
+
+# Équivalent impératif (le même calcul, version "boucle")
+carres2 = []
+for x in nombres:
+    carres2.append(x ** 2)
+print(carres2)           # [1, 4, 9, 16, 25]
+
+# Évaluation paresseuse : range ne crée pas la liste en mémoire
+for i in range(1_000_000):   # ne stocke pas 1 million d'entiers
+    if i > 3:
+        break
+    print(i)             # 0, 1, 2, 3`,
+  },
 ]
 
 async function importFichesBloc0() {

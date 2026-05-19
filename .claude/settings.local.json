@@ -9,7 +9,11 @@
       "Bash(python -c ' *)",
       "Bash(mkdir -p _sdocx2)",
       "Bash(unzip -o \"Jour1 partie 2_260519_173238 \\(1\\).sdocx\" note.note -d _sdocx2)",
-      "Bash(python _insert_journal.py)"
+      "Bash(python _insert_journal.py)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:5500/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:5500/app.js)",
+      "Bash(node --check \"C:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\DuNSI\\\\app.js\")",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }
