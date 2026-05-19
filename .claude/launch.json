@@ -4,8 +4,9 @@
     {
       "name": "dunsi",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "5500"],
-      "port": 5500
+      "runtimeArgs": ["serve.py"],
+      "port": 5500,
+      "autoPort": true
     }
   ]
 }

@@ -29,9 +29,9 @@ const EVAL_RAPPORT_SEANCE = [
   { id: 'ev_sdev',   label: "Exemples de parties de devoir pour évaluer l'élève" },
 ]
 const EVAL_PRESENTATION = [
-  { id: 'ev_p1', label: '5 min — Présentation de l'approche générale' },
+  { id: 'ev_p1', label: "5 min — Présentation de l'approche générale" },
   { id: 'ev_p2', label: '5 min — Présentation générale de la séance' },
-  { id: 'ev_p3', label: '5 min — Présentation d'une partie du cours' },
+  { id: 'ev_p3', label: "5 min — Présentation d'une partie du cours" },
   { id: 'ev_p4', label: "5 min — Présentation d'un exercice ou d'une famille d'exercices" },
   { id: 'ev_p5', label: '5 min — Conclusion' },
 ]
