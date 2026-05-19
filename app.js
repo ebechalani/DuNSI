@@ -162,6 +162,11 @@ print(0.1 + 0.2)          # 0.30000000000000004 (pas 0.3 !)`,
     bloc: 'bloc0', topic: 'Variables et affectation',
     title: 'Variables, affectation et stockage en mémoire',
     summary: 'Une variable est un nom associé à un espace mémoire. En Python, l\'affectation (x = 5) lie un nom à une valeur. Les types simples sont copiés par valeur ; les objets composés (listes, dictionnaires) sont partagés par référence.',
+    objectifs: `À la fin, l'élève doit savoir :
+- expliquer ce qu'est une variable et une affectation ;
+- distinguer x = x + 1 (informatique) d'une équation (mathématiques) ;
+- prévoir le comportement d'une copie par valeur vs par référence ;
+- nommer ses variables de façon explicite.`,
     content: `L'affectation :
 - Syntaxe Python : x = expression  (≠ égalité mathématique !)
 - x = x + 1 est valide : on lit x à droite, on écrit le résultat à gauche
@@ -196,11 +201,24 @@ print(liste1)          # [1, 2, 3, 4] — surprise !
 liste3 = liste1.copy()
 liste3.append(99)
 print(liste1)          # [1, 2, 3, 4] — inchangé cette fois`,
+    exercices: `1. (Trace) Donner la valeur finale de a et b :
+   a = 7 ; b = a ; a = a + 3   →  a = ? , b = ?
+2. (Prévoir) Que vaut L après :
+   L = [1, 2] ; M = L ; M.append(3) ?  Expliquer pourquoi.
+3. (Corriger) On veut copier une liste sans lien entre les deux.
+   Le code « N = L » ne marche pas : proposer la bonne version.
+4. (Nommage) Réécrire avec de bons noms :
+   x = 19.5 ; y = 20 ; z = (x + y) / 2`,
   },
   {
     bloc: 'bloc0', topic: 'Conditionnelles',
     title: 'Structures conditionnelles — if / elif / else',
     summary: 'Une conditionnelle exécute un bloc d\'instructions seulement si une condition est vraie. Python utilise if / elif / else. L\'opérateur ternaire permet une forme compacte sur une seule ligne.',
+    objectifs: `À la fin, l'élève doit savoir :
+- écrire un if / elif / else correctement indenté ;
+- comprendre l'effet de l'ordre des elif (court-circuit) ;
+- combiner des conditions avec and / or / not ;
+- utiliser l'opérateur ternaire pour une affectation simple.`,
     content: `2 branches : if / else
 - Exécute le bloc A si condition vraie, sinon le bloc B
 
@@ -613,6 +631,7 @@ const STATUS_NEXT = { not_started: 'in_progress', in_progress: 'mastered', maste
 // ── State ────────────────────────────────────────────────
 let allEntries    = []
 let allFiches     = []
+let allRessources = []
 let topicStatuses = {}   // { topicId: 'not_started'|'in_progress'|'mastered' }
 let selectedMood  = ''
 let currentJournalId = null
@@ -622,14 +641,16 @@ let currentView   = 'dashboard'
 
 // ── Supabase helpers ─────────────────────────────────────
 async function loadAll() {
-  const [entriesRes, fichesRes, statusRes] = await Promise.all([
+  const [entriesRes, fichesRes, statusRes, resRes] = await Promise.all([
     db.from('entries').select('*').order('date', { ascending: false }),
     db.from('fiches').select('*').order('created_at', { ascending: false }),
     db.from('topic_status').select('*'),
+    db.from('ressources').select('*').order('created_at', { ascending: false }),
   ])
   allEntries    = entriesRes.data  || []
   allFiches     = fichesRes.data   || []
   topicStatuses = Object.fromEntries((statusRes.data || []).map(r => [r.topic_key, r.status]))
+  allRessources = resRes.data      || []
 }
 
 async function upsertTopicStatus(topicKey, status) {
@@ -828,17 +849,21 @@ function showFicheEdit(fiche) {
     document.getElementById('fiche-bloc').value    = ficheFilter !== 'all' ? ficheFilter : ''
     document.getElementById('fiche-topic').value   = ''
     document.getElementById('fiche-title').value   = ''
-    document.getElementById('fiche-summary').value = ''
-    document.getElementById('fiche-content').value = ''
-    document.getElementById('fiche-code').value    = ''
+    document.getElementById('fiche-summary').value   = ''
+    document.getElementById('fiche-objectifs').value = ''
+    document.getElementById('fiche-content').value   = ''
+    document.getElementById('fiche-code').value      = ''
+    document.getElementById('fiche-exercices').value = ''
   } else {
     currentFicheId = fiche.id
-    document.getElementById('fiche-bloc').value    = fiche.bloc         || ''
-    document.getElementById('fiche-topic').value   = fiche.topic        || ''
-    document.getElementById('fiche-title').value   = fiche.title        || ''
-    document.getElementById('fiche-summary').value = fiche.summary      || ''
-    document.getElementById('fiche-content').value = fiche.content      || ''
-    document.getElementById('fiche-code').value    = fiche.code_example || ''
+    document.getElementById('fiche-bloc').value      = fiche.bloc         || ''
+    document.getElementById('fiche-topic').value     = fiche.topic        || ''
+    document.getElementById('fiche-title').value     = fiche.title        || ''
+    document.getElementById('fiche-summary').value   = fiche.summary      || ''
+    document.getElementById('fiche-objectifs').value = fiche.objectifs    || ''
+    document.getElementById('fiche-content').value   = fiche.content      || ''
+    document.getElementById('fiche-code').value      = fiche.code_example || ''
+    document.getElementById('fiche-exercices').value = fiche.exercices    || ''
   }
 }
 
@@ -848,8 +873,10 @@ async function saveFiche() {
     topic:        document.getElementById('fiche-topic').value.trim(),
     title:        document.getElementById('fiche-title').value.trim(),
     summary:      document.getElementById('fiche-summary').value.trim(),
+    objectifs:    document.getElementById('fiche-objectifs').value.trim(),
     content:      document.getElementById('fiche-content').value.trim(),
     code_example: document.getElementById('fiche-code').value.trim(),
+    exercices:    document.getElementById('fiche-exercices').value.trim(),
   }
   if (!payload.title && !payload.summary && !payload.content) { toast('Remplis au moins un champ.'); return }
 
@@ -1067,6 +1094,8 @@ function renderRessources() {
       <div class="resource-card-arrow">↗</div>
     </a>`
 
+  renderUploadedRessources()
+
   document.getElementById('res-mermet').innerHTML   = RESSOURCES_MERMET.map(makeCard).join('')
   document.getElementById('res-officiel').innerHTML = RESSOURCES_OFFICIEL.map(makeCard).join('')
 
@@ -1089,9 +1118,117 @@ function renderRessources() {
     }).join('') + `</div>`
 }
 
+function fileIcon(type, name) {
+  const t = (type || '') + ' ' + (name || '')
+  if (/pdf/i.test(t))                  return '📄'
+  if (/audio|m4a|mp3|wav|ogg/i.test(t)) return '🎧'
+  if (/video|mp4|mov|avi/i.test(t))     return '🎬'
+  if (/image|png|jpe?g|gif|webp/i.test(t)) return '🖼️'
+  if (/zip|rar|7z|sdocx/i.test(t))      return '🗜️'
+  if (/word|docx?|odt|txt/i.test(t))    return '📝'
+  return '📎'
+}
+
+function humanSize(bytes) {
+  if (!bytes) return ''
+  const u = ['o', 'Ko', 'Mo', 'Go']
+  let i = 0, n = bytes
+  while (n >= 1024 && i < u.length - 1) { n /= 1024; i++ }
+  return n.toFixed(n < 10 && i > 0 ? 1 : 0) + ' ' + u[i]
+}
+
+function renderUploadedRessources() {
+  const wrap  = document.getElementById('res-uploaded')
+  const empty = document.getElementById('res-uploaded-empty')
+  if (!wrap) return
+  empty.classList.toggle('hidden', allRessources.length > 0)
+
+  wrap.innerHTML = `<div class="calendar-list">` + allRessources.map(r => {
+    const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
+    const url = data.publicUrl
+    const meta = [r.topic, humanSize(r.file_size)].filter(Boolean).join(' · ')
+    return `
+      <div class="calendar-row">
+        <div class="calendar-dot" style="background:${r.bloc && BLOCS[r.bloc] ? BLOCS[r.bloc].color : 'var(--muted)'}"></div>
+        <div class="calendar-info">
+          <div class="calendar-bloc">${fileIcon(r.file_type, r.file_name)} ${r.title || r.file_name || '(Sans titre)'}</div>
+          <div class="calendar-dates">${[r.bloc && BLOCS[r.bloc] ? BLOCS[r.bloc].short : '', meta].filter(Boolean).join(' — ')}${r.description ? '<br>' + r.description : ''}</div>
+        </div>
+        <a class="btn-secondary" style="margin:0;padding:6px 12px;font-size:.8rem" href="${url}" target="_blank" rel="noopener" download>⬇ Ouvrir</a>
+        <button class="btn-danger" style="margin-left:8px;padding:6px 12px;font-size:.8rem" data-del-res="${r.id}">🗑</button>
+      </div>`
+  }).join('') + `</div>`
+
+  wrap.querySelectorAll('[data-del-res]').forEach(b => {
+    b.addEventListener('click', () => deleteRessource(b.dataset.delRes))
+  })
+}
+
+async function uploadRessource() {
+  const fileInput = document.getElementById('res-file')
+  const file = fileInput.files[0]
+  if (!file) { toast('Choisis un fichier d\'abord.'); return }
+
+  const btn = document.getElementById('btn-res-upload')
+  btn.disabled = true; btn.textContent = 'Envoi en cours…'
+  try {
+    const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
+    const path = `${Date.now()}_${safe}`
+    const { error: upErr } = await db.storage.from('ressources').upload(path, file, {
+      contentType: file.type || 'application/octet-stream', upsert: false,
+    })
+    if (upErr) throw upErr
+
+    const row = {
+      title:       document.getElementById('res-upload-title').value.trim() || file.name,
+      bloc:        document.getElementById('res-upload-bloc').value || null,
+      topic:       document.getElementById('res-upload-topic').value.trim(),
+      description: document.getElementById('res-upload-desc').value.trim(),
+      file_path:   path,
+      file_name:   file.name,
+      file_type:   file.type || '',
+      file_size:   file.size,
+    }
+    const { data, error: insErr } = await db.from('ressources').insert([row]).select().single()
+    if (insErr) throw insErr
+
+    allRessources.unshift(data)
+    document.getElementById('res-file').value = ''
+    document.getElementById('res-upload-title').value = ''
+    document.getElementById('res-upload-topic').value = ''
+    document.getElementById('res-upload-desc').value = ''
+    document.getElementById('res-file-info').textContent = ''
+    toast('Ressource déposée ✓')
+    renderUploadedRessources()
+  } catch (err) {
+    toast('Erreur : ' + (err.message || err))
+  } finally {
+    btn.disabled = false; btn.textContent = '⬆ Déposer la ressource'
+  }
+}
+
+async function deleteRessource(id) {
+  const r = allRessources.find(x => x.id === id)
+  if (!r) return
+  if (!confirm('Supprimer cette ressource ?')) return
+  await db.storage.from('ressources').remove([r.file_path])
+  await db.from('ressources').delete().eq('id', id)
+  allRessources = allRessources.filter(x => x.id !== id)
+  renderUploadedRessources()
+}
+
 // ── Event listeners ──────────────────────────────────────
 document.querySelectorAll('.nav-item[data-view]').forEach(btn => {
   btn.addEventListener('click', () => navigate(btn.dataset.view))
+})
+
+document.getElementById('btn-res-upload').addEventListener('click', uploadRessource)
+document.getElementById('res-file').addEventListener('change', e => {
+  const f = e.target.files[0]
+  const info = document.getElementById('res-file-info')
+  info.textContent = f ? `${f.name} — ${humanSize(f.size)}` : ''
+  const titleInput = document.getElementById('res-upload-title')
+  if (f && !titleInput.value.trim()) titleInput.value = f.name.replace(/\.[^.]+$/, '')
 })
 
 document.getElementById('btn-new-day').addEventListener('click',   () => showJournalEdit(null))

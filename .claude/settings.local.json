@@ -14,7 +14,9 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:5500/app.js)",
       "Bash(node --check \"C:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\DuNSI\\\\app.js\")",
       "mcp__Claude_Preview__preview_start",
-      "PowerShell(Get-NetTCPConnection -LocalPort 5500 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force; \"killed PID $\\($_.OwningProcess\\)\" })"
+      "PowerShell(Get-NetTCPConnection -LocalPort 5500 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force; \"killed PID $\\($_.OwningProcess\\)\" })",
+      "Bash(curl -s http://127.0.0.1:5500/app.js)",
+      "Bash(curl -s http://127.0.0.1:5500/index.html)"
     ]
   }
 }

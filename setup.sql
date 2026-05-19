@@ -49,3 +49,42 @@ CREATE TABLE IF NOT EXISTS topic_status (
 
 ALTER TABLE topic_status ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "anon_all" ON topic_status FOR ALL USING (true) WITH CHECK (true);
+
+-- ── Champs pédagogiques supplémentaires pour les fiches ───
+ALTER TABLE fiches ADD COLUMN IF NOT EXISTS objectifs TEXT;
+ALTER TABLE fiches ADD COLUMN IF NOT EXISTS exercices TEXT;
+
+-- ── Ressources (fichiers : PDF, audio, documents…) ───────
+CREATE TABLE IF NOT EXISTS ressources (
+  id          UUID        DEFAULT gen_random_uuid() PRIMARY KEY,
+  title       TEXT,
+  bloc        TEXT,        -- 'bloc0' .. 'bloc5'
+  topic       TEXT,
+  description TEXT,
+  file_path   TEXT,        -- chemin dans le bucket Storage
+  file_name   TEXT,
+  file_type   TEXT,
+  file_size   BIGINT,
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE ressources ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "anon_all" ON ressources;
+CREATE POLICY "anon_all" ON ressources FOR ALL USING (true) WITH CHECK (true);
+
+-- ── Bucket de stockage des fichiers ──────────────────────
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('ressources', 'ressources', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Autoriser l'app (clé anon) à lire / déposer / supprimer dans ce bucket
+DROP POLICY IF EXISTS "ressources_read"   ON storage.objects;
+DROP POLICY IF EXISTS "ressources_insert" ON storage.objects;
+DROP POLICY IF EXISTS "ressources_delete" ON storage.objects;
+
+CREATE POLICY "ressources_read"   ON storage.objects
+  FOR SELECT USING (bucket_id = 'ressources');
+CREATE POLICY "ressources_insert" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'ressources');
+CREATE POLICY "ressources_delete" ON storage.objects
+  FOR DELETE USING (bucket_id = 'ressources');

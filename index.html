@@ -82,12 +82,20 @@
           <textarea id="fiche-summary" rows="3" placeholder="L'essentiel en 2-3 phrases…"></textarea>
         </div>
         <div class="form-row">
+          <label for="fiche-objectifs">Objectifs pédagogiques</label>
+          <textarea id="fiche-objectifs" rows="3" placeholder="Ce que l'élève doit savoir / savoir-faire à la fin…"></textarea>
+        </div>
+        <div class="form-row">
           <label for="fiche-content">Notes de cours détaillées</label>
           <textarea id="fiche-content" rows="8" placeholder="Explications, exemples, schémas décrits…"></textarea>
         </div>
         <div class="form-row">
           <label for="fiche-code">Exemple de code</label>
           <textarea id="fiche-code" rows="6" class="code-input" placeholder="# Python, pseudo-code…"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="fiche-exercices">Exercices pour les élèves</label>
+          <textarea id="fiche-exercices" rows="5" placeholder="Énoncés d'exercices, questions, activités…"></textarea>
         </div>
         <div class="form-actions">
           <button id="btn-fiche-save" class="btn-primary">Sauvegarder</button>
@@ -202,7 +210,46 @@
     <!-- Ressources -->
     <section id="view-ressources" class="hidden">
       <h2 class="page-title">Ressources</h2>
-      <p class="page-desc">Cours et supports fournis par les formateurs du DIU.</p>
+      <p class="page-desc">Dépose ici tes documents (PDF, audio, supports…). Ils sont sauvegardés et téléchargeables à tout moment.</p>
+
+      <h3 class="section-title">Mes ressources</h3>
+      <div class="entry-form" style="padding:20px;gap:12px;margin-bottom:24px">
+        <div class="form-row">
+          <label for="res-file">Fichier à déposer</label>
+          <input id="res-file" type="file" />
+          <small id="res-file-info" style="color:var(--muted)"></small>
+        </div>
+        <div class="form-row form-row-2col">
+          <div>
+            <label for="res-upload-bloc">Bloc</label>
+            <select id="res-upload-bloc">
+              <option value="">— Choisir —</option>
+              <option value="bloc0">Bloc 0 — Rappels et mise à niveau</option>
+              <option value="bloc1">Bloc 1 — Données et programmation</option>
+              <option value="bloc2">Bloc 2 — Algorithmique</option>
+              <option value="bloc3">Bloc 3 — Architectures et réseaux</option>
+              <option value="bloc4">Bloc 4 — Programmation avancée et BDD</option>
+              <option value="bloc5">Bloc 5 — Algorithmique avancée</option>
+            </select>
+          </div>
+          <div>
+            <label for="res-upload-topic">Thème</label>
+            <input id="res-upload-topic" type="text" placeholder="Ex : Paradigme impératif" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="res-upload-title">Titre de la ressource</label>
+          <input id="res-upload-title" type="text" placeholder="Ex : Support du formateur — 19 mai" />
+        </div>
+        <div class="form-row">
+          <label for="res-upload-desc">Description (optionnel)</label>
+          <textarea id="res-upload-desc" rows="2" placeholder="À quoi sert ce document ?"></textarea>
+        </div>
+        <button id="btn-res-upload" class="btn-primary" style="align-self:flex-start">⬆ Déposer la ressource</button>
+      </div>
+      <div id="res-uploaded"></div>
+      <p id="res-uploaded-empty" class="empty-msg hidden">Aucune ressource déposée pour l'instant.</p>
+
       <h3 class="section-title">Cours de Bruno Mermet</h3>
       <div class="resource-grid" id="res-mermet"></div>
       <h3 class="section-title">Sources officielles NSI</h3>
@@ -212,6 +259,6 @@
     </section>
 
   <div id="toast"></div>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=20260519b"></script>
 </body>
 </html>
