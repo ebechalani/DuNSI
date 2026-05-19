@@ -8,7 +8,8 @@
       "Bash(unzip -o \"Bloc 0 jour 1 partie 1_260519_120022.sdocx\" note.note pageIdInfo.dat \"*.page\" -d _sdocx_extract)",
       "Bash(python -c ' *)",
       "Bash(mkdir -p _sdocx2)",
-      "Bash(unzip -o \"Jour1 partie 2_260519_173238 \\(1\\).sdocx\" note.note -d _sdocx2)"
+      "Bash(unzip -o \"Jour1 partie 2_260519_173238 \\(1\\).sdocx\" note.note -d _sdocx2)",
+      "Bash(python _insert_journal.py)"
     ]
   }
 }
