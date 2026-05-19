@@ -260,11 +260,23 @@ statut = "reçu" if note >= 10 else "recalé"
 # Conditions combinées
 if note >= 10 and note < 20:
     print("Note valide")`,
+    exercices: `1. (Écrire) Demander un âge et afficher "mineur" ou "majeur".
+2. (Barème) Écrire la mention à partir d'une note (0–20) avec elif.
+3. (Ordre) Que se passe-t-il si on met "elif note >= 10" AVANT
+   "elif note >= 14" ? Tester et expliquer.
+4. (Ternaire) Réécrire en une ligne :
+   if x % 2 == 0: p = "pair" else: p = "impair"
+5. (Logique) Tester si une année est bissextile.`,
   },
   {
     bloc: 'bloc0', topic: 'Boucles',
     title: 'Boucles — bornées (for) et non bornées (while)',
     summary: 'Les boucles répètent un bloc d\'instructions. Les boucles bornées (for) s\'exécutent un nombre connu de fois. Les boucles non bornées (while) s\'exécutent tant qu\'une condition est vraie — attention aux boucles infinies !',
+    objectifs: `À la fin, l'élève doit savoir :
+- choisir entre for et while selon le problème ;
+- écrire une boucle for avec range et parcourir une liste ;
+- écrire une boucle while avec une condition d'arrêt sûre ;
+- repérer et corriger une boucle infinie.`,
     content: `Boucles bornées :
 1. for i in range(n) → i prend les valeurs 0, 1, …, n-1
 2. for i in range(a, b) → i de a à b-1 inclus
@@ -307,6 +319,15 @@ while True:
     rep = input("Continuer ? (o/n) : ")
     if rep == 'n':
         break`,
+    exercices: `1. (for) Afficher la table de multiplication de 7.
+2. (for) Calculer la somme des entiers de 1 à 100.
+3. (while) Jeu : faire deviner un nombre tiré au hasard (1–100),
+   indiquer "trop grand / trop petit" à chaque essai.
+4. (debug) Pourquoi cette boucle ne s'arrête jamais ?
+   i = 0
+   while i < 10:
+       print(i)        # (indice : que manque-t-il ?)
+5. (au choix) Réécrire l'exercice 2 avec une boucle while.`,
   },
   {
     bloc: 'bloc0', topic: 'Sauts',
@@ -358,6 +379,11 @@ print(f"Vous avez {age} ans.")`,
     bloc: 'bloc0', topic: 'Fonctions',
     title: 'Fonctions — paramètres, retour et récursivité',
     summary: 'Une fonction est un bloc d\'instructions nommé et réutilisable. Elle reçoit des paramètres en entrée et peut renvoyer une valeur via return. La récursivité est le mécanisme par lequel une fonction s\'appelle elle-même — elle nécessite toujours un cas de base.',
+    objectifs: `À la fin, l'élève doit savoir :
+- définir et appeler une fonction avec paramètres et return ;
+- distinguer paramètre et argument, variable locale et globale ;
+- comprendre le rôle du cas de base dans une fonction récursive ;
+- transformer une fonction itérative simple en version récursive.`,
     content: `Anatomie d'une fonction Python :
   def nom_fonction(param1, param2):
       # corps
@@ -401,6 +427,11 @@ def factorielle(n):
 
 print(factorielle(5))   # 120
 # Appels : fact(5) → 5×fact(4) → 5×4×fact(3) → 5×4×3×fact(2) → 5×4×3×2×1`,
+    exercices: `1. (Écrire) Une fonction est_pair(n) qui renvoie True/False.
+2. (Écrire) Une fonction maximum(a, b, c) qui renvoie le plus grand.
+3. (Trace) Dérouler à la main factorielle(4) : noter chaque appel.
+4. (Récursif) Écrire somme(n) = 1 + 2 + … + n en récursif.
+5. (Réflexion) Que se passe-t-il si on oublie le cas de base ?`,
   },
   {
     bloc: 'bloc0', topic: 'Interprétation et compilation',
