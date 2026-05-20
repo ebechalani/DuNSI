@@ -1234,24 +1234,17 @@ function renderTPs() {
       renderList()
     })
   })
-  // Délégation des boutons d'impression (attachée une seule fois)
+  // Délégation du bouton d'impression (attachée une seule fois)
   if (!listEl.dataset.printBound) {
     listEl.addEventListener('click', e => {
       const btn = e.target.closest('[data-print-tp]')
       if (!btn) return
-      printTP(btn.dataset.printTp, btn.dataset.mode)
+      openPrintPreview(btn.dataset.printTp)
     })
     listEl.dataset.printBound = '1'
   }
   renderList()
 }
-
-// Nettoyage après impression / annulation
-window.addEventListener('afterprint', () => {
-  document.body.classList.remove('printing-tp')
-  const area = document.getElementById('tp-print-area')
-  if (area) area.innerHTML = ''
-})
 
 // Rendu d'une étape de TP. mode : 'screen' | 'enonce' | 'corrige'
 function tpStepHtml(step, mode) {
@@ -1310,10 +1303,7 @@ function tpMemoTable(tp) {
 function renderTPCard(tp) {
   const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
   const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
-  const hasCorrection = tp.type !== 'memo' && tp.steps.some(s => s.correction && s.correction.length)
-  const printBtns = `
-        <button class="tp-print-btn" data-print-tp="${tp.id}" data-mode="enonce">🖨 ${tp.type === 'memo' ? 'Imprimer' : 'Énoncé'}</button>
-        ${hasCorrection ? `<button class="tp-print-btn tp-print-corrige" data-print-tp="${tp.id}" data-mode="corrige">🖨 Corrigé</button>` : ''}`
+  const printBtns = `<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
 
   if (tp.type === 'memo') {
     return `
@@ -1343,29 +1333,67 @@ function renderTPCard(tp) {
   </div>`
 }
 
-// Génère le document imprimable d'un TP et lance l'impression (PDF possible)
-function printTP(tpId, mode) {
-  const tp = TPS.find(t => t.id === tpId)
-  if (!tp) return
-  const area = document.getElementById('tp-print-area')
-  if (!area) return
-  let body
+// ── Aperçu d'impression avec bascule Énoncé / Corrigé ────
+let printState = { tpId: null, mode: 'enonce' }
+
+function tpPrintBody(tp, mode) {
   if (tp.type === 'memo') {
-    body = `<p class="tp-intro">${escapeHtml(tp.intro)}</p>${tpMemoTable(tp)}`
-  } else {
-    const steps = tp.steps.map(s => tpStepHtml(s, mode === 'corrige' ? 'corrige' : 'enonce')).join('')
-    body = tpSetupHtml(tp) + steps
+    return `<p class="tp-intro">${escapeHtml(tp.intro)}</p>${tpMemoTable(tp)}`
   }
-  const label = mode === 'corrige' ? ' — Corrigé' : ''
-  area.innerHTML = `
+  const steps = tp.steps.map(s => tpStepHtml(s, mode === 'corrige' ? 'corrige' : 'enonce')).join('')
+  return tpSetupHtml(tp) + steps
+}
+
+function renderPrintDoc() {
+  const tp = TPS.find(t => t.id === printState.tpId)
+  if (!tp) return
+  const container = document.getElementById('print-doc-container')
+  if (!container) return
+  const label = printState.mode === 'corrige' ? ' — Corrigé' : ''
+  container.innerHTML = `
     <div class="print-doc">
       <div class="print-head">DIU NSI — Le Havre · ${escapeHtml(tp.jour)}</div>
       <h1 class="print-title">${escapeHtml(tp.title)}${label}</h1>
-      ${body}
+      ${tpPrintBody(tp, printState.mode)}
     </div>`
-  document.body.classList.add('printing-tp')
-  window.print()
+  document.querySelectorAll('#tp-print-overlay .print-toggle-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.pmode === printState.mode))
 }
+
+function openPrintPreview(tpId) {
+  const tp = TPS.find(t => t.id === tpId)
+  if (!tp) return
+  printState = { tpId, mode: 'enonce' }
+  const overlay = document.getElementById('tp-print-overlay')
+  if (!overlay) return
+  const hasCorrection = tp.type !== 'memo' && tp.steps.some(s => s.correction && s.correction.length)
+  overlay.querySelector('.print-toggle').style.display = hasCorrection ? 'inline-flex' : 'none'
+  renderPrintDoc()
+  overlay.classList.remove('hidden')
+  document.body.classList.add('print-preview-open')
+  overlay.scrollTop = 0
+}
+
+function closePrintPreview() {
+  const overlay = document.getElementById('tp-print-overlay')
+  if (overlay) overlay.classList.add('hidden')
+  document.body.classList.remove('print-preview-open')
+}
+
+// Branchement des contrôles de l'aperçu (une seule fois)
+;(function bindPrintOverlay() {
+  const overlay = document.getElementById('tp-print-overlay')
+  if (!overlay) return
+  overlay.querySelectorAll('.print-toggle-btn').forEach(b =>
+    b.addEventListener('click', () => { printState.mode = b.dataset.pmode; renderPrintDoc() }))
+  const doBtn = document.getElementById('print-do')
+  const closeBtn = document.getElementById('print-close')
+  if (doBtn) doBtn.addEventListener('click', () => window.print())
+  if (closeBtn) closeBtn.addEventListener('click', closePrintPreview)
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closePrintPreview()
+  })
+})()
 
 // ── Helpers ──────────────────────────────────────────────
 function fmt(iso) {

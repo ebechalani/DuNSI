@@ -896,21 +896,67 @@ textarea { resize: vertical; }
   margin-bottom: 2px;
 }
 
-/* ── Zone & styles d'impression ── */
-#tp-print-area { display: none; }
+/* ── Aperçu d'impression (overlay) ── */
+.print-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #fff;
+  overflow-y: auto;
+}
+.print-overlay.hidden { display: none; }
+.print-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 24px;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.print-toggle {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.print-toggle-btn {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.print-toggle-btn + .print-toggle-btn { border-left: 1px solid var(--border); }
+.print-toggle-btn.active { background: var(--primary); color: #fff; }
+.print-toolbar-right { display: flex; gap: 10px; }
+.print-toolbar-right .btn-primary,
+.print-toolbar-right .btn-back { margin: 0; }
+#print-doc-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 28px 24px 80px;
+}
 .print-head { font-size: 0.8rem; color: #555; margin-bottom: 6px; }
-.print-title { font-size: 1.5rem; margin: 0 0 14px; color: #111; }
+.print-title { font-size: 1.5rem; margin: 0 0 18px; color: #111; }
 
 @media print {
-  body.printing-tp .sidebar,
-  body.printing-tp .content,
-  body.printing-tp #toast { display: none !important; }
-  body.printing-tp #tp-print-area {
-    display: block !important;
-    padding: 0;
-    color: #000;
+  body.print-preview-open > *:not(#tp-print-overlay) { display: none !important; }
+  body.print-preview-open #tp-print-overlay {
+    position: static;
+    overflow: visible;
   }
-  body.printing-tp #tp-print-area .doc-code {
+  body.print-preview-open .print-toolbar { display: none !important; }
+  body.print-preview-open #print-doc-container { max-width: none; margin: 0; padding: 0; }
+  #print-doc-container .doc-code {
     background: #f4f4f4;
     border: 1px solid #ccc;
     color: #111;
@@ -918,9 +964,9 @@ textarea { resize: vertical; }
     word-break: break-word;
     page-break-inside: avoid;
   }
-  body.printing-tp #tp-print-area .tp-step { page-break-inside: avoid; border-top: 1px solid #ddd; padding: 12px 0 4px; }
-  body.printing-tp #tp-print-area .tp-correction-open { background: #f4fbf6; page-break-inside: avoid; }
-  body.printing-tp #tp-print-area .tp-cmd-table th { background: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #print-doc-container .tp-step { page-break-inside: avoid; border-top: 1px solid #ddd; padding: 12px 0 4px; }
+  #print-doc-container .tp-correction-open { background: #f4fbf6; page-break-inside: avoid; }
+  #print-doc-container .tp-cmd-table th { background: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page { margin: 1.5cm; }
 }
 

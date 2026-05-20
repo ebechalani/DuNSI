@@ -277,7 +277,22 @@
   </div><!-- .content -->
 
   <div id="toast"></div>
-  <div id="tp-print-area"></div>
-  <script type="module" src="app.js?v=20260520i"></script>
+
+  <!-- Aperçu d'impression TP -->
+  <div id="tp-print-overlay" class="print-overlay hidden">
+    <div class="print-toolbar">
+      <div class="print-toggle">
+        <button class="print-toggle-btn active" data-pmode="enonce">📄 Énoncé</button>
+        <button class="print-toggle-btn" data-pmode="corrige">✅ Corrigé</button>
+      </div>
+      <div class="print-toolbar-right">
+        <button id="print-do" class="btn-primary">🖨 Imprimer / PDF</button>
+        <button id="print-close" class="btn-back">Fermer</button>
+      </div>
+    </div>
+    <div id="print-doc-container"></div>
+  </div>
+
+  <script type="module" src="app.js?v=20260520j"></script>
 </body>
 </html>
