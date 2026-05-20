@@ -678,9 +678,9 @@ let currentView   = 'dashboard'
 async function loadAll() {
   const [entriesRes, fichesRes, statusRes, resRes] = await Promise.all([
     db.from('entries').select('*').order('date', { ascending: false }),
-    db.from('fiches').select('*').order('created_at', { ascending: false }),
+    db.from('fiches').select('*').order('created_at', { ascending: true }),
     db.from('topic_status').select('*'),
-    db.from('ressources').select('*').order('created_at', { ascending: false }),
+    db.from('ressources').select('*').order('created_at', { ascending: true }),
   ])
   allEntries    = entriesRes.data  || []
   allFiches     = fichesRes.data   || []
