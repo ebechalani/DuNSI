@@ -714,6 +714,298 @@ function navigate(view) {
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
+  // ── Mémo Séance 1 ──────────────────────────────────────
+  {
+    id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    title: 'Mémo — Commandes de la séance 1 (Linux, navigation, fichiers)',
+    type: 'memo',
+    intro: 'DIU NSI | Linux | Séance 1 — Bases du système de fichiers Unix',
+    table: [
+      { cmd: 'pwd',    synt: 'pwd',                      desc: 'Affiche le répertoire courant (Present Working Directory)' },
+      { cmd: 'ls',     synt: 'ls [-l] [-a] [chemin]',    desc: '-l : format long (droits, taille…)  -a : fichiers cachés  -la : les deux' },
+      { cmd: 'cd',     synt: 'cd [chemin]',              desc: 'Change de répertoire. cd ~ renvoie au home. cd .. remonte d\'un niveau. cd - revient au précédent' },
+      { cmd: 'mkdir',  synt: 'mkdir [-p] nom',           desc: 'Crée un répertoire. -p : crée les parents manquants (mkdir -p a/b/c)' },
+      { cmd: 'rmdir',  synt: 'rmdir nom',                desc: 'Supprime un répertoire VIDE uniquement' },
+      { cmd: 'touch',  synt: 'touch nom_fichier',        desc: 'Crée un fichier vide ou met à jour la date de modification' },
+      { cmd: 'cp',     synt: 'cp [-r] src dest',         desc: 'Copie fichier ou dossier. -r : récursif (pour les dossiers)' },
+      { cmd: 'mv',     synt: 'mv src dest',              desc: 'Déplace ou renomme un fichier/dossier' },
+      { cmd: 'rm',     synt: 'rm [-r] [-f] fichier',     desc: 'Supprime. -r : récursif  -f : forcer sans confirmation  ⚠ irréversible' },
+      { cmd: 'cat',    synt: 'cat fichier',              desc: 'Affiche le contenu d\'un fichier dans le terminal' },
+      { cmd: 'less',   synt: 'less fichier',             desc: 'Affichage paginé. Flèches pour naviguer, q pour quitter' },
+      { cmd: 'file',   synt: 'file nom',                 desc: 'Identifie le type d\'un fichier (texte, binaire, image…)' },
+      { cmd: 'man',    synt: 'man commande',             desc: 'Manuel de la commande. q pour quitter. / pour chercher dans le man' },
+      { cmd: 'ps',     synt: 'ps aux',                   desc: 'Liste tous les processus en cours. a : tous  u : format utilisateur  x : sans terminal' },
+      { cmd: 'chmod',  synt: 'chmod 755 fichier',        desc: 'Modifie les droits. Octal : 7=rwx 5=r-x 4=r--. Symbolique : chmod +x, u+w, g-r…' },
+    ]
+  },
+  // ── TP 1 ───────────────────────────────────────────────
+  {
+    id: 'tp1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    title: 'TP 1 — Premier contact avec Linux',
+    type: 'tp',
+    intro: 'Objectif : se repérer dans l\'arborescence Linux, créer et naviguer dans des répertoires.',
+    steps: [
+      {
+        num: '1.1', title: 'Se repérer dans l\'arborescence',
+        code: `$ pwd                        # Où suis-je ?
+$ ls                         # Que contient ce répertoire ?
+$ ls -l                      # Format long (droits, taille, date)
+$ ls -la                     # Inclure les fichiers cachés
+$ ls /                       # Contenu de la racine
+$ ls /home                   # Répertoires des utilisateurs`,
+        questions: [
+          "Quel est votre répertoire courant ? Que signifie le ~ dans l'invite de commande ?",
+          "Quelle est la différence entre ls et ls -la ? Que sont les fichiers commençant par . ?",
+          "Décrivez la structure de / : à quoi servent /bin, /etc, /home, /tmp ?"
+        ]
+      },
+      {
+        num: '1.2', title: 'Chemins absolus et relatifs',
+        code: `# Chemin absolu : depuis la racine /
+$ ls /home
+
+# Chemin relatif : depuis le répertoire courant
+$ ls ..            # Répertoire parent
+$ ls ../..         # Deux niveaux au-dessus
+$ cd ~             # Retour au home (raccourci)
+$ cd /tmp          # Aller dans /tmp (absolu)
+$ cd -             # Revenir au répertoire précédent`,
+        note: 'Chemin absolu = adresse postale complète. Chemin relatif = "à droite, puis à gauche". Le ~ est un alias pour votre répertoire home (/home/votre_login).',
+        questions: [
+          "Depuis votre home, comment accéder à /etc en chemin relatif ? En chemin absolu ?",
+          "Que fait cd sans argument ? Et cd - ?"
+        ]
+      },
+      {
+        num: '1.3', title: 'Créer l\'arborescence du projet',
+        code: `$ cd ~
+$ mkdir NSI_projet
+$ cd NSI_projet
+$ mkdir scripts data docs
+$ ls
+$ mkdir -p scripts/utilitaires
+$ ls scripts/
+$ pwd`,
+        questions: [
+          "Dessinez l'arborescence obtenue. Quelle est l'utilité de mkdir -p ?",
+          "Comment revenir au home depuis NSI_projet/scripts/utilitaires en une seule commande ?"
+        ]
+      }
+    ]
+  },
+  // ── TP 2 ───────────────────────────────────────────────
+  {
+    id: 'tp2', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    title: 'TP 2 — Manipulation de fichiers',
+    type: 'tp',
+    intro: 'Objectif : créer, copier, déplacer, supprimer des fichiers et comprendre les fichiers cachés.',
+    steps: [
+      {
+        num: '2.1', title: 'Créer et inspecter des fichiers',
+        code: `$ cd ~/NSI_projet
+$ touch data/eleves.txt
+$ ls -l data/
+$ file data/eleves.txt        # Type du fichier
+
+# Écrire du contenu dans le fichier
+$ cat > data/eleves.txt << 'EOF'
+Alice 15
+Bob 12
+Clara 17
+EOF
+
+$ cat data/eleves.txt         # Afficher
+$ less data/eleves.txt        # Paginé (q pour quitter)
+$ wc -l data/eleves.txt       # Compter les lignes`,
+        questions: [
+          "Que fait cat > fichier ? Quelle est la différence avec cat >> fichier ?",
+          "À quoi sert wc -l ? Que donnent wc -w et wc -c ?"
+        ]
+      },
+      {
+        num: '2.2', title: 'Copier, déplacer, renommer',
+        code: `$ cp data/eleves.txt data/eleves_backup.txt
+$ ls data/
+
+$ mv data/eleves_backup.txt docs/
+$ ls data/ docs/
+
+# Renommer = mv vers le même répertoire avec un nouveau nom
+$ mv docs/eleves_backup.txt docs/sauvegarde.txt
+$ ls docs/
+
+# Copier un dossier entier
+$ cp -r data/ data_sauvegarde/
+$ ls`,
+        note: '⚠ mv écrase la destination sans avertissement si elle existe déjà. Vérifiez avant d\'exécuter.',
+        questions: [
+          "Quelle est la différence entre cp et mv ? Que se passe-t-il si la destination de mv existe déjà ?",
+          "Pourquoi cp -r et pas juste cp pour copier un dossier ?"
+        ]
+      },
+      {
+        num: '2.3', title: 'Fichiers cachés et suppression',
+        code: `# Créer un fichier caché (commence par .)
+$ touch .config_perso
+$ ls              # Pas visible !
+$ ls -a           # Visible avec -a
+$ ls -la          # Format long avec cachés
+
+# Supprimer
+$ rm .config_perso
+$ rm data/eleves_backup.txt   # Fichier (s'il reste)
+$ rm -r data_sauvegarde/      # Dossier et son contenu`,
+        note: '⚠ rm est irréversible : pas de corbeille sous Linux. rm -rf supprime sans demander confirmation. À utiliser avec précaution !',
+        questions: [
+          "Pourquoi certains fichiers commencent-ils par . sous Linux ? Donnez des exemples réels (.bashrc, .ssh…)",
+          "Quelle commande permet de lister UNIQUEMENT les fichiers cachés ? (indice : combinez ls -a et grep)"
+        ]
+      }
+    ]
+  },
+  // ── TP 3 ───────────────────────────────────────────────
+  {
+    id: 'tp3', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    title: 'TP 3 — Processus et première utilisation des pipes',
+    type: 'tp',
+    intro: 'Objectif : observer les processus en cours, utiliser le manuel et découvrir le pipe |.',
+    steps: [
+      {
+        num: '3.1', title: 'Observer les processus',
+        code: `$ ps            # Processus du terminal courant
+$ ps aux        # Tous les processus du système
+$ ps aux | head -20   # Les 20 premières lignes seulement
+
+# Signification des colonnes ps aux :
+# USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+# PID = identifiant unique du processus
+# %CPU / %MEM = consommation de ressources`,
+        questions: [
+          "Quel est le PID du processus bash en cours ? Et le premier processus lancé (PID 1) ?",
+          "Que signifie STAT = S ? Z ? R ? (aidez-vous du man)"
+        ]
+      },
+      {
+        num: '3.2', title: 'Le manuel et l\'aide',
+        code: `$ man ls            # Manuel de ls (q pour quitter, / pour chercher)
+$ man ps
+$ ls --help         # Aide courte (toutes les commandes n'ont pas --help)
+$ man man           # Le manuel du manuel !
+
+# Chercher une commande par mot-clé
+$ man -k "copy file"`,
+        note: 'Le man est votre meilleur ami. Avant de chercher sur internet, cherchez dans le man. Les pages man ont une structure standard : NAME, SYNOPSIS, DESCRIPTION, OPTIONS, EXAMPLES.',
+        questions: [
+          "Dans man ls, trouvez l'option pour trier par taille. Testez-la.",
+          "Quelle est la différence entre --help et man ? Lequel est plus complet ?"
+        ]
+      },
+      {
+        num: '3.3', title: 'Premier pipeline',
+        code: `# Sans pipe : on cherche à la main
+$ ps aux
+# → trop long, on veut filtrer
+
+# Avec pipe : ps envoie sa sortie à grep
+$ ps aux | grep bash
+$ ps aux | grep python
+$ ps aux | wc -l      # Compter le nombre de processus
+
+# Chaîner 3 commandes
+$ ps aux | grep -v grep | grep bash`,
+        note: 'Le pipe | est fondamental Unix : la sortie (stdout) de la commande de gauche devient l\'entrée (stdin) de la commande de droite. Aucune écriture de fichier intermédiaire. C\'est le principe de composition de fonctions : f(g(x)).',
+        questions: [
+          "Construisez une commande qui compte le nombre de processus lancés par votre utilisateur.",
+          "Que fait grep -v grep dans le dernier exemple ? Pourquoi est-ce utile ?"
+        ]
+      }
+    ]
+  },
+  // ── TP 4 ───────────────────────────────────────────────
+  {
+    id: 'tp4', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    title: 'TP 4 — Permissions et premier script bash',
+    type: 'tp',
+    intro: 'Objectif : comprendre le système de permissions Unix et écrire un premier script bash.',
+    steps: [
+      {
+        num: '4.1', title: 'Lire et modifier les permissions',
+        code: `$ ls -l ~/NSI_projet/
+# Exemple de sortie :
+# -rw-r--r-- 1 user group 1234 mai 19 10:00 fichier.txt
+# drwxr-xr-x 2 user group 4096 mai 19 10:00 scripts/
+#  ↑↑↑↑↑↑↑↑↑
+#  type | propriétaire | groupe | autres
+
+# Notation octale : r=4, w=2, x=1
+$ chmod 755 scripts/      # rwxr-xr-x
+$ chmod 644 data/eleves.txt  # rw-r--r--
+
+# Notation symbolique
+$ chmod +x scripts/utilitaires/   # Ajouter exécution
+$ chmod u+w fichier.txt            # Propriétaire : ajouter écriture
+$ chmod o-r fichier.txt            # Autres : retirer lecture`,
+        note: 'Permissions en octal : 7 = rwx (lecture+écriture+exécution), 5 = r-x, 4 = r--. chmod 755 = propriétaire tout, groupe et autres lecture+exécution. Convention classique pour les scripts.',
+        questions: [
+          "Décodez -rwxr-x--- : qui peut faire quoi ?",
+          "Quelle commande donne tous les droits au propriétaire, lecture seule au groupe, aucun droit aux autres ?"
+        ]
+      },
+      {
+        num: '4.2', title: 'Variables et environnement',
+        code: `# Créer une variable locale
+$ MA_VAR="Bonjour NSI"
+$ echo $MA_VAR
+
+# Exporter pour les sous-processus
+$ export PROJET_DIR=~/NSI_projet
+$ echo $PROJET_DIR
+
+# Variables d'environnement du système
+$ echo $HOME
+$ echo $PATH
+$ echo $USER
+
+# Lister toutes les variables d'environnement
+$ env | less`,
+        questions: [
+          "Quelle est la différence entre MA_VAR=valeur et export MA_VAR=valeur ?",
+          "Que contient $PATH ? À quoi sert-il ? Que se passe-t-il si on efface $PATH ?"
+        ]
+      },
+      {
+        num: '4.3', title: 'Premier script bash',
+        code: `$ cd ~/NSI_projet/scripts
+$ cat > bonjour.sh << 'EOF'
+#!/bin/bash
+# Mon premier script bash
+# Usage: ./bonjour.sh [nom]
+
+NOM=${1:-"Monde"}   # Argument 1, ou "Monde" par défaut
+
+echo "Bonjour, $NOM !"
+echo "Nous sommes le : $(date +%d/%m/%Y)"
+echo "Répertoire courant : $PWD"
+echo "Nombre de fichiers dans data/ :"
+ls ~/NSI_projet/data/ | wc -l
+EOF
+
+# Rendre le script exécutable
+$ chmod +x bonjour.sh
+
+# Exécuter
+$ ./bonjour.sh
+$ ./bonjour.sh "NSI Le Havre"`,
+        note: 'Le shebang #!/bin/bash en première ligne indique à Linux quel interpréteur utiliser. Sans chmod +x, le fichier est du texte — Linux ne sait pas qu\'il faut l\'exécuter. La notation ${ 1:-défaut } est une valeur par défaut si l\'argument n\'est pas fourni.',
+        questions: [
+          "Que se passe-t-il si on oublie le shebang #!/bin/bash ?",
+          "Modifiez le script pour qu'il affiche aussi la liste des fichiers .txt dans data/.",
+          "Que fait $( date +%d/%m/%Y) ? Comment s'appelle cette syntaxe ?"
+        ]
+      }
+    ]
+  },
+  // ── Mémo Séance 2 ──────────────────────────────────────
   {
     id: 'memo-s2', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
     title: 'Mémo — Commandes de la séance 2 (Linux, Shell, Scripts)',
