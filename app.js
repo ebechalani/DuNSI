@@ -981,7 +981,7 @@ $ cat > bonjour.sh << 'EOF'
 # Mon premier script bash
 # Usage: ./bonjour.sh [nom]
 
-NOM=${1:-"Monde"}   # Argument 1, ou "Monde" par défaut
+NOM=\${1:-"Monde"}   # Argument 1, ou "Monde" par défaut
 
 echo "Bonjour, $NOM !"
 echo "Nous sommes le : $(date +%d/%m/%Y)"
