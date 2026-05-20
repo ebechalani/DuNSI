@@ -757,6 +757,11 @@ $ ls /home                   # Répertoires des utilisateurs`,
           "Quel est votre répertoire courant ? Que signifie le ~ dans l'invite de commande ?",
           "Quelle est la différence entre ls et ls -la ? Que sont les fichiers commençant par . ?",
           "Décrivez la structure de / : à quoi servent /bin, /etc, /home, /tmp ?"
+        ],
+        correction: [
+          "pwd affiche le répertoire courant, typiquement /home/votre_login. Le ~ (tilde) est un raccourci qui désigne ce répertoire personnel : cd ~ et cd seul ramènent tous deux au home.",
+          "ls liste seulement les fichiers visibles ; ls -la ajoute -a (les fichiers cachés) et -l (le format long : droits, propriétaire, taille, date). Les fichiers commençant par un point (.bashrc, .gitconfig) sont cachés : ce sont surtout des fichiers de configuration.",
+          "/bin = commandes de base · /etc = fichiers de configuration du système · /home = répertoires personnels des utilisateurs · /tmp = fichiers temporaires effacés au redémarrage."
         ]
       },
       {
@@ -774,6 +779,10 @@ $ cd -             # Revenir au répertoire précédent`,
         questions: [
           "Depuis votre home, comment accéder à /etc en chemin relatif ? En chemin absolu ?",
           "Que fait cd sans argument ? Et cd - ?"
+        ],
+        correction: [
+          "Relatif : cd ../../etc (on remonte de deux niveaux jusqu'à la racine /, puis on descend dans etc). Absolu : cd /etc (toujours valable, quel que soit l'endroit où l'on se trouve).",
+          "cd sans argument ramène au home (comme cd ~). cd - revient au répertoire précédent : pratique pour faire des allers-retours entre deux dossiers."
         ]
       },
       {
@@ -789,6 +798,10 @@ $ pwd`,
         questions: [
           "Dessinez l'arborescence obtenue. Quelle est l'utilité de mkdir -p ?",
           "Comment revenir au home depuis NSI_projet/scripts/utilitaires en une seule commande ?"
+        ],
+        correction: [
+          "Arborescence : NSI_projet/ contient scripts/, data/ et docs/ ; scripts/ contient utilitaires/. mkdir -p crée toute la chaîne de dossiers parents manquants d'un coup (mkdir -p a/b/c crée a, puis b, puis c).",
+          "cd ~ (ou cd seul) ramène directement au home en une seule commande, quel que soit le répertoire courant."
         ]
       }
     ]
@@ -820,6 +833,10 @@ $ wc -l data/eleves.txt       # Compter les lignes`,
         questions: [
           "Que fait cat > fichier ? Quelle est la différence avec cat >> fichier ?",
           "À quoi sert wc -l ? Que donnent wc -w et wc -c ?"
+        ],
+        correction: [
+          "cat > fichier écrit dans le fichier en ÉCRASANT son contenu précédent. cat >> fichier AJOUTE à la fin sans rien effacer. (Le heredoc << 'EOF' indique où s'arrête la saisie au clavier.)",
+          "wc -l compte les lignes. wc -w compte les mots, wc -c compte les caractères (octets). Sur eleves.txt à 3 lignes, wc -l renvoie 3."
         ]
       },
       {
@@ -841,6 +858,10 @@ $ ls`,
         questions: [
           "Quelle est la différence entre cp et mv ? Que se passe-t-il si la destination de mv existe déjà ?",
           "Pourquoi cp -r et pas juste cp pour copier un dossier ?"
+        ],
+        correction: [
+          "cp copie (l'original reste en place), mv déplace ou renomme (l'original disparaît). Si la destination de mv existe déjà, elle est écrasée silencieusement, sans avertissement — d'où la prudence à avoir.",
+          "Un dossier contient d'autres fichiers : l'option -r (récursif) demande à cp de copier aussi tout le contenu. Sans -r, cp refuse de copier un dossier."
         ]
       },
       {
@@ -859,6 +880,10 @@ $ rm -r data_sauvegarde/      # Dossier et son contenu`,
         questions: [
           "Pourquoi certains fichiers commencent-ils par . sous Linux ? Donnez des exemples réels (.bashrc, .ssh…)",
           "Quelle commande permet de lister UNIQUEMENT les fichiers cachés ? (indice : combinez ls -a et grep)"
+        ],
+        correction: [
+          "Les fichiers en point sont cachés par convention pour ne pas encombrer l'affichage : ce sont surtout des fichiers de configuration personnels (.bashrc configure le shell, le dossier .ssh stocke les clés de connexion).",
+          "ls -a | grep '^[.]' : grep ne garde que les noms commençant par un point (^[.] = « commence par un point »). On peut aussi utiliser ls -d .* pour le même effet."
         ]
       }
     ]
@@ -883,6 +908,10 @@ $ ps aux | head -20   # Les 20 premières lignes seulement
         questions: [
           "Quel est le PID du processus bash en cours ? Et le premier processus lancé (PID 1) ?",
           "Que signifie STAT = S ? Z ? R ? (aidez-vous du man)"
+        ],
+        correction: [
+          "Le PID du bash courant s'obtient avec echo $$ (ou en cherchant bash dans ps aux). Le PID 1 est le tout premier processus lancé par le noyau (systemd ou init) : c'est l'ancêtre de tous les autres processus.",
+          "STAT : S = en sommeil (le processus attend un événement) · R = en cours d'exécution (running) · Z = zombie (le processus est terminé mais pas encore nettoyé par son parent)."
         ]
       },
       {
@@ -898,6 +927,10 @@ $ man -k "copy file"`,
         questions: [
           "Dans man ls, trouvez l'option pour trier par taille. Testez-la.",
           "Quelle est la différence entre --help et man ? Lequel est plus complet ?"
+        ],
+        correction: [
+          "Dans man ls, l'option -S trie par taille (du plus gros au plus petit) : ls -lS. On peut chercher dans le man en tapant /taille puis Entrée.",
+          "--help donne un résumé court et rapide ; man ouvre le manuel complet, avec toutes les options et des exemples. man est donc plus complet."
         ]
       },
       {
@@ -917,6 +950,10 @@ $ ps aux | grep -v grep | grep bash`,
         questions: [
           "Construisez une commande qui compte le nombre de processus lancés par votre utilisateur.",
           "Que fait grep -v grep dans le dernier exemple ? Pourquoi est-ce utile ?"
+        ],
+        correction: [
+          "ps -u \"$USER\" | wc -l compte les lignes de processus de votre utilisateur ($USER contient votre login). Pensez à retirer 1 pour la ligne d'en-tête.",
+          "grep -v grep retire de la liste la commande grep elle-même. Sans lui, ps aux | grep bash afficherait aussi le processus grep bash qu'on vient de lancer, ce qui fausserait le résultat."
         ]
       }
     ]
@@ -949,6 +986,10 @@ $ chmod o-r fichier.txt            # Autres : retirer lecture`,
         questions: [
           "Décodez -rwxr-x--- : qui peut faire quoi ?",
           "Quelle commande donne tous les droits au propriétaire, lecture seule au groupe, aucun droit aux autres ?"
+        ],
+        correction: [
+          "-rwxr-x--- : le propriétaire (rwx) peut lire, écrire et exécuter ; le groupe (r-x) peut lire et exécuter mais pas écrire ; les autres (---) n'ont aucun droit.",
+          "chmod 740 fichier : 7=rwx (propriétaire), 4=r-- (groupe, lecture seule), 0=--- (autres, rien)."
         ]
       },
       {
@@ -971,6 +1012,10 @@ $ env | less`,
         questions: [
           "Quelle est la différence entre MA_VAR=valeur et export MA_VAR=valeur ?",
           "Que contient $PATH ? À quoi sert-il ? Que se passe-t-il si on efface $PATH ?"
+        ],
+        correction: [
+          "MA_VAR=valeur crée une variable visible uniquement dans le shell courant. export MA_VAR=valeur la rend aussi visible par les programmes et sous-processus lancés depuis ce shell.",
+          "$PATH contient la liste des dossiers où le shell cherche les commandes (séparés par des deux-points). Si on l'efface, le shell ne trouve plus ls, grep, etc. : il faut alors taper le chemin complet, comme /bin/ls."
         ]
       },
       {
@@ -998,6 +1043,11 @@ $ ./bonjour.sh "NSI Le Havre"`,
           "Que se passe-t-il si on oublie le shebang #!/bin/bash ?",
           "Modifiez le script pour qu'il affiche aussi la liste des fichiers .txt dans data/.",
           "Que fait $( date +%d/%m/%Y) ? Comment s'appelle cette syntaxe ?"
+        ],
+        correction: [
+          "Sans shebang, le système ne sait pas quel interpréteur utiliser : selon le contexte il tente de l'exécuter avec le shell courant ou refuse. Le #!/bin/bash lève l'ambiguïté en imposant bash.",
+          "Ajouter la ligne : ls data/*.txt (ou ls data/ | grep '.txt') pour lister les fichiers .txt du dossier data.",
+          "$(commande) est une substitution de commande : le shell exécute ce qui est entre $( et ) puis insère le résultat à la place. Ici $(date +%d/%m/%Y) insère la date du jour formatée jour/mois/année."
         ]
       }
     ]
@@ -1056,6 +1106,10 @@ $ grep -v 'nom' data/eleves.csv       # Exclure les lignes contenant 'nom'`,
         questions: [
           "Combien d'élèves sont en 1NSI1 ? Quelle commande avez-vous utilisée ?",
           "Que fait grep -v 'nom' ? À quoi ça sert ici ?"
+        ],
+        correction: [
+          "4 élèves en 1NSI1 (Alice, Clara, Emma, Gina). Commande : grep -c '1NSI1' data/eleves.csv — l'option -c compte les lignes correspondantes.",
+          "grep -v 'nom' affiche toutes les lignes SAUF celles contenant « nom » : ici cela élimine la ligne d'en-tête (nom,prenom,classe,…) pour ne garder que les données des élèves."
         ]
       },
       {
@@ -1066,6 +1120,9 @@ $ sort -t',' -k5 -nr data/eleves.csv   # Ordre décroissant
 $ sort -t',' -k4 -n data/eleves.csv    # Trier par note_maths (col 4)`,
         questions: [
           "Quel élève a la meilleure note en info ? En maths ? Notez les commandes utilisées."
+        ],
+        correction: [
+          "Meilleure note en info : Emma (19) — sort -t',' -k5 -nr data/eleves.csv | head. Meilleure note en maths : Clara (17) — sort -t',' -k4 -nr data/eleves.csv | head. (-k5/-k4 = numéro de colonne, -n = tri numérique, -r = ordre décroissant.)"
         ]
       },
       {
@@ -1079,6 +1136,10 @@ $ wc -l data/eleves.csv`,
         questions: [
           "Pourquoi faut-il faire sort AVANT uniq ? Que se passe-t-il si on ne trie pas ?",
           "Combien y a-t-il d'élèves par classe ? Construire le pipeline complet."
+        ],
+        correction: [
+          "uniq ne supprime que les doublons CONSÉCUTIFS. Sans tri préalable, deux lignes identiques séparées par d'autres lignes ne sont pas détectées. Il faut donc sort d'abord pour regrouper les doublons côte à côte.",
+          "4 élèves par classe. Pipeline : cut -d',' -f3 data/eleves.csv | grep -v 'classe' | sort | uniq -c → affiche « 4 1NSI1 » et « 4 1NSI2 »."
         ]
       }
     ]
@@ -1102,6 +1163,9 @@ $ cut -d',' -f3 data/eleves.csv | grep -v 'classe' | sort | uniq -c`,
         note: 'Le pipe | = composition de fonctions : grep | sort | uniq correspond en Python à list(set(sorted(filter(lambda x: …, data)))). Chaque commande fait une chose simple, la puissance vient de la composition. C\'est le principe Unix : des outils simples combinés font des tâches complexes.',
         questions: [
           "Construisez un pipeline pour afficher uniquement les noms et prénoms des élèves de 1NSI2, triés alphabétiquement."
+        ],
+        correction: [
+          "grep '1NSI2' data/eleves.csv | cut -d',' -f1,2 | sort : on filtre la classe 1NSI2, on extrait nom+prénom (colonnes 1 et 2), puis on trie alphabétiquement. Résultat : Martin,Bob — Morin,Hugo — Petit,Felix — Thomas,David."
         ]
       },
       {
@@ -1119,6 +1183,9 @@ $ cat fichier_inexistant.csv 2> data/erreurs.log
 $ cat data/erreurs.log`,
         questions: [
           "Que contient data/classe_1NSI1.csv après les deux commandes ? Pourquoi ?"
+        ],
+        correction: [
+          "8 lignes. Le > a créé le fichier avec les 4 élèves de 1NSI1 (en écrasant), puis le >> a ajouté les 4 élèves de 1NSI2 à la fin sans rien effacer. Malgré son nom, le fichier contient donc les deux classes : c'est tout l'intérêt de >> (ajouter) par opposition à > (écraser)."
         ]
       },
       {
@@ -1134,6 +1201,9 @@ $ grep _____ data/eleves.csv | grep -v _____ | sort _____ | cut _____ >> data/ra
 $ cat data/rapport.txt`,
         questions: [
           "Complétez et expliquez chaque partie du pipeline ci-dessus."
+        ],
+        correction: [
+          "Pipeline complet : grep '1NSI1' data/eleves.csv | grep -v 'nom' | sort -t',' -k5 -nr | cut -d',' -f1,2,5 >> data/rapport.txt. Décodage étape par étape : grep '1NSI1' garde la classe visée → grep -v 'nom' enlève l'éventuel en-tête → sort -t',' -k5 -nr trie par note d'info (colonne 5) en ordre décroissant → cut -d',' -f1,2,5 extrait nom, prénom et note d'info → >> ajoute le tout à la fin du rapport sans écraser l'en-tête créé à l'étape 1."
         ]
       }
     ]
@@ -1164,44 +1234,41 @@ function renderTPs() {
       renderList()
     })
   })
+  // Délégation des boutons d'impression (attachée une seule fois)
+  if (!listEl.dataset.printBound) {
+    listEl.addEventListener('click', e => {
+      const btn = e.target.closest('[data-print-tp]')
+      if (!btn) return
+      printTP(btn.dataset.printTp, btn.dataset.mode)
+    })
+    listEl.dataset.printBound = '1'
+  }
   renderList()
 }
 
-function renderTPCard(tp) {
-  const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
-  const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
+// Nettoyage après impression / annulation
+window.addEventListener('afterprint', () => {
+  document.body.classList.remove('printing-tp')
+  const area = document.getElementById('tp-print-area')
+  if (area) area.innerHTML = ''
+})
 
-  if (tp.type === 'memo') {
-    const rows = tp.table.map(r => `
-      <tr>
-        <td class="tp-cmd-cell"><code>${escapeHtml(r.cmd)}</code></td>
-        <td class="tp-synt-cell"><code>${escapeHtml(r.synt)}</code></td>
-        <td class="tp-desc-cell">${escapeHtml(r.desc)}</td>
-      </tr>`).join('')
-    return `
-    <div class="tp-card">
-      <div class="tp-card-header">
-        <span class="tp-type-badge" style="background:${typeColor}">${typeLabel}</span>
-        <span class="tp-jour">${escapeHtml(tp.jour)}</span>
-      </div>
-      <h3 class="tp-card-title">${escapeHtml(tp.title)}</h3>
-      <p class="tp-intro">${escapeHtml(tp.intro)}</p>
-      <div class="tp-table-wrap">
-        <table class="tp-cmd-table">
-          <thead><tr><th>Commande</th><th>Syntaxe</th><th>Description</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    </div>`
+// Rendu d'une étape de TP. mode : 'screen' | 'enonce' | 'corrige'
+function tpStepHtml(step, mode) {
+  const introHtml  = step.intro ? `<p class="tp-step-intro">${escapeHtml(step.intro)}</p>` : ''
+  const noteHtml   = step.note  ? `<div class="tp-note">${escapeHtml(step.note)}</div>` : ''
+  const questHtml  = step.questions ? step.questions.map(q =>
+    `<p class="tp-question"><em>${escapeHtml(q)}</em></p>`).join('') : ''
+  let corrHtml = ''
+  if (step.correction && step.correction.length) {
+    const items = step.correction.map(c => `<p class="tp-correction-item">${escapeHtml(c)}</p>`).join('')
+    if (mode === 'screen') {
+      corrHtml = `<details class="tp-correction"><summary>✅ Afficher la correction</summary><div class="tp-correction-body">${items}</div></details>`
+    } else if (mode === 'corrige') {
+      corrHtml = `<div class="tp-correction-open"><div class="tp-correction-title">✅ Correction</div>${items}</div>`
+    }
   }
-
-  // TP type
-  const stepsHtml = tp.steps.map(step => {
-    const introHtml  = step.intro ? `<p class="tp-step-intro">${escapeHtml(step.intro)}</p>` : ''
-    const noteHtml   = step.note  ? `<div class="tp-note">${escapeHtml(step.note)}</div>` : ''
-    const questHtml  = step.questions ? step.questions.map(q =>
-      `<p class="tp-question"><em>${escapeHtml(q)}</em></p>`).join('') : ''
-    return `
+  return `
     <div class="tp-step">
       <div class="tp-step-header">
         <span class="tp-step-num">${escapeHtml(step.num)}</span>
@@ -1211,26 +1278,93 @@ function renderTPCard(tp) {
       <pre class="doc-code">${escapeHtml(step.code)}</pre>
       ${noteHtml}
       ${questHtml}
+      ${corrHtml}
     </div>`
-  }).join('')
+}
 
-  const setupHtml = tp.setup ? `
+function tpSetupHtml(tp) {
+  return tp.setup ? `
     <div class="tp-setup">
       <p class="tp-intro">${escapeHtml(tp.intro || '')}</p>
       <pre class="doc-code">${escapeHtml(tp.setup)}</pre>
       ${tp.setupCreate ? `<p class="tp-intro" style="margin-top:8px">Si le fichier est absent, recréez-le :</p><pre class="doc-code">${escapeHtml(tp.setupCreate)}</pre>` : ''}
     </div>` : (tp.intro ? `<p class="tp-intro">${escapeHtml(tp.intro)}</p>` : '')
+}
 
+function tpMemoTable(tp) {
+  const rows = tp.table.map(r => `
+      <tr>
+        <td class="tp-cmd-cell"><code>${escapeHtml(r.cmd)}</code></td>
+        <td class="tp-synt-cell"><code>${escapeHtml(r.synt)}</code></td>
+        <td class="tp-desc-cell">${escapeHtml(r.desc)}</td>
+      </tr>`).join('')
   return `
-  <div class="tp-card">
+      <div class="tp-table-wrap">
+        <table class="tp-cmd-table">
+          <thead><tr><th>Commande</th><th>Syntaxe</th><th>Description</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`
+}
+
+function renderTPCard(tp) {
+  const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
+  const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
+  const hasCorrection = tp.type !== 'memo' && tp.steps.some(s => s.correction && s.correction.length)
+  const printBtns = `
+        <button class="tp-print-btn" data-print-tp="${tp.id}" data-mode="enonce">🖨 ${tp.type === 'memo' ? 'Imprimer' : 'Énoncé'}</button>
+        ${hasCorrection ? `<button class="tp-print-btn tp-print-corrige" data-print-tp="${tp.id}" data-mode="corrige">🖨 Corrigé</button>` : ''}`
+
+  if (tp.type === 'memo') {
+    return `
+    <div class="tp-card" data-tp-id="${tp.id}">
+      <div class="tp-card-header">
+        <span class="tp-type-badge" style="background:${typeColor}">${typeLabel}</span>
+        <span class="tp-jour">${escapeHtml(tp.jour)}</span>
+        <span class="tp-print-group">${printBtns}</span>
+      </div>
+      <h3 class="tp-card-title">${escapeHtml(tp.title)}</h3>
+      <p class="tp-intro">${escapeHtml(tp.intro)}</p>
+      ${tpMemoTable(tp)}
+    </div>`
+  }
+
+  const stepsHtml = tp.steps.map(step => tpStepHtml(step, 'screen')).join('')
+  return `
+  <div class="tp-card" data-tp-id="${tp.id}">
     <div class="tp-card-header">
       <span class="tp-type-badge" style="background:${typeColor}">${typeLabel}</span>
       <span class="tp-jour">${escapeHtml(tp.jour)}</span>
+      <span class="tp-print-group">${printBtns}</span>
     </div>
     <h3 class="tp-card-title">${escapeHtml(tp.title)}</h3>
-    ${setupHtml}
+    ${tpSetupHtml(tp)}
     ${stepsHtml}
   </div>`
+}
+
+// Génère le document imprimable d'un TP et lance l'impression (PDF possible)
+function printTP(tpId, mode) {
+  const tp = TPS.find(t => t.id === tpId)
+  if (!tp) return
+  const area = document.getElementById('tp-print-area')
+  if (!area) return
+  let body
+  if (tp.type === 'memo') {
+    body = `<p class="tp-intro">${escapeHtml(tp.intro)}</p>${tpMemoTable(tp)}`
+  } else {
+    const steps = tp.steps.map(s => tpStepHtml(s, mode === 'corrige' ? 'corrige' : 'enonce')).join('')
+    body = tpSetupHtml(tp) + steps
+  }
+  const label = mode === 'corrige' ? ' — Corrigé' : ''
+  area.innerHTML = `
+    <div class="print-doc">
+      <div class="print-head">DIU NSI — Le Havre · ${escapeHtml(tp.jour)}</div>
+      <h1 class="print-title">${escapeHtml(tp.title)}${label}</h1>
+      ${body}
+    </div>`
+  document.body.classList.add('printing-tp')
+  window.print()
 }
 
 // ── Helpers ──────────────────────────────────────────────
