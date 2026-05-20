@@ -1064,9 +1064,24 @@ function renderProgramme() {
 }
 
 // ── Fiches ───────────────────────────────────────────────
+// Mappe une date ISO → label "Jour N — JJ mois"
+const JOUR_LABELS = {
+  '2026-05-19': 'Jour 1 — 19 mai',
+  '2026-05-20': 'Jour 2 — 20 mai',
+  '2026-05-21': 'Jour 3 — 21 mai',
+  '2026-05-22': 'Jour 4 — 22 mai',
+}
+function jourLabel(isoTs) {
+  if (!isoTs) return ''
+  const d = isoTs.slice(0, 10)
+  return JOUR_LABELS[d] || d
+}
+
 function renderFiches() {
+  // ── Tabs ──────────────────────────────────────────────
   const tabs = document.getElementById('fiche-tabs')
-  tabs.innerHTML = `<button class="tab-btn ${ficheFilter === 'all' ? 'active' : ''}" style="${ficheFilter === 'all' ? 'background:#1e293b' : ''}" data-filter="all">Tous</button>` +
+  tabs.innerHTML =
+    `<button class="tab-btn ${ficheFilter === 'all' ? 'active' : ''}" style="${ficheFilter === 'all' ? 'background:#1e293b' : ''}" data-filter="all">Tous les blocs</button>` +
     PROGRAMME.map(b => `
       <button class="tab-btn ${ficheFilter === b.id ? 'active' : ''}"
         style="${ficheFilter === b.id ? `background:${BLOCS[b.id].color}` : ''}"
@@ -1074,12 +1089,10 @@ function renderFiches() {
     `).join('')
 
   tabs.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      ficheFilter = btn.dataset.filter
-      renderFiches()
-    })
+    btn.addEventListener('click', () => { ficheFilter = btn.dataset.filter; renderFiches() })
   })
 
+  // ── Seed ──────────────────────────────────────────────
   const seedZone = document.getElementById('fiche-seed-zone')
   const hasBloc0 = allFiches.some(f => f.bloc === 'bloc0')
   if (seedZone) {
@@ -1089,26 +1102,81 @@ function renderFiches() {
     if (seedBtn) seedBtn.addEventListener('click', importFichesBloc0)
   }
 
-  const list = document.getElementById('fiche-list')
+  const list  = document.getElementById('fiche-list')
   const empty = document.getElementById('fiche-empty')
-  const filtered = ficheFilter === 'all' ? allFiches : allFiches.filter(f => f.bloc === ficheFilter)
+  const filtered = ficheFilter === 'all'
+    ? allFiches
+    : allFiches.filter(f => f.bloc === ficheFilter)
 
-  list.innerHTML = ''
   empty.classList.toggle('hidden', filtered.length > 0)
+  if (!filtered.length) { list.innerHTML = ''; return }
 
-  filtered.forEach(fiche => {
-    const card = document.createElement('div')
-    card.className = 'fiche-card'
-    card.innerHTML = `
-      <div>${blocBadge(fiche.bloc)}${fiche.topic ? `<span style="font-size:.8rem;color:var(--muted);margin-left:8px">${fiche.topic}</span>` : ''}</div>
-      <div class="fiche-card-title">${fiche.title || '(Sans titre)'}</div>
-      ${fiche.summary ? `<div class="fiche-card-summary">${fiche.summary}</div>` : ''}
-      ${fiche.code_example ? '<div class="fiche-has-code">💻 Contient un exemple de code</div>' : ''}
-    `
-    card.addEventListener('click', () => showFicheRead(fiche))
-    list.appendChild(card)
-  })
+  // ── Grouper : si "Tous" → par bloc puis par thème
+  //              sinon → par thème directement ──────────
+  if (ficheFilter === 'all') {
+    // Groupe par bloc
+    const byBloc = {}
+    filtered.forEach(f => {
+      const k = f.bloc || 'autre'
+      ;(byBloc[k] = byBloc[k] || []).push(f)
+    })
+    list.innerHTML = Object.entries(byBloc).map(([bId, fiches]) => {
+      const bl = BLOCS[bId] || { label: bId, color: '#64748b' }
+      return `
+        <div class="fiche-bloc-section">
+          <div class="fiche-bloc-divider" style="border-color:${bl.color}">
+            <span class="fiche-bloc-divider-label" style="background:${bl.color}">${bl.label}</span>
+          </div>
+          ${renderFichesByTheme(fiches, false)}
+        </div>`
+    }).join('')
+  } else {
+    list.innerHTML = renderFichesByTheme(filtered, true)
+  }
 }
+
+function renderFichesByTheme(fiches, showJourPerCard) {
+  // Grouper par thème (topic), conserver l'ordre d'insertion (created_at asc)
+  const groups = new Map()
+  fiches.forEach(f => {
+    const key = f.topic || '(Sans thème)'
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key).push(f)
+  })
+
+  return [...groups.entries()].map(([topic, group]) => {
+    // Jour du premier élément du groupe
+    const jour = jourLabel(group[0].created_at)
+    const cards = group.map(f => {
+      const j = showJourPerCard ? '' :
+        `<span class="fiche-card-jour">${jourLabel(f.created_at)}</span>`
+      return `
+        <div class="fiche-card" data-id="${f.id}">
+          ${j}
+          <div class="fiche-card-title">${escapeHtml(f.title || '(Sans titre)')}</div>
+          ${f.summary ? `<div class="fiche-card-summary">${escapeHtml(f.summary.slice(0, 120))}${f.summary.length > 120 ? '…' : ''}</div>` : ''}
+          ${f.code_example ? '<div class="fiche-has-code">💻 Code</div>' : ''}
+        </div>`
+    }).join('')
+
+    return `
+      <div class="fiche-theme-group">
+        <div class="fiche-theme-header">
+          <span class="fiche-theme-label">${escapeHtml(topic)}</span>
+          <span class="fiche-theme-jour">${escapeHtml(jour)}</span>
+        </div>
+        <div class="fiche-theme-cards">${cards}</div>
+      </div>`
+  }).join('')
+}
+
+// Délégation de clic sur les cartes (après innerHTML)
+document.getElementById('fiche-list').addEventListener('click', e => {
+  const card = e.target.closest('.fiche-card[data-id]')
+  if (!card) return
+  const fiche = allFiches.find(f => f.id === card.dataset.id)
+  if (fiche) showFicheRead(fiche)
+})
 
 function escapeHtml(s) {
   return String(s ?? '')
