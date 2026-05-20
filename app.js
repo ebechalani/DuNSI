@@ -706,9 +706,242 @@ function navigate(view) {
   if (view === 'dashboard')   renderDashboard()
   else if (view === 'programme')  renderProgramme()
   else if (view === 'fiches')     renderFiches()
+  else if (view === 'tp')         renderTPs()
   else if (view === 'journal')    renderJournal()
   else if (view === 'eval')       renderEval()
   else if (view === 'ressources') renderRessources()
+}
+
+// ── Données TP ───────────────────────────────────────────
+const TPS = [
+  {
+    id: 'memo-s2', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
+    title: 'Mémo — Commandes de la séance 2 (Linux, Shell, Scripts)',
+    type: 'memo',
+    intro: 'DIU NSI | Linux | Séance 2 — Commandes avancées & scripts bash',
+    table: [
+      { cmd: 'grep',        synt: 'grep [opts] motif fichier',          desc: '-i insensible casse  -n numéro ligne  -c compter  -v inverser  -r récursif' },
+      { cmd: 'sort',        synt: 'sort [-t délim] [-k col] [-n] [-r]', desc: '-t délimiteur  -k colonne  -n numérique  -r décroissant' },
+      { cmd: 'uniq',        synt: 'uniq [-c]  (après sort)',            desc: 'Supprime les doublons consécutifs.  -c : compter les occurrences' },
+      { cmd: 'wc',          synt: 'wc [-l] [-w] [-c] fichier',          desc: '-l lignes  -w mots  -c caractères' },
+      { cmd: 'cut',         synt: 'cut -d délim -f col fichier',        desc: "-d ',' -f 1,3 : extraire colonnes 1 et 3 d'un CSV" },
+      { cmd: '|',           synt: 'cmd1 | cmd2',                        desc: 'Pipe : sortie de cmd1 → entrée de cmd2' },
+      { cmd: '>',           synt: 'cmd > fichier',                      desc: 'Redirige stdout vers fichier (écrase)' },
+      { cmd: '>>',          synt: 'cmd >> fichier',                     desc: 'Ajoute stdout à la fin du fichier' },
+      { cmd: '2>',          synt: 'cmd 2> erreurs.log',                 desc: 'Redirige stderr (erreurs) vers un fichier' },
+      { cmd: 'export',      synt: 'export VAR=valeur',                  desc: "Exporte une variable d'environnement" },
+      { cmd: '$VAR',        synt: 'echo $VAR',                          desc: "Utiliser la valeur d'une variable" },
+      { cmd: '#!/bin/bash', synt: 'Première ligne d\'un script',        desc: 'Shebang : indique l\'interpréteur bash' },
+      { cmd: 'if/then/fi',  synt: 'if [ cond ]; then ... fi',          desc: 'Condition bash. Espaces obligatoires dans [ ]' },
+      { cmd: 'for',         synt: 'for X in a b c; do ... done',        desc: 'Boucle sur une liste de valeurs' },
+      { cmd: 'chmod +x',    synt: 'chmod +x script.sh',                 desc: 'Rendre un script exécutable' },
+    ]
+  },
+  {
+    id: 'tp5', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
+    title: 'TP 5 — Filtres de texte',
+    type: 'tp',
+    intro: 'Tous les exercices utilisent le fichier eleves.csv. Vérifiez sa présence :',
+    setup: `$ cd ~/NSI_projet
+$ cat data/eleves.csv`,
+    setupCreate: `$ cat > data/eleves.csv << 'EOF'
+nom,prenom,classe,note_maths,note_info
+Dupont,Alice,1NSI1,15,18
+Martin,Bob,1NSI2,12,14
+Bernard,Clara,1NSI1,17,16
+Thomas,David,1NSI2,9,11
+Leroy,Emma,1NSI1,14,19
+Petit,Felix,1NSI2,11,13
+Grand,Gina,1NSI1,16,15
+Morin,Hugo,1NSI2,8,10
+EOF`,
+    steps: [
+      {
+        num: '5.1', title: 'grep : rechercher dans un fichier',
+        code: `$ grep 'Alice' data/eleves.csv
+$ grep '1NSI1' data/eleves.csv
+$ grep -i 'dupont' data/eleves.csv    # Insensible à la casse
+$ grep -n '1NSI2' data/eleves.csv     # Avec numéro de ligne
+$ grep -c '1NSI1' data/eleves.csv     # Compter les occurrences
+$ grep -v 'nom' data/eleves.csv       # Exclure les lignes contenant 'nom'`,
+        questions: [
+          "Combien d'élèves sont en 1NSI1 ? Quelle commande avez-vous utilisée ?",
+          "Que fait grep -v 'nom' ? À quoi ça sert ici ?"
+        ]
+      },
+      {
+        num: '5.2', title: 'sort : trier',
+        code: `$ sort data/eleves.csv
+$ sort -t',' -k5 -n data/eleves.csv    # Trier par note_info (col 5), numérique
+$ sort -t',' -k5 -nr data/eleves.csv   # Ordre décroissant
+$ sort -t',' -k4 -n data/eleves.csv    # Trier par note_maths (col 4)`,
+        questions: [
+          "Quel élève a la meilleure note en info ? En maths ? Notez les commandes utilisées."
+        ]
+      },
+      {
+        num: '5.3', title: 'cut, uniq, wc',
+        code: `$ cut -d',' -f1,2 data/eleves.csv        # Extraire nom et prénom
+$ cut -d',' -f3 data/eleves.csv         # Extraire la classe
+$ cut -d',' -f3 data/eleves.csv | sort | uniq      # Classes uniques
+$ cut -d',' -f3 data/eleves.csv | sort | uniq -c   # Avec comptage
+$ wc -l data/eleves.csv`,
+        note: 'uniq ne fonctionne que sur des données triées : uniq supprime les doublons consécutifs uniquement. Si les données ne sont pas triées, les doublons non adjacents ne sont pas détectés. C\'est la même notion de pré-condition qu\'en algorithmique NSI : la recherche dichotomique nécessite une liste triée.',
+        questions: [
+          "Pourquoi faut-il faire sort AVANT uniq ? Que se passe-t-il si on ne trie pas ?",
+          "Combien y a-t-il d'élèves par classe ? Construire le pipeline complet."
+        ]
+      }
+    ]
+  },
+  {
+    id: 'tp6', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
+    title: 'TP 6 — Pipes et redirections',
+    type: 'tp',
+    steps: [
+      {
+        num: '6.1', title: 'Le pipe | : chaîner les commandes',
+        intro: 'Le pipe envoie la sortie d\'une commande vers l\'entrée de la suivante.',
+        code: `# Filtrer 1NSI1 puis trier par note info décroissante
+$ grep '1NSI1' data/eleves.csv | sort -t',' -k5 -nr
+
+# Top 3 meilleures notes info (toutes classes)
+$ grep -v 'nom' data/eleves.csv | sort -t',' -k5 -nr | head -3
+
+# Nombre d'élèves par classe
+$ cut -d',' -f3 data/eleves.csv | grep -v 'classe' | sort | uniq -c`,
+        note: 'Le pipe | = composition de fonctions : grep | sort | uniq correspond en Python à list(set(sorted(filter(lambda x: …, data)))). Chaque commande fait une chose simple, la puissance vient de la composition. C\'est le principe Unix : des outils simples combinés font des tâches complexes.',
+        questions: [
+          "Construisez un pipeline pour afficher uniquement les noms et prénoms des élèves de 1NSI2, triés alphabétiquement."
+        ]
+      },
+      {
+        num: '6.2', title: 'Redirections : sauvegarder les résultats',
+        code: `# Sauvegarder dans un nouveau fichier (écrase si existant)
+$ grep '1NSI1' data/eleves.csv > data/classe_1NSI1.csv
+$ cat data/classe_1NSI1.csv
+
+# Ajouter à la fin sans écraser
+$ grep '1NSI2' data/eleves.csv >> data/classe_1NSI1.csv
+$ wc -l data/classe_1NSI1.csv
+
+# Rediriger les erreurs
+$ cat fichier_inexistant.csv 2> data/erreurs.log
+$ cat data/erreurs.log`,
+        questions: [
+          "Que contient data/classe_1NSI1.csv après les deux commandes ? Pourquoi ?"
+        ]
+      },
+      {
+        num: '6.3', title: 'Exercice intégré : pipeline de rapport',
+        intro: 'Construisez un pipeline complet qui génère un rapport classant les élèves de 1NSI1 par note info décroissante, sauvegardé dans data/rapport.txt :',
+        code: `# Étape 1 : créer l'en-tête
+$ echo '=== Classement 1NSI1 ===' > data/rapport.txt
+
+# Étape 2 : compléter avec les données triées (à vous !)
+$ grep _____ data/eleves.csv | grep -v _____ | sort _____ | cut _____ >> data/rapport.txt
+
+# Étape 3 : vérifier
+$ cat data/rapport.txt`,
+        questions: [
+          "Complétez et expliquez chaque partie du pipeline ci-dessus."
+        ]
+      }
+    ]
+  }
+]
+
+// ── Rendu TP ─────────────────────────────────────────────
+function renderTPs() {
+  // Tabs par bloc
+  const blocs = [...new Set(TPS.map(t => t.bloc))]
+  const tabsEl = document.getElementById('tp-bloc-tabs')
+  const listEl = document.getElementById('tp-list')
+
+  let activeBloc = blocs[0]
+  function renderList() {
+    const filtered = TPS.filter(t => t.bloc === activeBloc)
+    listEl.innerHTML = filtered.map(tp => renderTPCard(tp)).join('')
+  }
+
+  tabsEl.innerHTML = blocs.map(b => {
+    const bl = BLOCS[b] || { short: b }
+    return `<button class="tab-btn ${b === activeBloc ? 'active' : ''}" data-bloc="${b}">${bl.short}</button>`
+  }).join('')
+  tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeBloc = btn.dataset.bloc
+      tabsEl.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.bloc === activeBloc))
+      renderList()
+    })
+  })
+  renderList()
+}
+
+function renderTPCard(tp) {
+  const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
+  const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
+
+  if (tp.type === 'memo') {
+    const rows = tp.table.map(r => `
+      <tr>
+        <td class="tp-cmd-cell"><code>${escapeHtml(r.cmd)}</code></td>
+        <td class="tp-synt-cell"><code>${escapeHtml(r.synt)}</code></td>
+        <td class="tp-desc-cell">${escapeHtml(r.desc)}</td>
+      </tr>`).join('')
+    return `
+    <div class="tp-card">
+      <div class="tp-card-header">
+        <span class="tp-type-badge" style="background:${typeColor}">${typeLabel}</span>
+        <span class="tp-jour">${escapeHtml(tp.jour)}</span>
+      </div>
+      <h3 class="tp-card-title">${escapeHtml(tp.title)}</h3>
+      <p class="tp-intro">${escapeHtml(tp.intro)}</p>
+      <div class="tp-table-wrap">
+        <table class="tp-cmd-table">
+          <thead><tr><th>Commande</th><th>Syntaxe</th><th>Description</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`
+  }
+
+  // TP type
+  const stepsHtml = tp.steps.map(step => {
+    const introHtml  = step.intro ? `<p class="tp-step-intro">${escapeHtml(step.intro)}</p>` : ''
+    const noteHtml   = step.note  ? `<div class="tp-note">${escapeHtml(step.note)}</div>` : ''
+    const questHtml  = step.questions ? step.questions.map(q =>
+      `<p class="tp-question"><em>${escapeHtml(q)}</em></p>`).join('') : ''
+    return `
+    <div class="tp-step">
+      <div class="tp-step-header">
+        <span class="tp-step-num">${escapeHtml(step.num)}</span>
+        <span class="tp-step-title">${escapeHtml(step.title)}</span>
+      </div>
+      ${introHtml}
+      <pre class="doc-code">${escapeHtml(step.code)}</pre>
+      ${noteHtml}
+      ${questHtml}
+    </div>`
+  }).join('')
+
+  const setupHtml = tp.setup ? `
+    <div class="tp-setup">
+      <p class="tp-intro">${escapeHtml(tp.intro || '')}</p>
+      <pre class="doc-code">${escapeHtml(tp.setup)}</pre>
+      ${tp.setupCreate ? `<p class="tp-intro" style="margin-top:8px">Si le fichier est absent, recréez-le :</p><pre class="doc-code">${escapeHtml(tp.setupCreate)}</pre>` : ''}
+    </div>` : (tp.intro ? `<p class="tp-intro">${escapeHtml(tp.intro)}</p>` : '')
+
+  return `
+  <div class="tp-card">
+    <div class="tp-card-header">
+      <span class="tp-type-badge" style="background:${typeColor}">${typeLabel}</span>
+      <span class="tp-jour">${escapeHtml(tp.jour)}</span>
+    </div>
+    <h3 class="tp-card-title">${escapeHtml(tp.title)}</h3>
+    ${setupHtml}
+    ${stepsHtml}
+  </div>`
 }
 
 // ── Helpers ──────────────────────────────────────────────

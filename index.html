@@ -14,6 +14,7 @@
     <button class="nav-item active" data-view="dashboard"><span>🏠</span> Accueil</button>
     <button class="nav-item" data-view="programme"><span>📋</span> Programme</button>
     <button class="nav-item" data-view="fiches"><span>📝</span> Fiches</button>
+    <button class="nav-item" data-view="tp"><span>🧪</span> TP</button>
     <button class="nav-item" data-view="journal"><span>📅</span> Journal</button>
     <button class="nav-item" data-view="eval"><span>🎯</span> Évaluation</button>
     <button class="nav-item" data-view="ressources"><span>🔗</span> Ressources</button>
@@ -111,6 +112,14 @@
           <button id="btn-fiche-delete" class="btn-danger">Supprimer</button>
         </div>
       </div>
+    </section>
+
+    <!-- TP -->
+    <section id="view-tp" class="hidden">
+      <h2 class="page-title">Travaux pratiques</h2>
+      <p class="page-desc">Les fiches TP de chaque séance — énoncés, exercices et corrigés indicatifs.</p>
+      <div class="bloc-tabs" id="tp-bloc-tabs"></div>
+      <div id="tp-list"></div>
     </section>
 
     <!-- Journal list -->
@@ -268,6 +277,6 @@
   </div><!-- .content -->
 
   <div id="toast"></div>
-  <script type="module" src="app.js?v=20260520c"></script>
+  <script type="module" src="app.js?v=20260520d"></script>
 </body>
 </html>
