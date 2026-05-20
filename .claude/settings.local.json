@@ -29,7 +29,8 @@
       "Bash(python check2.py)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR-ERREUR'\\)\")"
     ]
   }
 }
