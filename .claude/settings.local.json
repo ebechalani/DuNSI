@@ -17,7 +17,12 @@
       "PowerShell(Get-NetTCPConnection -LocalPort 5500 -State Listen -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force; \"killed PID $\\($_.OwningProcess\\)\" })",
       "Bash(curl -s http://127.0.0.1:5500/app.js)",
       "Bash(curl -s http://127.0.0.1:5500/index.html)",
-      "Bash(cd /c/Users/PC/Downloads && ls -la *.pdf *.sdocx 2>/dev/null | grep -iE 'programme|consigne|presentation|paradigme|bloc 0|jour1|jour 1' )"
+      "Bash(cd /c/Users/PC/Downloads && ls -la *.pdf *.sdocx 2>/dev/null | grep -iE 'programme|consigne|presentation|paradigme|bloc 0|jour1|jour 1' )",
+      "Read(//g/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Le Havre/Jour2 Unix+shell/Support du cours/**)",
+      "Bash(python -c \"import sys;print\\('pages?'\\)\")",
+      "Bash(python _organise_jour2.py)",
+      "Bash(rm -f _organise_jour2.py)",
+      "Bash(python _insert_jour2.py)"
     ]
   }
 }
