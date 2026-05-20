@@ -976,24 +976,21 @@ $ env | less`,
       {
         num: '4.3', title: 'Premier script bash',
         code: `$ cd ~/NSI_projet/scripts
-$ cat > bonjour.sh << 'EOF'
+$ cat > bonjour.sh << 'FIN'
 #!/bin/bash
-# Mon premier script bash
-# Usage: ./bonjour.sh [nom]
+# Mon premier script bash — Usage: ./bonjour.sh [nom]
 
-NOM=\${1:-"Monde"}   # Argument 1, ou "Monde" par défaut
+# Argument 1, ou "Monde" par défaut :
+NOM="Monde"
+if [ -n "$1" ]; then NOM="$1"; fi
 
 echo "Bonjour, $NOM !"
-echo "Nous sommes le : $(date +%d/%m/%Y)"
 echo "Répertoire courant : $PWD"
 echo "Nombre de fichiers dans data/ :"
 ls ~/NSI_projet/data/ | wc -l
-EOF
+FIN
 
-# Rendre le script exécutable
-$ chmod +x bonjour.sh
-
-# Exécuter
+$ chmod +x bonjour.sh   # rendre exécutable
 $ ./bonjour.sh
 $ ./bonjour.sh "NSI Le Havre"`,
         note: 'Le shebang #!/bin/bash en première ligne indique à Linux quel interpréteur utiliser. Sans chmod +x, le fichier est du texte — Linux ne sait pas qu\'il faut l\'exécuter. La notation ${ 1:-défaut } est une valeur par défaut si l\'argument n\'est pas fourni.',
