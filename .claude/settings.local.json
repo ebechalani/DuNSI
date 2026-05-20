@@ -25,7 +25,11 @@
       "Bash(python _insert_jour2.py)",
       "Bash(node --input-type=module)",
       "PowerShell(node -e \"require\\('fs'\\).readFileSync\\('C:/Users/PC/Documents/GitHub/DuNSI/app.js','utf8'\\)\" 2>&1)",
-      "Bash(grep -n \"NOM=\\\\|Monde\\\\|\\\\\\\\\\\\$\")"
+      "Bash(grep -n \"NOM=\\\\|Monde\\\\|\\\\\\\\\\\\$\")",
+      "Bash(python check2.py)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
