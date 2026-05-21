@@ -43,7 +43,12 @@
       "Bash(python update_fiche.py)",
       "Bash(rm update_fiche.py)",
       "Bash(python upload_nb.py)",
-      "Bash(rm upload_nb.py)"
+      "Bash(rm upload_nb.py)",
+      "Bash(grep -c '\\\\${' app.js)",
+      "Bash(sed -n '1543,1900p' app.js)",
+      "Bash(grep -n '\\\\\\\\\\\\\\\\')",
+      "Bash(python insert_fiches.py)",
+      "Bash(rm insert_fiches.py)"
     ]
   }
 }
