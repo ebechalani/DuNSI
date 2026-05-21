@@ -2445,22 +2445,26 @@ function renderFiches() {
     return
   }
 
-  // ── Mode BLOC ─────────────────────────────────────────
-  const filtered = ficheFilter === 'all'
+  // ── Mode BLOC (trié par date de création croissante) ──
+  const byDate = (a, b) => (a.created_at || '').localeCompare(b.created_at || '')
+  const filtered = (ficheFilter === 'all'
     ? allFiches
-    : allFiches.filter(f => f.bloc === ficheFilter)
+    : allFiches.filter(f => f.bloc === ficheFilter)).slice().sort(byDate)
 
   empty.classList.toggle('hidden', filtered.length > 0)
   if (!filtered.length) { list.innerHTML = ''; return }
 
   if (ficheFilter === 'all') {
-    // Groupe par bloc puis par thème
+    // Groupe par bloc (ordre du programme) puis par thème, dates croissantes
     const byBloc = {}
     filtered.forEach(f => {
       const k = f.bloc || 'autre'
       ;(byBloc[k] = byBloc[k] || []).push(f)
     })
-    list.innerHTML = Object.entries(byBloc).map(([bId, fiches]) => {
+    const blocOrder = PROGRAMME.map(b => b.id)
+    const entries = Object.entries(byBloc).sort(
+      (a, b) => (blocOrder.indexOf(a[0]) + 1 || 99) - (blocOrder.indexOf(b[0]) + 1 || 99))
+    list.innerHTML = entries.map(([bId, fiches]) => {
       const bl = BLOCS[bId] || { label: bId, color: '#64748b' }
       return `
         <div class="fiche-bloc-section">
@@ -2486,16 +2490,18 @@ function ficheCategorie(topic) {
 }
 
 function renderFichesByTheme(fiches, showJourPerCard, showBloc) {
-  // Grouper par thème (topic), conserver l'ordre d'insertion (created_at asc)
+  // Trier par date de création croissante avant de grouper par thème
+  const byDate = (a, b) => (a.created_at || '').localeCompare(b.created_at || '')
+  const sorted = fiches.slice().sort(byDate)
   const groups = new Map()
-  fiches.forEach(f => {
+  sorted.forEach(f => {
     const key = f.topic || '(Sans thème)'
     if (!groups.has(key)) groups.set(key, [])
     groups.get(key).push(f)
   })
 
   return [...groups.entries()].map(([topic, group]) => {
-    // Jour du premier élément du groupe
+    // Jour du premier élément du groupe (le plus ancien)
     const jour = jourLabel(group[0].created_at)
     const cards = group.map(f => {
       const j = showJourPerCard ? '' :
