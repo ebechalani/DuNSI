@@ -54,7 +54,8 @@
       "Bash(python reformat_python.py)",
       "Bash(rm reformat_python.py)",
       "Bash(python aerer.py)",
-      "Bash(rm aerer.py)"
+      "Bash(rm aerer.py)",
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\)\")"
     ]
   }
 }
