@@ -672,6 +672,7 @@ let selectedMood  = ''
 let currentJournalId = null
 let currentFicheId   = null
 let ficheFilter   = 'all'
+let ficheGroupMode = 'bloc'   // 'bloc' | 'theme'
 let currentView   = 'dashboard'
 
 // ── Supabase helpers ─────────────────────────────────────
@@ -2375,19 +2376,38 @@ function jourLabel(isoTs) {
 }
 
 function renderFiches() {
-  // ── Tabs ──────────────────────────────────────────────
-  const tabs = document.getElementById('fiche-tabs')
-  tabs.innerHTML =
-    `<button class="tab-btn ${ficheFilter === 'all' ? 'active' : ''}" style="${ficheFilter === 'all' ? 'background:#1e293b' : ''}" data-filter="all">Tous les blocs</button>` +
-    PROGRAMME.map(b => `
-      <button class="tab-btn ${ficheFilter === b.id ? 'active' : ''}"
-        style="${ficheFilter === b.id ? `background:${BLOCS[b.id].color}` : ''}"
-        data-filter="${b.id}">${BLOCS[b.id].short}</button>
-    `).join('')
+  // ── Sélecteur Par bloc / Par thème (branché une fois) ──
+  const toggle = document.getElementById('fiche-group-toggle')
+  if (toggle && !toggle.dataset.bound) {
+    toggle.querySelectorAll('.tp-group-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        ficheGroupMode = b.dataset.fgroup
+        toggle.querySelectorAll('.tp-group-btn').forEach(x =>
+          x.classList.toggle('active', x.dataset.fgroup === ficheGroupMode))
+        renderFiches()
+      })
+    })
+    toggle.dataset.bound = '1'
+  }
 
-  tabs.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => { ficheFilter = btn.dataset.filter; renderFiches() })
-  })
+  // ── Onglets blocs (masqués en mode thème) ─────────────
+  const tabs = document.getElementById('fiche-tabs')
+  if (ficheGroupMode === 'theme') {
+    tabs.innerHTML = ''
+    tabs.classList.add('hidden')
+  } else {
+    tabs.classList.remove('hidden')
+    tabs.innerHTML =
+      `<button class="tab-btn ${ficheFilter === 'all' ? 'active' : ''}" style="${ficheFilter === 'all' ? 'background:#1e293b' : ''}" data-filter="all">Tous les blocs</button>` +
+      PROGRAMME.map(b => `
+        <button class="tab-btn ${ficheFilter === b.id ? 'active' : ''}"
+          style="${ficheFilter === b.id ? `background:${BLOCS[b.id].color}` : ''}"
+          data-filter="${b.id}">${BLOCS[b.id].short}</button>
+      `).join('')
+    tabs.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => { ficheFilter = btn.dataset.filter; renderFiches() })
+    })
+  }
 
   // ── Seed ──────────────────────────────────────────────
   const seedZone = document.getElementById('fiche-seed-zone')
@@ -2401,6 +2421,15 @@ function renderFiches() {
 
   const list  = document.getElementById('fiche-list')
   const empty = document.getElementById('fiche-empty')
+
+  // ── Mode THÈME : toutes les fiches groupées par thème (badge bloc par carte)
+  if (ficheGroupMode === 'theme') {
+    empty.classList.toggle('hidden', allFiches.length > 0)
+    list.innerHTML = allFiches.length ? renderFichesByTheme(allFiches, true, true) : ''
+    return
+  }
+
+  // ── Mode BLOC ─────────────────────────────────────────
   const filtered = ficheFilter === 'all'
     ? allFiches
     : allFiches.filter(f => f.bloc === ficheFilter)
@@ -2408,10 +2437,8 @@ function renderFiches() {
   empty.classList.toggle('hidden', filtered.length > 0)
   if (!filtered.length) { list.innerHTML = ''; return }
 
-  // ── Grouper : si "Tous" → par bloc puis par thème
-  //              sinon → par thème directement ──────────
   if (ficheFilter === 'all') {
-    // Groupe par bloc
+    // Groupe par bloc puis par thème
     const byBloc = {}
     filtered.forEach(f => {
       const k = f.bloc || 'autre'
@@ -2432,7 +2459,7 @@ function renderFiches() {
   }
 }
 
-function renderFichesByTheme(fiches, showJourPerCard) {
+function renderFichesByTheme(fiches, showJourPerCard, showBloc) {
   // Grouper par thème (topic), conserver l'ordre d'insertion (created_at asc)
   const groups = new Map()
   fiches.forEach(f => {
@@ -2447,9 +2474,10 @@ function renderFichesByTheme(fiches, showJourPerCard) {
     const cards = group.map(f => {
       const j = showJourPerCard ? '' :
         `<span class="fiche-card-jour">${jourLabel(f.created_at)}</span>`
+      const b = showBloc ? blocBadge(f.bloc) : ''
       return `
         <div class="fiche-card" data-id="${f.id}">
-          ${j}
+          ${j}${b}
           <div class="fiche-card-title">${escapeHtml(f.title || '(Sans titre)')}</div>
           ${f.summary ? `<div class="fiche-card-summary">${escapeHtml(f.summary.slice(0, 120))}${f.summary.length > 120 ? '…' : ''}</div>` : ''}
           ${f.code_example ? '<div class="fiche-has-code">💻 Code</div>' : ''}
