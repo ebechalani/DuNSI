@@ -280,6 +280,18 @@ body {
   white-space: nowrap;
 }
 
+/* Catégorie macro (mode "Par thème" : Python, Linux & Shell…) */
+.fiche-cat-section { margin-bottom: 40px; }
+.fiche-cat-divider { margin: 0 0 20px; }
+.fiche-cat-label {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 7px;
+}
+
 .fiche-theme-group { margin-bottom: 24px; }
 
 .fiche-theme-header {
@@ -534,6 +546,22 @@ textarea { resize: vertical; }
   word-wrap: break-word;
 }
 .doc-body.lead { font-size: 1.08rem; color: var(--text); }
+
+/* Prose de cours avec titres de section mis en évidence */
+.doc-prose { font-size: 1rem; line-height: 1.72; color: #2b3648; }
+.doc-para {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0 0 12px;
+}
+.doc-prose .doc-para:last-child { margin-bottom: 0; }
+.doc-subheading {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.04rem;
+  margin: 20px 0 8px;
+}
+.doc-prose > .doc-subheading:first-child { margin-top: 0; }
 
 .doc-code {
   background: #0f172a;

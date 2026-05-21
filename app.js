@@ -2422,10 +2422,26 @@ function renderFiches() {
   const list  = document.getElementById('fiche-list')
   const empty = document.getElementById('fiche-empty')
 
-  // ── Mode THÈME : toutes les fiches groupées par thème (badge bloc par carte)
+  // ── Mode THÈME : catégorie macro (Python, Linux…) → sous-thèmes dedans
   if (ficheGroupMode === 'theme') {
     empty.classList.toggle('hidden', allFiches.length > 0)
-    list.innerHTML = allFiches.length ? renderFichesByTheme(allFiches, true, true) : ''
+    if (!allFiches.length) { list.innerHTML = ''; return }
+    const cats = new Map()
+    allFiches.forEach(f => {
+      const c = ficheCategorie(f.topic)
+      if (!cats.has(c)) cats.set(c, [])
+      cats.get(c).push(f)
+    })
+    const order = ['Python', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
+    const ordered = [...cats.keys()].sort((a, b) => {
+      const ia = order.indexOf(a), ib = order.indexOf(b)
+      return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
+    })
+    list.innerHTML = ordered.map(cat => `
+      <div class="fiche-cat-section">
+        <div class="fiche-cat-divider"><span class="fiche-cat-label">${escapeHtml(cat)}</span></div>
+        ${renderFichesByTheme(cats.get(cat), true, true)}
+      </div>`).join('')
     return
   }
 
@@ -2457,6 +2473,16 @@ function renderFiches() {
   } else {
     list.innerHTML = renderFichesByTheme(filtered, true)
   }
+}
+
+// Catégorie macro d'un thème (pour le regroupement "Par thème")
+function ficheCategorie(topic) {
+  const t = (topic || '').toLowerCase()
+  if (t.startsWith('python')) return 'Python'
+  if (/(linux|shell|bash|unix|exploitation)/.test(t)) return 'Linux & Shell'
+  if (/(paradigme|fonctionnel|impératif|imperatif)/.test(t)) return 'Paradigmes de programmation'
+  if (/(compilation|interpr|fondements)/.test(t)) return 'Concepts généraux'
+  return 'Programmation — notions de base'
 }
 
 function renderFichesByTheme(fiches, showJourPerCard, showBloc) {
@@ -2509,6 +2535,20 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 }
 
+// Met en forme un texte de cours : titres de section (1) …, Exercice…, Étape…) en évidence
+function formatProse(text) {
+  return String(text).split(/\n{2,}/).map(block => {
+    const lines = block.split('\n')
+    const first = lines[0].trim()
+    if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
+      const rest = lines.slice(1).join('\n').trim()
+      return `<p class="doc-subheading">${escapeHtml(first)}</p>` +
+             (rest ? `<p class="doc-para">${escapeHtml(rest)}</p>` : '')
+    }
+    return `<p class="doc-para">${escapeHtml(block)}</p>`
+  }).join('')
+}
+
 function showFicheRead(fiche) {
   showView('fiche-read')
   currentFicheId = fiche.id
@@ -2518,8 +2558,10 @@ function showFicheRead(fiche) {
       return `<div class="doc-section"><div class="doc-label">${label}</div>` +
              `<pre class="doc-code">${escapeHtml(body)}</pre></div>`
     }
-    return `<div class="doc-section"><div class="doc-label">${label}</div>` +
-           `<div class="doc-body${opts.lead ? ' lead' : ''}">${escapeHtml(body)}</div></div>`
+    const inner = opts.lead
+      ? `<div class="doc-body lead">${escapeHtml(body)}</div>`
+      : `<div class="doc-prose">${formatProse(body)}</div>`
+    return `<div class="doc-section"><div class="doc-label">${label}</div>${inner}</div>`
   }
   const parts = [
     sec('Résumé', fiche.summary, { lead: true }),
