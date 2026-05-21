@@ -38,7 +38,8 @@
       "Bash(rm upload_res.py)",
       "Bash(python chk.py)",
       "Bash(python up_nb.py)",
-      "Bash(rm up_nb.py)"
+      "Bash(rm up_nb.py)",
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\(n,'pair' if n%2==0 else 'IMPAIR'\\)\")"
     ]
   }
 }
