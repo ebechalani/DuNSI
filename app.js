@@ -1539,6 +1539,341 @@ print(2 + 3)`,
         ]
       }
     ]
+  },
+  // ── Python · Séance 2 ──────────────────────────────────
+  {
+    id: 'pys2', bloc: 'bloc0', jour: 'Python — Séance 2', theme: 'Python — fonctions & structures de données',
+    notebook: 'Python_S2_notebook_etudiant.ipynb',
+    title: 'Python · Séance 2 — Fonctions et structures de données',
+    type: 'tp',
+    intro: 'Fonctions, portée, listes, tuples, dictionnaires et compréhensions. Le notebook interactif (bouton ⚡ Basthon) contient tous les exercices à compléter et exécuter.',
+    steps: [
+      {
+        num: '1', title: 'Fonctions : def, return, paramètres par défaut, portée',
+        code: `def carre(n):
+    """Retourne le carré de n."""
+    return n * n
+
+# Paramètre par défaut + expression conditionnelle
+def mention(note, seuil=10):
+    return 'Admis' if note >= seuil else 'Ajourné'
+
+print(mention(14))                 # Admis (seuil par défaut = 10)
+print(mention(14, 15))             # Ajourné
+print(mention(note=14, seuil=12))  # arguments nommés
+
+# Renvoyer plusieurs valeurs (un tuple)
+def statistiques(notes):
+    return min(notes), max(notes), sum(notes) / len(notes)
+
+mini, maxi, moy = statistiques([12, 15, 8, 17, 11])
+
+# Portée : une variable créée dans une fonction est LOCALE
+def calcul():
+    x = 42
+    return x
+# print(x)  ->  NameError : x n'existe pas en dehors de calcul()`,
+        questions: [
+          "Que vaut carre(carre(3)) ?",
+          "Que se passe-t-il si on écrit print(x) en dehors de la fonction calcul() ?"
+        ],
+        correction: [
+          "carre(3) = 9, puis carre(9) = 81. Une fonction peut prendre en argument le résultat d'une autre.",
+          "NameError : x est une variable LOCALE à calcul(), elle n'existe pas à l'extérieur. C'est la notion de portée (scope) : ce qui est défini dans une fonction y reste confiné. On note aussi le paramètre par défaut (seuil=10), les arguments nommés, la docstring entre triples guillemets, et le renvoi de plusieurs valeurs sous forme de tuple."
+        ]
+      },
+      {
+        num: '2', title: 'Listes : indexation, slicing, méthodes, copie vs référence',
+        code: `notes = [12, 15, 8, 17, 11, 14]
+notes[0]      # 12  (premier)
+notes[-1]     # 14  (dernier)
+notes[1:4]    # [15, 8, 17]  (slicing : indices 1 à 3, le 4 est exclu)
+notes[::-1]   # liste inversée
+notes[::2]    # un élément sur deux
+
+# Méthodes qui MODIFIENT la liste sur place
+notes.append(20)   # ajoute à la fin
+notes.sort()       # trie sur place
+
+# Copie vs référence (le PIÈGE classique)
+a = [1, 2, 3]
+b = a           # b et a désignent la MÊME liste
+b.append(99)    # ... donc a est modifiée aussi !
+c = a.copy()    # c est une VRAIE copie indépendante`,
+        questions: [
+          "Prédis notes[2:5] et notes[::2] sur [12, 15, 8, 17, 11, 14].",
+          "Quelle est la différence entre b = a et c = a.copy() ?"
+        ],
+        correction: [
+          "notes[2:5] → [8, 17, 11] (indices 2, 3, 4 ; le 5 est exclu). notes[::2] → [12, 8, 11] (un élément sur deux).",
+          "b = a copie seulement la RÉFÉRENCE : a et b pointent vers la même liste en mémoire, donc modifier l'une modifie l'autre. c = a.copy() crée une nouvelle liste indépendante. C'est la distinction fondamentale entre une référence partagée et une vraie copie d'un objet mutable.",
+          "Exercice analyser_classe(notes) : return {'min': min(notes), 'max': max(notes), 'moyenne': sum(notes)/len(notes), 'nb_admis': len([n for n in notes if n >= 10])}."
+        ]
+      },
+      {
+        num: '3', title: 'Tuples et dictionnaires',
+        code: `# Tuple : séquence NON modifiable (immuable)
+coord = (48.8566, 2.3522)
+lat, lon = coord          # déballage (unpacking)
+# coord[0] = 0  ->  TypeError : un tuple ne se modifie pas
+
+# Dictionnaire : couples clé -> valeur
+eleve = {'nom': 'Dupont', 'prenom': 'Alice', 'note_info': 18}
+eleve['nom']                       # 'Dupont' (accès par clé)
+eleve.get('age', 'Non renseigné')  # valeur par défaut si la clé est absente
+eleve['classe'] = '1NSI1'          # ajout d'une clé
+for cle, val in eleve.items():     # parcours clé / valeur
+    print(cle, ':', val)`,
+        questions: [
+          "Quand préfère-t-on un tuple à une liste ?"
+        ],
+        correction: [
+          "On choisit un tuple quand les données ne doivent PAS changer (coordonnées GPS, date, point fixe) : l'immuabilité protège des modifications accidentelles et permet d'utiliser le tuple comme clé de dictionnaire. La liste sert quand le contenu évolue (ajouts, tris).",
+          "Le dictionnaire associe des clés à des valeurs ; .get(cle, defaut) évite une erreur si la clé manque ; .items() parcourt les couples (clé, valeur)."
+        ]
+      },
+      {
+        num: '4', title: 'Compréhensions de liste et de dictionnaire',
+        code: `notes = [12, 15, 8, 17, 11, 14, 6]
+carres = [n**2 for n in notes]            # transformer
+admis  = [n for n in notes if n >= 10]    # filtrer
+pct    = [round(n/20*100, 1) for n in notes]
+
+# Compréhension de dictionnaire + zip()
+noms = ['Alice', 'Bob', 'Clara']
+vals = [15, 12, 17]
+dico = {nom: note for nom, note in zip(noms, vals)}
+# {'Alice': 15, 'Bob': 12, 'Clara': 17}`,
+        questions: [
+          "Exercice final : à partir d'une liste de dicts élèves (nom, maths, info), écris (1) la liste des noms admis en info, (2) la moyenne en info, (3) le dict {nom: moyenne maths-info}."
+        ],
+        correction: [
+          "(1) [e['nom'] for e in classe if e['info'] >= 10]. (2) sum(e['info'] for e in classe) / len(classe). (3) {e['nom']: (e['maths'] + e['info']) / 2 for e in classe}. Une compréhension remplace élégamment une boucle for + append : [expression for élément in itérable if condition]."
+        ]
+      }
+    ]
+  },
+  // ── Python · Séance 3 ──────────────────────────────────
+  {
+    id: 'pys3', bloc: 'bloc0', jour: 'Python — Séance 3', theme: 'Python — algorithmique & fichiers',
+    notebook: 'Python_S3_notebook_etudiant.ipynb',
+    title: 'Python · Séance 3 — Algorithmique et fichiers',
+    type: 'tp',
+    intro: 'Tris, recherches, récursivité et fichiers CSV. À exécuter pas à pas dans le notebook (⚡ Basthon).',
+    steps: [
+      {
+        num: '1', title: 'Algorithmes de tri (sélection, insertion)',
+        code: `def tri_selection(lst):
+    """Tri par sélection — O(n²)."""
+    lst = lst.copy()
+    n = len(lst)
+    for i in range(n - 1):
+        idx_min = i
+        for j in range(i + 1, n):
+            if lst[j] < lst[idx_min]:
+                idx_min = j
+        lst[i], lst[idx_min] = lst[idx_min], lst[i]   # échange
+    return lst
+
+def tri_insertion(lst):
+    """Tri par insertion — O(n²)."""
+    lst = lst.copy()
+    for i in range(1, len(lst)):
+        cle = lst[i]
+        j = i - 1
+        while j >= 0 and lst[j] > cle:
+            lst[j + 1] = lst[j]
+            j -= 1
+        lst[j + 1] = cle
+    return lst
+
+print(sorted([12, 15, 8, 17]))   # Timsort intégré de Python — O(n log n)`,
+        questions: [
+          "Lequel des deux tris préfères-tu enseigner, et pourquoi ?",
+          "Quelle est la précondition implicite du tri par insertion à chaque étape ?"
+        ],
+        correction: [
+          "Le tri par insertion est souvent privilégié en classe : il est intuitif (comme ranger des cartes dans sa main) et reste rapide sur une liste presque triée. Les deux sont en O(n²), donc lents sur de grandes listes — d'où l'usage de sorted() (Timsort, O(n log n)) en pratique.",
+          "À chaque étape, toute la partie située AVANT l'indice i est déjà triée : l'algorithme insère le nouvel élément à sa place dans cette portion triée. Les deux fonctions renvoient une nouvelle liste (grâce à lst.copy()) sans modifier l'originale."
+        ]
+      },
+      {
+        num: '2', title: 'Recherche séquentielle et dichotomique',
+        code: `def recherche_sequentielle(lst, valeur):
+    """Recherche linéaire — O(n)."""
+    for i, v in enumerate(lst):
+        if v == valeur:
+            return i
+    return -1
+
+def recherche_dichotomique(lst, valeur):
+    """Recherche dichotomique — O(log n). Liste TRIÉE obligatoire."""
+    gauche, droite = 0, len(lst) - 1
+    while gauche <= droite:
+        milieu = (gauche + droite) // 2
+        if lst[milieu] == valeur:
+            return milieu
+        elif lst[milieu] < valeur:
+            gauche = milieu + 1
+        else:
+            droite = milieu - 1
+    return -1`,
+        questions: [
+          "Pourquoi la dichotomique donne-t-elle un résultat faux sur une liste non triée ?",
+          "Sur 1000 éléments, combien de comparaisons au maximum pour chaque méthode ?"
+        ],
+        correction: [
+          "La dichotomique suppose la liste triée : elle compare au milieu et élimine une moitié. Si la liste n'est pas triée, l'hypothèse « tout ce qui est à gauche est plus petit » est fausse — elle peut éliminer la moitié qui contient la valeur et renvoyer -1 à tort. C'est la même pré-condition « liste triée » qu'on a vue avec uniq en shell.",
+          "Séquentielle : jusqu'à 1000 comparaisons (O(n)). Dichotomique : environ 10 comparaisons car log₂(1000) ≈ 10 (O(log n)). C'est tout l'intérêt de trier d'abord."
+        ]
+      },
+      {
+        num: '3', title: 'Récursivité (factorielle, Fibonacci)',
+        code: `def factorielle(n):
+    """n! récursivement."""
+    if n <= 1:                 # cas de base — OBLIGATOIRE
+        return 1
+    return n * factorielle(n - 1)
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+# Version itérative (rapide)
+def fibonacci_iter(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a`,
+        questions: [
+          "Déroule à la main factorielle(4) en écrivant chaque appel et son retour.",
+          "Pourquoi la version récursive de Fibonacci est-elle très lente ?"
+        ],
+        correction: [
+          "factorielle(4) = 4 × factorielle(3) = 4 × (3 × factorielle(2)) = 4 × 3 × (2 × factorielle(1)) = 4 × 3 × 2 × 1 = 24. Chaque appel attend le résultat du suivant ; le cas de base (n <= 1) arrête la descente.",
+          "fibonacci récursif recalcule sans cesse les mêmes valeurs : fibonacci(5) appelle fibonacci(4) ET fibonacci(3), qui rappellent fibonacci(3), fibonacci(2)… Le nombre d'appels explose (exponentiel, de l'ordre de 2ⁿ). La version itérative ne calcule chaque terme qu'une seule fois (linéaire)."
+        ]
+      },
+      {
+        num: '4', title: 'Fichiers CSV (lecture / écriture)',
+        code: `import csv
+
+# Lire un CSV en liste de dictionnaires
+def lire_csv(chemin):
+    with open(chemin, newline='', encoding='utf-8') as f:
+        return list(csv.DictReader(f))
+
+eleves = lire_csv('eleves.csv')   # chaque élève est un dict
+
+# Traiter : moyenne info, nombre d'admis
+notes_info = [int(e['note_info']) for e in eleves]
+moyenne = sum(notes_info) / len(notes_info)
+admis = [e for e in eleves if int(e['note_info']) >= 10]
+
+# Écrire un CSV depuis une liste de dicts
+def ecrire_csv(chemin, lignes, champs):
+    with open(chemin, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=champs, extrasaction='ignore')
+        writer.writeheader()
+        writer.writerows(lignes)`,
+        questions: [
+          "Pourquoi convertir e['note_info'] avec int() avant de calculer ?",
+          "Quel est le rôle de DictReader et DictWriter ?"
+        ],
+        correction: [
+          "Un fichier CSV ne contient que du TEXTE : csv.DictReader renvoie toutes les valeurs en chaîne ('18'). Pour calculer (somme, moyenne, comparaison >= 10) il faut les convertir en int (ou float). Sans conversion, on compare des chaînes et les résultats sont faux.",
+          "DictReader lit chaque ligne du CSV comme un dictionnaire dont les clés sont les en-têtes de colonnes. DictWriter fait l'inverse : writeheader() écrit la ligne d'en-tête, writerows() écrit la liste de dicts."
+        ]
+      }
+    ]
+  },
+  // ── Python · Séance 4 ──────────────────────────────────
+  {
+    id: 'pys4', bloc: 'bloc0', jour: 'Python — Séance 4', theme: 'Python — projet intégré',
+    notebook: 'Python_S4_notebook_etudiant.ipynb',
+    title: 'Python · Séance 4 — Projet intégré : Gestionnaire de notes NSI',
+    type: 'tp',
+    intro: 'Projet récapitulatif : lire un CSV, calculer des statistiques, afficher, trier/modifier, exporter. On développe une fonction à la fois et on la teste avec assert. Le notebook (⚡ Basthon) contient les tests automatiques.',
+    steps: [
+      {
+        num: '1', title: 'Lecture du fichier',
+        code: `def lire_notes(chemin):
+    """Lit le CSV et retourne une liste de dicts."""
+    # à compléter
+    pass
+
+eleves = lire_notes('eleves.csv')
+assert isinstance(eleves, list)
+assert len(eleves) > 0
+assert 'nom' in eleves[0]`,
+        questions: [ "Complète lire_notes(chemin)." ],
+        correction: [
+          "import csv ; with open(chemin, newline='', encoding='utf-8') as f: return list(csv.DictReader(f)). On réutilise exactement la lecture CSV de la séance 3."
+        ]
+      },
+      {
+        num: '2', title: 'Statistiques (min, max, moyenne, écart-type)',
+        code: `import math
+
+def statistiques(eleves, matiere):
+    notes = [float(e[matiere]) for e in eleves]
+    # à compléter : min, max, moyenne, écart-type
+    pass`,
+        questions: [ "Complète statistiques() pour renvoyer (min, max, moyenne, écart-type)." ],
+        correction: [
+          "mini = min(notes) ; maxi = max(notes) ; moy = sum(notes)/len(notes) ; ecart_type = math.sqrt(sum((n - moy)**2 for n in notes)/len(notes)) ; return mini, maxi, moy, ecart_type. L'écart-type mesure la dispersion des notes autour de la moyenne."
+        ]
+      },
+      {
+        num: '3', title: 'Affichage aligné (bulletin)',
+        code: `def afficher_bulletin(eleves):
+    print(f"{'Nom':<12} {'Prenom':<10} {'Maths':>6} {'Info':>6}")
+    print('-' * 38)
+    for e in eleves:
+        # à compléter : afficher chaque élève aligné
+        pass`,
+        questions: [ "Complète la boucle pour afficher chaque élève en colonnes alignées." ],
+        correction: [
+          "Afficher chaque élève avec des formats d'alignement : le nom sur 12 caractères à gauche (format :<12), le prénom sur 10 à gauche (:<10), chaque note sur 6 à droite (:>6). C'est exactement la même logique de formatage que le :2d vu en séance 1, appliquée à l'alignement de colonnes."
+        ]
+      },
+      {
+        num: '4', title: 'Tri et modification',
+        code: `def trier_par_note(eleves, matiere, decroissant=True):
+    # à compléter : sorted() avec une clé
+    pass
+
+def ajouter_note(eleves, nom, prenom, matiere, note):
+    """Modifie la note d'un élève. Retourne True si trouvé."""
+    # à compléter
+    pass`,
+        questions: [ "Complète trier_par_note() et ajouter_note()." ],
+        correction: [
+          "trier_par_note : return sorted(eleves, key=lambda e: float(e[matiere]), reverse=decroissant) — key=lambda trie sur un critère calculé. ajouter_note : parcourir les élèves ; si e['nom'] == nom et e['prenom'] == prenom alors e[matiere] = str(note) et return True ; si aucun ne correspond, return False à la fin."
+        ]
+      },
+      {
+        num: '5', title: 'Session de débogage',
+        code: `# Bug 1
+def stat_erronee(eleves, matiere):
+    notes = [e[matiere] for e in eleves]   # bug ici
+    return sum(notes) / len(notes)
+
+# Bug 2
+def tri_bugge(eleves, matiere):
+    eleves.sort(key=lambda e: float(e[matiere]))
+    return eleves`,
+        questions: [
+          "Bug 1 : quel est le problème et comment le corriger ?",
+          "Bug 2 : quel est l'effet de bord, et quand pose-t-il problème ?"
+        ],
+        correction: [
+          "Bug 1 : les notes sont des chaînes (le CSV est du texte), or sum() ne peut pas additionner des str → TypeError. Correction : notes = [float(e[matiere]) for e in eleves].",
+          "Bug 2 : eleves.sort() trie la liste REÇUE sur place — la liste passée en argument est modifiée à l'insu de l'appelant (effet de bord). C'est problématique si l'appelant comptait garder l'ordre d'origine. Solution : return sorted(eleves, key=...) qui renvoie une nouvelle liste sans toucher l'originale (fonction pure)."
+        ]
+      }
+    ]
   }
 ]
 

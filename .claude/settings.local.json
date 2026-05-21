@@ -41,7 +41,9 @@
       "Bash(rm up_nb.py)",
       "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\(n,'pair' if n%2==0 else 'IMPAIR'\\)\")",
       "Bash(python update_fiche.py)",
-      "Bash(rm update_fiche.py)"
+      "Bash(rm update_fiche.py)",
+      "Bash(python upload_nb.py)",
+      "Bash(rm upload_nb.py)"
     ]
   }
 }
