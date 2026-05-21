@@ -1999,7 +1999,7 @@ function renderTPs() {
     })
     indexList.dataset.bound = '1'
   }
-  const toggle = document.querySelector('.tp-group-toggle')
+  const toggle = document.querySelector('#view-tp .tp-group-toggle')
   if (toggle && !toggle.dataset.bound) {
     toggle.querySelectorAll('.tp-group-btn').forEach(b => {
       b.addEventListener('click', () => {
