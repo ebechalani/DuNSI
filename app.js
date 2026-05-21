@@ -1207,6 +1207,338 @@ $ cat data/rapport.txt`,
         ]
       }
     ]
+  },
+  // ── Python · TP 1 ──────────────────────────────────────
+  {
+    id: 'pytp1', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    title: 'Python · TP 1 — Variables et types',
+    type: 'tp',
+    intro: 'Notebook Python (Séance 1). Exécute chaque cellule avec Ctrl+Entrée. Les cellules « # À vous ! » sont des exercices à compléter.',
+    steps: [
+      {
+        num: '1.1', title: 'Les 4 types fondamentaux',
+        code: `# Les 4 types de base
+age     = 17        # int   — entier
+moyenne = 13.5      # float — décimal
+prenom  = 'Alice'   # str   — chaîne de caractères
+admis   = True      # bool  — booléen
+print(type(age), type(moyenne), type(prenom), type(admis))
+
+# Typage dynamique : une variable peut changer de type
+x = 42
+print(x, type(x))
+x = 'maintenant une chaîne'
+print(x, type(x))
+
+# Surprise : bool est un sous-type de int !
+print(True + True)    # ?
+print(True == 1)      # ?
+print(False == 0)`,
+        questions: [
+          "Que renvoie True + True ? Pourquoi ?",
+          "Qu'est-ce que cela révèle sur le type bool en Python ?"
+        ],
+        correction: [
+          "True + True renvoie 2. En Python, bool est un sous-type de int : True vaut 1 et False vaut 0. L'addition de deux booléens se fait donc comme une addition d'entiers (1 + 1 = 2).",
+          "Cela révèle que les booléens sont des entiers déguisés : True == 1 et False == 0 sont vrais. On peut ainsi compter des conditions vraies en additionnant des booléens."
+        ]
+      },
+      {
+        num: '1.2', title: 'Opérateurs',
+        code: `# Arithmétiques
+print(17 + 5, 17 - 5, 17 * 5)
+print(17 / 5)    # division — TOUJOURS un float !
+print(17 // 5)   # division entière (quotient)
+print(17 % 5)    # modulo (reste)
+print(2 ** 10)   # puissance
+
+# Comparaison et logiques
+print(17 == 17, 17 != 10, 17 >= 17)
+print(True and False, True or False, not True)
+
+# Erreur classique : = (affectation) vs == (comparaison)
+# if age = 17:   ->  SyntaxError ! il faut ==`,
+        questions: [
+          "Quelle est la différence entre 17/5 et 17//5 ? Dans quel algorithme NSI utilise-t-on // et % ?",
+          "Explique la différence entre = et ==."
+        ],
+        correction: [
+          "17/5 = 3.4 (division réelle, renvoie toujours un float). 17//5 = 3 (division entière, le quotient). On utilise // et % dans la division euclidienne, le test de parité (n % 2 == 0), l'extraction des chiffres d'un nombre, les conversions de base, ou le chiffrement (modulo).",
+          "= est l'affectation : elle donne une valeur à une variable (age = 17). == est la comparaison : elle teste l'égalité et renvoie un booléen. Confondre les deux dans un if provoque une SyntaxError."
+        ]
+      },
+      {
+        num: '1.3', title: 'Conversions de types',
+        code: `print(int(3.9))     # troncature ou arrondi ?
+print(int(3.1))
+print(float(17))
+print(str(42))
+print(int('42'))
+
+# Conversion impossible
+try:
+    int('bonjour')
+except ValueError as e:
+    print(f'ValueError : {e}')`,
+        questions: [
+          "int(3.9) fait-il un arrondi ou une troncature ? Comment le prouver ?"
+        ],
+        correction: [
+          "int(3.9) renvoie 3 : c'est une TRONCATURE (on enlève la partie décimale), pas un arrondi. Preuve : un arrondi donnerait 4. Pour arrondir réellement, on utilise round(3.9) qui donne 4."
+        ]
+      },
+      {
+        num: '1.4', title: 'Exercice — calculatrice de moyenne',
+        code: `# Complète ce programme :
+note1 = ___   # choisis une note
+note2 = ___
+note3 = ___
+moyenne = ___  # formule de la moyenne
+print(f'Votre moyenne est : {moyenne:.2f}')
+print(f'Meilleure note   : {max(note1, note2, note3)}')`,
+        questions: [
+          "Complète les quatre blancs."
+        ],
+        correction: [
+          "note1 = 15 ; note2 = 12 ; note3 = 18 ; moyenne = (note1 + note2 + note3) / 3. La moyenne s'affiche 15.00 (le :.2f impose 2 décimales) et la meilleure note 18."
+        ]
+      }
+    ]
+  },
+  // ── Python · TP 2 ──────────────────────────────────────
+  {
+    id: 'pytp2', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    title: 'Python · TP 2 — Entrées / sorties',
+    type: 'tp',
+    intro: 'input() retourne TOUJOURS une chaîne (str) — ne jamais l\'oublier !',
+    steps: [
+      {
+        num: '2.1', title: 'input() et f-strings',
+        code: `# input() retourne toujours une str
+prenom = input('Quel est ton prénom ? ')
+print(f'Bonjour {prenom} !')
+print(type(prenom))
+
+# Erreur classique : oublier de convertir
+# age = input('Âge ? ')   # '17' (str)
+# print(age + 10)         # TypeError !
+
+# Bonne pratique : convertir tout de suite
+age = int(input('Quel est ton âge ? '))
+print(f'Dans 10 ans, tu auras {age + 10} ans.')
+
+# f-strings et formatage
+note = 16.567
+print(f'{note:.1f}')   # 1 décimale
+print(f'{note:.2f}')   # 2 décimales
+print(f'{note:.0f}')   # arrondi entier`,
+        questions: [
+          "Que signifie :.2f dans une f-string ?",
+          "Pourquoi print(age + 10) provoque-t-il une TypeError si age vient de input() ?"
+        ],
+        correction: [
+          ":.2f formate un nombre à virgule (f = float) avec 2 chiffres après la virgule. Ex. 16.567 devient 16.57. :.0f arrondit à l'entier (17).",
+          "input() renvoie une str : age contient '17' (texte), pas 17 (nombre). '17' + 10 mélange chaîne et entier → TypeError. Solution : age = int(input(...)) pour convertir tout de suite."
+        ]
+      },
+      {
+        num: '2.2', title: 'Exercice complet',
+        code: `# Écris un programme qui :
+# 1. Demande le prénom et l'âge
+# 2. Affiche 'Bonjour [prénom], tu as [âge] ans.'
+# 3. Affiche le nombre d'années avant la majorité (jamais négatif)
+prenom = ___
+age    = ___
+print(___)
+print(f'Tu seras majeur(e) dans {max(0, 18 - age)} an(s).')`,
+        questions: [
+          "Complète le programme."
+        ],
+        correction: [
+          "prenom = input('Prénom ? ') ; age = int(input('Âge ? ')) ; print(f'Bonjour {prenom}, tu as {age} ans.'). Le max(0, 18 - age) garantit qu'on n'affiche jamais un nombre négatif d'années (si l'élève est déjà majeur, on obtient 0)."
+        ]
+      }
+    ]
+  },
+  // ── Python · TP 3 ──────────────────────────────────────
+  {
+    id: 'pytp3', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    title: 'Python · TP 3 — Conditions',
+    type: 'tp',
+    intro: 'L\'indentation (4 espaces) est syntaxiquement OBLIGATOIRE en Python : elle délimite les blocs.',
+    steps: [
+      {
+        num: '3.1', title: 'if / else et indentation',
+        code: `note = float(input('Note (0-20) : '))
+if note >= 10:
+    print('Admis(e)')      # 4 espaces — obligatoire !
+else:
+    print('Ajourné(e)')
+
+# Sans indentation -> IndentationError :
+# if note >= 10:
+# print('Admis')   # ERREUR`,
+        questions: [
+          "Qu'est-ce qu'une IndentationError ? Pourquoi Python l'impose-t-il ?"
+        ],
+        correction: [
+          "Une IndentationError survient quand le code à l'intérieur d'un bloc (après if:, else:, for:…) n'est pas décalé vers la droite. Python utilise l'indentation (4 espaces) pour délimiter les blocs, là où d'autres langages utilisent des accolades. L'indentation fait donc partie de la syntaxe, elle n'est pas décorative."
+        ]
+      },
+      {
+        num: '3.2', title: 'if / elif / else et ordre des conditions',
+        code: `note = float(input('Note (0-20) : '))
+if note >= 16:
+    mention = 'Très Bien'
+elif note >= 14:
+    mention = 'Bien'
+elif note >= 12:
+    mention = 'Assez Bien'
+elif note >= 10:
+    mention = 'Passable'
+else:
+    mention = 'Ajourné(e)'
+print(mention)
+
+# Piège : ordre inversé avec note = 17
+note = 17
+if note >= 14:    # vrai en premier !
+    mention = 'Bien'
+elif note >= 16:  # jamais atteint
+    mention = 'Très Bien'
+print(mention)    # affiche 'Bien' — problème !`,
+        questions: [
+          "Explique le problème de l'ordre inversé avec note = 17."
+        ],
+        correction: [
+          "Avec note = 17, la première condition note >= 14 est vraie : mention = 'Bien' et Python IGNORE les elif suivants (dès qu'une condition est vraie, le reste est sauté). On n'atteint jamais note >= 16, alors que 17 mérite 'Très Bien'. Il faut ordonner les conditions du plus restrictif (>= 16) au moins restrictif (>= 10)."
+        ]
+      },
+      {
+        num: '3.3', title: 'Exercice — validation de la note',
+        code: `# Refuser une note < 0 ou > 20 AVANT de calculer la mention.
+note = float(input('Note (0-20) : '))
+# TODO :
+# if ___:
+#     print('Note invalide !')
+# else:
+#     ... (calcul de la mention)`,
+        questions: [
+          "Complète la validation."
+        ],
+        correction: [
+          "if note < 0 or note > 20: print('Note invalide !') else: (ici le calcul de la mention). Le or est essentiel : la note est invalide si elle est trop petite OU trop grande. On valide avant de calculer pour éviter une mention absurde sur une note impossible."
+        ]
+      }
+    ]
+  },
+  // ── Python · TP 4 ──────────────────────────────────────
+  {
+    id: 'pytp4', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    title: 'Python · TP 4 — Boucles',
+    type: 'tp',
+    intro: 'Deux boucles : for (nombre de tours connu, avec range()) et while (jusqu\'à ce qu\'une condition change).',
+    steps: [
+      {
+        num: '4.1', title: 'Boucle for avec range()',
+        code: `print(list(range(5)))          # 0 à 4
+print(list(range(1, 6)))       # 1 à 5
+print(list(range(0, 20, 5)))   # 0, 5, 10, 15
+print(list(range(10, 0, -1)))  # 10 à 1 (décroissant)
+
+# Accumulation : somme de 1 à 100
+total = 0
+for i in range(1, 101):
+    total += i
+print(total)                    # 5050
+print(100 * 101 // 2)           # même résultat par la formule`,
+        questions: [
+          "Que produit range(1, 10, 2) ?",
+          "Écris une boucle qui affiche les 10 premiers multiples de 7."
+        ],
+        correction: [
+          "range(1, 10, 2) produit 1, 3, 5, 7, 9 : de 1 (inclus) à 10 (exclu) par pas de 2, donc les impairs jusqu'à 9.",
+          "for i in range(1, 11): print(7 * i)  → affiche 7, 14, 21, … 70. (On peut aussi écrire range(7, 71, 7).)"
+        ]
+      },
+      {
+        num: '4.2', title: 'Boucle while — jeu du nombre deviné',
+        code: `import random
+secret = random.randint(1, 20)
+tentative = 0
+while True:
+    guess = int(input('Devine (1-20) : '))
+    tentative += 1
+    if guess == secret:
+        print(f'Bravo ! Trouvé en {tentative} coup(s).')
+        break
+    elif guess < secret:
+        print('Trop petit')
+    else:
+        print('Trop grand')`,
+        note: 'while True: … break est le motif classique d\'une boucle qui tourne jusqu\'à ce qu\'une condition d\'arrêt soit rencontrée.',
+        questions: [
+          "Que se passe-t-il si on retire le break ?",
+          "Pourquoi while True plutôt que for ici ?"
+        ],
+        correction: [
+          "Sans le break, la condition while True reste vraie indéfiniment : la boucle ne s'arrête jamais (boucle infinie), même après avoir trouvé le secret.",
+          "On ne connaît pas à l'avance le nombre d'essais : il dépend du joueur. for sert quand le nombre de tours est connu (ex. range(1, 11)) ; while sert quand on répète jusqu'à ce qu'une condition change."
+        ]
+      },
+      {
+        num: '4.3', title: 'Exercice — limiter à 5 tentatives',
+        code: `import random
+secret     = random.randint(1, 20)
+tentative  = 0
+MAX_ESSAIS = 5
+while True:
+    restant = ___                       # tentatives restantes
+    print(f'Il reste {restant} essai(s)')
+    guess = int(input('Devine : '))
+    tentative += 1
+    if guess == secret:
+        print(f'Trouvé en {tentative} coup(s) !')
+        break
+    elif ___:                           # plus de tentatives ?
+        print(f'Perdu ! Le secret était {secret}')
+        break
+    elif guess < secret:
+        print('Trop petit')
+    else:
+        print('Trop grand')`,
+        questions: [
+          "Complète les deux blancs."
+        ],
+        correction: [
+          "restant = MAX_ESSAIS - tentative (essais encore disponibles). Condition de fin : elif tentative >= MAX_ESSAIS: (on a épuisé les 5 essais sans trouver → on révèle le secret et on s'arrête avec break)."
+        ]
+      }
+    ]
+  },
+  // ── Python · Bilan ─────────────────────────────────────
+  {
+    id: 'pybilan', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    title: 'Python · Bilan — Quiz de révision',
+    type: 'tp',
+    intro: 'Prédis le résultat de chaque ligne AVANT d\'exécuter, puis vérifie.',
+    steps: [
+      {
+        num: 'Q', title: 'Quiz : prédis la sortie',
+        code: `print(17 // 5)
+print(17 % 5)
+print(type(17 / 5))
+print(list(range(2, 10, 3)))
+print('2' + '3')
+print(2 + 3)`,
+        questions: [
+          "Donne la sortie de chacune des 6 lignes."
+        ],
+        correction: [
+          "17 // 5 → 3 (quotient entier). 17 % 5 → 2 (reste). type(17 / 5) → class float (la division / donne toujours un float). list(range(2, 10, 3)) → [2, 5, 8]. '2' + '3' → '23' (concaténation de chaînes, pas une addition !). 2 + 3 → 5 (addition d'entiers)."
+        ]
+      }
+    ]
   }
 ]
 
