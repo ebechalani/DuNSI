@@ -716,7 +716,7 @@ function navigate(view) {
 const TPS = [
   // ── Mémo Séance 1 ──────────────────────────────────────
   {
-    id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
+    id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',
     title: 'Mémo — Commandes de la séance 1 (Linux, navigation, fichiers)',
     type: 'memo',
     intro: 'DIU NSI | Linux | Séance 1 — Bases du système de fichiers Unix',
@@ -740,7 +740,7 @@ const TPS = [
   },
   // ── TP 1 ───────────────────────────────────────────────
   {
-    id: 'tp1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
+    id: 'tp1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',
     title: 'TP 1 — Premier contact avec Linux',
     type: 'tp',
     intro: 'Objectif : se repérer dans l\'arborescence Linux, créer et naviguer dans des répertoires.',
@@ -808,7 +808,7 @@ $ pwd`,
   },
   // ── TP 2 ───────────────────────────────────────────────
   {
-    id: 'tp2', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
+    id: 'tp2', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',
     title: 'TP 2 — Manipulation de fichiers',
     type: 'tp',
     intro: 'Objectif : créer, copier, déplacer, supprimer des fichiers et comprendre les fichiers cachés.',
@@ -890,7 +890,7 @@ $ rm -r data_sauvegarde/      # Dossier et son contenu`,
   },
   // ── TP 3 ───────────────────────────────────────────────
   {
-    id: 'tp3', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
+    id: 'tp3', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',
     title: 'TP 3 — Processus et première utilisation des pipes',
     type: 'tp',
     intro: 'Objectif : observer les processus en cours, utiliser le manuel et découvrir le pipe |.',
@@ -960,7 +960,7 @@ $ ps aux | grep -v grep | grep bash`,
   },
   // ── TP 4 ───────────────────────────────────────────────
   {
-    id: 'tp4', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
+    id: 'tp4', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',
     title: 'TP 4 — Permissions et premier script bash',
     type: 'tp',
     intro: 'Objectif : comprendre le système de permissions Unix et écrire un premier script bash.',
@@ -1054,7 +1054,7 @@ $ ./bonjour.sh "NSI Le Havre"`,
   },
   // ── Mémo Séance 2 ──────────────────────────────────────
   {
-    id: 'memo-s2', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes',
+    id: 'memo-s2', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes', original: 'Jour 2 tp unix shell avance_260520_174731.pdf',
     title: 'Mémo — Commandes de la séance 2 (Linux, Shell, Scripts)',
     type: 'memo',
     intro: 'DIU NSI | Linux | Séance 2 — Commandes avancées & scripts bash',
@@ -1077,7 +1077,7 @@ $ ./bonjour.sh "NSI Le Havre"`,
     ]
   },
   {
-    id: 'tp5', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes',
+    id: 'tp5', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes', original: 'Jour 2 tp unix shell avance_260520_174731.pdf',
     title: 'TP 5 — Filtres de texte',
     type: 'tp',
     intro: 'Tous les exercices utilisent le fichier eleves.csv. Vérifiez sa présence :',
@@ -1145,7 +1145,7 @@ $ wc -l data/eleves.csv`,
     ]
   },
   {
-    id: 'tp6', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes',
+    id: 'tp6', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes', original: 'Jour 2 tp unix shell avance_260520_174731.pdf',
     title: 'TP 6 — Pipes et redirections',
     type: 'tp',
     steps: [
@@ -2137,13 +2137,16 @@ function renderTPCard(tp) {
   const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
   const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
   let basthonBtn = '', downloadBtn = ''
-  if (tp.notebook) {
-    const res = allRessources.find(r => r.file_name === tp.notebook)
+  const origName = tp.notebook || tp.original
+  if (origName) {
+    const res = allRessources.find(r => r.file_name === origName)
     if (res) {
       const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
       const url = data.publicUrl
-      basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
-      downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${url}?download=${encodeURIComponent(tp.notebook)}" title="Télécharger le notebook original (.ipynb)">⬇ TP original</a>`
+      if (tp.notebook) {
+        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+      }
+      downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${url}?download=${encodeURIComponent(origName)}" title="Télécharger le document original">⬇ TP original</a>`
     }
   }
   const printBtns = `${downloadBtn}${basthonBtn}<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
