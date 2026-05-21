@@ -50,7 +50,9 @@
       "Bash(python insert_fiches.py)",
       "Bash(rm insert_fiches.py)",
       "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\); print\\('download-btn:', c.count\\('tp-download-btn'\\)\\)\")",
-      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\); print\\('original fields:', c.count\\(\\\\\" original: '\\\\\"\\)\\)\")"
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\); print\\('original fields:', c.count\\(\\\\\" original: '\\\\\"\\)\\)\")",
+      "Bash(python reformat_python.py)",
+      "Bash(rm reformat_python.py)"
     ]
   }
 }
