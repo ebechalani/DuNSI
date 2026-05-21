@@ -1210,7 +1210,7 @@ $ cat data/rapport.txt`,
   },
   // ── Python · TP 1 ──────────────────────────────────────
   {
-    id: 'pytp1', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    id: 'pytp1', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 1 — Variables et types',
     type: 'tp',
     intro: 'Notebook Python (Séance 1). Exécute chaque cellule avec Ctrl+Entrée. Les cellules « # À vous ! » sont des exercices à compléter.',
@@ -1307,7 +1307,7 @@ print(f'Meilleure note   : {max(note1, note2, note3)}')`,
   },
   // ── Python · TP 2 ──────────────────────────────────────
   {
-    id: 'pytp2', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    id: 'pytp2', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 2 — Entrées / sorties',
     type: 'tp',
     intro: 'input() retourne TOUJOURS une chaîne (str) — ne jamais l\'oublier !',
@@ -1362,7 +1362,7 @@ print(f'Tu seras majeur(e) dans {max(0, 18 - age)} an(s).')`,
   },
   // ── Python · TP 3 ──────────────────────────────────────
   {
-    id: 'pytp3', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    id: 'pytp3', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 3 — Conditions',
     type: 'tp',
     intro: 'L\'indentation (4 espaces) est syntaxiquement OBLIGATOIRE en Python : elle délimite les blocs.',
@@ -1434,7 +1434,7 @@ note = float(input('Note (0-20) : '))
   },
   // ── Python · TP 4 ──────────────────────────────────────
   {
-    id: 'pytp4', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    id: 'pytp4', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 4 — Boucles',
     type: 'tp',
     intro: 'Deux boucles : for (nombre de tours connu, avec range()) et while (jusqu\'à ce qu\'une condition change).',
@@ -1518,7 +1518,7 @@ while True:
   },
   // ── Python · Bilan ─────────────────────────────────────
   {
-    id: 'pybilan', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026',
+    id: 'pybilan', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · Bilan — Quiz de révision',
     type: 'tp',
     intro: 'Prédis le résultat de chaque ligne AVANT d\'exécuter, puis vérifie.',
@@ -1635,7 +1635,15 @@ function tpMemoTable(tp) {
 function renderTPCard(tp) {
   const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
   const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
-  const printBtns = `<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
+  let basthonBtn = ''
+  if (tp.notebook) {
+    const res = allRessources.find(r => r.file_name === tp.notebook)
+    if (res) {
+      const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
+      basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(data.publicUrl)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+    }
+  }
+  const printBtns = `${basthonBtn}<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
 
   if (tp.type === 'memo') {
     return `
@@ -2332,6 +2340,10 @@ function renderUploadedRessources() {
     const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
     const url = data.publicUrl
     const meta = [r.topic, humanSize(r.file_size)].filter(Boolean).join(' · ')
+    const isNotebook = /\.ipynb$/i.test(r.file_name || '') || (r.file_type || '').includes('ipynb')
+    const basthonBtn = isNotebook
+      ? `<a class="btn-secondary btn-basthon" style="margin:0 0 0 8px;padding:6px 12px;font-size:.8rem" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Basthon</a>`
+      : ''
     return `
       <div class="calendar-row">
         <div class="calendar-dot" style="background:${r.bloc && BLOCS[r.bloc] ? BLOCS[r.bloc].color : 'var(--muted)'}"></div>
@@ -2339,7 +2351,8 @@ function renderUploadedRessources() {
           <div class="calendar-bloc">${fileIcon(r.file_type, r.file_name)} ${r.title || r.file_name || '(Sans titre)'}</div>
           <div class="calendar-dates">${[r.bloc && BLOCS[r.bloc] ? BLOCS[r.bloc].short : '', meta].filter(Boolean).join(' — ')}${r.description ? '<br>' + r.description : ''}</div>
         </div>
-        <a class="btn-secondary" style="margin:0;padding:6px 12px;font-size:.8rem" href="${url}" target="_blank" rel="noopener" download>⬇ Ouvrir</a>
+        ${basthonBtn}
+        <a class="btn-secondary" style="margin:0 0 0 8px;padding:6px 12px;font-size:.8rem" href="${url}" target="_blank" rel="noopener" download>⬇ Ouvrir</a>
         <button class="btn-danger" style="margin-left:8px;padding:6px 12px;font-size:.8rem" data-del-res="${r.id}">🗑</button>
       </div>`
   }).join('') + `</div>`
