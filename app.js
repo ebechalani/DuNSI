@@ -2502,6 +2502,11 @@ document.getElementById('btn-read-edit').addEventListener('click',    () => {
   const f = allFiches.find(x => x.id === currentFicheId)
   if (f) showFicheEdit(f)
 })
+document.getElementById('btn-read-print').addEventListener('click', () => {
+  document.body.classList.add('printing-fiche')
+  window.print()
+})
+window.addEventListener('afterprint', () => document.body.classList.remove('printing-fiche'))
 document.getElementById('btn-fiche-save').addEventListener('click',   saveFiche)
 document.getElementById('btn-fiche-delete').addEventListener('click', deleteFiche)
 

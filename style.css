@@ -1047,6 +1047,23 @@ textarea { resize: vertical; }
   #print-doc-container .tp-step { page-break-inside: avoid; border-top: 1px solid #ddd; padding: 12px 0 4px; }
   #print-doc-container .tp-correction-open { background: #f4fbf6; page-break-inside: avoid; }
   #print-doc-container .tp-cmd-table th { background: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* Impression d'une fiche de cours */
+  body.printing-fiche .sidebar,
+  body.printing-fiche .doc-toolbar { display: none !important; }
+  body.printing-fiche .content { margin: 0 !important; padding: 0 !important; }
+  body.printing-fiche #fiche-doc { box-shadow: none !important; border: none !important; }
+  body.printing-fiche #fiche-doc .doc-code,
+  body.printing-fiche #fiche-doc pre {
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    color: #111;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+  }
+  body.printing-fiche #fiche-doc .doc-section { page-break-inside: avoid; }
+
   @page { margin: 1.5cm; }
 }
 
