@@ -2136,15 +2136,17 @@ function tpMemoTable(tp) {
 function renderTPCard(tp) {
   const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
   const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
-  let basthonBtn = ''
+  let basthonBtn = '', downloadBtn = ''
   if (tp.notebook) {
     const res = allRessources.find(r => r.file_name === tp.notebook)
     if (res) {
       const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
-      basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(data.publicUrl)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+      const url = data.publicUrl
+      basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+      downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${url}?download=${encodeURIComponent(tp.notebook)}" title="Télécharger le notebook original (.ipynb)">⬇ TP original</a>`
     }
   }
-  const printBtns = `${basthonBtn}<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
+  const printBtns = `${downloadBtn}${basthonBtn}<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
 
   if (tp.type === 'memo') {
     return `

@@ -865,6 +865,18 @@ textarea { resize: vertical; }
   background: #fef3c7;
   border-color: #f59e0b;
 }
+/* Bouton télécharger le TP original */
+.tp-download-btn {
+  color: var(--accent);
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  text-decoration: none;
+  display: inline-block;
+}
+.tp-download-btn:hover {
+  background: #dbeafe;
+  border-color: var(--accent);
+}
 
 /* Correction repliable (écran) */
 .tp-correction {
