@@ -1920,7 +1920,12 @@ def statistiques(eleves, matiere):
         pass`,
         questions: [ "Complète la boucle pour afficher chaque élève en colonnes alignées." ],
         correction: [
-          "Afficher chaque élève avec des formats d'alignement : le nom sur 12 caractères à gauche (format :<12), le prénom sur 10 à gauche (:<10), chaque note sur 6 à droite (:>6). C'est exactement la même logique de formatage que le :2d vu en séance 1, appliquée à l'alignement de colonnes."
+          { text: "Solution. Dans la boucle, on réutilise les formats d'alignement de f-string : :<12 aligne à gauche sur 12 caractères, :>6 aligne à droite sur 6. C'est la même logique que le :2d de la séance 1, appliquée à des colonnes." },
+          { code: `def afficher_bulletin(eleves):
+    print(f"{'Nom':<12} {'Prenom':<10} {'Maths':>6} {'Info':>6}")
+    print('-' * 38)
+    for e in eleves:
+        print(f"{e['nom']:<12} {e['prenom']:<10} {e['note_maths']:>6} {e['note_info']:>6}")` }
         ]
       },
       {
@@ -1935,7 +1940,16 @@ def ajouter_note(eleves, nom, prenom, matiere, note):
     pass`,
         questions: [ "Complète trier_par_note() et ajouter_note()." ],
         correction: [
-          "trier_par_note : return sorted(eleves, key=lambda e: float(e[matiere]), reverse=decroissant) — key=lambda trie sur un critère calculé. ajouter_note : parcourir les élèves ; si e['nom'] == nom et e['prenom'] == prenom alors e[matiere] = str(note) et return True ; si aucun ne correspond, return False à la fin."
+          { text: "Solution. sorted() avec key=lambda trie sur un critère calculé (la note convertie en float) ; reverse=True pour l'ordre décroissant. ajouter_note parcourt la liste, modifie la note si l'élève est trouvé et renvoie True, sinon False." },
+          { code: `def trier_par_note(eleves, matiere, decroissant=True):
+    return sorted(eleves, key=lambda e: float(e[matiere]), reverse=decroissant)
+
+def ajouter_note(eleves, nom, prenom, matiere, note):
+    for e in eleves:
+        if e['nom'] == nom and e['prenom'] == prenom:
+            e[matiere] = str(note)
+            return True
+    return False` }
         ]
       },
       {
@@ -1954,8 +1968,13 @@ def tri_bugge(eleves, matiere):
           "Bug 2 : quel est l'effet de bord, et quand pose-t-il problème ?"
         ],
         correction: [
-          "Bug 1 : les notes sont des chaînes (le CSV est du texte), or sum() ne peut pas additionner des str → TypeError. Correction : notes = [float(e[matiere]) for e in eleves].",
-          "Bug 2 : eleves.sort() trie la liste REÇUE sur place — la liste passée en argument est modifiée à l'insu de l'appelant (effet de bord). C'est problématique si l'appelant comptait garder l'ordre d'origine. Solution : return sorted(eleves, key=...) qui renvoie une nouvelle liste sans toucher l'originale (fonction pure)."
+          { text: "Bug 1 — les notes sont des chaînes (le CSV est du texte), or sum() ne peut pas additionner des str → TypeError. Correction : convertir en float." },
+          { code: `def stat_corrigee(eleves, matiere):
+    notes = [float(e[matiere]) for e in eleves]   # conversion !
+    return sum(notes) / len(notes)` },
+          { text: "Bug 2 — eleves.sort() trie la liste REÇUE sur place : la liste passée en argument est modifiée à l'insu de l'appelant (effet de bord). Problème si l'appelant comptait garder l'ordre d'origine. Solution : renvoyer une NOUVELLE liste avec sorted(), sans toucher l'originale (fonction pure)." },
+          { code: `def tri_corrige(eleves, matiere):
+    return sorted(eleves, key=lambda e: float(e[matiere]))` }
         ]
       }
     ]
