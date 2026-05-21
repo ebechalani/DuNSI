@@ -716,7 +716,7 @@ function navigate(view) {
 const TPS = [
   // ── Mémo Séance 1 ──────────────────────────────────────
   {
-    id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
     title: 'Mémo — Commandes de la séance 1 (Linux, navigation, fichiers)',
     type: 'memo',
     intro: 'DIU NSI | Linux | Séance 1 — Bases du système de fichiers Unix',
@@ -740,7 +740,7 @@ const TPS = [
   },
   // ── TP 1 ───────────────────────────────────────────────
   {
-    id: 'tp1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    id: 'tp1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
     title: 'TP 1 — Premier contact avec Linux',
     type: 'tp',
     intro: 'Objectif : se repérer dans l\'arborescence Linux, créer et naviguer dans des répertoires.',
@@ -808,7 +808,7 @@ $ pwd`,
   },
   // ── TP 2 ───────────────────────────────────────────────
   {
-    id: 'tp2', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    id: 'tp2', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
     title: 'TP 2 — Manipulation de fichiers',
     type: 'tp',
     intro: 'Objectif : créer, copier, déplacer, supprimer des fichiers et comprendre les fichiers cachés.',
@@ -890,7 +890,7 @@ $ rm -r data_sauvegarde/      # Dossier et son contenu`,
   },
   // ── TP 3 ───────────────────────────────────────────────
   {
-    id: 'tp3', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    id: 'tp3', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
     title: 'TP 3 — Processus et première utilisation des pipes',
     type: 'tp',
     intro: 'Objectif : observer les processus en cours, utiliser le manuel et découvrir le pipe |.',
@@ -960,7 +960,7 @@ $ ps aux | grep -v grep | grep bash`,
   },
   // ── TP 4 ───────────────────────────────────────────────
   {
-    id: 'tp4', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026',
+    id: 'tp4', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)',
     title: 'TP 4 — Permissions et premier script bash',
     type: 'tp',
     intro: 'Objectif : comprendre le système de permissions Unix et écrire un premier script bash.',
@@ -1054,7 +1054,7 @@ $ ./bonjour.sh "NSI Le Havre"`,
   },
   // ── Mémo Séance 2 ──────────────────────────────────────
   {
-    id: 'memo-s2', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
+    id: 'memo-s2', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes',
     title: 'Mémo — Commandes de la séance 2 (Linux, Shell, Scripts)',
     type: 'memo',
     intro: 'DIU NSI | Linux | Séance 2 — Commandes avancées & scripts bash',
@@ -1077,7 +1077,7 @@ $ ./bonjour.sh "NSI Le Havre"`,
     ]
   },
   {
-    id: 'tp5', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
+    id: 'tp5', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes',
     title: 'TP 5 — Filtres de texte',
     type: 'tp',
     intro: 'Tous les exercices utilisent le fichier eleves.csv. Vérifiez sa présence :',
@@ -1145,7 +1145,7 @@ $ wc -l data/eleves.csv`,
     ]
   },
   {
-    id: 'tp6', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026',
+    id: 'tp6', bloc: 'bloc0', jour: 'Jour 2 — 20 mai 2026', theme: 'Linux — filtres de texte & pipes',
     title: 'TP 6 — Pipes et redirections',
     type: 'tp',
     steps: [
@@ -1210,7 +1210,7 @@ $ cat data/rapport.txt`,
   },
   // ── Python · TP 1 ──────────────────────────────────────
   {
-    id: 'pytp1', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
+    id: 'pytp1', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', theme: 'Python — bases du langage', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 1 — Variables et types',
     type: 'tp',
     intro: 'Notebook Python (Séance 1). Exécute chaque cellule avec Ctrl+Entrée. Les cellules « # À vous ! » sont des exercices à compléter.',
@@ -1307,7 +1307,7 @@ print(f'Meilleure note   : {max(note1, note2, note3)}')`,
   },
   // ── Python · TP 2 ──────────────────────────────────────
   {
-    id: 'pytp2', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
+    id: 'pytp2', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', theme: 'Python — bases du langage', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 2 — Entrées / sorties',
     type: 'tp',
     intro: 'input() retourne TOUJOURS une chaîne (str) — ne jamais l\'oublier !',
@@ -1362,7 +1362,7 @@ print(f'Tu seras majeur(e) dans {max(0, 18 - age)} an(s).')`,
   },
   // ── Python · TP 3 ──────────────────────────────────────
   {
-    id: 'pytp3', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
+    id: 'pytp3', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', theme: 'Python — bases du langage', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 3 — Conditions',
     type: 'tp',
     intro: 'L\'indentation (4 espaces) est syntaxiquement OBLIGATOIRE en Python : elle délimite les blocs.',
@@ -1434,7 +1434,7 @@ note = float(input('Note (0-20) : '))
   },
   // ── Python · TP 4 ──────────────────────────────────────
   {
-    id: 'pytp4', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
+    id: 'pytp4', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', theme: 'Python — bases du langage', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · TP 4 — Boucles',
     type: 'tp',
     intro: 'Deux boucles : for (nombre de tours connu, avec range()) et while (jusqu\'à ce qu\'une condition change).',
@@ -1518,7 +1518,7 @@ while True:
   },
   // ── Python · Bilan ─────────────────────────────────────
   {
-    id: 'pybilan', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
+    id: 'pybilan', bloc: 'bloc0', jour: 'Jour 3 — 21 mai 2026', theme: 'Python — bases du langage', notebook: 'Python_S1_notebook_etudiant_1.ipynb',
     title: 'Python · Bilan — Quiz de révision',
     type: 'tp',
     intro: 'Prédis le résultat de chaque ligne AVANT d\'exécuter, puis vérifie.',
@@ -1543,39 +1543,94 @@ print(2 + 3)`,
 ]
 
 // ── Rendu TP ─────────────────────────────────────────────
+let tpGroupMode = 'jour'   // 'jour' | 'theme'
+
 function renderTPs() {
-  // Tabs par bloc
-  const blocs = [...new Set(TPS.map(t => t.bloc))]
-  const tabsEl = document.getElementById('tp-bloc-tabs')
-  const listEl = document.getElementById('tp-list')
+  // Toujours revenir au menu en entrant dans la vue
+  showTPIndex()
+  renderTPIndex()
 
-  let activeBloc = blocs[0]
-  function renderList() {
-    const filtered = TPS.filter(t => t.bloc === activeBloc)
-    listEl.innerHTML = filtered.map(tp => renderTPCard(tp)).join('')
-  }
-
-  tabsEl.innerHTML = blocs.map(b => {
-    const bl = BLOCS[b] || { short: b }
-    return `<button class="tab-btn ${b === activeBloc ? 'active' : ''}" data-bloc="${b}">${bl.short}</button>`
-  }).join('')
-  tabsEl.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      activeBloc = btn.dataset.bloc
-      tabsEl.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.bloc === activeBloc))
-      renderList()
+  // Branchements (une seule fois)
+  const indexList = document.getElementById('tp-index-list')
+  if (indexList && !indexList.dataset.bound) {
+    indexList.addEventListener('click', e => {
+      const card = e.target.closest('[data-open-tp]')
+      if (card) showTPDetail(card.dataset.openTp)
     })
-  })
-  // Délégation du bouton d'impression (attachée une seule fois)
-  if (!listEl.dataset.printBound) {
-    listEl.addEventListener('click', e => {
+    indexList.dataset.bound = '1'
+  }
+  const toggle = document.querySelector('.tp-group-toggle')
+  if (toggle && !toggle.dataset.bound) {
+    toggle.querySelectorAll('.tp-group-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        tpGroupMode = b.dataset.group
+        toggle.querySelectorAll('.tp-group-btn').forEach(x =>
+          x.classList.toggle('active', x.dataset.group === tpGroupMode))
+        renderTPIndex()
+      })
+    })
+    toggle.dataset.bound = '1'
+  }
+  const detailEl = document.getElementById('tp-detail')
+  if (detailEl && !detailEl.dataset.bound) {
+    document.getElementById('tp-detail-back').addEventListener('click', showTPIndex)
+    // Délégation du bouton d'impression dans le TP ouvert
+    document.getElementById('tp-detail-content').addEventListener('click', e => {
       const btn = e.target.closest('[data-print-tp]')
-      if (!btn) return
-      openPrintPreview(btn.dataset.printTp)
+      if (btn) openPrintPreview(btn.dataset.printTp)
     })
-    listEl.dataset.printBound = '1'
+    detailEl.dataset.bound = '1'
   }
-  renderList()
+}
+
+// Menu : liste des TP groupés par jour ou par thème
+function renderTPIndex() {
+  const listEl = document.getElementById('tp-index-list')
+  if (!listEl) return
+  const keyFn = tpGroupMode === 'theme'
+    ? (t => t.theme || 'Autres')
+    : (t => t.jour || '—')
+  const groups = new Map()
+  TPS.forEach(t => {
+    const k = keyFn(t)
+    if (!groups.has(k)) groups.set(k, [])
+    groups.get(k).push(t)
+  })
+  let html = ''
+  for (const [label, items] of groups) {
+    html += `<div class="tp-index-group">
+      <div class="tp-index-group-label">${escapeHtml(label)}</div>
+      <div class="tp-index-cards">` +
+      items.map(t => {
+        const isMemo = t.type === 'memo'
+        const badge  = isMemo ? 'Mémo' : 'TP'
+        const color  = isMemo ? '#0ea5e9' : '#10b981'
+        const sub    = tpGroupMode === 'theme' ? (t.jour || '') : (t.theme || '')
+        return `<button class="tp-index-card" data-open-tp="${t.id}">
+          <span class="tp-type-badge" style="background:${color}">${badge}</span>
+          <span class="tp-index-card-title">${escapeHtml(t.title)}</span>
+          ${sub ? `<span class="tp-index-card-sub">${escapeHtml(sub)}</span>` : ''}
+          <span class="tp-index-card-arrow">›</span>
+        </button>`
+      }).join('') +
+      `</div></div>`
+  }
+  listEl.innerHTML = html
+}
+
+function showTPIndex() {
+  document.getElementById('tp-detail').classList.add('hidden')
+  document.getElementById('tp-index').classList.remove('hidden')
+  window.scrollTo(0, 0)
+}
+
+function showTPDetail(id) {
+  const tp = TPS.find(t => t.id === id)
+  if (!tp) return
+  document.getElementById('tp-detail-content').innerHTML = renderTPCard(tp)
+  document.getElementById('tp-index').classList.add('hidden')
+  document.getElementById('tp-detail').classList.remove('hidden')
+  window.scrollTo(0, 0)
 }
 
 // Rendu d'une étape de TP. mode : 'screen' | 'enonce' | 'corrige'

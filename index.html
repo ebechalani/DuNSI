@@ -117,9 +117,22 @@
     <!-- TP -->
     <section id="view-tp" class="hidden">
       <h2 class="page-title">Travaux pratiques</h2>
-      <p class="page-desc">Les fiches TP de chaque séance — énoncés, exercices et corrigés indicatifs.</p>
-      <div class="bloc-tabs" id="tp-bloc-tabs"></div>
-      <div id="tp-list"></div>
+      <p class="page-desc">Choisis un TP par jour ou par thème : clique dessus pour l'ouvrir.</p>
+
+      <!-- Menu d'accueil -->
+      <div id="tp-index">
+        <div class="tp-group-toggle">
+          <button class="tp-group-btn active" data-group="jour">📅 Par jour</button>
+          <button class="tp-group-btn" data-group="theme">🏷️ Par thème</button>
+        </div>
+        <div id="tp-index-list"></div>
+      </div>
+
+      <!-- TP ouvert -->
+      <div id="tp-detail" class="hidden">
+        <button class="btn-back" id="tp-detail-back">← Retour aux TP</button>
+        <div id="tp-detail-content"></div>
+      </div>
     </section>
 
     <!-- Journal list -->
@@ -293,6 +306,6 @@
     <div id="print-doc-container"></div>
   </div>
 
-  <script type="module" src="app.js?v=20260521b"></script>
+  <script type="module" src="app.js?v=20260521c"></script>
 </body>
 </html>
