@@ -35,7 +35,10 @@
       "Bash(python insert_fiche.py)",
       "Bash(rm insert_fiche.py)",
       "Bash(python upload_res.py)",
-      "Bash(rm upload_res.py)"
+      "Bash(rm upload_res.py)",
+      "Bash(python chk.py)",
+      "Bash(python up_nb.py)",
+      "Bash(rm up_nb.py)"
     ]
   }
 }
