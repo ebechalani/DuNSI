@@ -1575,11 +1575,30 @@ def calcul():
 # print(x)  ->  NameError : x n'existe pas en dehors de calcul()`,
         questions: [
           "Que vaut carre(carre(3)) ?",
-          "Que se passe-t-il si on écrit print(x) en dehors de la fonction calcul() ?"
+          "Que se passe-t-il si on écrit print(x) en dehors de la fonction calcul() ?",
+          "Exercice : écris statistiques_complete(notes) qui renvoie aussi l'écart-type."
         ],
         correction: [
           "carre(3) = 9, puis carre(9) = 81. Une fonction peut prendre en argument le résultat d'une autre.",
-          "NameError : x est une variable LOCALE à calcul(), elle n'existe pas à l'extérieur. C'est la notion de portée (scope) : ce qui est défini dans une fonction y reste confiné. On note aussi le paramètre par défaut (seuil=10), les arguments nommés, la docstring entre triples guillemets, et le renvoi de plusieurs valeurs sous forme de tuple."
+          "NameError : x est une variable LOCALE à calcul(), elle n'existe pas à l'extérieur. C'est la notion de portée (scope) : ce qui est défini dans une fonction y reste confiné. On note aussi le paramètre par défaut (seuil=10), les arguments nommés, la docstring entre triples guillemets, et le renvoi de plusieurs valeurs sous forme de tuple.",
+          { text: "Exercice statistiques_complete — solution. On calcule la moyenne, puis la VARIANCE (la moyenne des écarts à la moyenne élevés au carré), et l'ÉCART-TYPE = racine carrée de la variance." },
+          { code: `import math
+
+def statistiques_complete(notes):
+    n = len(notes)
+    moyenne = sum(notes) / n
+    variance = sum((x - moyenne) ** 2 for x in notes) / n
+    ecart_type = math.sqrt(variance)
+    return {
+        'moyenne': moyenne,
+        'min': min(notes),
+        'max': max(notes),
+        'ecart_type': ecart_type,
+    }
+
+print(statistiques_complete([12, 15, 8, 17, 11]))
+# moyenne 12.6 | min 8 | max 17 | ecart_type ≈ 3.137` },
+          { text: "Pourquoi ces étapes : (1) la moyenne sert de référence ; (2) on élève chaque écart au carré pour le rendre positif et amplifier les grands écarts ; (3) la variance est la moyenne de ces carrés ; (4) la racine carrée ramène le résultat dans l'unité d'origine (des points). Lecture : un écart-type ≈ 3,14 signifie que les notes s'écartent en moyenne d'environ 3 points autour de la moyenne (12,6). Variante « échantillon » (statistique inférentielle) : diviser la variance par n - 1 au lieu de n." }
         ]
       },
       {
@@ -1607,7 +1626,18 @@ c = a.copy()    # c est une VRAIE copie indépendante`,
         correction: [
           "notes[2:5] → [8, 17, 11] (indices 2, 3, 4 ; le 5 est exclu). notes[::2] → [12, 8, 11] (un élément sur deux).",
           "b = a copie seulement la RÉFÉRENCE : a et b pointent vers la même liste en mémoire, donc modifier l'une modifie l'autre. c = a.copy() crée une nouvelle liste indépendante. C'est la distinction fondamentale entre une référence partagée et une vraie copie d'un objet mutable.",
-          "Exercice analyser_classe(notes) : return {'min': min(notes), 'max': max(notes), 'moyenne': sum(notes)/len(notes), 'nb_admis': len([n for n in notes if n >= 10])}."
+          { text: "Exercice analyser_classe(notes) — solution. On renvoie un dictionnaire avec les statistiques de la classe. nb_admis se calcule en comptant les notes >= 10 avec une compréhension de liste." },
+          { code: `def analyser_classe(notes):
+    return {
+        'min': min(notes),
+        'max': max(notes),
+        'moyenne': sum(notes) / len(notes),
+        'nb_admis': len([n for n in notes if n >= 10]),
+    }
+
+notes = [12, 15, 8, 17, 11, 14, 6, 18, 9, 13]
+print(analyser_classe(notes))
+# {'min': 6, 'max': 18, 'moyenne': 12.3, 'nb_admis': 7}` }
         ]
       },
       {
@@ -1648,7 +1678,26 @@ dico = {nom: note for nom, note in zip(noms, vals)}
           "Exercice final : à partir d'une liste de dicts élèves (nom, maths, info), écris (1) la liste des noms admis en info, (2) la moyenne en info, (3) le dict {nom: moyenne maths-info}."
         ],
         correction: [
-          "(1) [e['nom'] for e in classe if e['info'] >= 10]. (2) sum(e['info'] for e in classe) / len(classe). (3) {e['nom']: (e['maths'] + e['info']) / 2 for e in classe}. Une compréhension remplace élégamment une boucle for + append : [expression for élément in itérable if condition]."
+          { text: "Exercice final — solution. Chaque question se traite avec une compréhension (qui remplace une boucle for + append). Le schéma est toujours : [expression for élément in itérable if condition]." },
+          { code: `classe = [
+    {'nom': 'Alice', 'maths': 15, 'info': 18},
+    {'nom': 'Bob',   'maths': 12, 'info': 14},
+    {'nom': 'Clara', 'maths': 17, 'info': 16},
+    {'nom': 'David', 'maths':  9, 'info': 11},
+]
+
+# 1) noms des admis en info (>= 10)
+admis = [e['nom'] for e in classe if e['info'] >= 10]
+
+# 2) moyenne de la classe en info
+moy_info = sum(e['info'] for e in classe) / len(classe)
+
+# 3) dict {nom: moyenne maths-info}
+moyennes = {e['nom']: (e['maths'] + e['info']) / 2 for e in classe}
+
+print(admis)      # ['Alice', 'Bob', 'Clara', 'David']
+print(moy_info)   # 14.75
+print(moyennes)   # {'Alice': 16.5, 'Bob': 13.0, 'Clara': 16.5, 'David': 10.0}` }
         ]
       }
     ]
@@ -1783,7 +1832,29 @@ def ecrire_csv(chemin, lignes, champs):
         ],
         correction: [
           "Un fichier CSV ne contient que du TEXTE : csv.DictReader renvoie toutes les valeurs en chaîne ('18'). Pour calculer (somme, moyenne, comparaison >= 10) il faut les convertir en int (ou float). Sans conversion, on compare des chaînes et les résultats sont faux.",
-          "DictReader lit chaque ligne du CSV comme un dictionnaire dont les clés sont les en-têtes de colonnes. DictWriter fait l'inverse : writeheader() écrit la ligne d'en-tête, writerows() écrit la liste de dicts."
+          "DictReader lit chaque ligne du CSV comme un dictionnaire dont les clés sont les en-têtes de colonnes. DictWriter fait l'inverse : writeheader() écrit la ligne d'en-tête, writerows() écrit la liste de dicts.",
+          { text: "Exercice complet — lire eleves.csv, calculer la moyenne en info, et écrire les admis (info >= 10) dans admis.csv :" },
+          { code: `import csv
+
+def lire_csv(chemin):
+    with open(chemin, newline='', encoding='utf-8') as f:
+        return list(csv.DictReader(f))
+
+eleves = lire_csv('eleves.csv')
+
+# Moyenne en info (penser à convertir en int !)
+notes = [int(e['note_info']) for e in eleves]
+print(f'Moyenne info : {sum(notes) / len(notes):.2f}')
+
+# Garder les admis puis les écrire dans un nouveau CSV
+admis = [e for e in eleves if int(e['note_info']) >= 10]
+with open('admis.csv', 'w', newline='', encoding='utf-8') as f:
+    writer = csv.DictWriter(f, fieldnames=['nom', 'prenom', 'note_info'],
+                            extrasaction='ignore')
+    writer.writeheader()
+    writer.writerows(admis)
+
+print(len(admis), 'admis écrits dans admis.csv')` }
         ]
       }
     ]
@@ -1809,7 +1880,13 @@ assert len(eleves) > 0
 assert 'nom' in eleves[0]`,
         questions: [ "Complète lire_notes(chemin)." ],
         correction: [
-          "import csv ; with open(chemin, newline='', encoding='utf-8') as f: return list(csv.DictReader(f)). On réutilise exactement la lecture CSV de la séance 3."
+          { text: "Solution. On réutilise exactement la lecture CSV de la séance 3 : DictReader transforme chaque ligne en dictionnaire." },
+          { code: `import csv
+
+def lire_notes(chemin):
+    """Lit le CSV et retourne une liste de dicts."""
+    with open(chemin, newline='', encoding='utf-8') as f:
+        return list(csv.DictReader(f))` }
         ]
       },
       {
@@ -1822,7 +1899,15 @@ def statistiques(eleves, matiere):
     pass`,
         questions: [ "Complète statistiques() pour renvoyer (min, max, moyenne, écart-type)." ],
         correction: [
-          "mini = min(notes) ; maxi = max(notes) ; moy = sum(notes)/len(notes) ; ecart_type = math.sqrt(sum((n - moy)**2 for n in notes)/len(notes)) ; return mini, maxi, moy, ecart_type. L'écart-type mesure la dispersion des notes autour de la moyenne."
+          { text: "Solution. On convertit les notes en float, on calcule la moyenne, puis l'écart-type (racine de la moyenne des écarts au carré). On renvoie un tuple de 4 valeurs." },
+          { code: `import math
+
+def statistiques(eleves, matiere):
+    notes = [float(e[matiere]) for e in eleves]
+    moyenne = sum(notes) / len(notes)
+    ecart_type = math.sqrt(sum((n - moyenne) ** 2 for n in notes) / len(notes))
+    return min(notes), max(notes), moyenne, ecart_type` },
+          { text: "L'écart-type mesure la dispersion des notes autour de la moyenne : plus il est grand, plus les niveaux sont hétérogènes dans la classe." }
         ]
       },
       {
@@ -1976,7 +2061,14 @@ function tpStepHtml(step, mode) {
     `<p class="tp-question"><em>${escapeHtml(q)}</em></p>`).join('') : ''
   let corrHtml = ''
   if (step.correction && step.correction.length) {
-    const items = step.correction.map(c => `<p class="tp-correction-item">${escapeHtml(c)}</p>`).join('')
+    const items = step.correction.map(c => {
+      if (typeof c === 'string') return `<p class="tp-correction-item">${escapeHtml(c)}</p>`
+      // objet { text?, code? }
+      let h = ''
+      if (c.text) h += `<p class="tp-correction-item">${escapeHtml(c.text)}</p>`
+      if (c.code) h += `<pre class="doc-code tp-correction-code">${escapeHtml(c.code)}</pre>`
+      return h
+    }).join('')
     if (mode === 'screen') {
       corrHtml = `<details class="tp-correction"><summary>✅ Afficher la correction</summary><div class="tp-correction-body">${items}</div></details>`
     } else if (mode === 'corrige') {
