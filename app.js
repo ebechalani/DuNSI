@@ -2541,17 +2541,27 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 }
 
-// Met en forme un texte de cours : titres de section (1) …, Exercice…, Étape…) en évidence
+// Met en forme un texte de cours :
+//  - titres de section (1) …, Exercice…, Étape…) mis en évidence
+//  - blocs de code délimités par des triples accents graves rendus en monospace
 function formatProse(text) {
-  return String(text).split(/\n{2,}/).map(block => {
-    const lines = block.split('\n')
-    const first = lines[0].trim()
-    if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
-      const rest = lines.slice(1).join('\n').trim()
-      return `<p class="doc-subheading">${escapeHtml(first)}</p>` +
-             (rest ? `<p class="doc-para">${escapeHtml(rest)}</p>` : '')
+  // segments alternés : prose (pair) / code (impair)
+  return String(text).split('```').map((seg, i) => {
+    if (i % 2 === 1) {
+      return `<pre class="doc-code">${escapeHtml(seg.replace(/^\n+|\n+$/g, ''))}</pre>`
     }
-    return `<p class="doc-para">${escapeHtml(block)}</p>`
+    return seg.split(/\n{2,}/).map(block => {
+      block = block.replace(/^\n+|\n+$/g, '')
+      if (!block.trim()) return ''
+      const lines = block.split('\n')
+      const first = lines[0].trim()
+      if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
+        const rest = lines.slice(1).join('\n').trim()
+        return `<p class="doc-subheading">${escapeHtml(first)}</p>` +
+               (rest ? `<p class="doc-para">${escapeHtml(rest)}</p>` : '')
+      }
+      return `<p class="doc-para">${escapeHtml(block)}</p>`
+    }).join('')
   }).join('')
 }
 
