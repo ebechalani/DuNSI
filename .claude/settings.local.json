@@ -76,7 +76,9 @@
       "Bash(rm new_projets.py)",
       "Bash(python rest_projets.py)",
       "Bash(rm rest_projets.py)",
-      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('template backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\)\")"
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('template backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\)\")",
+      "Bash(python port.py)",
+      "Bash(rm port.py)"
     ]
   }
 }
