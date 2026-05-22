@@ -82,7 +82,9 @@
       "Bash(python csvplot.py)",
       "Bash(rm csvplot.py)",
       "Bash(python img_enrich.py)",
-      "Bash(rm img_enrich.py)"
+      "Bash(rm img_enrich.py)",
+      "Bash(python parcours.py)",
+      "Bash(rm parcours.py)"
     ]
   }
 }
