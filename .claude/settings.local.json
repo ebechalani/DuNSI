@@ -98,7 +98,12 @@
       "Bash(python gen_nb_projets.py)",
       "Bash(rm gen_nb_projets.py)",
       "Bash(python skeleton_nb.py)",
-      "Bash(rm skeleton_nb.py)"
+      "Bash(rm skeleton_nb.py)",
+      "Bash(python lot1_algo.py)",
+      "Bash(python lot2_jeux_crypto.py)",
+      "Bash(python lot3_struct.py)",
+      "Bash(python lot4_graph.py)",
+      "Bash(rm lot1_algo.py lot2_jeux_crypto.py lot3_struct.py lot4_graph.py skel_lib.py)"
     ]
   }
 }
