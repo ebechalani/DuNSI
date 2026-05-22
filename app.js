@@ -1979,6 +1979,102 @@ def tri_bugge(eleves, matiere):
         ]
       }
     ]
+  },
+  // ── Python · Projets (notebook interactif à compléter) ──
+  {
+    id: 'pyprojets', bloc: 'bloc0', jour: 'Python — Projets', theme: 'Python — projets',
+    notebook: 'Python_projets_etudiant.ipynb',
+    title: 'Python · Projets NSI (à compléter)',
+    type: 'tp',
+    intro: "Neuf mini-projets à coder. Ouvre le notebook interactif (bouton ⚡ Ouvrir dans Basthon), complète les cellules marquées # TODO et exécute. La correction complète et commentée de chaque projet est dans l'onglet Fiches → thème « Python — projets ».",
+    steps: [
+      {
+        num: '1', title: 'Suite de Syracuse',
+        code: `def syracuse(n):
+    vol = [n]
+    while n != 1:
+        # TODO : pair -> n//2, impair -> 3n+1
+        vol.append(n)
+    return vol`,
+        questions: ["Compléter la règle et afficher le temps de vol et l'altitude max."],
+        correction: [{ code: `n = n // 2 if n % 2 == 0 else 3 * n + 1` }]
+      },
+      {
+        num: '2', title: 'Fibonacci (itératif)',
+        code: `def fib(n):
+    a, b = 0, 1
+    for _ in range(n):
+        # TODO
+        pass
+    return a`,
+        questions: ["Faire avancer a et b à chaque tour."],
+        correction: [{ code: `a, b = b, a + b` }]
+      },
+      {
+        num: '3', title: 'Tri par sélection',
+        code: `for j in range(i + 1, len(lst)):
+    # TODO : mettre à jour idx_min
+    pass`,
+        questions: ["Repérer le minimum du reste de la liste."],
+        correction: [{ code: `if lst[j] < lst[idx_min]:
+    idx_min = j` }]
+      },
+      {
+        num: '4', title: 'Recherche dichotomique',
+        code: `while gauche <= droite:
+    milieu = (gauche + droite) // 2
+    if lst[milieu] == valeur:
+        return milieu
+    # TODO : réduire l'intervalle`,
+        questions: ["Choisir la moitié gauche ou droite selon la comparaison."],
+        correction: [{ code: `elif lst[milieu] < valeur:
+    gauche = milieu + 1
+else:
+    droite = milieu - 1` }]
+      },
+      {
+        num: '5', title: 'Dictionnaire — comptage de mots',
+        code: `compte = {}
+for mot in texte.split():
+    # TODO : incrémenter compte[mot]
+    pass`,
+        questions: ["Compter chaque mot avec .get()."],
+        correction: [{ code: `compte[mot] = compte.get(mot, 0) + 1` }]
+      },
+      {
+        num: '6', title: 'Jeu de la vie de Conway',
+        code: `if 0 <= x < len(grille) and 0 <= y < len(grille[0]):
+    # TODO : ajouter la cellule voisine au compteur
+    pass`,
+        questions: ["Additionner les voisines vivantes (0 ou 1)."],
+        correction: [{ code: `n += grille[x][y]` }]
+      },
+      {
+        num: '7', title: 'Image — négatif (numpy)',
+        code: `img = np.tile(np.linspace(0, 255, 100, dtype=int), (100, 1))
+# TODO : calculer le négatif
+negatif = img`,
+        questions: ["Inverser chaque valeur de pixel."],
+        correction: [{ code: `negatif = 255 - img` }]
+      },
+      {
+        num: '8', title: 'Courbes f(x) (numpy + matplotlib)',
+        code: `x = np.linspace(-10, 10, 300)
+plt.plot(x, x**2, label='x carré')
+# TODO : ajouter la courbe de sin(x)`,
+        questions: ["Tracer une deuxième courbe avec un label."],
+        correction: [{ code: `plt.plot(x, np.sin(x), label='sin(x)')` }]
+      },
+      {
+        num: '9', title: 'Droite de régression',
+        code: `xs = np.array([1, 2, 3, 4, 5])
+ys = np.array([2.1, 3.9, 6.2, 7.8, 10.1])
+# TODO : a, b = ...
+a, b = 0, 0`,
+        questions: ["Calculer la pente et l'ordonnée par moindres carrés."],
+        correction: [{ code: `a, b = np.polyfit(xs, ys, 1)` }]
+      }
+    ]
   }
 ]
 
