@@ -2751,13 +2751,31 @@ function showFicheRead(fiche) {
       : `<div class="doc-prose">${formatProse(body)}</div>`
     return `<div class="doc-section"><div class="doc-label">${label}</div>${inner}</div>`
   }
+  // Marqueur de notebook lié : [[nb:fichier.ipynb]] (retiré du texte affiché)
+  const nbMatch = (fiche.content || '').match(/\[\[nb:([^\]]+)\]\]/)
+  const contenu = (fiche.content || '').replace(/\s*\[\[nb:[^\]]+\]\]\s*/g, '').trim()
+
   const parts = [
     sec('Résumé', fiche.summary, { lead: true }),
     sec('Objectifs pédagogiques', fiche.objectifs),
-    sec('Notes de cours', fiche.content),
+    sec('Notes de cours', contenu),
     sec('Exemple de code', fiche.code_example, { code: true }),
     sec('Exercices pour les élèves', fiche.exercices),
   ].filter(Boolean)
+
+  // Bouton « ⚡ Notebook » si la fiche est liée à un notebook
+  const ba = document.getElementById('btn-read-basthon')
+  if (ba) {
+    const res = nbMatch && allRessources.find(r => r.file_name === nbMatch[1])
+    if (res) {
+      const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
+      ba.href = 'https://notebook.basthon.fr/?from=' + encodeURIComponent(data.publicUrl)
+      ba.classList.remove('hidden')
+    } else {
+      ba.classList.add('hidden')
+      ba.removeAttribute('href')
+    }
+  }
 
   // Libellé du bouton retour selon la provenance (Fiches ou Projets)
   const back = document.getElementById('btn-read-back')
