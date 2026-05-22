@@ -283,22 +283,23 @@ body {
 /* ── Onglet Projets ── */
 .projets-banner {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 16px;
-  flex-wrap: wrap;
   background: linear-gradient(135deg, #1e293b, #334155);
-  color: #fff;
   border-radius: var(--radius);
-  padding: 20px 24px;
+  padding: 18px 22px;
   margin-bottom: 28px;
   box-shadow: var(--shadow);
 }
-.projets-banner-txt { font-size: 0.92rem; line-height: 1.5; }
-.projets-banner-txt strong { font-size: 1.05rem; }
-.projets-banner-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-.projets-banner-btns .btn-primary,
-.projets-banner-btns .btn-secondary { margin: 0; }
+.projets-banner-group { display: flex; flex-direction: column; gap: 10px; }
+.projets-banner-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: #cbd5e1;
+}
+.projets-banner-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.projets-banner-btns .btn-basthon { margin: 0; font-size: 0.82rem; }
 .projet-cat { margin-bottom: 32px; }
 .projet-cat-label {
   font-size: 1.15rem;

@@ -2655,18 +2655,19 @@ function renderProjets() {
   const projets = allFiches.filter(estProjet)
     .slice().sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''))
 
+  const isNb = r => /\.ipynb$/i.test(r.file_name || '')
+  const sortNom = (a, b) => (a.title || '').localeCompare(b.title || '')
+  const parcoursNb = allRessources.filter(r => isNb(r) && r.topic === 'Python — parcours').sort(sortNom)
+  const projetsNb  = allRessources.filter(r => isNb(r) && r.topic === 'Python — projets').sort(sortNom)
+  const btn = r => {
+    const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
+    return `<a class="btn-basthon" href="https://notebook.basthon.fr/?from=${encodeURIComponent(data.publicUrl)}" target="_blank" rel="noopener">⚡ ${escapeHtml(r.title || r.file_name)}</a>`
+  }
   let banner = ''
-  const notebooks = allRessources
-    .filter(r => /\.ipynb$/i.test(r.file_name || '') && (r.topic === 'Python — parcours' || r.topic === 'Python — projets'))
-    .sort((a, b) => (a.topic || '').localeCompare(b.topic || ''))   // parcours avant projets
-  if (notebooks.length) {
-    const btns = notebooks.map(r => {
-      const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
-      return `<a class="btn-primary" href="https://notebook.basthon.fr/?from=${encodeURIComponent(data.publicUrl)}" target="_blank" rel="noopener">⚡ ${escapeHtml(r.title || r.file_name)}</a>`
-    }).join('')
+  if (parcoursNb.length || projetsNb.length) {
     banner = `<div class="projets-banner">
-      <div class="projets-banner-txt"><strong>⚡ Notebooks interactifs</strong><br>Code directement dans le navigateur (Basthon) : parcours guidés et projets à compléter.</div>
-      <div class="projets-banner-btns">${btns}</div>
+      ${parcoursNb.length ? `<div class="projets-banner-group"><div class="projets-banner-label">📚 Parcours guidés — code dans le navigateur (Basthon)</div><div class="projets-banner-btns">${parcoursNb.map(btn).join('')}</div></div>` : ''}
+      ${projetsNb.length ? `<div class="projets-banner-group"><div class="projets-banner-label">🛠 Projets à compléter (Basthon)</div><div class="projets-banner-btns">${projetsNb.map(btn).join('')}</div></div>` : ''}
     </div>`
   }
 
