@@ -2656,16 +2656,15 @@ function renderProjets() {
     .slice().sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''))
 
   let banner = ''
-  const nb = allRessources.find(r => r.file_name === 'Python_projets_etudiant.ipynb')
-  if (nb) {
-    const { data } = db.storage.from('ressources').getPublicUrl(nb.file_path)
-    const url = data.publicUrl
+  const notebooks = allRessources.filter(r => /\.ipynb$/i.test(r.file_name || ''))
+  if (notebooks.length) {
+    const btns = notebooks.map(r => {
+      const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
+      return `<a class="btn-primary" href="https://notebook.basthon.fr/?from=${encodeURIComponent(data.publicUrl)}" target="_blank" rel="noopener">⚡ ${escapeHtml(r.title || r.file_name)}</a>`
+    }).join('')
     banner = `<div class="projets-banner">
-      <div class="projets-banner-txt"><strong>⚡ Notebook interactif</strong><br>Code les projets directement dans le navigateur (Basthon), puis vérifie avec la fiche détaillée.</div>
-      <div class="projets-banner-btns">
-        <a class="btn-primary" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener">Ouvrir dans Basthon</a>
-        <a class="btn-secondary" href="${url}?download=${encodeURIComponent(nb.file_name)}">⬇ Notebook</a>
-      </div>
+      <div class="projets-banner-txt"><strong>⚡ Notebooks interactifs</strong><br>Code directement dans le navigateur (Basthon) : parcours guidés et projets à compléter.</div>
+      <div class="projets-banner-btns">${btns}</div>
     </div>`
   }
 
