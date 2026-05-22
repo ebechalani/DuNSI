@@ -96,7 +96,9 @@
       "Bash(python tk_jeux.py)",
       "Bash(rm tk_jeux.py)",
       "Bash(python gen_nb_projets.py)",
-      "Bash(rm gen_nb_projets.py)"
+      "Bash(rm gen_nb_projets.py)",
+      "Bash(python skeleton_nb.py)",
+      "Bash(rm skeleton_nb.py)"
     ]
   }
 }
