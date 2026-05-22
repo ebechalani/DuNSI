@@ -2656,7 +2656,9 @@ function renderProjets() {
     .slice().sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''))
 
   let banner = ''
-  const notebooks = allRessources.filter(r => /\.ipynb$/i.test(r.file_name || ''))
+  const notebooks = allRessources
+    .filter(r => /\.ipynb$/i.test(r.file_name || '') && (r.topic === 'Python — parcours' || r.topic === 'Python — projets'))
+    .sort((a, b) => (a.topic || '').localeCompare(b.topic || ''))   // parcours avant projets
   if (notebooks.length) {
     const btns = notebooks.map(r => {
       const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
