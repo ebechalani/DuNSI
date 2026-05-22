@@ -2587,6 +2587,20 @@ function showFicheRead(fiche) {
     sec('Exercices pour les élèves', fiche.exercices),
   ].filter(Boolean)
 
+  // Bouton « PDF original » si une ressource partage le même thème
+  const dl = document.getElementById('btn-read-download')
+  if (dl) {
+    const res = fiche.topic && allRessources.find(r => r.topic && r.topic === fiche.topic && r.file_name)
+    if (res) {
+      const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
+      dl.href = data.publicUrl + '?download=' + encodeURIComponent(res.file_name)
+      dl.classList.remove('hidden')
+    } else {
+      dl.classList.add('hidden')
+      dl.removeAttribute('href')
+    }
+  }
+
   const eyebrow = [
     fiche.bloc && BLOCS[fiche.bloc] ? BLOCS[fiche.bloc].label : '',
     fiche.topic || '',
