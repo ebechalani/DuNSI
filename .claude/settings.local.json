@@ -86,7 +86,11 @@
       "Bash(python parcours.py)",
       "Bash(rm parcours.py)",
       "Bash(python parcours_all.py)",
-      "Bash(rm parcours_all.py)"
+      "Bash(rm parcours_all.py)",
+      "Bash(python parcours_reste.py)",
+      "Bash(rm parcours_reste.py)",
+      "Bash(python p4.py)",
+      "Bash(rm p4.py)"
     ]
   }
 }
