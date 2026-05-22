@@ -15,6 +15,7 @@
     <button class="nav-item" data-view="programme"><span>📋</span> Programme</button>
     <button class="nav-item" data-view="fiches"><span>📝</span> Fiches</button>
     <button class="nav-item" data-view="tp"><span>🧪</span> TP</button>
+    <button class="nav-item" data-view="projets"><span>🚀</span> Projets</button>
     <button class="nav-item" data-view="journal"><span>📅</span> Journal</button>
     <button class="nav-item" data-view="eval"><span>🎯</span> Évaluation</button>
     <button class="nav-item" data-view="ressources"><span>🔗</span> Ressources</button>
@@ -139,6 +140,13 @@
         <button class="btn-back" id="tp-detail-back">← Retour aux TP</button>
         <div id="tp-detail-content"></div>
       </div>
+    </section>
+
+    <!-- Projets -->
+    <section id="view-projets" class="hidden">
+      <h2 class="page-title">Projets</h2>
+      <p class="page-desc">Des projets Python à réaliser. Ouvre le notebook interactif pour coder en ligne, et consulte la fiche détaillée de chaque projet (objectif, méthode, solution commentée).</p>
+      <div id="projets-list"></div>
     </section>
 
     <!-- Journal list -->
@@ -312,6 +320,6 @@
     <div id="print-doc-container"></div>
   </div>
 
-  <script type="module" src="app.js?v=20260521o"></script>
+  <script type="module" src="app.js?v=20260521p"></script>
 </body>
 </html>

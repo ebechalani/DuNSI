@@ -673,6 +673,7 @@ let currentJournalId = null
 let currentFicheId   = null
 let ficheFilter   = 'all'
 let ficheGroupMode = 'bloc'   // 'bloc' | 'theme'
+let lastFicheView = 'fiches'  // vue d'où la fiche a été ouverte (fiches | projets)
 let currentView   = 'dashboard'
 
 // ── Supabase helpers ─────────────────────────────────────
@@ -708,10 +709,13 @@ function navigate(view) {
   else if (view === 'programme')  renderProgramme()
   else if (view === 'fiches')     renderFiches()
   else if (view === 'tp')         renderTPs()
+  else if (view === 'projets')    renderProjets()
   else if (view === 'journal')    renderJournal()
   else if (view === 'eval')       renderEval()
   else if (view === 'ressources') renderRessources()
 }
+
+const PROJET_TOPIC = 'Python — projets'
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
@@ -2127,7 +2131,8 @@ function renderTPIndex() {
     ? (t => t.theme || 'Autres')
     : (t => t.jour || '—')
   const groups = new Map()
-  TPS.forEach(t => {
+  // Les projets ont leur propre onglet → exclus du menu TP
+  TPS.filter(t => t.theme !== PROJET_TOPIC).forEach(t => {
     const k = keyFn(t)
     if (!groups.has(k)) groups.set(k, [])
     groups.get(k).push(t)
@@ -2518,12 +2523,15 @@ function renderFiches() {
   const list  = document.getElementById('fiche-list')
   const empty = document.getElementById('fiche-empty')
 
+  // Les projets ont leur propre onglet → on les exclut des Fiches
+  const fichesCours = allFiches.filter(f => f.topic !== PROJET_TOPIC)
+
   // ── Mode THÈME : catégorie macro (Python, Linux…) → sous-thèmes dedans
   if (ficheGroupMode === 'theme') {
-    empty.classList.toggle('hidden', allFiches.length > 0)
-    if (!allFiches.length) { list.innerHTML = ''; return }
+    empty.classList.toggle('hidden', fichesCours.length > 0)
+    if (!fichesCours.length) { list.innerHTML = ''; return }
     const cats = new Map()
-    allFiches.forEach(f => {
+    fichesCours.forEach(f => {
       const c = ficheCategorie(f.topic)
       if (!cats.has(c)) cats.set(c, [])
       cats.get(c).push(f)
@@ -2544,8 +2552,8 @@ function renderFiches() {
   // ── Mode BLOC (trié par date de création croissante) ──
   const byDate = (a, b) => (a.created_at || '').localeCompare(b.created_at || '')
   const filtered = (ficheFilter === 'all'
-    ? allFiches
-    : allFiches.filter(f => f.bloc === ficheFilter)).slice().sort(byDate)
+    ? fichesCours
+    : fichesCours.filter(f => f.bloc === ficheFilter)).slice().sort(byDate)
 
   empty.classList.toggle('hidden', filtered.length > 0)
   if (!filtered.length) { list.innerHTML = ''; return }
@@ -2628,13 +2636,59 @@ document.getElementById('fiche-list').addEventListener('click', e => {
   const card = e.target.closest('.fiche-card[data-id]')
   if (!card) return
   const fiche = allFiches.find(f => f.id === card.dataset.id)
-  if (fiche) showFicheRead(fiche)
+  if (fiche) { lastFicheView = 'fiches'; showFicheRead(fiche) }
 })
 
 function escapeHtml(s) {
   return String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+// ── Onglet Projets ───────────────────────────────────────
+function renderProjets() {
+  const wrap = document.getElementById('projets-list')
+  if (!wrap) return
+  const projets = allFiches.filter(f => f.topic === PROJET_TOPIC)
+    .slice().sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''))
+
+  let banner = ''
+  const nb = allRessources.find(r => r.file_name === 'Python_projets_etudiant.ipynb')
+  if (nb) {
+    const { data } = db.storage.from('ressources').getPublicUrl(nb.file_path)
+    const url = data.publicUrl
+    banner = `<div class="projets-banner">
+      <div class="projets-banner-txt"><strong>⚡ Notebook interactif</strong><br>Code les projets directement dans le navigateur (Basthon), puis vérifie avec la fiche détaillée.</div>
+      <div class="projets-banner-btns">
+        <a class="btn-primary" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener">Ouvrir dans Basthon</a>
+        <a class="btn-secondary" href="${url}?download=${encodeURIComponent(nb.file_name)}">⬇ Notebook</a>
+      </div>
+    </div>`
+  }
+
+  if (!projets.length) {
+    wrap.innerHTML = banner + '<p class="empty-msg">Aucun projet pour l\'instant.</p>'
+    return
+  }
+  const cards = projets.map(f => {
+    const titre = (f.title || '').replace(/^Projet détaillé\s*[—–-]\s*/, '')
+    return `<button class="projet-card" data-projet-id="${f.id}">
+      <div class="projet-card-title">${escapeHtml(titre)}</div>
+      ${f.summary ? `<div class="projet-card-desc">${escapeHtml(f.summary)}</div>` : ''}
+      <span class="projet-card-arrow">›</span>
+    </button>`
+  }).join('')
+  wrap.innerHTML = banner + `<div class="projet-grid">${cards}</div>`
+
+  if (!wrap.dataset.bound) {
+    wrap.addEventListener('click', e => {
+      const card = e.target.closest('[data-projet-id]')
+      if (!card) return
+      const fiche = allFiches.find(f => f.id === card.dataset.projetId)
+      if (fiche) { lastFicheView = 'projets'; showFicheRead(fiche) }
+    })
+    wrap.dataset.bound = '1'
+  }
 }
 
 // Met en forme un texte de cours :
@@ -2682,6 +2736,10 @@ function showFicheRead(fiche) {
     sec('Exemple de code', fiche.code_example, { code: true }),
     sec('Exercices pour les élèves', fiche.exercices),
   ].filter(Boolean)
+
+  // Libellé du bouton retour selon la provenance (Fiches ou Projets)
+  const back = document.getElementById('btn-read-back')
+  if (back) back.textContent = lastFicheView === 'projets' ? '← Retour aux projets' : '← Retour aux fiches'
 
   // Bouton « PDF original » si une ressource partage le même thème
   const dl = document.getElementById('btn-read-download')
@@ -3144,7 +3202,7 @@ document.getElementById('btn-eval-save').addEventListener('click', saveEvalMeta)
 
 document.getElementById('btn-new-fiche').addEventListener('click',   () => showFicheEdit(null))
 document.getElementById('btn-fiche-back').addEventListener('click',   () => navigate('fiches'))
-document.getElementById('btn-read-back').addEventListener('click',    () => navigate('fiches'))
+document.getElementById('btn-read-back').addEventListener('click',    () => navigate(lastFicheView || 'fiches'))
 document.getElementById('btn-read-edit').addEventListener('click',    () => {
   const f = allFiches.find(x => x.id === currentFicheId)
   if (f) showFicheEdit(f)

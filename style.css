@@ -280,6 +280,51 @@ body {
   white-space: nowrap;
 }
 
+/* ── Onglet Projets ── */
+.projets-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow);
+}
+.projets-banner-txt { font-size: 0.92rem; line-height: 1.5; }
+.projets-banner-txt strong { font-size: 1.05rem; }
+.projets-banner-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.projets-banner-btns .btn-primary,
+.projets-banner-btns .btn-secondary { margin: 0; }
+.projet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.projet-card {
+  position: relative;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 38px 16px 18px;
+  cursor: pointer;
+  transition: border-color .15s, transform .1s, box-shadow .15s;
+}
+.projet-card:hover { transform: translateY(-2px); border-left-color: var(--primary); }
+.projet-card-title { font-weight: 700; color: var(--primary); font-size: 1.02rem; margin-bottom: 6px; }
+.projet-card-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
+.projet-card-arrow {
+  position: absolute;
+  right: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-size: 1.5rem; line-height: 1;
+}
+
 /* Catégorie macro (mode "Par thème" : Python, Linux & Shell…) */
 .fiche-cat-section { margin-bottom: 40px; }
 .fiche-cat-divider { margin: 0 0 20px; }
