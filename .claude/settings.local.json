@@ -78,7 +78,11 @@
       "Bash(rm rest_projets.py)",
       "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('template backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\)\")",
       "Bash(python port.py)",
-      "Bash(rm port.py)"
+      "Bash(rm port.py)",
+      "Bash(python csvplot.py)",
+      "Bash(rm csvplot.py)",
+      "Bash(python img_enrich.py)",
+      "Bash(rm img_enrich.py)"
     ]
   }
 }
