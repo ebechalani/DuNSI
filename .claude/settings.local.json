@@ -65,7 +65,11 @@
       "Bash(python memento_full.py)",
       "Bash(rm memento_full.py)",
       "Bash(python insert_projets.py)",
-      "Bash(rm insert_projets.py)"
+      "Bash(rm insert_projets.py)",
+      "Bash(python projets_details.py)",
+      "Bash(rm projets_details.py)",
+      "Bash(python make_nb.py)",
+      "Bash(rm make_nb.py)"
     ]
   }
 }
