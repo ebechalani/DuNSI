@@ -57,7 +57,11 @@
       "Bash(rm aerer.py)",
       "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\); print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\)\")",
       "Bash(python interleave.py)",
-      "Bash(rm interleave.py)"
+      "Bash(rm interleave.py)",
+      "Bash(python upload_memento.py)",
+      "Bash(rm upload_memento.py)",
+      "Bash(python insert_memento.py)",
+      "Bash(rm insert_memento.py)"
     ]
   }
 }
