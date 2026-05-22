@@ -92,7 +92,9 @@
       "Bash(python p4.py)",
       "Bash(rm p4.py)",
       "Bash(python p4_tk.py)",
-      "Bash(rm p4_tk.py)"
+      "Bash(rm p4_tk.py)",
+      "Bash(python tk_jeux.py)",
+      "Bash(rm tk_jeux.py)"
     ]
   }
 }
