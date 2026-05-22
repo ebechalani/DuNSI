@@ -84,7 +84,9 @@
       "Bash(python img_enrich.py)",
       "Bash(rm img_enrich.py)",
       "Bash(python parcours.py)",
-      "Bash(rm parcours.py)"
+      "Bash(rm parcours.py)",
+      "Bash(python parcours_all.py)",
+      "Bash(rm parcours_all.py)"
     ]
   }
 }
