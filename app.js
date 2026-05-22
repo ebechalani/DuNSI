@@ -715,7 +715,10 @@ function navigate(view) {
   else if (view === 'ressources') renderRessources()
 }
 
-const PROJET_TOPIC = 'Python — projets'
+const PROJET_PREFIX = 'Projet ·'
+const PROJET_CATEGORIES = ['Algorithmique & maths', 'Jeux', 'Cryptographie', 'Structures de données', 'Graphique & simulation']
+function estProjet(f) { return (f.topic || '').startsWith(PROJET_PREFIX) }
+function projetCategorie(f) { return (f.topic || '').replace(/^Projet ·\s*/, '') }
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
@@ -2132,7 +2135,7 @@ function renderTPIndex() {
     : (t => t.jour || '—')
   const groups = new Map()
   // Les projets ont leur propre onglet → exclus du menu TP
-  TPS.filter(t => t.theme !== PROJET_TOPIC).forEach(t => {
+  TPS.filter(t => t.id !== 'pyprojets').forEach(t => {
     const k = keyFn(t)
     if (!groups.has(k)) groups.set(k, [])
     groups.get(k).push(t)
@@ -2524,7 +2527,7 @@ function renderFiches() {
   const empty = document.getElementById('fiche-empty')
 
   // Les projets ont leur propre onglet → on les exclut des Fiches
-  const fichesCours = allFiches.filter(f => f.topic !== PROJET_TOPIC)
+  const fichesCours = allFiches.filter(f => !estProjet(f))
 
   // ── Mode THÈME : catégorie macro (Python, Linux…) → sous-thèmes dedans
   if (ficheGroupMode === 'theme') {
@@ -2649,7 +2652,7 @@ function escapeHtml(s) {
 function renderProjets() {
   const wrap = document.getElementById('projets-list')
   if (!wrap) return
-  const projets = allFiches.filter(f => f.topic === PROJET_TOPIC)
+  const projets = allFiches.filter(estProjet)
     .slice().sort((a, b) => (a.created_at || '').localeCompare(b.created_at || ''))
 
   let banner = ''
@@ -2670,15 +2673,32 @@ function renderProjets() {
     wrap.innerHTML = banner + '<p class="empty-msg">Aucun projet pour l\'instant.</p>'
     return
   }
-  const cards = projets.map(f => {
-    const titre = (f.title || '').replace(/^Projet détaillé\s*[—–-]\s*/, '')
-    return `<button class="projet-card" data-projet-id="${f.id}">
-      <div class="projet-card-title">${escapeHtml(titre)}</div>
-      ${f.summary ? `<div class="projet-card-desc">${escapeHtml(f.summary)}</div>` : ''}
-      <span class="projet-card-arrow">›</span>
-    </button>`
+  // Grouper par catégorie
+  const cats = new Map()
+  projets.forEach(f => {
+    const c = projetCategorie(f)
+    if (!cats.has(c)) cats.set(c, [])
+    cats.get(c).push(f)
+  })
+  const ordered = [...cats.keys()].sort((a, b) => {
+    const ia = PROJET_CATEGORIES.indexOf(a), ib = PROJET_CATEGORIES.indexOf(b)
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
+  })
+  const sections = ordered.map(cat => {
+    const cards = cats.get(cat).map(f => {
+      const titre = (f.title || '').replace(/^Projet détaillé\s*[—–-]\s*/, '')
+      return `<button class="projet-card" data-projet-id="${f.id}">
+        <div class="projet-card-title">${escapeHtml(titre)}</div>
+        ${f.summary ? `<div class="projet-card-desc">${escapeHtml(f.summary)}</div>` : ''}
+        <span class="projet-card-arrow">›</span>
+      </button>`
+    }).join('')
+    return `<div class="projet-cat">
+      <div class="projet-cat-label">${escapeHtml(cat)}</div>
+      <div class="projet-grid">${cards}</div>
+    </div>`
   }).join('')
-  wrap.innerHTML = banner + `<div class="projet-grid">${cards}</div>`
+  wrap.innerHTML = banner + sections
 
   if (!wrap.dataset.bound) {
     wrap.addEventListener('click', e => {

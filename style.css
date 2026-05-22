@@ -299,6 +299,16 @@ body {
 .projets-banner-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 .projets-banner-btns .btn-primary,
 .projets-banner-btns .btn-secondary { margin: 0; }
+.projet-cat { margin-bottom: 32px; }
+.projet-cat-label {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary);
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 7px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
 .projet-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
