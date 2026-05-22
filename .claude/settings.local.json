@@ -61,7 +61,9 @@
       "Bash(python upload_memento.py)",
       "Bash(rm upload_memento.py)",
       "Bash(python insert_memento.py)",
-      "Bash(rm insert_memento.py)"
+      "Bash(rm insert_memento.py)",
+      "Bash(python memento_full.py)",
+      "Bash(rm memento_full.py)"
     ]
   }
 }
