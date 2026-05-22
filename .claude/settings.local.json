@@ -69,7 +69,14 @@
       "Bash(python projets_details.py)",
       "Bash(rm projets_details.py)",
       "Bash(python make_nb.py)",
-      "Bash(rm make_nb.py)"
+      "Bash(rm make_nb.py)",
+      "Bash(python recat.py)",
+      "Bash(rm recat.py)",
+      "Bash(python new_projets.py)",
+      "Bash(rm new_projets.py)",
+      "Bash(python rest_projets.py)",
+      "Bash(rm rest_projets.py)",
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('template backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\)\")"
     ]
   }
 }
