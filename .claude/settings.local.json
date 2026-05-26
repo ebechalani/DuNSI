@@ -105,7 +105,9 @@
       "Bash(python lot4_graph.py)",
       "Bash(rm lot1_algo.py lot2_jeux_crypto.py lot3_struct.py lot4_graph.py skel_lib.py)",
       "Bash(python reskel.py)",
-      "Bash(rm reskel.py)"
+      "Bash(rm reskel.py)",
+      "Read(//c/Program Files/**)",
+      "Bash(python -c \"import fitz; print\\('pymupdf OK', fitz.__doc__[:40]\\)\")"
     ]
   }
 }
