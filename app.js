@@ -2472,6 +2472,7 @@ const JOUR_LABELS = {
   '2026-05-20': 'Jour 2 — 20 mai',
   '2026-05-21': 'Jour 3 — 21 mai',
   '2026-05-22': 'Jour 4 — 22 mai',
+  '2026-05-26': 'Jour 5 — 26 mai',
 }
 function jourLabel(isoTs) {
   if (!isoTs) return ''
