@@ -2829,6 +2829,12 @@ function renderProjets() {
   }
 }
 
+// Échappe le HTML puis transforme les URLs http(s) en liens cliquables
+function linkify(s) {
+  return escapeHtml(s).replace(/(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noopener">$1</a>')
+}
+
 // Met en forme un texte de cours :
 //  - titres de section (1) …, Exercice…, Étape…) mis en évidence
 //  - blocs de code délimités par des triples accents graves rendus en monospace
@@ -2846,9 +2852,9 @@ function formatProse(text) {
       if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
         const rest = lines.slice(1).join('\n').trim()
         return `<p class="doc-subheading">${escapeHtml(first)}</p>` +
-               (rest ? `<p class="doc-para">${escapeHtml(rest)}</p>` : '')
+               (rest ? `<p class="doc-para">${linkify(rest)}</p>` : '')
       }
-      return `<p class="doc-para">${escapeHtml(block)}</p>`
+      return `<p class="doc-para">${linkify(block)}</p>`
     }).join('')
   }).join('')
 }
