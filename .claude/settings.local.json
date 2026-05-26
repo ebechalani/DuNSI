@@ -119,7 +119,11 @@
       "Bash(python f_comb.py)",
       "Bash(rm f_comb.py)",
       "Bash(python f_seq.py)",
-      "Bash(rm f_seq.py)"
+      "Bash(rm f_seq.py)",
+      "Bash(python enrich_repr.py)",
+      "Bash(rm enrich_repr.py)",
+      "Bash(python float_ex.py)",
+      "Bash(rm float_ex.py)"
     ]
   }
 }
