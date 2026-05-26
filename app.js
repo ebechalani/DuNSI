@@ -2082,6 +2082,121 @@ a, b = 0, 0`,
         correction: [{ code: `a, b = np.polyfit(xs, ys, 1)` }]
       }
     ]
+  },
+  // ── TP Bloc 3 — Analyse de patients.txt (shell) ─────────
+  {
+    id: 'tp-patients', bloc: 'bloc3', jour: 'Jour 5 — 26 mai 2026', theme: 'Linux — traitement de texte',
+    title: 'TP — Analyser patients.txt en ligne de commande',
+    type: 'tp',
+    intro: "Fichier patients.txt : un patient par ligne, champs séparés par « : » → ID:prénom:nom:ville:âge:sexe:catégorie. À faire dans un terminal Linux (WSL). Cherche la réponse, puis ouvre la correction.",
+    steps: [
+      {
+        num: '1', title: 'Découverte du fichier',
+        code: `$ head patients.txt        # voir les premières lignes
+$ wc -l patients.txt       # ?`,
+        questions: [
+          "Combien y a-t-il de patients dans le fichier ?",
+          "Quels sont les 7 champs d'une ligne, dans l'ordre ?"
+        ],
+        correction: [
+          { text: "wc -l compte les lignes, donc le nombre de patients." },
+          { code: `wc -l patients.txt` },
+          { text: "Champs : 1=identifiant, 2=prénom, 3=nom, 4=ville, 5=âge, 6=sexe (M/F), 7=catégorie (0 à 3)." }
+        ]
+      },
+      {
+        num: '2', title: 'grep — filtrer des lignes',
+        code: `$ grep ':F:' patients.txt        # les femmes
+$ grep ':Le Havre:' patients.txt # les Havrais`,
+        questions: [
+          "Combien y a-t-il de femmes ? (option -c de grep)",
+          "Combien de patients habitent Rouen ?"
+        ],
+        correction: [
+          { code: `grep -c ':F:' patients.txt
+grep -c ':Rouen:' patients.txt` },
+          { text: "-c demande à grep de COMPTER les lignes correspondantes. On entoure le motif de « : » pour viser le bon champ (sexe, ville) et pas un fragment d'un autre champ." }
+        ]
+      },
+      {
+        num: '3', title: 'cut — extraire des colonnes',
+        code: `$ cut -d: -f2 patients.txt     # le prénom
+$ cut -d: -f2,3 patients.txt   # prénom + nom`,
+        questions: [
+          "Affiche uniquement la liste des villes (colonne 4).",
+          "Affiche le nom (col 3) et l'âge (col 5) de chaque patient."
+        ],
+        correction: [
+          { code: `cut -d: -f4 patients.txt
+cut -d: -f3,5 patients.txt` },
+          { text: "-d: indique le séparateur « : », -f choisit le ou les champs." }
+        ]
+      },
+      {
+        num: '4', title: 'Pipes — combiner les commandes',
+        code: `# La sortie de gauche devient l'entrée de droite
+$ cut -d: -f4 patients.txt | sort | uniq -c`,
+        questions: [
+          "Combien de villes DIFFÉRENTES apparaissent dans le fichier ?",
+          "Donne la répartition hommes / femmes (nombre de M et de F)."
+        ],
+        correction: [
+          { code: `cut -d: -f4 patients.txt | sort -u | wc -l
+cut -d: -f6 patients.txt | sort | uniq -c` },
+          { text: "sort -u trie et garde les valeurs uniques ; wc -l les compte. uniq -c (après sort) compte les occurrences de chaque valeur." }
+        ]
+      },
+      {
+        num: '5', title: 'sort — trier par âge',
+        code: `$ sort -t: -k5 -n patients.txt   # par âge croissant`,
+        questions: [
+          "Affiche les 5 patients les plus âgés.",
+          "À quoi servent les options -t: , -k5 et -n ?"
+        ],
+        correction: [
+          { code: `sort -t: -k5 -nr patients.txt | head -5` },
+          { text: "-t: = séparateur « : » ; -k5 = trier sur la colonne 5 (âge) ; -n = tri numérique (et non alphabétique) ; -r = ordre décroissant ; head -5 = garder les 5 premières lignes." }
+        ]
+      },
+      {
+        num: '6', title: 'awk — calculs sur les colonnes',
+        code: `# -F: = séparateur ; $5 = 5e colonne (âge)
+$ awk -F: '{ somme += $5 } END { print somme / NR }' patients.txt`,
+        questions: [
+          "Calcule l'âge moyen de tous les patients.",
+          "Combien de patients ont plus de 50 ans ?"
+        ],
+        correction: [
+          { code: `awk -F: '{ s += $5 } END { print s / NR }' patients.txt
+awk -F: '$5 > 50' patients.txt | wc -l` },
+          { text: "awk lit chaque ligne, découpe sur « : » (-F:). $5 est l'âge. On cumule dans s ; NR est le nombre de lignes (END = après tout le fichier). Une condition seule (ex. $5 > 50) affiche les lignes qui la vérifient." }
+        ]
+      },
+      {
+        num: '7', title: 'Redirections — sauvegarder les résultats',
+        code: `$ grep ':Rouen:' patients.txt  > rouen.txt    # crée / écrase
+$ grep ':Paris:' patients.txt >> rouen.txt    # ajoute à la fin`,
+        questions: [
+          "Crée un fichier femmes.txt contenant uniquement les femmes.",
+          "Quelle est la différence entre > et >> ?"
+        ],
+        correction: [
+          { code: `grep ':F:' patients.txt > femmes.txt` },
+          { text: "> redirige la sortie vers un fichier en l'ÉCRASANT (repart de zéro). >> AJOUTE à la fin sans effacer l'existant." }
+        ]
+      },
+      {
+        num: '8', title: 'Synthèse — un pipeline complet',
+        code: `# Objectif : combien de prénoms DIFFÉRENTS ont les femmes de Rouen ?`,
+        questions: [
+          "Écris un seul pipeline qui répond à la question ci-dessus."
+        ],
+        correction: [
+          { code: `grep ':Rouen:' patients.txt | grep ':F:' | cut -d: -f2 | sort -u | wc -l` },
+          { text: "Décodage : on garde Rouen → on garde les femmes → on extrait le prénom (col 2) → sort -u enlève les doublons → wc -l compte les prénoms uniques. Attention : ce n'est PAS le nombre de femmes de Rouen (ça, c'est sans cut/sort -u)." }
+        ]
+      }
+    ]
   }
 ]
 

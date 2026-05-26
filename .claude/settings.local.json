@@ -111,7 +111,9 @@
       "Bash(pip install *)",
       "Bash(python -c \"import fitz; print\\('PyMuPDF', fitz.VersionBind\\)\")",
       "Bash(python fiche_bloc3.py)",
-      "Bash(rm fiche_bloc3.py)"
+      "Bash(rm fiche_bloc3.py)",
+      "Bash(python fiche_shell.py)",
+      "Bash(rm fiche_shell.py)"
     ]
   }
 }
