@@ -109,7 +109,9 @@
       "Read(//c/Program Files/**)",
       "Bash(python -c \"import fitz; print\\('pymupdf OK', fitz.__doc__[:40]\\)\")",
       "Bash(pip install *)",
-      "Bash(python -c \"import fitz; print\\('PyMuPDF', fitz.VersionBind\\)\")"
+      "Bash(python -c \"import fitz; print\\('PyMuPDF', fitz.VersionBind\\)\")",
+      "Bash(python fiche_bloc3.py)",
+      "Bash(rm fiche_bloc3.py)"
     ]
   }
 }
