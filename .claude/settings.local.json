@@ -113,7 +113,13 @@
       "Bash(python fiche_bloc3.py)",
       "Bash(rm fiche_bloc3.py)",
       "Bash(python fiche_shell.py)",
-      "Bash(rm fiche_shell.py)"
+      "Bash(rm fiche_shell.py)",
+      "Bash(python f_repr.py)",
+      "Bash(rm f_repr.py)",
+      "Bash(python f_comb.py)",
+      "Bash(rm f_comb.py)",
+      "Bash(python f_seq.py)",
+      "Bash(rm f_seq.py)"
     ]
   }
 }
