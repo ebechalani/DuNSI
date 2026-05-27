@@ -2832,15 +2832,31 @@ function renderProjets() {
   }
 }
 
-// Échappe le HTML puis transforme les URLs http(s) en liens cliquables
-function linkify(s) {
-  return escapeHtml(s).replace(/(https?:\/\/[^\s<]+)/g,
-    '<a href="$1" target="_blank" rel="noopener">$1</a>')
+// Mise en forme « inline » : échappe le HTML puis gère **gras**, `code` et liens
+function inlineFmt(s) {
+  let h = escapeHtml(s)
+  h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')        // **gras**
+  h = h.replace(/`([^`]+)`/g, '<code class="doc-ic">$1</code>')   // `code` -> pastille
+  h = h.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+  return h
+}
+const linkify = inlineFmt   // compat
+
+// Rend un bloc tableau Markdown (| col | col |) en vrai tableau HTML
+function mdTable(block) {
+  const sep = c => c.every(x => /^:?-{2,}:?$/.test(x.trim()))
+  const rows = block.split('\n').filter(l => l.trim().startsWith('|'))
+    .map(r => r.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim()))
+  const head = rows[0]
+  const body = rows.slice(1).filter(r => !sep(r))
+  return `<table class="doc-table"><thead><tr>${head.map(c => `<th>${inlineFmt(c)}</th>`).join('')}</tr></thead>` +
+         `<tbody>${body.map(r => `<tr>${r.map(c => `<td>${inlineFmt(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`
 }
 
 // Met en forme un texte de cours :
 //  - titres de section (1) …, Exercice…, Étape…) mis en évidence
 //  - blocs de code délimités par des triples accents graves rendus en monospace
+//  - tableaux Markdown, **gras** et `code` inline
 function formatProse(text) {
   // segments alternés : prose (pair) / code (impair)
   return String(text).split('```').map((seg, i) => {
@@ -2851,13 +2867,18 @@ function formatProse(text) {
       block = block.replace(/^\n+|\n+$/g, '')
       if (!block.trim()) return ''
       const lines = block.split('\n')
+      // tableau Markdown : 1re ligne en |…|, 2e ligne de tirets
+      if (lines.length >= 2 && lines[0].trim().startsWith('|') &&
+          /-{2,}/.test(lines[1]) && lines[1].includes('|')) {
+        return mdTable(block)
+      }
       const first = lines[0].trim()
       if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
         const rest = lines.slice(1).join('\n').trim()
-        return `<p class="doc-subheading">${escapeHtml(first)}</p>` +
-               (rest ? `<p class="doc-para">${linkify(rest)}</p>` : '')
+        return `<p class="doc-subheading">${inlineFmt(first)}</p>` +
+               (rest ? `<p class="doc-para">${inlineFmt(rest)}</p>` : '')
       }
-      return `<p class="doc-para">${linkify(block)}</p>`
+      return `<p class="doc-para">${inlineFmt(block)}</p>`
     }).join('')
   }).join('')
 }
