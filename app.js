@@ -3366,6 +3366,49 @@ document.getElementById('btn-eval-save').addEventListener('click', saveEvalMeta)
 document.getElementById('btn-new-fiche').addEventListener('click',   () => showFicheEdit(null))
 document.getElementById('btn-fiche-back').addEventListener('click',   () => navigate('fiches'))
 document.getElementById('btn-read-back').addEventListener('click',    () => navigate(lastFicheView || 'fiches'))
+
+// ── Recherche globale (fiches, projets, parcours) ────────
+;(function bindSearch() {
+  const input = document.getElementById('global-search')
+  const box   = document.getElementById('search-results')
+  if (!input || !box) return
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase()
+    if (q.length < 2) { box.classList.add('hidden'); box.innerHTML = ''; return }
+    const hits = allFiches.filter(f =>
+      (f.title || '').toLowerCase().includes(q) ||
+      (f.topic || '').toLowerCase().includes(q) ||
+      (f.summary || '').toLowerCase().includes(q)
+    ).slice(0, 15)
+    if (!hits.length) {
+      box.innerHTML = '<div class="search-empty">Aucun résultat</div>'
+    } else {
+      box.innerHTML = hits.map(f => {
+        const tag = estProjet(f) ? '🚀' : '📝'
+        return `<button class="search-hit" data-id="${f.id}">
+          <span class="search-hit-title">${tag} ${escapeHtml(f.title || '')}</span>
+          <span class="search-hit-topic">${escapeHtml(f.topic || '')}</span>
+        </button>`
+      }).join('')
+    }
+    box.classList.remove('hidden')
+  })
+  box.addEventListener('click', e => {
+    const b = e.target.closest('[data-id]')
+    if (!b) return
+    const f = allFiches.find(x => x.id === b.dataset.id)
+    if (f) {
+      lastFicheView = estProjet(f) ? 'projets' : 'fiches'
+      showFicheRead(f)
+      box.classList.add('hidden')
+      input.value = ''
+    }
+  })
+  input.addEventListener('keydown', e => { if (e.key === 'Escape') { box.classList.add('hidden'); input.value = '' } })
+  document.addEventListener('click', e => {
+    if (!input.contains(e.target) && !box.contains(e.target)) box.classList.add('hidden')
+  })
+})()
 document.getElementById('btn-read-edit').addEventListener('click',    () => {
   const f = allFiches.find(x => x.id === currentFicheId)
   if (f) showFicheEdit(f)
