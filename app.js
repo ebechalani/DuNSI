@@ -2871,7 +2871,8 @@ function inlineFmt(s) {
   h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')        // **gras**
   h = h.replace(/\*([^*\n]+)\*/g, '<em>$1</em>')                  // *italique*
   h = h.replace(/`([^`]+)`/g, '<code class="doc-ic">$1</code>')   // `code` -> pastille
-  h = h.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+  h = h.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')   // [libellé](url) (relatif ou http)
+  h = h.replace(/(^|[^"=>])(https?:\/\/[^\s<]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>') // URL brute (pas déjà dans un href)
   return h
 }
 const linkify = inlineFmt   // compat
