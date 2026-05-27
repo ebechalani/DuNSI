@@ -2836,6 +2836,7 @@ function renderProjets() {
 function inlineFmt(s) {
   let h = escapeHtml(s)
   h = h.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')        // **gras**
+  h = h.replace(/\*([^*\n]+)\*/g, '<em>$1</em>')                  // *italique*
   h = h.replace(/`([^`]+)`/g, '<code class="doc-ic">$1</code>')   // `code` -> pastille
   h = h.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
   return h
@@ -2857,6 +2858,43 @@ function mdTable(block) {
 //  - titres de section (1) …, Exercice…, Étape…) mis en évidence
 //  - blocs de code délimités par des triples accents graves rendus en monospace
 //  - tableaux Markdown, **gras** et `code` inline
+// Rend un fragment de prose (titre éventuel + paragraphe)
+function renderProseChunk(txt) {
+  txt = txt.trim()
+  if (!txt) return ''
+  const lines = txt.split('\n')
+  const first = lines[0].trim()
+  if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
+    const rest = lines.slice(1).join('\n').trim()
+    return `<p class="doc-subheading">${inlineFmt(first)}</p>` +
+           (rest ? `<p class="doc-para">${inlineFmt(rest)}</p>` : '')
+  }
+  return `<p class="doc-para">${inlineFmt(txt)}</p>`
+}
+
+// Rend un bloc : peut contenir un titre PUIS un tableau (même sans ligne vide)
+function renderBlock(block) {
+  const lines = block.split('\n')
+  let html = ''
+  let buf = []
+  for (let i = 0; i < lines.length; i++) {
+    const isTableStart = lines[i].trim().startsWith('|') &&
+      i + 1 < lines.length && /-{2,}/.test(lines[i + 1]) && lines[i + 1].includes('|')
+    if (isTableStart) {
+      html += renderProseChunk(buf.join('\n')); buf = []
+      let j = i
+      const tbl = []
+      while (j < lines.length && lines[j].trim().startsWith('|')) { tbl.push(lines[j]); j++ }
+      html += mdTable(tbl.join('\n'))
+      i = j - 1
+    } else {
+      buf.push(lines[i])
+    }
+  }
+  html += renderProseChunk(buf.join('\n'))
+  return html
+}
+
 function formatProse(text) {
   // segments alternés : prose (pair) / code (impair)
   return String(text).split('```').map((seg, i) => {
@@ -2866,19 +2904,7 @@ function formatProse(text) {
     return seg.split(/\n{2,}/).map(block => {
       block = block.replace(/^\n+|\n+$/g, '')
       if (!block.trim()) return ''
-      const lines = block.split('\n')
-      // tableau Markdown : 1re ligne en |…|, 2e ligne de tirets
-      if (lines.length >= 2 && lines[0].trim().startsWith('|') &&
-          /-{2,}/.test(lines[1]) && lines[1].includes('|')) {
-        return mdTable(block)
-      }
-      const first = lines[0].trim()
-      if (/^(\d+[\).]|Exercice|Étape|Etape)(\s|$)/i.test(first)) {
-        const rest = lines.slice(1).join('\n').trim()
-        return `<p class="doc-subheading">${inlineFmt(first)}</p>` +
-               (rest ? `<p class="doc-para">${inlineFmt(rest)}</p>` : '')
-      }
-      return `<p class="doc-para">${inlineFmt(block)}</p>`
+      return renderBlock(block)
     }).join('')
   }).join('')
 }
