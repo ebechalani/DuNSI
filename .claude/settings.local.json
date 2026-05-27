@@ -135,7 +135,8 @@
       "Bash(rm vn.py)",
       "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\); print\\('mdTable:', c.count\\('function mdTable'\\), '| inlineFmt:', c.count\\('function inlineFmt'\\)\\)\")",
       "Bash(python _conv6.py)",
-      "Bash(del _conv1.py _conv2.py _conv3.py _conv4.py _conv5.py _conv6.py)"
+      "Bash(del _conv1.py _conv2.py _conv3.py _conv4.py _conv5.py _conv6.py)",
+      "Bash(node --check app.js)"
     ]
   }
 }
