@@ -54,6 +54,37 @@ const RESSOURCES_OFFICIEL = [
   { icon: '📧', title: 'Liste NSI (RENATER)',     desc: 'numerique-sciences-informatiques@groupes.renater.fr',                   url: 'mailto:numerique-sciences-informatiques@groupes.renater.fr' },
 ]
 
+// ── Logisim : plateforme + projets de circuits logiques (Bloc 3, Jour 6) ──
+const LOGISIM_PLATFORM = {
+  icon: '🔌',
+  title: 'Logisim Evolution (à installer)',
+  desc: 'Simulateur libre de circuits logiques (gratuit, nécessite Java). Télécharge la dernière version, puis ouvre les projets .circ ci-dessous (Fichier → Ouvrir).',
+  url: 'https://github.com/logisim-evolution/logisim-evolution/releases/latest',
+}
+// Projets rangés du plus simple au plus complet (combinatoire → séquentiel → microprocesseur)
+const LOGISIM_PROJETS = [
+  { file: 'Addition.circ',   icon: '➕', title: 'Additionneurs & soustracteur', theme: 'Logique combinatoire',
+    desc: 'Demi-additionneur, additionneur complet, additionneur 4 bits, additionneur/soustracteur et affichage.' },
+  { file: 'Plexer.circ',     icon: '🔀', title: 'Encodeurs, décodeurs, multiplexeurs', theme: 'Logique combinatoire',
+    desc: 'Encodeurs, décodeurs, multiplexeurs et démultiplexeurs (2 et 4 bits).' },
+  { file: 'ByteToBCD.circ',  icon: '🔢', title: 'Conversion octet → BCD', theme: 'Logique combinatoire',
+    desc: 'Convertit un octet en décimal codé binaire (BCD) pour l’affichage.' },
+  { file: 'Aff7seg.circ',    icon: '🔡', title: 'Afficheur 7 segments', theme: 'Logique combinatoire',
+    desc: 'Décodage d’une valeur vers un afficheur 7 segments (hexadécimal et décimal).' },
+  { file: 'FF.circ',         icon: '🔁', title: 'Bascules (flip-flops)', theme: 'Logique séquentielle',
+    desc: 'Bascules RS, RS à horloge, JK, JK maître-esclave, D et T.' },
+  { file: 'Sequentiel.circ', icon: '⏱️', title: 'Horloges & registres à décalage', theme: 'Logique séquentielle',
+    desc: 'Horloges, bascules, décalages (gauche/droite), rotation.' },
+  { file: 'Memoire.circ',    icon: '💾', title: 'Registres & mémoire', theme: 'Logique séquentielle',
+    desc: 'Registre 1 bit / 4 bits, mémoires 8×4 et 32×4 bits, décodeurs d’adresse.' },
+  { file: 'Sequenceur.circ', icon: '🎚️', title: 'Séquenceur', theme: 'Logique séquentielle',
+    desc: 'Séquenceurs asynchrones et synchrone, partie combinatoire.' },
+  { file: 'ALU.circ',        icon: '🧮', title: 'Unité Arithmétique et Logique (UAL)', theme: 'Microprocesseur',
+    desc: 'Décodeur, multiplexeur, additionneur, UAL 1 bit puis UAL 4 bits.' },
+  { file: 'HighLevel.circ',  icon: '🖥️', title: 'Processeur complet (vue haut niveau)', theme: 'Microprocesseur',
+    desc: 'Décodeur d’instruction, unité de commande, séquenceur, exécution, registres, ROM/RAM.' },
+]
+
 const CALENDAR = [
   { bloc: 'bloc0', label: 'Bloc 0 — Rappels et mise à niveau',          dates: '19-22 mai 2026',   lieu: 'Le Havre', mode: 'présentiel', isoStart: '2026-05-19' },
   { bloc: 'bloc3', label: 'Bloc 3 — Architectures, systèmes, réseaux',  dates: '26-29 mai 2026',   lieu: 'Rouen',    mode: 'présentiel', isoStart: '2026-05-26' },
@@ -3265,6 +3296,22 @@ function renderRessources() {
 
   document.getElementById('res-mermet').innerHTML   = RESSOURCES_MERMET.map(makeCard).join('')
   document.getElementById('res-officiel').innerHTML = RESSOURCES_OFFICIEL.map(makeCard).join('')
+
+  // Logisim : plateforme (lien externe) + projets .circ (téléchargement local)
+  const logiWrap = document.getElementById('res-logisim')
+  if (logiWrap) {
+    const platform = makeCard(LOGISIM_PLATFORM)
+    const projets = LOGISIM_PROJETS.map(p => `
+      <a class="resource-card" href="ressources/logisim/${p.file}" download>
+        <div class="resource-card-icon">${p.icon}</div>
+        <div>
+          <div class="resource-card-title">${p.title}</div>
+          <div class="resource-card-desc"><span class="logisim-tag">${p.theme}</span>${p.desc}</div>
+        </div>
+        <div class="resource-card-arrow">⬇</div>
+      </a>`).join('')
+    logiWrap.innerHTML = platform + projets
+  }
 
   const now = today()
   document.getElementById('res-calendar').innerHTML = `<div class="calendar-list">` +

@@ -842,6 +842,17 @@ textarea { resize: vertical; }
 .resource-card-title { font-weight: 600; font-size: 0.95rem; }
 .resource-card-desc  { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
 .resource-card-arrow { margin-left: auto; color: var(--muted); font-size: 0.9rem; }
+.logisim-tag {
+  display: inline-block;
+  background: #eef4ff;
+  color: #1e3a5f;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 6px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
 
 /* ── Calendar ── */
 .calendar-list { display: flex; flex-direction: column; gap: 8px; }
