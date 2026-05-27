@@ -2782,10 +2782,11 @@ function renderProjets() {
   }
   let banner = ''
   if (parcoursNb.length || projetsNb.length) {
-    banner = `<div class="projets-banner">
-      ${parcoursNb.length ? `<div class="projets-banner-group"><div class="projets-banner-label">📚 Parcours guidés — code dans le navigateur (Basthon)</div><div class="projets-banner-btns">${parcoursNb.map(btn).join('')}</div></div>` : ''}
-      ${projetsNb.length ? `<div class="projets-banner-group"><div class="projets-banner-label">🛠 Projets à compléter (Basthon)</div><div class="projets-banner-btns">${projetsNb.map(btn).join('')}</div></div>` : ''}
-    </div>`
+    banner = `<details class="projets-banner">
+      <summary class="projets-banner-summary">⚡ Notebooks interactifs (Basthon) — ${parcoursNb.length + projetsNb.length}</summary>
+      ${parcoursNb.length ? `<div class="projets-banner-group"><div class="projets-banner-label">📚 Parcours guidés</div><div class="projets-banner-btns">${parcoursNb.map(btn).join('')}</div></div>` : ''}
+      ${projetsNb.length ? `<div class="projets-banner-group"><div class="projets-banner-label">🛠 Projets à compléter</div><div class="projets-banner-btns">${projetsNb.map(btn).join('')}</div></div>` : ''}
+    </details>`
   }
 
   if (!projets.length) {
@@ -2812,10 +2813,10 @@ function renderProjets() {
         <span class="projet-card-arrow">›</span>
       </button>`
     }).join('')
-    return `<div class="projet-cat">
-      <div class="projet-cat-label">${escapeHtml(cat)}</div>
+    return `<details class="projet-cat">
+      <summary class="projet-cat-label">${escapeHtml(cat)} (${cats.get(cat).length})</summary>
       <div class="projet-grid">${cards}</div>
-    </div>`
+    </details>`
   }).join('')
   wrap.innerHTML = banner + sections
 
@@ -3372,37 +3373,38 @@ document.getElementById('btn-read-back').addEventListener('click',    () => navi
   const input = document.getElementById('global-search')
   const box   = document.getElementById('search-results')
   if (!input || !box) return
+  // normalise : minuscules + sans accents (recherche tolérante)
+  const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   input.addEventListener('input', () => {
-    const q = input.value.trim().toLowerCase()
+    const q = norm(input.value.trim())
     if (q.length < 2) { box.classList.add('hidden'); box.innerHTML = ''; return }
-    const hits = allFiches.filter(f =>
-      (f.title || '').toLowerCase().includes(q) ||
-      (f.topic || '').toLowerCase().includes(q) ||
-      (f.summary || '').toLowerCase().includes(q)
-    ).slice(0, 15)
-    if (!hits.length) {
-      box.innerHTML = '<div class="search-empty">Aucun résultat</div>'
-    } else {
-      box.innerHTML = hits.map(f => {
-        const tag = estProjet(f) ? '🚀' : '📝'
-        return `<button class="search-hit" data-id="${f.id}">
-          <span class="search-hit-title">${tag} ${escapeHtml(f.title || '')}</span>
-          <span class="search-hit-topic">${escapeHtml(f.topic || '')}</span>
-        </button>`
-      }).join('')
-    }
+    const match = (...champs) => champs.some(c => norm(c).includes(q))
+    const fHits = allFiches.filter(f => match(f.title, f.topic, f.summary)).slice(0, 12)
+    const tHits = TPS.filter(t => match(t.title, t.theme, t.intro)).slice(0, 8)
+    let html = fHits.map(f => {
+      const tag = estProjet(f) ? '🚀' : '📝'
+      return `<button class="search-hit" data-id="${f.id}">
+        <span class="search-hit-title">${tag} ${escapeHtml(f.title || '')}</span>
+        <span class="search-hit-topic">${escapeHtml(f.topic || '')}</span>
+      </button>`
+    }).join('')
+    html += tHits.map(t => `<button class="search-hit" data-tp="${t.id}">
+        <span class="search-hit-title">🧪 ${escapeHtml(t.title || '')}</span>
+        <span class="search-hit-topic">${escapeHtml(t.theme || t.jour || '')}</span>
+      </button>`).join('')
+    box.innerHTML = html || '<div class="search-empty">Aucun résultat</div>'
     box.classList.remove('hidden')
   })
   box.addEventListener('click', e => {
-    const b = e.target.closest('[data-id]')
+    const b = e.target.closest('[data-id],[data-tp]')
     if (!b) return
-    const f = allFiches.find(x => x.id === b.dataset.id)
-    if (f) {
-      lastFicheView = estProjet(f) ? 'projets' : 'fiches'
-      showFicheRead(f)
-      box.classList.add('hidden')
-      input.value = ''
+    if (b.dataset.tp) {
+      navigate('tp'); showTPDetail(b.dataset.tp)
+    } else {
+      const f = allFiches.find(x => x.id === b.dataset.id)
+      if (f) { lastFicheView = estProjet(f) ? 'projets' : 'fiches'; showFicheRead(f) }
     }
+    box.classList.add('hidden'); input.value = ''
   })
   input.addEventListener('keydown', e => { if (e.key === 'Escape') { box.classList.add('hidden'); input.value = '' } })
   document.addEventListener('click', e => {
