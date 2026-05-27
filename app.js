@@ -44,6 +44,7 @@ const RESSOURCES_MERMET = [
 ]
 const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
+  { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
   { icon: '🎓', title: 'Moodle Eureka (Univ. Le Havre)', desc: 'Plateforme du DIU — login = identifiants wifi · mdp : /login/forgot_password.php', url: 'https://eureka.univ-lehavre.fr' },
   { icon: '📚', title: 'Eduscol NSI',      desc: 'Programmes et ressources officielles Numérique et Sciences Informatiques', url: 'https://eduscol.education.gouv.fr/5823/programmes-et-ressources-en-numerique-et-sciences-informatiques-voie-g' },
   { icon: '💬', title: 'Forum MOOC NSI',   desc: 'Échanges et ressources de la communauté NSI (INRIA)',                      url: 'https://mooc-forums.inria.fr/moocnsi' },
