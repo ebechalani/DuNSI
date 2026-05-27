@@ -124,7 +124,8 @@
       "Bash(rm enrich_repr.py)",
       "Bash(python float_ex.py)",
       "Bash(rm float_ex.py)",
-      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('backticks:', 'pair' if n%2==0 else 'IMPAIR'\\); print\\('hackmd:', c.count\\('hackmd.io'\\)\\)\")"
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('backticks:', 'pair' if n%2==0 else 'IMPAIR'\\); print\\('hackmd:', c.count\\('hackmd.io'\\)\\)\")",
+      "Bash(python -c \"c=open\\('app.js',encoding='utf-8'\\).read\\(\\); n=c.count\\(chr\\(96\\)\\)-3; print\\('backticks:', n, 'pair' if n%2==0 else 'IMPAIR'\\); print\\('bindSearch:', c.count\\('bindSearch'\\)\\)\")"
     ]
   }
 }
