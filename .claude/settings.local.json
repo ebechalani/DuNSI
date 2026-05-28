@@ -151,7 +151,9 @@
       "Bash(cd \"C:/Users/PC/Documents/GitHub/DuNSI\" && ls -lh \"G:/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Rouen/Jour 7/part1/Quelques repères sur les réseaux informatiques.html\" && cp \"G:/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Rouen/Jour 7/part1/Quelques repères sur les réseaux informatiques.html\" \"ressources/Reseaux_reperes.html\" && ls -lh ressources/Reseaux_reperes.html)",
       "Bash(python _j7.py)",
       "Bash(cd \"C:/Users/PC/Documents/GitHub/DuNSI\" && cp \"G:/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Rouen/Jour 7/part2/formation_DIU_EIL_Bloc3_Architecture_matérielle_S_NICOLAS.pdf\" \"ressources/architecture/Nicolas_Architecture_materielle.pdf\" && ls -lh ressources/architecture/)",
-      "Bash(python _j7p2.py)"
+      "Bash(python _j7p2.py)",
+      "Bash(wait)",
+      "Bash(cat C:\\\\\\\\Users\\\\\\\\PC\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\C--Users-PC-Documents-GitHub-DuNSI\\\\\\\\43aa5f7b-cb8a-493c-a215-89a6e2047617\\\\\\\\tasks\\\\\\\\bdzkbawo0.output)"
     ]
   }
 }
