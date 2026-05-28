@@ -141,7 +141,17 @@
       "Bash(ls -la ressources/)",
       "Bash(cat CNAME)",
       "Bash(mkdir -p ressources/logisim)",
-      "Bash(python _logi.py)"
+      "Bash(python _logi.py)",
+      "Bash(Select-String \"env\")",
+      "Read(//c/Users/PC/AppData/Roaming/Code/User/globalStorage/anthropic.claude-code/**)",
+      "Read(//c/Users/PC//**)",
+      "Bash(node -e ' *)",
+      "PowerShell(\\(Get-Command node -ErrorAction SilentlyContinue\\).Source; \\(Get-Command node.exe -ErrorAction SilentlyContinue\\).Source)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\\\\nodejs\\\\node.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\node\\\\node.exe\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:APPDATA\\\\npm\\\\node.exe\" -ErrorAction SilentlyContinue; where.exe node 2>$null)",
+      "Bash(cd \"C:/Users/PC/Documents/GitHub/DuNSI\" && ls -lh \"G:/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Rouen/Jour 7/part1/Quelques repères sur les réseaux informatiques.html\" && cp \"G:/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Rouen/Jour 7/part1/Quelques repères sur les réseaux informatiques.html\" \"ressources/Reseaux_reperes.html\" && ls -lh ressources/Reseaux_reperes.html)",
+      "Bash(python _j7.py)",
+      "Bash(cd \"C:/Users/PC/Documents/GitHub/DuNSI\" && cp \"G:/My Drive/HDD Eddy 2015-2026/NSI/DU Normandie/Rouen/Jour 7/part2/formation_DIU_EIL_Bloc3_Architecture_matérielle_S_NICOLAS.pdf\" \"ressources/architecture/Nicolas_Architecture_materielle.pdf\" && ls -lh ressources/architecture/)",
+      "Bash(python _j7p2.py)"
     ]
   }
 }
