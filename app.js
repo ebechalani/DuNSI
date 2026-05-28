@@ -46,6 +46,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
   { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
   { icon: '🧬', title: 'Big Data et Sciences de la Vie (L. Mouchard)', desc: 'Les 3 V, ordres de grandeur, bases bio (GenBank, SRA, TCGA), cloud computing (Jour 6)', url: 'https://codimd.univ-rouen.fr/s/PM0v1dyOX' },
+  { icon: '🌐', title: 'Quelques repères sur les réseaux informatiques (HackMD)', desc: 'OSI/TCP-IP, encapsulation, IPv4, DNS, TCP/UDP, CIDR, NAT, firewalls — Jour 7 (téléchargement local)', url: 'ressources/Reseaux_reperes.html' },
   { icon: '🎓', title: 'Moodle Eureka (Univ. Le Havre)', desc: 'Plateforme du DIU — login = identifiants wifi · mdp : /login/forgot_password.php', url: 'https://eureka.univ-lehavre.fr' },
   { icon: '📚', title: 'Eduscol NSI',      desc: 'Programmes et ressources officielles Numérique et Sciences Informatiques', url: 'https://eduscol.education.gouv.fr/5823/programmes-et-ressources-en-numerique-et-sciences-informatiques-voie-g' },
   { icon: '💬', title: 'Forum MOOC NSI',   desc: 'Échanges et ressources de la communauté NSI (INRIA)',                      url: 'https://mooc-forums.inria.fr/moocnsi' },
@@ -2623,6 +2624,7 @@ const JOUR_LABELS = {
   '2026-05-22': 'Jour 4 — 22 mai',
   '2026-05-26': 'Jour 5 — 26 mai',
   '2026-05-27': 'Jour 6 — 27 mai',
+  '2026-05-28': 'Jour 7 — 28 mai',
 }
 function jourLabel(isoTs) {
   if (!isoTs) return ''
