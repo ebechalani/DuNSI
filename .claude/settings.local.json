@@ -155,7 +155,18 @@
       "Bash(wait)",
       "Bash(cat C:\\\\\\\\Users\\\\\\\\PC\\\\\\\\AppData\\\\\\\\Local\\\\\\\\Temp\\\\\\\\claude\\\\\\\\C--Users-PC-Documents-GitHub-DuNSI\\\\\\\\43aa5f7b-cb8a-493c-a215-89a6e2047617\\\\\\\\tasks\\\\\\\\bdzkbawo0.output)",
       "WebFetch(domain:pixees.fr)",
-      "Bash(python _tp_sim.py)"
+      "Bash(python _tp_sim.py)",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\PC\\\\Downloads\\\\Escape_game_Mission_Londres_1seance.docx\" unpacked_london/)",
+      "PowerShell($g = Get-Command gh -ErrorAction SilentlyContinue; if \\($g\\) { \"gh: $\\($g.Source\\)\"; gh auth status } else { \"gh not found\" })",
+      "PowerShell(& git -C \"C:\\\\Users\\\\PC\\\\Documents\\\\GitHub\\\\ppp\" log --oneline -5)",
+      "PowerShell(\"---LOG---\")",
+      "Bash(git reset *)",
+      "Bash(git checkout *)",
+      "Bash(Get-ChildItem \"C:\\\\Users\\\\PC\\\\Desktop\\\\EDDY 1-6-2026\\\\DCIM\\\\101NCZ_8\")",
+      "Bash(Select-Object Name, Extension)",
+      "Bash(Head -20)",
+      "PowerShell(python -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
+      "Bash(python _bloc1.py)"
     ]
   }
 }

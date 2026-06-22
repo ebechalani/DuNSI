@@ -7,6 +7,12 @@
       "runtimeArgs": ["serve.py"],
       "port": 5500,
       "autoPort": true
+    },
+    {
+      "name": "ppp",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3460", "--directory", "C:\\Users\\PC\\Documents\\GitHub\\ppp"],
+      "port": 3460
     }
   ]
 }
