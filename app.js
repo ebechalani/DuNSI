@@ -2564,14 +2564,24 @@ function renderDashboard() {
   const mastered      = Object.values(topicStatuses).filter(s => s === 'mastered').length
   const inProgress    = Object.values(topicStatuses).filter(s => s === 'in_progress').length
 
-  // Prochaine deadline
+  // Prochaines deadlines
+  const daysRendu   = daysUntil('2026-07-01')   // rendu de la formation en ligne (Mermet)
   const daysRapport = daysUntil('2026-11-30')
   const daysPresent = daysUntil('2026-12-17')
+
+  // La carte « rendu formation » n'apparaît que tant que l'échéance est à venir
+  const renduCard = daysRendu >= 0 ? `
+    <div class="stat-card deadline-card ${daysRendu < 14 ? 'urgent' : ''}">
+      <div class="deadline-label">📚 Rendu formation</div>
+      <div class="deadline-date">1ᵉʳ juil. 2026</div>
+      <div class="deadline-days">J-${daysRendu}</div>
+    </div>` : ''
 
   document.getElementById('dash-stats').innerHTML = `
     <div class="stat-card"><div class="stat-value">${mastered}</div><div class="stat-label">Thèmes maîtrisés / ${totalTopics}</div></div>
     <div class="stat-card"><div class="stat-value">${allFiches.length}</div><div class="stat-label">Fiches de cours</div></div>
     <div class="stat-card"><div class="stat-value">${allEntries.length}</div><div class="stat-label">Entrées journal</div></div>
+    ${renduCard}
     <div class="stat-card deadline-card ${daysRapport < 14 ? 'urgent' : ''}">
       <div class="deadline-label">📄 Rapport papier</div>
       <div class="deadline-date">30 nov. 2026</div>
