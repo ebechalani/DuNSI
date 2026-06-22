@@ -166,7 +166,8 @@
       "Bash(Select-Object Name, Extension)",
       "Bash(Head -20)",
       "PowerShell(python -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
-      "Bash(python _bloc1.py)"
+      "Bash(python _bloc1.py)",
+      "Bash(python _bloc1b.py)"
     ]
   }
 }
