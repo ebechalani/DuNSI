@@ -42,6 +42,50 @@ const RESSOURCES_MERMET = [
   { icon: '⚙️', title: 'Bloc 2 — Algorithmique',                 desc: 'Algorithmes classiques, correction, complexité',           url: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/index.html' },
   { icon: '🗄️', title: 'Bloc 4 — Programmation avancée et BDD', desc: 'SQL, paradigmes, structures de données',                   url: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Bloc4/index.html' },
 ]
+
+// ── Ordre du jour des séances en ligne (distanciel) ──────
+// Les URLs relatives sont résolues contre `base`; celles commençant par http restent telles quelles.
+const SESSIONS_ENLIGNE = [
+  {
+    id: 'mermet-didactique-2026-06-22',
+    iso: '2026-06-22', dateLabel: '22 juin 2026', bloc: 'bloc1',
+    titre: "Culture & didactique de l'informatique",
+    formateur: 'Bruno Mermet', mode: 'distanciel', duree: '3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Didactique/',
+    index: 'index.html',
+    parties: [
+      { titre: 'I. Culture informatique', duree: '1 h', items: [
+        { t: "Histoire de l'informatique",                 u: 'histoireInformatique.html' },
+        { t: 'Typologie des langages de programmation',     u: 'typologieLangages.html' },
+        { t: 'Projets informatiques : caractéristiques',    u: 'projetInformatique.html' },
+        { t: 'Psychologie du développeur',                  u: 'psychologieDeveloppeur.html' },
+        { t: 'Les études pour devenir informaticien',       u: 'etudes.html' },
+      ]},
+      { titre: "II. Didactique de l'informatique", duree: '1 h', groupes: [
+        { sous: 'Points de repère', items: [
+          { t: 'Introduction à la didactique',                       u: 'didactique.html' },
+          { t: 'Computational Thinking (Dagienė & Jevsikova)',       u: 'computationalThinking.html' },
+          { t: 'Compétences ADAGE',                                  u: 'adage.html' },
+          { t: "Résumé du livre « Enseigner l'informatique »",        u: 'resumeLivreEnseignerInformatique.html' },
+        ]},
+        { sous: 'En Première', items: [
+          { t: 'Programme officiel de Première (PDF)',               u: 'https://cache.media.education.gouv.fr/file/SP1-MEN-22-1-2019/26/8/spe633_annexe_1063268.pdf' },
+          { t: 'Pistes pour organiser le cours de NSI en Première',  u: 'organisationPremiere.html' },
+          { t: 'Évaluation de NSI en Première (BO)',                 u: 'https://www.education.gouv.fr/pid285/bulletin_officiel.html?cid_bo=141199' },
+        ]},
+        { sous: 'En Terminale', items: [
+          { t: 'Grandes lignes du programme de Terminale',          u: 'resumeProgrammeTerminale.html' },
+          { t: 'Quelques trucs bien pratiques',                     u: 'trucs.html' },
+        ]},
+      ]},
+      { titre: 'III. Travail pratique & conclusion', duree: '1 h', items: [
+        { t: 'Brainstorming : idées de projet',  u: 'ideesProjets.html' },
+        { t: 'Rendu pour la fin de la formation', u: 'rendu.html' },
+      ]},
+    ],
+  },
+]
+const resolveUrl = (base, u) => /^https?:/i.test(u) ? u : base + u
 const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
   { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
@@ -2515,6 +2559,7 @@ function blocBadge(bloc) {
 
 // ── Dashboard ────────────────────────────────────────────
 function renderDashboard() {
+  renderAgendaBanner()
   const totalTopics   = PROGRAMME.reduce((n, b) => n + b.topics.length, 0)
   const mastered      = Object.values(topicStatuses).filter(s => s === 'mastered').length
   const inProgress    = Object.values(topicStatuses).filter(s => s === 'in_progress').length
@@ -3286,6 +3331,73 @@ async function saveEvalMeta() {
   toast('Sauvegardé ✓')
 }
 
+// ── Ordre du jour (séances en ligne) ─────────────────────
+function agendaLinkRow(base, it) {
+  const url = resolveUrl(base, it.u)
+  return `<a class="agenda-link" href="${url}" target="_blank" rel="noopener">${escapeHtml(it.t)} <span class="agenda-arrow">↗</span></a>`
+}
+function agendaSessionHtml(s, openFirst) {
+  const parts = s.parties.map((p, i) => {
+    let body
+    if (p.groupes) {
+      body = p.groupes.map(g =>
+        `<div class="agenda-sub">${escapeHtml(g.sous)}</div>` +
+        `<div class="agenda-list">${g.items.map(it => agendaLinkRow(s.base, it)).join('')}</div>`
+      ).join('')
+    } else {
+      body = `<div class="agenda-list">${p.items.map(it => agendaLinkRow(s.base, it)).join('')}</div>`
+    }
+    return `<details class="projet-cat"${i === 0 && openFirst ? ' open' : ''}>` +
+           `<summary class="projet-cat-label">${escapeHtml(p.titre)} <span class="agenda-duree">· ${p.duree}</span></summary>` +
+           `<div class="agenda-part-body">${body}</div></details>`
+  }).join('')
+  return `<div class="agenda-card">
+      <div class="agenda-head">
+        <div>
+          <div class="agenda-title">${blocBadge(s.bloc)} ${escapeHtml(s.titre)}</div>
+          <div class="agenda-meta">${escapeHtml(s.formateur)} · ${escapeHtml(s.dateLabel)} · ${escapeHtml(s.mode)} · ${escapeHtml(s.duree)}</div>
+        </div>
+        <a class="btn-secondary agenda-index-btn" href="${resolveUrl(s.base, s.index)}" target="_blank" rel="noopener">Ouvrir l'index ↗</a>
+      </div>
+      ${parts}
+    </div>`
+}
+function renderAgenda() {
+  const wrap = document.getElementById('res-agenda')
+  if (!wrap) return
+  const now = today()
+  // Tri chronologique ; la séance du jour (ou la prochaine) est dépliée
+  const sessions = [...SESSIONS_ENLIGNE].sort((a, b) => a.iso.localeCompare(b.iso))
+  const todayIdx = sessions.findIndex(s => s.iso === now)
+  const nextIdx  = sessions.findIndex(s => s.iso >= now)
+  const highlight = todayIdx >= 0 ? todayIdx : nextIdx
+  wrap.innerHTML = sessions.map((s, i) => agendaSessionHtml(s, i === highlight)).join('')
+}
+
+// Bannière « aujourd'hui / prochaine séance en ligne » sur le tableau de bord
+function renderAgendaBanner() {
+  const el = document.getElementById('dash-agenda')
+  if (!el) return
+  const now = today()
+  const sessions = [...SESSIONS_ENLIGNE].sort((a, b) => a.iso.localeCompare(b.iso))
+  const todaySession = sessions.find(s => s.iso === now)
+  const nextSession  = sessions.find(s => s.iso > now)
+  const s = todaySession || nextSession
+  if (!s) { el.innerHTML = ''; return }
+  const isToday = !!todaySession
+  const jLabel = isToday ? "Aujourd'hui" : `Dans ${daysUntil(s.iso)} j`
+  el.innerHTML = `
+    <button class="agenda-banner ${isToday ? 'is-today' : ''}" id="dash-agenda-btn">
+      <span class="agenda-banner-tag">📋 ${jLabel}</span>
+      <span class="agenda-banner-text">Séance en ligne — ${escapeHtml(s.titre)} <span class="agenda-banner-meta">(${escapeHtml(s.formateur)}, ${escapeHtml(s.dateLabel)})</span></span>
+      <span class="agenda-banner-cta">Voir l'ordre du jour →</span>
+    </button>`
+  el.querySelector('#dash-agenda-btn').addEventListener('click', () => {
+    navigate('ressources')
+    setTimeout(() => document.getElementById('res-agenda')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60)
+  })
+}
+
 // ── Ressources ───────────────────────────────────────────
 
 function renderRessources() {
@@ -3301,6 +3413,7 @@ function renderRessources() {
 
   renderUploadedRessources()
 
+  renderAgenda()
   document.getElementById('res-mermet').innerHTML   = RESSOURCES_MERMET.map(makeCard).join('')
   document.getElementById('res-officiel').innerHTML = RESSOURCES_OFFICIEL.map(makeCard).join('')
 

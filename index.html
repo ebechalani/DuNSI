@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DIU NSI — Le Havre</title>
-  <link rel="stylesheet" href="style.css?v=20260528c" />
+  <link rel="stylesheet" href="style.css?v=20260622a" />
 </head>
 <body>
 
@@ -34,6 +34,7 @@
     <!-- Dashboard -->
     <section id="view-dashboard">
       <h2 class="page-title">Tableau de bord</h2>
+      <div id="dash-agenda"></div>
       <div id="dash-stats" class="stats-grid"></div>
       <h3 class="section-title">Progression par bloc</h3>
       <div id="dash-blocs"></div>
@@ -301,6 +302,9 @@
       <div id="res-uploaded"></div>
       <p id="res-uploaded-empty" class="empty-msg hidden">Aucune ressource déposée pour l'instant.</p>
 
+      <h3 class="section-title">Ordre du jour — séances en ligne</h3>
+      <p class="page-desc">Programme des journées en distanciel, avec accès direct à chaque support du formateur.</p>
+      <div id="res-agenda"></div>
       <h3 class="section-title">Cours de Bruno Mermet</h3>
       <div class="resource-grid" id="res-mermet"></div>
       <h3 class="section-title">Sources officielles NSI</h3>
@@ -331,6 +335,6 @@
     <div id="print-doc-container"></div>
   </div>
 
-  <script type="module" src="app.js?v=20260528c"></script>
+  <script type="module" src="app.js?v=20260622a"></script>
 </body>
 </html>
