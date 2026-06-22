@@ -872,7 +872,9 @@ textarea { resize: vertical; }
   letter-spacing: .03em; color: var(--primary); margin: 10px 0 6px;
 }
 .agenda-list { display: flex; flex-direction: column; gap: 2px; }
+.agenda-row { display: flex; align-items: center; gap: 8px; }
 .agenda-link {
+  flex: 1 1 auto;
   display: flex; align-items: center; gap: 8px;
   padding: 7px 12px; border-radius: 8px;
   text-decoration: none; color: var(--text); font-size: 0.9rem;
@@ -880,6 +882,19 @@ textarea { resize: vertical; }
 }
 .agenda-link:hover { background: #f0f6ff; }
 .agenda-link .agenda-arrow { margin-left: auto; color: var(--muted); font-size: 0.8rem; }
+/* bouton ouvrant la fiche interne */
+.agenda-fiche-btn {
+  border: none; background: none; cursor: pointer;
+  font: inherit; text-align: left; width: 100%;
+}
+.agenda-fiche-btn:hover { background: #eef4ff; }
+.agenda-fiche-icon { flex-shrink: 0; }
+.agenda-src {
+  flex-shrink: 0; font-size: 0.74rem; font-weight: 600;
+  color: var(--muted); text-decoration: none;
+  padding: 4px 8px; border-radius: 6px; white-space: nowrap;
+}
+.agenda-src:hover { color: var(--primary); background: #f0f6ff; }
 
 /* Bannière agenda du tableau de bord */
 .agenda-banner {

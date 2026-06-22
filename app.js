@@ -55,32 +55,32 @@ const SESSIONS_ENLIGNE = [
     index: 'index.html',
     parties: [
       { titre: 'I. Culture informatique', duree: '1 h', items: [
-        { t: "Histoire de l'informatique",                 u: 'histoireInformatique.html' },
-        { t: 'Typologie des langages de programmation',     u: 'typologieLangages.html' },
-        { t: 'Projets informatiques : caractéristiques',    u: 'projetInformatique.html' },
-        { t: 'Psychologie du développeur',                  u: 'psychologieDeveloppeur.html' },
-        { t: 'Les études pour devenir informaticien',       u: 'etudes.html' },
+        { t: "Histoire de l'informatique",                 f: "Histoire de l'informatique — dates clés",            u: 'histoireInformatique.html' },
+        { t: 'Typologie des langages de programmation',     f: 'Typologie des langages de programmation',            u: 'typologieLangages.html' },
+        { t: 'Projets informatiques : caractéristiques',    f: 'Les projets informatiques et le génie logiciel',     u: 'projetInformatique.html' },
+        { t: 'Psychologie du développeur',                  f: 'Psychologie du développeur',                         u: 'psychologieDeveloppeur.html' },
+        { t: 'Les études pour devenir informaticien',       f: 'Les études en informatique (Normandie)',             u: 'etudes.html' },
       ]},
       { titre: "II. Didactique de l'informatique", duree: '1 h', groupes: [
         { sous: 'Points de repère', items: [
-          { t: 'Introduction à la didactique',                       u: 'didactique.html' },
-          { t: 'Computational Thinking (Dagienė & Jevsikova)',       u: 'computationalThinking.html' },
-          { t: 'Compétences ADAGE',                                  u: 'adage.html' },
-          { t: "Résumé du livre « Enseigner l'informatique »",        u: 'resumeLivreEnseignerInformatique.html' },
+          { t: 'Introduction à la didactique',                       f: "Introduction à la didactique de l'informatique",        u: 'didactique.html' },
+          { t: 'Computational Thinking (Dagienė & Jevsikova)',       f: 'La pensée informatique (Computational Thinking)',       u: 'computationalThinking.html' },
+          { t: 'Compétences ADAGE',                                  f: 'Les compétences ADAGE',                                 u: 'adage.html' },
+          { t: "Résumé du livre « Enseigner l'informatique »",        f: "Enseigner l'informatique (résumé du livre)",            u: 'resumeLivreEnseignerInformatique.html' },
         ]},
         { sous: 'En Première', items: [
           { t: 'Programme officiel de Première (PDF)',               u: 'https://cache.media.education.gouv.fr/file/SP1-MEN-22-1-2019/26/8/spe633_annexe_1063268.pdf' },
-          { t: 'Pistes pour organiser le cours de NSI en Première',  u: 'organisationPremiere.html' },
+          { t: 'Organiser le cours de NSI en Première',              f: 'Organiser le cours de NSI en Première',                 u: 'organisationPremiere.html' },
           { t: 'Évaluation de NSI en Première (BO)',                 u: 'https://www.education.gouv.fr/pid285/bulletin_officiel.html?cid_bo=141199' },
         ]},
         { sous: 'En Terminale', items: [
-          { t: 'Grandes lignes du programme de Terminale',          u: 'resumeProgrammeTerminale.html' },
-          { t: 'Quelques trucs bien pratiques',                     u: 'trucs.html' },
+          { t: 'Grandes lignes du programme de Terminale',          f: 'Programme de Terminale NSI (grandes lignes)',           u: 'resumeProgrammeTerminale.html' },
+          { t: 'Quelques trucs bien pratiques',                     f: 'Trucs pratiques : livrer un programme en boîte noire (.pyc)', u: 'trucs.html' },
         ]},
       ]},
       { titre: 'III. Travail pratique & conclusion', duree: '1 h', items: [
-        { t: 'Brainstorming : idées de projet',  u: 'ideesProjets.html' },
-        { t: 'Rendu pour la fin de la formation', u: 'rendu.html' },
+        { t: 'Brainstorming : idées de projet',  f: 'Idées de projets NSI (brainstorming)',  u: 'ideesProjets.html' },
+        { t: 'Rendu pour la fin de la formation', f: 'Rendu de la formation (cours à préparer)', u: 'rendu.html' },
       ]},
     ],
   },
@@ -3036,7 +3036,10 @@ function showFicheRead(fiche) {
 
   // Libellé du bouton retour selon la provenance (Fiches ou Projets)
   const back = document.getElementById('btn-read-back')
-  if (back) back.textContent = lastFicheView === 'projets' ? '← Retour aux projets' : '← Retour aux fiches'
+  if (back) back.textContent =
+    lastFicheView === 'projets'   ? '← Retour aux projets' :
+    lastFicheView === 'ressources' ? "← Retour à l'ordre du jour" :
+    '← Retour aux fiches'
 
   // Bouton « PDF original » si une ressource partage le même thème
   const dl = document.getElementById('btn-read-download')
@@ -3333,8 +3336,18 @@ async function saveEvalMeta() {
 
 // ── Ordre du jour (séances en ligne) ─────────────────────
 function agendaLinkRow(base, it) {
+  // Item rapatrié dans une fiche interne : on ouvre la fiche ; lien « source » externe en complément
+  if (it.f) {
+    const src = it.u
+      ? `<a class="agenda-src" href="${resolveUrl(base, it.u)}" target="_blank" rel="noopener" title="Page d'origine (B. Mermet)">source ↗</a>`
+      : ''
+    return `<div class="agenda-row">
+      <button class="agenda-link agenda-fiche-btn" data-fiche-title="${escapeHtml(it.f)}">
+        <span class="agenda-fiche-icon">📝</span><span>${escapeHtml(it.t)}</span>
+      </button>${src}</div>`
+  }
   const url = resolveUrl(base, it.u)
-  return `<a class="agenda-link" href="${url}" target="_blank" rel="noopener">${escapeHtml(it.t)} <span class="agenda-arrow">↗</span></a>`
+  return `<div class="agenda-row"><a class="agenda-link" href="${url}" target="_blank" rel="noopener">${escapeHtml(it.t)} <span class="agenda-arrow">↗</span></a></div>`
 }
 function agendaSessionHtml(s, openFirst) {
   const parts = s.parties.map((p, i) => {
@@ -3372,6 +3385,18 @@ function renderAgenda() {
   const nextIdx  = sessions.findIndex(s => s.iso >= now)
   const highlight = todayIdx >= 0 ? todayIdx : nextIdx
   wrap.innerHTML = sessions.map((s, i) => agendaSessionHtml(s, i === highlight)).join('')
+
+  // Ouvre la fiche interne correspondante (lié une seule fois)
+  if (!wrap.dataset.bound) {
+    wrap.addEventListener('click', e => {
+      const btn = e.target.closest('.agenda-fiche-btn')
+      if (!btn) return
+      const fiche = allFiches.find(f => f.title === btn.dataset.ficheTitle)
+      if (fiche) { lastFicheView = 'ressources'; showFicheRead(fiche) }
+      else toast('Fiche introuvable — rechargez la page')
+    })
+    wrap.dataset.bound = '1'
+  }
 }
 
 // Bannière « aujourd'hui / prochaine séance en ligne » sur le tableau de bord
