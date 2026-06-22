@@ -84,6 +84,29 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'representation-2026-06-22',
+    iso: '2026-06-22', dateLabel: '22 juin 2026 (après-midi)', bloc: 'bloc1',
+    titre: 'Représentation des données',
+    formateur: 'Support DIU (forge éducation)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://diu-representations-0abb3a.forge.apps.education.fr/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Cours', items: [
+        { t: 'Numération et bases',                    f: 'Numération et bases',                                 u: 'representation-nombres.html' },
+        { t: 'Entiers relatifs et complément à deux',  f: 'Entiers relatifs et complément à deux',               u: 'representation-nombres.html#entiers-relatifs' },
+        { t: 'Nombres à virgule (IEEE 754)',           f: 'Nombres à virgule (virgule fixe et IEEE 754)',        u: 'representation-nombres.html#nombres-à-virgule-décimaux' },
+        { t: 'Représentation des caractères',          f: 'Représentation des caractères (ASCII, Unicode, UTF-8)', u: 'representation-caracteres.html' },
+      ]},
+      { titre: 'Présentations (diapositives)', items: [
+        { t: 'Diapos — Représentation des nombres (PDF)',    u: 'prez-representation-nombres.prez.pdf' },
+        { t: 'Diapos — Représentation des caractères (PDF)', u: 'prez-representation-caracteres.prez.pdf' },
+      ]},
+      { titre: 'Exercices', items: [
+        { t: 'Exercices interactifs (console Slate)',  u: 'https://console.slate.educ.space' },
+      ]},
+    ],
+  },
 ]
 const resolveUrl = (base, u) => /^https?:/i.test(u) ? u : base + u
 const RESSOURCES_OFFICIEL = [
@@ -92,6 +115,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🧬', title: 'Big Data et Sciences de la Vie (L. Mouchard)', desc: 'Les 3 V, ordres de grandeur, bases bio (GenBank, SRA, TCGA), cloud computing (Jour 6)', url: 'https://codimd.univ-rouen.fr/s/PM0v1dyOX' },
   { icon: '🌐', title: 'Quelques repères sur les réseaux informatiques (HackMD)', desc: 'OSI/TCP-IP, encapsulation, IPv4, DNS, TCP/UDP, CIDR, NAT, firewalls — Jour 7 (téléchargement local)', url: 'ressources/Reseaux_reperes.html' },
   { icon: '🖥️', title: 'Cours architecture matérielle (S. Nicolas, Univ. Rouen)', desc: 'Von Neumann, jeu d\'instructions, assembleur, mémoire, SoC, robotique — support PDF complet (Jour 7)', url: 'ressources/architecture/Nicolas_Architecture_materielle.pdf' },
+  { icon: '🔢', title: 'Représentation des données (support DIU)', desc: 'Cours complet : numération & bases, entiers (complément à 2), IEEE 754, caractères (ASCII/Unicode/UTF-8) + diapos & exos Slate — Jour en ligne 22 juin', url: 'https://diu-representations-0abb3a.forge.apps.education.fr/index.html' },
   { icon: '📖', title: 'Modèle de von Neumann (Pixees / D. Roche)', desc: 'Cours en ligne 1ʳᵉ NSI sur l\'architecture séquentielle — pédagogique et concis', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_von_neu.html' },
   { icon: '🧪', title: 'TP simulateur CPU (Pixees / D. Roche)', desc: '1ʳᵉ NSI : 3 programmes assembleur de difficulté croissante (saisie, conversion machine↔asm, boucle while)', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_sim_cpu.html' },
   { icon: '💻', title: 'Simulateur CPU en ligne (P. Higginson)', desc: 'Simulateur de processeur von Neumann (registres, mémoire, assembleur) — utilisé par le TP Pixees', url: 'https://peterhigginson.co.uk/AQA/' },
@@ -3370,8 +3394,9 @@ function agendaSessionHtml(s, openFirst) {
     } else {
       body = `<div class="agenda-list">${p.items.map(it => agendaLinkRow(s.base, it)).join('')}</div>`
     }
+    const duree = p.duree ? ` <span class="agenda-duree">· ${escapeHtml(p.duree)}</span>` : ''
     return `<details class="projet-cat"${i === 0 && openFirst ? ' open' : ''}>` +
-           `<summary class="projet-cat-label">${escapeHtml(p.titre)} <span class="agenda-duree">· ${p.duree}</span></summary>` +
+           `<summary class="projet-cat-label">${escapeHtml(p.titre)}${duree}</summary>` +
            `<div class="agenda-part-body">${body}</div></details>`
   }).join('')
   return `<div class="agenda-card">
