@@ -167,7 +167,10 @@
       "Bash(Head -20)",
       "PowerShell(python -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
       "Bash(python _bloc1.py)",
-      "Bash(python _bloc1b.py)"
+      "Bash(python _bloc1b.py)",
+      "WebFetch(domain:diu-representations-0abb3a.forge.apps.education.fr)",
+      "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://diu-representations-0abb3a.forge.apps.education.fr/index.html\" -o _support_index.html)",
+      "Bash(python _repr.py)"
     ]
   }
 }
