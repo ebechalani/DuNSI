@@ -107,6 +107,27 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'htmlcss-2026-06-23',
+    iso: '2026-06-23', dateLabel: '23 juin 2026 (matin)', bloc: 'bloc1',
+    titre: 'Web : HTML, CSS et client/serveur',
+    formateur: 'J.-M. Barbier (DIU EIL)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Cours', items: [
+        { t: 'HTML : structure et balises',            f: 'HTML : structure et balises',                    u: 'pdf/book-html.pprint.pdf' },
+        { t: 'Le DOM (Document Object Model)',         f: 'Le DOM (Document Object Model)',                  u: 'pdf/book-html.pprint.pdf' },
+        { t: 'CSS : sélecteurs, cascade, mise en page', f: 'CSS : sélecteurs, cascade et mise en page',     u: 'pdf/book-css.pprint.pdf' },
+        { t: 'Client / serveur : HTTP, DNS, REST',     f: 'Client / serveur : HTTP, DNS et REST',           u: 'pdf/book-clientserveur.pprint.pdf' },
+      ]},
+      { titre: 'Supports PDF (livres complets)', items: [
+        { t: 'Livre HTML (PDF)',            u: 'pdf/book-html.pprint.pdf' },
+        { t: 'Livre CSS (PDF)',             u: 'pdf/book-css.pprint.pdf' },
+        { t: 'Livre Client / serveur (PDF)', u: 'pdf/book-clientserveur.pprint.pdf' },
+      ]},
+    ],
+  },
 ]
 const resolveUrl = (base, u) => /^https?:/i.test(u) ? u : base + u
 const RESSOURCES_OFFICIEL = [
@@ -116,6 +137,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🌐', title: 'Quelques repères sur les réseaux informatiques (HackMD)', desc: 'OSI/TCP-IP, encapsulation, IPv4, DNS, TCP/UDP, CIDR, NAT, firewalls — Jour 7 (téléchargement local)', url: 'ressources/Reseaux_reperes.html' },
   { icon: '🖥️', title: 'Cours architecture matérielle (S. Nicolas, Univ. Rouen)', desc: 'Von Neumann, jeu d\'instructions, assembleur, mémoire, SoC, robotique — support PDF complet (Jour 7)', url: 'ressources/architecture/Nicolas_Architecture_materielle.pdf' },
   { icon: '🔢', title: 'Représentation des données (support DIU)', desc: 'Cours complet : numération & bases, entiers (complément à 2), IEEE 754, caractères (ASCII/Unicode/UTF-8) + diapos & exos Slate — Jour en ligne 22 juin', url: 'https://diu-representations-0abb3a.forge.apps.education.fr/index.html' },
+  { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
   { icon: '📖', title: 'Modèle de von Neumann (Pixees / D. Roche)', desc: 'Cours en ligne 1ʳᵉ NSI sur l\'architecture séquentielle — pédagogique et concis', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_von_neu.html' },
   { icon: '🧪', title: 'TP simulateur CPU (Pixees / D. Roche)', desc: '1ʳᵉ NSI : 3 programmes assembleur de difficulté croissante (saisie, conversion machine↔asm, boucle while)', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_sim_cpu.html' },
   { icon: '💻', title: 'Simulateur CPU en ligne (P. Higginson)', desc: 'Simulateur de processeur von Neumann (registres, mémoire, assembleur) — utilisé par le TP Pixees', url: 'https://peterhigginson.co.uk/AQA/' },
