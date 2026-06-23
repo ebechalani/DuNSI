@@ -128,6 +128,32 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'listes-tuples-dicts-2026-06-23',
+    iso: '2026-06-23', dateLabel: '23 juin 2026 (après-midi, 13h30 CEST)', bloc: 'bloc1',
+    titre: 'Listes, n-uplets et dictionnaires (Python)',
+    formateur: 'Y. Pigné (DIU EIL)', mode: 'distanciel', duree: '2h30 (séance 1)',
+    base: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires/',
+    index: '',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio (13h30 CEST / 11h30 UTC)', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'Cours & TP (notebooks)', items: [
+        { t: 'Listes et compréhensions', f: 'Listes et compréhensions (Python)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-1-listes-tuples%2Fcours.ipynb' },
+        { t: 'Tuples, piles et files',   f: 'Tuples, piles et files (Python)',   u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-1-listes-tuples%2Fcours.ipynb' },
+        { t: 'TP séance 1 — listes & tuples (notebook)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-1-listes-tuples%2Ftp.ipynb' },
+        { t: 'Dictionnaires et ensembles', f: 'Dictionnaires et ensembles (Python)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-2-dictionnaires%2Fcours.ipynb' },
+        { t: 'TP séance 2 — dictionnaires (notebook)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-2-dictionnaires%2Ftp.ipynb' },
+      ]},
+      { titre: 'Pour démarrer', items: [
+        { t: 'Notebook de test (à exécuter avant le cours)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fnotebook-de-test.ipynb' },
+        { t: 'Dépôt complet (tous les notebooks)', u: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires' },
+        { t: 'Fiches élèves (énoncés + corrigés)', u: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires/-/tree/main/eleves' },
+        { t: 'Ouvrir un notebook : Basthon (sans installation)', u: 'https://notebook.basthon.fr' },
+      ]},
+    ],
+  },
 ]
 const resolveUrl = (base, u) => /^https?:/i.test(u) ? u : base + u
 const RESSOURCES_OFFICIEL = [
@@ -138,6 +164,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🖥️', title: 'Cours architecture matérielle (S. Nicolas, Univ. Rouen)', desc: 'Von Neumann, jeu d\'instructions, assembleur, mémoire, SoC, robotique — support PDF complet (Jour 7)', url: 'ressources/architecture/Nicolas_Architecture_materielle.pdf' },
   { icon: '🔢', title: 'Représentation des données (support DIU)', desc: 'Cours complet : numération & bases, entiers (complément à 2), IEEE 754, caractères (ASCII/Unicode/UTF-8) + diapos & exos Slate — Jour en ligne 22 juin', url: 'https://diu-representations-0abb3a.forge.apps.education.fr/index.html' },
   { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
+  { icon: '🐍', title: 'Listes, n-uplets et dictionnaires (Y. Pigné)', desc: 'Dépôt de notebooks (cours + TP + fiches élèves) : listes, tuples, piles/files, dictionnaires, ensembles — Bloc 1 (23 juin, ouvrables dans Basthon)', url: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires' },
   { icon: '📖', title: 'Modèle de von Neumann (Pixees / D. Roche)', desc: 'Cours en ligne 1ʳᵉ NSI sur l\'architecture séquentielle — pédagogique et concis', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_von_neu.html' },
   { icon: '🧪', title: 'TP simulateur CPU (Pixees / D. Roche)', desc: '1ʳᵉ NSI : 3 programmes assembleur de difficulté croissante (saisie, conversion machine↔asm, boucle while)', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_sim_cpu.html' },
   { icon: '💻', title: 'Simulateur CPU en ligne (P. Higginson)', desc: 'Simulateur de processeur von Neumann (registres, mémoire, assembleur) — utilisé par le TP Pixees', url: 'https://peterhigginson.co.uk/AQA/' },
