@@ -183,7 +183,8 @@
       "Bash(awk 'NR>=480 && NR<=788' _book-clientserveur.txt)",
       "Bash(awk 'NR>=690 && NR<=788' _book-clientserveur.txt)",
       "Bash(python _web.py)",
-      "Bash(pdftotext -layout \"/c/Users/PC/Downloads/jour 2 partie 1.pdf\" _j2p1.txt)"
+      "Bash(pdftotext -layout \"/c/Users/PC/Downloads/jour 2 partie 1.pdf\" _j2p1.txt)",
+      "Bash(python _j2notes.py)"
     ]
   }
 }
