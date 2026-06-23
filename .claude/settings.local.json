@@ -171,7 +171,19 @@
       "WebFetch(domain:diu-representations-0abb3a.forge.apps.education.fr)",
       "Bash(curl -s -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" \"https://diu-representations-0abb3a.forge.apps.education.fr/index.html\" -o _support_index.html)",
       "Bash(python _repr.py)",
-      "Bash(grep -vE \"BARBIER|^HTML\\\\s+2026|^\\\\s*$\")"
+      "Bash(grep -vE \"BARBIER|^HTML\\\\s+2026|^\\\\s*$\")",
+      "Bash(awk 'NR>=600 && NR<=900' _book-html.txt)",
+      "Bash(awk 'NR>=80 && NR<=520' _book-css.txt)",
+      "Bash(grep -vE \"BARBIER|^CSS\\\\s+2026|^\\\\s*$\")",
+      "Bash(awk 'NR>=560 && NR<=992' _book-css.txt)",
+      "Bash(grep -vE \"BARBIER|^CSS\\\\s+2026|^\\\\s*$|FiGURE\")",
+      "Bash(awk 'NR>=860 && NR<=992' _book-css.txt)",
+      "Bash(awk 'NR>=80 && NR<=788' _book-clientserveur.txt)",
+      "Bash(grep -vE \"BARBIER|^Client|20260623|^\\\\s*$|FiGURE\")",
+      "Bash(awk 'NR>=480 && NR<=788' _book-clientserveur.txt)",
+      "Bash(awk 'NR>=690 && NR<=788' _book-clientserveur.txt)",
+      "Bash(python _web.py)",
+      "Bash(pdftotext -layout \"/c/Users/PC/Downloads/jour 2 partie 1.pdf\" _j2p1.txt)"
     ]
   }
 }
