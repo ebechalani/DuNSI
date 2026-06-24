@@ -2353,6 +2353,266 @@ $ grep ':Paris:' patients.txt >> rouen.txt    # ajoute à la fin`,
         ]
       }
     ]
+  },
+
+  // ── TP en ligne — Listes & tuples (Y. Pigné, séance 1) ──
+  {
+    id: 'pytp-ltd1', bloc: 'bloc1', jour: 'En ligne — 23 juin 2026', theme: 'Python — listes, tuples, dictionnaires',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-1-listes-tuples%2Ftp.ipynb',
+    title: 'Python · TP — Séquences (listes, tuples, piles/files)',
+    type: 'tp',
+    intro: 'TP de la séance 1 (Y. Pigné). Ouvre-le dans Basthon pour coder en ligne, ou cherche ici puis déplie la correction. Cellules « # votre code » à compléter.',
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Les participants (listes : bases)',
+        code: `# votre code`,
+        questions: [
+          "Créez une liste villes avec 4 villes de participants (ex. Paris, Montréal…).",
+          "Ajoutez une ville en fin de liste ; insérez une ville en première position.",
+          "Supprimez l'une des villes par son nom.",
+          "Affichez le nombre de villes, la première et la dernière."
+        ],
+        correction: [
+          { code: `villes = ["Paris", "Montréal", "Tokyo", "Dakar"]
+villes.append("Nouméa")
+villes.insert(0, "Beyrouth")
+villes.remove("Tokyo")
+print("nombre :", len(villes))
+print("première :", villes[0])
+print("dernière :", villes[-1])` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Le planning (slicing)',
+        code: `creneaux = [9, 10, 11, 13, 14, 15, 16]
+# votre code`,
+        questions: [
+          "Affichez les 3 premiers créneaux, puis les 2 derniers.",
+          "Affichez la journée à l'envers ; puis un créneau sur deux.",
+          "À l'aide de sorted, affichez les 3 derniers créneaux de la journée."
+        ],
+        correction: [
+          { code: `print(creneaux[:3])
+print(creneaux[-2:])
+print(creneaux[::-1])
+print(creneaux[::2])
+print(sorted(creneaux)[-3:])` }
+        ]
+      },
+      {
+        num: 'E3', title: 'Exercice 3 — Durées des sessions (compréhensions)',
+        code: `durees = [150, 45, 150, 30, 90, 150]
+# votre code`,
+        questions: [
+          "Construisez (en compréhension) la liste des durées en heures (décimal).",
+          "Construisez la liste des durées supérieures ou égales à 90 minutes.",
+          "Bonus : à partir de villes = ['Paris', 'Dakar', 'Tokyo'], construisez en compréhension la liste de leurs initiales."
+        ],
+        correction: [
+          { code: `heures = [d / 60 for d in durees]
+print(heures)
+longues = [d for d in durees if d >= 90]
+print(longues)
+initiales = [v[0] for v in ["Paris", "Dakar", "Tokyo"]]
+print(initiales)` }
+        ]
+      },
+      {
+        num: 'E4', title: 'Exercice 4 — Une session (tuples & unpacking)',
+        code: `# votre code`,
+        questions: [
+          "Représentez une session par un tuple (date, heure_utc, sujet) ; dépaquetez-le dans trois variables et affichez-les.",
+          "Écrivez une fonction min_max(valeurs) qui renvoie le min et le max sous forme de tuple ; testez-la sur durees.",
+          "Échangez deux variables a et b sans variable temporaire."
+        ],
+        correction: [
+          { code: `session = ("2026-06-22", 14, "Listes et tuples")
+date, heure_utc, sujet = session
+print(date, heure_utc, sujet)
+
+def min_max(valeurs):
+    return min(valeurs), max(valeurs)
+
+durees = [150, 45, 150, 30, 90, 150]
+print(min_max(durees))
+
+a, b = 10, 20
+a, b = b, a
+print(a, b)` }
+        ]
+      },
+      {
+        num: 'E5', title: 'Exercice 5 — Défi : mesurer un coût (complexité)',
+        code: `import timeit
+# votre code`,
+        questions: [
+          "Construisez une grande liste : grande = list(range(1_000_000)).",
+          "Avec timeit, mesurez le temps pour tester si un élément absent (-1) est dans la liste.",
+          "Recommencez avec une liste dix fois plus petite. Que constatez-vous, et pourquoi cette recherche est-elle « lente » ?"
+        ],
+        correction: [
+          { code: `grande = list(range(1_000_000))
+petite = list(range(100_000))
+t_grande = timeit.timeit(lambda: -1 in grande, number=20)
+t_petite = timeit.timeit(lambda: -1 in petite, number=20)
+print(f"grande (1 000 000) : {t_grande:.3f} s")
+print(f"petite (100 000)   : {t_petite:.3f} s")` },
+          { text: "La grande liste est ~10× plus lente : la recherche x in liste parcourt les éléments un à un → coût linéaire O(n). (Le dictionnaire, en O(1), réglera ça en séance 2.)" }
+        ]
+      },
+      {
+        num: 'E6', title: "Exercice 6 — Pile & file (historique et file d'attente)",
+        code: `from collections import deque
+# votre code`,
+        questions: [
+          "Pile (annuler) : avec une list, empilez 'slide 1', 'slide 2', 'slide 3', puis revenez deux fois en arrière (dépilez) en affichant la slide quittée.",
+          "File des questions Discord : avec une deque, faites entrer 'Q1', 'Q2', 'Q3', puis traitez-les dans l'ordre d'arrivée (FIFO).",
+          "Pour la file, pourquoi deque plutôt qu'une list ?"
+        ],
+        correction: [
+          { code: `# pile (LIFO) : historique du diaporama
+historique = []
+for slide in ["slide 1", "slide 2", "slide 3"]:
+    historique.append(slide)
+for _ in range(2):
+    print("retour, on quitte :", historique.pop())
+
+# file (FIFO) : questions Discord
+questions = deque()
+for q in ["Q1", "Q2", "Q3"]:
+    questions.append(q)
+while questions:
+    print("on traite :", questions.popleft())` },
+          { text: "deque retire en tête en O(1), alors que list.pop(0) est O(n) (il faut décaler tous les éléments)." }
+        ]
+      },
+      {
+        num: 'E7', title: 'Exercice 7 — Tableaux numpy (optionnel)',
+        code: `import numpy as np
+connectes = [42, 38, 51, 29, 47, 33]
+# votre code`,
+        questions: [
+          "Convertissez la liste en tableau numpy ; affichez la moyenne, le mini et le maxi.",
+          "On attend +5 connexions à chaque session : ajoutez 5 partout sans boucle.",
+          "Combien de sessions ont ≥ 40 connectés ? (indice : (tableau >= 40).sum())"
+        ],
+        correction: [
+          { code: `connectes = np.array([42, 38, 51, 29, 47, 33])
+print("moyenne :", connectes.mean())
+print("min/max :", connectes.min(), connectes.max())
+print(connectes + 5)
+print("sessions >= 40 :", (connectes >= 40).sum())` }
+        ]
+      }
+    ]
+  },
+
+  // ── TP en ligne — Dictionnaires & ensembles (Y. Pigné, séance 2) ──
+  {
+    id: 'pytp-ltd2', bloc: 'bloc1', jour: 'En ligne — 23 juin 2026', theme: 'Python — listes, tuples, dictionnaires',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Fsession-2-dictionnaires%2Ftp.ipynb',
+    title: 'Python · TP — Structures associatives (dictionnaires, ensembles)',
+    type: 'tp',
+    intro: 'TP de la séance 2 (Y. Pigné). Ouvre-le dans Basthon pour coder en ligne, ou cherche ici puis déplie la correction.',
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Annuaire de la formation (dictionnaire : bases)',
+        code: `annuaire = {"Awa": "Dakar", "Lin": "Tokyo", "Marc": "Montréal"}
+# votre code`,
+        questions: [
+          "Un intervenant déménage : changez la ville de 'Marc' en 'Québec'.",
+          "Ajoutez une nouvelle intervenante 'Sofia' à 'Beyrouth'.",
+          "Affichez la ville de 'Inconnu' sans provoquer d'erreur (défaut '?').",
+          "Parcourez l'annuaire et affichez 'nom : ville' pour chaque ligne."
+        ],
+        correction: [
+          { code: `annuaire["Marc"] = "Québec"
+annuaire["Sofia"] = "Beyrouth"
+print("inconnu :", annuaire.get("Inconnu", "?"))
+for nom, ville in annuaire.items():
+    print(f"{nom} : {ville}")` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Pays des participants (Counter)',
+        code: `from collections import Counter
+pays = ["France", "Sénégal", "France", "Japon", "France", "Canada", "Japon", "Liban"]
+# votre code`,
+        questions: [
+          "Avec collections.Counter, comptez les participants par pays.",
+          "Affichez le pays le plus représenté et son effectif.",
+          "Affichez le classement des 3 premiers pays."
+        ],
+        correction: [
+          { code: `compte = Counter(pays)
+premier, effectif = compte.most_common(1)[0]
+print(f"le plus représenté : {premier} ({effectif})")
+print(compte.most_common(3))` }
+        ]
+      },
+      {
+        num: 'E3', title: 'Exercice 3 — Dictionnaire en compréhension',
+        code: `villes = ["Paris", "Dakar", "Tokyo", "Montréal"]
+fuseaux = {"Paris": 2, "Tokyo": 9, "Dakar": 0}
+# votre code`,
+        questions: [
+          "Construisez (en compréhension) le dict ville -> longueur du nom.",
+          "Construisez le dict ville -> heure locale quand il est 12h UTC.",
+          "Bonus : ne gardez que les villes dont l'heure locale est en après-midi (≥ 12)."
+        ],
+        correction: [
+          { code: `longueurs = {ville: len(ville) for ville in villes}
+print(longueurs)
+locales = {ville: (12 + dec) % 24 for ville, dec in fuseaux.items()}
+print(locales)
+aprem = {ville: h for ville, h in locales.items() if h >= 12}
+print(aprem)` }
+        ]
+      },
+      {
+        num: 'E4', title: 'Exercice 4 — Présence aux sessions (ensembles)',
+        code: `session1 = {"Awa", "Lin", "Marc", "Sofia", "Ravi"}
+session2 = {"Lin", "Sofia", "Ravi", "Yuki"}
+connexions = ["Awa", "Lin", "Awa", "Marc", "Lin"]
+# votre code`,
+        questions: [
+          "Qui était présent aux deux sessions ? (intersection)",
+          "Qui a assisté à au moins une session ? (union) ; qui était à la 1re mais pas à la 2e ? (différence)",
+          "À partir de connexions, combien de personnes distinctes se sont connectées ?"
+        ],
+        correction: [
+          { code: `print(sorted(session1 & session2))
+print(sorted(session1 | session2))
+print(sorted(session1 - session2))
+print(len(set(connexions)), "personnes distinctes")` }
+        ]
+      },
+      {
+        num: 'E5', title: 'Exercice 5 — Défi : agenda multi-fuseaux',
+        code: `import timeit
+fuseaux = {"Paris": 2, "Montréal": -4, "Tokyo": 9, "Nouméa": 11, "Dakar": 0}
+# votre code`,
+        questions: [
+          "Une session démarre à 14h00 UTC. Écrivez heure_locale(ville, h_utc) qui renvoie l'heure locale (modulo 24).",
+          "Affichez l'heure locale de début pour chaque ville (parcours du dict).",
+          "Perf : comparez avec timeit le coût de 'Tokyo' in fuseaux (dict) vs la même recherche dans list(fuseaux.keys()). Que concluez-vous ?"
+        ],
+        correction: [
+          { code: `def heure_locale(ville, h_utc):
+    return (h_utc + fuseaux[ville]) % 24
+
+for ville in fuseaux:
+    print(f"{ville} : {heure_locale(ville, 14)}h")
+
+cles_liste = list(fuseaux.keys())
+t_dict = timeit.timeit(lambda: "Tokyo" in fuseaux, number=100000)
+t_liste = timeit.timeit(lambda: "Tokyo" in cles_liste, number=100000)
+print(f"dict  : {t_dict:.4f} s")
+print(f"liste : {t_liste:.4f} s")` },
+          { text: "Sur 5 éléments l'écart est minime ; il se creuse avec la taille : recherche dans un dict en O(1) (table de hachage) vs O(n) dans une liste." }
+        ]
+      }
+    ]
   }
 ]
 
@@ -2513,6 +2773,10 @@ function renderTPCard(tp) {
   const typeLabel = tp.type === 'memo' ? 'Mémo' : 'TP'
   const typeColor = tp.type === 'memo' ? '#0ea5e9' : '#10b981'
   let basthonBtn = '', downloadBtn = ''
+  // Notebook hébergé en ligne (ex. dépôt GitLab) : lien Basthon direct
+  if (tp.basthonUrl) {
+    basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="${tp.basthonUrl}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+  }
   const origName = tp.notebook || tp.original
   if (origName) {
     const res = allRessources.find(r => r.file_name === origName)
