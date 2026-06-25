@@ -116,15 +116,15 @@ const SESSIONS_ENLIGNE = [
     index: 'index.html',
     parties: [
       { titre: 'Cours', items: [
-        { t: 'HTML : structure et balises',            f: 'HTML : structure et balises',                    u: 'pdf/book-html.pprint.pdf' },
-        { t: 'Le DOM (Document Object Model)',         f: 'Le DOM (Document Object Model)',                  u: 'pdf/book-html.pprint.pdf' },
-        { t: 'CSS : sélecteurs, cascade, mise en page', f: 'CSS : sélecteurs, cascade et mise en page',     u: 'pdf/book-css.pprint.pdf' },
-        { t: 'Client / serveur : HTTP, DNS, REST',     f: 'Client / serveur : HTTP, DNS et REST',           u: 'pdf/book-clientserveur.pprint.pdf' },
+        { t: 'HTML : structure et balises',            f: 'HTML : structure et balises',                    u: 'ressources/web/book-html.pdf' },
+        { t: 'Le DOM (Document Object Model)',         f: 'Le DOM (Document Object Model)',                  u: 'ressources/web/book-html.pdf' },
+        { t: 'CSS : sélecteurs, cascade, mise en page', f: 'CSS : sélecteurs, cascade et mise en page',     u: 'ressources/web/book-css.pdf' },
+        { t: 'Client / serveur : HTTP, DNS, REST',     f: 'Client / serveur : HTTP, DNS et REST',           u: 'ressources/web/book-clientserveur.pdf' },
       ]},
-      { titre: 'Supports PDF (livres complets)', items: [
-        { t: 'Livre HTML (PDF)',            u: 'pdf/book-html.pprint.pdf' },
-        { t: 'Livre CSS (PDF)',             u: 'pdf/book-css.pprint.pdf' },
-        { t: 'Livre Client / serveur (PDF)', u: 'pdf/book-clientserveur.pprint.pdf' },
+      { titre: 'Supports PDF (livres complets, copie locale)', items: [
+        { t: 'Livre HTML (PDF)',            u: 'ressources/web/book-html.pdf' },
+        { t: 'Livre CSS (PDF)',             u: 'ressources/web/book-css.pdf' },
+        { t: 'Livre Client / serveur (PDF)', u: 'ressources/web/book-clientserveur.pdf' },
       ]},
     ],
   },
@@ -155,7 +155,8 @@ const SESSIONS_ENLIGNE = [
     ],
   },
 ]
-const resolveUrl = (base, u) => /^https?:/i.test(u) ? u : base + u
+// URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
+const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
 const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
   { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
