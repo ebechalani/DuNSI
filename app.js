@@ -2613,6 +2613,251 @@ print(f"liste : {t_liste:.4f} s")` },
         ]
       }
     ]
+  },
+
+  // ── Fiches ÉLÈVES clé en main (Y. Pigné) — énoncé + corrigé ──
+  {
+    id: 'eltp-listes', bloc: 'bloc1', jour: 'Fiches élèves (clé en main)', theme: 'Python — fiches élèves (listes, tuples, dictionnaires)',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Feleves%2F1-listes%2Fenonce.ipynb',
+    title: 'Élèves · Les listes (1ʳᵉ NSI)',
+    type: 'tp',
+    intro: "Fiche élève clé en main (Première NSI). Ouvre l'énoncé dans Basthon, ou déplie chaque correction.",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Ma playlist',
+        code: `# ton code`,
+        questions: [
+          "Crée une liste playlist avec 4 titres que tu aimes.",
+          "Ajoute un titre à la fin avec .append(...) ; ajoute un titre au début avec .insert(0, ...).",
+          "Supprime un titre avec .remove(...).",
+          "Affiche le nombre de titres, le premier et le dernier."
+        ],
+        correction: [
+          { code: `playlist = ["Flowers", "Espresso", "As It Was", "Levitating"]
+playlist.append("Bad Guy")
+playlist.insert(0, "Blinding Lights")
+playlist.remove("As It Was")
+print("nombre :", len(playlist))
+print("premier :", playlist[0])
+print("dernier :", playlist[-1])` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Le tableau des scores',
+        code: `scores = [42, 7, 99, 13, 77, 5, 88]
+# ton code`,
+        questions: [
+          "Affiche les 3 premiers scores (slicing scores[:3]), puis les 2 derniers.",
+          "Affiche les scores du plus grand au plus petit (sorted(..., reverse=True)).",
+          "Affiche le meilleur score (max)."
+        ],
+        correction: [
+          { code: `print(scores[:3])
+print(scores[-2:])
+print(sorted(scores, reverse=True))
+print("meilleur :", max(scores))` }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eltp-comprehensions', bloc: 'bloc1', jour: 'Fiches élèves (clé en main)', theme: 'Python — fiches élèves (listes, tuples, dictionnaires)',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Feleves%2F2-comprehensions%2Fenonce.ipynb',
+    title: 'Élèves · Les listes en compréhension (1ʳᵉ NSI)',
+    type: 'tp',
+    intro: "Fiche élève clé en main (Première NSI). Une liste en compréhension construit une liste en une seule ligne.",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Durées en minutes',
+        code: `durees = [183, 95, 240, 60, 312]
+# ton code`,
+        questions: [
+          "Construis en compréhension la liste des durées en minutes (division entière // 60).",
+          "Construis la liste des morceaux qui durent au moins 2 minutes (>= 120 s)."
+        ],
+        correction: [
+          { code: `minutes = [d // 60 for d in durees]
+print(minutes)
+longues = [d for d in durees if d >= 120]
+print(longues)` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Les initiales',
+        code: `titres = ["Flowers", "Espresso", "As It Was"]
+# ton code`,
+        questions: [
+          "Construis en compréhension la liste de leurs initiales.",
+          "Construis la liste des titres en majuscules (.upper())."
+        ],
+        correction: [
+          { code: `initiales = [t[0] for t in titres]
+print(initiales)
+majus = [t.upper() for t in titres]
+print(majus)` }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eltp-tuples', bloc: 'bloc1', jour: 'Fiches élèves (clé en main)', theme: 'Python — fiches élèves (listes, tuples, dictionnaires)',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Feleves%2F3-tuples%2Fenonce.ipynb',
+    title: 'Élèves · Les tuples (1ʳᵉ NSI)',
+    type: 'tp',
+    intro: "Fiche élève clé en main (Première NSI). Un tuple regroupe des valeurs qui vont ensemble et ne changent pas.",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Une chanson',
+        code: `# ton code`,
+        questions: [
+          "Crée un tuple chanson = (titre, artiste, duree).",
+          "Dépaquette-le dans 3 variables : titre, artiste, duree = chanson.",
+          "Affiche une phrase : <titre> par <artiste> (<duree> s).",
+          "Essaie de modifier chanson[0] = ... : que se passe-t-il ? (commente)"
+        ],
+        correction: [
+          { code: `chanson = ("Flowers", "Miley Cyrus", 200)
+titre, artiste, duree = chanson
+print(f"{titre} par {artiste} ({duree} s)")
+# chanson[0] = 'X'  -> TypeError : un tuple est immuable` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Échanger deux scores',
+        code: `a = 10
+b = 20
+# ton code`,
+        questions: [
+          "Échange les valeurs de a et b sans variable temporaire : a, b = b, a.",
+          "Affiche a et b pour vérifier."
+        ],
+        correction: [
+          { code: `a, b = b, a
+print(a, b)` }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eltp-piles-files', bloc: 'bloc1', jour: 'Fiches élèves (clé en main)', theme: 'Python — fiches élèves (listes, tuples, dictionnaires)',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Feleves%2F4-piles-files%2Fenonce.ipynb',
+    title: 'Élèves · Piles et files (Tale NSI)',
+    type: 'tp',
+    intro: "Fiche élève clé en main (Terminale NSI). Pile : on retire le dernier ajouté (Ctrl+Z). File : on retire le premier arrivé.",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — La pile « Annuler »',
+        code: `pile = []
+# ton code`,
+        questions: [
+          "Empile 3 actions : 'écrire A', 'écrire B', 'écrire C' (.append).",
+          "Annule deux fois (.pop()) en affichant l'action annulée ; affiche ce qu'il reste."
+        ],
+        correction: [
+          { code: `for action in ["écrire A", "écrire B", "écrire C"]:
+    pile.append(action)
+for _ in range(2):
+    print("annulé :", pile.pop())
+print(pile)` }
+        ]
+      },
+      {
+        num: 'E2', title: "Exercice 2 — La file d'attente d'un jeu",
+        code: `from collections import deque
+file = deque()
+# ton code`,
+        questions: [
+          "Trois joueurs entrent dans la file : 'Ana', 'Beto', 'Cho' (.append).",
+          "Fais-les jouer dans l'ordre d'arrivée avec .popleft() ; affiche qui joue à chaque tour."
+        ],
+        correction: [
+          { code: `for joueur in ["Ana", "Beto", "Cho"]:
+    file.append(joueur)
+while file:
+    print("au tour de :", file.popleft())` }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eltp-dictionnaires', bloc: 'bloc1', jour: 'Fiches élèves (clé en main)', theme: 'Python — fiches élèves (listes, tuples, dictionnaires)',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Feleves%2F5-dictionnaires%2Fenonce.ipynb',
+    title: 'Élèves · Les dictionnaires (1ʳᵉ NSI)',
+    type: 'tp',
+    intro: "Fiche élève clé en main (Première NSI). Un dictionnaire associe une clé à une valeur (ex. objet -> quantité).",
+    steps: [
+      {
+        num: 'E1', title: "Exercice 1 — L'inventaire du héros",
+        code: `inventaire = {"potion": 3, "épée": 1, "or": 150}
+# ton code`,
+        questions: [
+          "Le héros ramasse 2 potions : inventaire['potion'] += 2.",
+          "Il gagne un 'bouclier' (quantité 1) : ajoute-le.",
+          "Affiche la quantité de 'flèche' sans erreur (.get('flèche', 0)).",
+          "Parcours l'inventaire et affiche objet : quantité."
+        ],
+        correction: [
+          { code: `inventaire["potion"] += 2
+inventaire["bouclier"] = 1
+print("flèches :", inventaire.get("flèche", 0))
+for objet, quantite in inventaire.items():
+    print(f"{objet} : {quantite}")` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Le sondage de la classe',
+        code: `from collections import Counter
+votes = ["Mario", "Zelda", "Mario", "Sonic", "Mario", "Zelda"]
+# ton code`,
+        questions: [
+          "Avec collections.Counter, compte les votes par jeu.",
+          "Affiche le gagnant et son nombre de voix."
+        ],
+        correction: [
+          { code: `compte = Counter(votes)
+gagnant, voix = compte.most_common(1)[0]
+print(f"gagnant : {gagnant} ({voix} voix)")` }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'eltp-ensembles', bloc: 'bloc1', jour: 'Fiches élèves (clé en main)', theme: 'Python — fiches élèves (listes, tuples, dictionnaires)',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Fgit.litislab.fr%2Fypigne%2F2026-EIL-listes-tuples-dictionnaires%2F-%2Fraw%2Fmain%2Feleves%2F6-ensembles%2Fenonce.ipynb',
+    title: 'Élèves · Les ensembles (1ʳᵉ NSI)',
+    type: 'tp',
+    intro: "Fiche élève clé en main (Première NSI). Un ensemble (set) ne contient pas de doublon : pratique pour comparer des groupes ou dédupliquer.",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Deux options',
+        code: `foot = {"Léa", "Tom", "Hugo", "Inès"}
+theatre = {"Tom", "Inès", "Maya"}
+# ton code`,
+        questions: [
+          "Qui fait foot ET théâtre ? (foot & theatre)",
+          "Qui fait foot OU théâtre ? (foot | theatre)",
+          "Qui fait foot mais pas théâtre ? (foot - theatre)"
+        ],
+        correction: [
+          { code: `print(sorted(foot & theatre))
+print(sorted(foot | theatre))
+print(sorted(foot - theatre))` }
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Combien de notes différentes ?',
+        code: `notes = [12, 15, 12, 8, 15, 19, 8]
+# ton code`,
+        questions: [
+          "Combien y a-t-il de notes différentes ? (set puis len)",
+          "Affiche les notes distinctes, triées."
+        ],
+        correction: [
+          { code: `print(len(set(notes)), "notes différentes")
+print(sorted(set(notes)))` }
+        ]
+      }
+    ]
   }
 ]
 
