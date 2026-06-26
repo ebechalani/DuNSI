@@ -184,7 +184,15 @@
       "Bash(awk 'NR>=690 && NR<=788' _book-clientserveur.txt)",
       "Bash(python _web.py)",
       "Bash(pdftotext -layout \"/c/Users/PC/Downloads/jour 2 partie 1.pdf\" _j2p1.txt)",
-      "Bash(python _j2notes.py)"
+      "Bash(python _j2notes.py)",
+      "Bash(awk 'NR==1||/TPS/||/pyprojets/{print} END{}')",
+      "Bash(awk 'NR>=882 && /^\\\\]/{print NR\": \"$0; exit}' app.js)",
+      "Bash(awk 'NR>=2148 && /^\\\\]/{print NR\": \"$0; c++; if\\(c==1\\) exit}' app.js)",
+      "Bash(sed -i 's/v=20260623b/v=20260623c/g' index.html)",
+      "Bash(cd \"C:/Users/PC/Documents/GitHub/DuNSI\")",
+      "Bash(rm -f _eleves.txt _s2tp.ipynb _s2tp.txt)",
+      "Bash(sed -i 's/v=20260623c/v=20260623d/g' index.html)",
+      "Bash(curl -s -o /dev/null -w \"local PDF served: %{http_code}\\\\n\" \"http://localhost:5500/ressources/web/book-html.pdf\")"
     ]
   }
 }

@@ -1,0 +1,1498 @@
+===== serveur/prelude =====
+Traceback (most recent call last):
+  File "C:\Users\PC\Documents\GitHub\DuNSI\_extract.py", line 26, in <module>
+    p=M(); p.feed(open(sys.argv[1],encoding='utf-8').read()); p.flush()
+                  ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '_md/tmp.html'
+===== serveur/serveur =====
+Traceback (most recent call last):
+  File "C:\Users\PC\Documents\GitHub\DuNSI\_extract.py", line 26, in <module>
+    p=M(); p.feed(open(sys.argv[1],encoding='utf-8').read()); p.flush()
+                  ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '_md/tmp.html'
+===== serveur/routes =====
+# Routes
+- Notion de
+route
+- Routes dynamiques
+- Jokers
+- Filtres
+- En pratique
+- Bonjour personnalisé
+- Calcul
+Le serveur "attend la commande du client" et va répondre à sa demande. La
+création d'un serveur consiste donc à définir les différentes commandes que le
+serveur va pouvoir honorer, et la manière de le faire.
+On peut voir le serveur comme un "restaurant", où le client (le navigateur) va
+passer une commande (une requête HTTP) et le serveur transmettre la commande à
+la cuisine (le code python) pour la préparer. Le serveur va ensuite transmettre
+la réponse au client (le plat préparé).
+La demande est faite par le client par l'envoi d'une requête HTTP. L'URL de
+la requête, la méthode HTTP utilisée (GET, POST, etc.), et les données envoyées
+(le cas échéant) sont des éléments clés pour déterminer comment le serveur va
+répondre.
+## Notion de
+route
+Définir des routes permet d'associer un ou plusieurs méthodes et une ou
+plusieurs URLs à une fonction python. Le framework va alors utiliser cette
+fonction pour créer la réponse HTTP à envoyer au client.
+Bottle (comme la plupart des autres frameworks) utilise un décorateur pour
+définir une route. Un
+décorateur est une fonction qui va modifier le
+comportement d’une autre fonction. En l’occurrence ici, ce décorateur va ajouter
+à la fonction
+hello la capacité à répondre à une requète http précise (lire
+les en-têtes et les données de la requète, rajouter les codes / en-têtes de la
+réponse, etc...).
+Le décorateur
+@route utilisé ici effectue la liaison entre une URL et une
+fonction python, et enregistre cette association dans le routeur global de
+l'application.
+@route('/hello')
+def hello():
+ return "Hello World!"
+La fonction
+hello() est appelée lorsque le serveur reçoit une requête sur
+cette URL dont le
+chemin est exactement
+/hello et la méthode
+GET. La
+fonction doit retourner une chaîne de caractères qui sera envoyée au client dans
+la réponse HTTP.
+Il est possible d'associer plusieurs routes à la même fonction, en spécifiant
+plusieurs URL dans le décorateur
+@route :
+@route('/hello')
+@route('/salut')
+def hello():
+ return "Hello World!"
+Il est aussi possible de spécifier plusieurs méthodes HTTP pour une même route
+en précisant la liste des méthodes dans le décorateur
+@route :
+@route('/hello', method=['GET', 'POST'])
+def hello():
+ return "Hello World!"
+Des raccourcis existent :
+@get('/hello') : équivalent à
+@route('/hello', method=['GET'])
+@post('/hello') : équivalent à
+@route('/hello', method=['POST'])
+@put('/hello') : équivalent à
+@route('/hello', method=['PUT'])
+@delete('/hello') : équivalent à
+@route('/hello', method=['DELETE'])
+- ...
+Il faut penser à les importer avant de les utiliser.
+from bottle import get, post, put, delete #...
+## Routes dynamiques
+### Jokers
+Une route dynamique est une route qui permet d'associer plusieurs URLs à une
+même fonction, en utilisant des "jokers" dans l'URL. Ces jokers sont écris sous
+la forme
+<nom> et "capturent" dans un paramètre du même nom la valeur
+correspondante dans l'URL, jusqu'au prochain slash. Par exemple, la route
+/hello/<name> va accepter les demandes
+/hello/alice et
+/hello/bob, mais
+pas
+/hello/, ni
+/hello, ni
+/hello/alice/bob.
+Le ou les "jokers" sont passés par nom à la fonction python.
+@route('/hello/<name>')
+def hello(name):
+ return f"Hello {name}!"
+Plusieurs "jokers" peuvent être utilisés dans la même route :
+@route('/hello/<action>/<user>')
+### Filtres
+Des filtres peuvent être ajoutés aux jokers pour restreindre les valeurs qui
+vont "matcher" :
+:int correspond uniquement aux chiffres (signés) et convertit la valeur en
+entier.
+:float similaire à
+:int mais pour les nombres décimaux.
+:path correspond à tous les caractères, y compris le caractère slash, et
+peut être utilisé pour correspondre à plus d'un segment de chemin.
+:re vous permet de spécifier une expression régulière1 personnalisée dans
+le champ de configuration. La valeur appariée n'est pas modifiée.
+Exemples de filtres :
+@route('/plus/<a:int>/<b:int>') : le joker
+a et
+b doivent être des
+entiers, et il répondra à la requête
+/plus/2/3 avec
+a=2 et
+b=3 (nombres
+entiers) mais pas à la requête
+/plus/2.5/3.5 ni à la requête
+/plus/toto/titi
+@route('/plus/<a:float>/<b:float>') : le joker
+a et
+b doivent être des
+flottants, et il répondra à la requête
+/plus/2.5/3.5 avec
+a=2.5 et
+b=3.5
+(nombres flottants) mais pas à la requête
+/plus/toto/3.
+@route('/file/<name:path>') : le joker
+name peut contenir des slashes, il
+répondra à la requête
+/file/mon/fichier.txt avec
+name='mon/fichier.txt'
+@route('/code/<id:re:[A-Z0-9]+>') : le joker
+id doit être un code ne
+comportant que des lettres majuscules et des chiffres, et il répondra à la
+requête
+/code/ABC123 avec
+id='ABC123', mais pas à la requête
+/code/abc123 ou
+/code/AB.CD
+1
+Une expression régulière (ou expression rationnelle ou expression normale ou
+motif) est une chaîne de caractères qui décrit, selon une syntaxe précise,
+un ensemble de chaînes de caractères possibles. Voir
+fr.wikipedia.org/wiki/Expression_régulière
+et
+https://docs.python.org/fr/3/howto/regex.html
+pour plus de détails. https://regex101.com/ est un
+site très pratique pour tester les expressions régulières.
+## En pratique
+### Bonjour personnalisé
+Dans notre serveur, rajouter une route de bonjour personnalisé qui répond à une requète du type
+/hello/bob en renvoyant un message du type "Hello bob !"
+Correction
+Télécharger le code
+# Bonjour personnalisé
+@route('/hello/<name>')
+def hello_user(name):
+ return f"Hello {name} !"
+### Calcul
+Ajouter aussi une route de calcul qui répond à une requète du type
+/calcul/add/3/2.5 et
+qui renvoie le résultat sous la forme "resultat = 5.5" (on utilisera "add",
+"sub", "mul" et "div" pour addition, soustraction, multiplication et
+division), l'opération étant
+1er arg opérateur 2ème arg (ex :
+3 add 2.5 =
+3 + 2.5 =
+5.5). Si l'opérateur n'est pas reconnu, renvoyer "opérateur
+inconnu".
+Correction
+Télécharger le code
+# Calcul
+@route('/calcul/<op>/<a:float>/<b:float>')
+def calcul(op, a, b):
+ match op:
+ case 'add':
+ return f"resultat = {a + b}"
+ case 'sub':
+ return f"resultat = {a - b}"
+ case 'mul':
+ return f"resultat = {a * b}"
+ case 'div':
+ return f"resultat = {a / b}"
+ case _:
+ return "opérateur inconnu"
+Programme
+- NSI 1ère : intéraction client/serveur, requêtes HTTP, réponses du serveur
+===== serveur/templates =====
+# Templates
+- Moteur de template SimpleTemplate
+- Utilisation
+- Templates dans le code
+- Templates dans des fichiers
+- Syntaxe
+- Expressions en ligne
+- Code python inclus
+- Fonctions de template
+- En pratique
+- Vue index / vue hello_user
+- Table de multiplication
+Nos pages sont pour l'instant encore un peu tristounettes et basiques. Si nous
+voulons plus de richesse, il va falloir du HTML, voire du CSS. Mais générer tout
+ce contenu en python dans des f-strings peut vite devenir compliqué et tout
+aussi illisible qu'un programme en PHP :P.
+Bottle (comme tous les autres frameworks) fournit des outils pour faciliter la
+création de pages : ce sont les templates.
+Un template est un fichier qui contient du HTML et des balises spéciales
+pour intégrer des données dynamiques.
+Plusieurs moteurs de templates existent, mais nous allons utiliser le moteur
+intégré de bottle, qui est très simple à utiliser et suffisant pour nos besoins.
+## Moteur de template SimpleTemplate
+Bottle utilise le moteur de template
+SimpleTemplate (ou
+stpl). Le principe
+du template est de pouvoir être "rendu" avec des données dynamiques, en
+remplaçant les balises spéciales par les valeurs correspondantes.
+Télécharger le code
+from bottle import SimpleTemplate
+tpl = SimpleTemplate('Hello {{name}}!')
+print(tpl.render(name='World')) # affiche u'Hello World!'
+assert tpl.render(name='World') == 'Hello World!'
+ou bien
+from bottle import SimpleTemplate
+tpl = SimpleTemplate('Hello {{name}}!')
+dico = {'name': 'World'}
+print(tpl.render(**dico)) # affiche 'Hello World!'
+assert tpl.render(**dico) == 'Hello World!'
+Référence :
+https://bottlepy.org/docs/dev/stpl.html
+En résumé, un template est une sorte de
+f-string boostée.
+## Utilisation
+Pour utiliser les templates, il faut d'abord importer la fonction
+template de
+bottle.
+from bottle import template #...
+On peut alors utiliser les templates de deux manières :
+- soit en les définissant dans des chaînes de caractères
+- soit en les définissant dans des fichiers séparés, par défaut placés dans le
+répertoire
+views 1.
+### Templates dans le code
+Télécharger le code
+HOMEPAGE = """
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Page d'accueil</title>
+</head>
+<body>
+ <h1>Page d'accueil</h1>
+ <p>Hello {{ name }}</p>
+</body>
+</html>
+"""
+
+@route('/')
+def hello():
+ return template(HOMEPAGE, name="World")
+### Templates dans des fichiers
+Fichier
+views/index.html (télécharger le code) :
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Page d'accueil</title>
+ </head>
+ <body>
+ <h1>Page d'accueil</h1>
+ <p>Hello {{ name }}</p>
+ </body>
+</html>
+Fichier
+main.py (télécharger le code) :
+@route('/')
+def index():
+ return template('index.html', name="World")
+### Syntaxe
+#### Expressions en ligne
+Les expressions en ligne sont entourées de
+{{ et
+}}. Elles peuvent contenir
+n'importe quelle expression python (des variables, des opérations arithmétiques,
+des appels de fonctions, etc...) à partir du moment où cette expression renvoie
+une chaîne de caractères ou quelque chose qui peut être converti en chaîne de
+caractères.
+<p>Hello {{ name }}</p>
+<p>2 + 2 = {{ 2 + 2 }}</p>
+<p>Le résultat est {{ "positif" if a > 0 else "negatif" }}</p>
+L'expression est évaluée lors du rendu et a accès à tous les arguments passés au
+template (le contexte). Les caractères HTML spéciaux sont échappés pour
+éviter les injections XSS. Par exemple, si
+name contient
+<script>alert("Hello")</script>, le code rendra
+&lt;script&gt;alert("Hello")&lt;/script&gt; et non pas le script.
+Si vous voulez afficher le code HTML tel quel (sans échappement), il faut
+utiliser la balise
+{{! et
+}} :
+<p>Hello {{! name }}</p>
+### Code python inclus
+Il est possible d'inclure des blocs de python dans le template. Les lignes de
+code commencent par
+%, ou bien
+<% et
+%> pour les blocs de code. Le code
+python "inclus" suit la même syntaxe que le python normal, avec une exception
+notable : l'indentation est ignorée, pour permettre d'écrire du html
+joliment, tous les blocs qui nécessiteraient une indentation en python doivent
+être fermés explicitement avec un mot clef
+end :
+% name = "Bob" # une ligne de code python
+<p>Du contenu HTML</p>
+<% 
+# Un bloc de code python 
+name = name.lower().strip()
+%>
+<p>Encore du html</p>
+<p>Bonjour {{ name }}</p>
+% # Conditions
+% if name == "Bob":
+ <p>Bonjour Bob</p>
+% else:
+ <p>Bonjour autre</p>
+% end
+% # Boucle for range
+<ul>
+% for i in range(1, 11):
+ <li>{{ i }}</li>
+% end
+</ul>
+% # Boucle sur un dictionnaire
+% # à appeler avec `template('index.html', dico={'a': 1, 'b': 2})`
+<ul>
+% for key, value in dico.items():
+ <li>{{ key }} : {{ value }}</li>
+% end
+</ul>
+% # Fonctions, bloc de code ...
+<% 
+def add(a, b):
+ return a + b
+end
+%>
+<p>2 + 2 = {{ add(2, 2) }}</p>
+### Fonctions de template
+Quelques fonctions utiles sont directement utilisables dans les templates :
+include(sub_template, **context) : inclut un sous-template dans le template
+courant. Le contexte est passé au sous-template.
+setdefault(name, default) : définit une valeur par défaut pour
+name dans le
+contexte. Si
+name n'est pas défini, il sera défini avec la valeur de
+default.
+defined(name) : renvoie
+True si le nom est défini dans le contexte,
+False sinon.
+get(name, default=None) : renvoie la valeur de
+name dans le contexte, ou
+default si
+name n'est pas défini.
+include est très utile pour éviter de répéter du code dans plusieurs
+templates. Par exemple, si vous avez un template
+header.html qui contient
+le code HTML d'en-tête de votre site, vous pouvez l'inclure dans tous vos
+templates.
+setdefault est aussi très utile pour définir des valeurs par défaut pour les
+variables dans le contexte, de manière à pouvoir appeler les templates en fournissant
+juste les variables qui vous intéressent.
+% setdefault('page_title', "Page d'accueil")
+% setdefault('erreur', None)
+% # ...
+<h1>{{page_title}}</h1>
+% if erreur:
+ <p class="erreur">{{ erreur }}</p>
+% end
+# ... appels possibles de ce template
+ return template('tpl08.html', page_title="Page d'accueil", erreur="Erreur de saisie")
+ return template('tpl08.html', page_title="Page d'accueil")
+ return template('tpl08.html')
+Liste complète des fonctions de template :
+https://bottlepy.org/docs/dev/stpl.html#template-functions
+## En pratique
+### Vue index / vue hello_user
+Créer une vue
+index qui affiche une page d'accueil HTML. Vous pouvez
+utiliser du CSS pour "décorer" votre page, le css devant pour l'instant être
+inclus directement dans le HTML. Ajoutez un lien vers la route
+/hello/Bob
+(ou autre) pour tester la route
+hello_user.
+<head>
+ <!-- .... -->
+ <style>
+ body {
+ background-color: #f0f0f0;
+ color: #333;
+ font-family: Arial, sans-serif;
+ }
+ h1 {
+ color: #007bff;
+ }
+ </style>
+</head>
+Modifier la vue
+hello_user (route
+/hello/<name>) pour qu'elle affiche un
+message de bienvenue joliment présenté (en utilisant un template
+hello_user.html). Rajouter un lien vers la page d'accueil.
+Correction
+Fichier
+main.py (télécharger le code) :
+from bottle import route, run, template
+
+# Page d'accueil
+@route('/')
+def index():
+ return template('index.html')
+
+# Bonjour personnalisé
+@route('/hello/<name>')
+def hello_user(name):
+ return template('hello_user.html', name=name)
+Fichier
+views/index.html (télécharger le code) :
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Page d'accueil</title>
+ <style>
+ body {
+ background-color: #f0f0f0;
+ color: #333;
+ font-family: Arial, sans-serif;
+ }
+ h1 {
+ color: #007bff;
+ }
+ </style>
+ </head>
+ <body>
+ <h1>Page d'accueil</h1>
+ <p>Bienvenue sur notre site !</p>
+ <p><a href="/hello/Bob">Dire bonjour à Bob</a></p>
+ </body>
+</html>
+Fichier
+views/hello_user.html (télécharger le code) :
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Bonjour {{ name }}</title>
+ <style>
+ body {
+ background-color: #f0f0f0;
+ color: #333;
+ font-family: Arial, sans-serif;
+ }
+ h1 {
+ color: #007bff;
+ }
+ </style>
+ </head>
+ <body>
+ <h1>Bonjour {{ name }}</h1>
+ <p>Bienvenue sur notre site !</p>
+ <p><a href="/">Retour à la page d'accueil</a></p>
+ </body>
+</html>
+### Table de multiplication
+Créer une route
+/tabmul/<nb:int>, associée à un template
+tabmul.html, qui
+affiche la table de multiplication de
+nb, et qui propose une liste de liens
+permettant d'afficher les tables de multiplication de 1 à 10.
+Correction
+Fichier
+main.py (télécharger le code)
+#...
+# Table de multiplication
+@route('/tabmul/<nb:int>')
+def tabmul(nb):
+ return template('tabmul.html', nb=nb)
+Fichier
+views/tabmul.html (télécharger le code)
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Table de multiplication de {{ nb }}</title>
+ </head>
+ <body>
+ <h1>Table de multiplication de {{ nb }}</h1>
+ <ul>
+ % for i in range(1, 11):
+ <li>{{ nb }} x {{ i }} = {{ nb * i }}</li>
+ % end
+ </ul>
+ <h2>Autres tables de multiplication</h2>
+ <ul>
+ % for i in range(1, 11):
+ <li>Table de <a href="/tabmul/{{ i }}">{{ i }}</a></li>
+ % end
+ </ul>
+ <p><a href="/">Retour à la page d'accueil</a></p>
+ </body>
+</html>
+1
+On peut modifier le chemin de recherche des templates en modifiant la variable
+TEMPLATE_PATH (
+from bottle import TEMPLATE_PATH),
+qui contient une liste de chemins dans lesquels bottle cherchera les templates. Par défaut, les chemins
+sont : “./” et “./views”, c’est à dire le répertoire courant (celui dans lequel on a lancé le serveur
+qui n’est pas forcément celui du fichier python du serveur) et le sous-répertoire “views” du répertoire courant.
+Pour être ne plus dépendre du répertoire courant, il est pratique de modifier
+TEMPLATE_PATH
+pour lui indiquer comme chemin de recherche le répertoire du fichier python du serveur. Cela peut
+se faire à l’aide de la ligne
+from os.path import dirname
+TEMPLATE_PATH.insert(0, join(dirname(__file__), "xxxxx")
+Cette ligne récupère le répertoire de
+__file__ (une variable spéciale de python qui contient le
+chemin absolu vers le fichier dans lequel elle se trouve), et insère cette valeur au début de
+TEMPLATE_PATH (= ce sera le premier chemin recherché), en ayant joint ce répertoire avec le
+répertoire “xxxxx” dans lequel on veut chercher les templates.
+===== serveur/formulaires =====
+# Formulaires
+Pour l'instant, toutes les intérations avec l'utilisateur passent par la saisie
+d'une URL différente ou le clic sur un lien. Les formulaires permettent de créer
+un niveau supérieur d'intéractivité avec les utilisateurs.
+Dans une page HTML, un formulaire (défini par la balise
+<form>) est un
+ensemble de balises permettant :
+- à l'utilisateur de saisir des informations
+- au navigateur de transmettre ces informations au serveur
+Un formulaire peut comporter différents champs de formulaire :
+- zones de saisie de texte (une ou plusieurs lignes)
+- liste déroulantes
+- cases à cocher
+- ..
+Le serveur va recevoir les données saisies par l'utilisateur et pourra les
+traiter
+Nous allons voir un peu plus en détail chacune de ces étapes.
+===== serveur/formulaires_html =====
+# Côté HTML
+- La balise
+<form>
+- Les champs de formulaire
+- Envoi du formulaire
+## La balise
+<form>
+Tous les éléments du formulaire doivent être à l'intérieur d'une balise
+<form>. Cette balise a plusieurs attributs :
+action : l'URL à laquelle le formulaire doit être envoyé
+method : la méthode HTTP utilisée pour envoyer le formulaire (GET ou POST)
+Lorsque l'utilisateur soumet le formulaire, le navigateur envoie une requête
+HTTP à l'URL spécifiée dans l'attribut
+action. Les données du formulaire sont
+envoyées dans le corps de la requête (pour POST) ou dans l'URL (pour GET).
+On utilise
+GET lorsque :
+- les données sont peu volumineuses
+- elles ne contiennent pas d'informations sensibles
+- elles peuvent être mises en cache et bookmarkées
+- elles n'ont pas d'effet secondaire sur le serveur
+On utilise
+POST lorsque :
+- les données sont volumineuses
+- elles contiennent des informations sensibles
+- elles ne doivent pas être mises en cache
+- elles ont un effet secondaire sur le serveur
+En résumé : on utilise
+GET pour les opérations idempotentes, cachables,
+non sensibles et de petite taille, et
+POST dans tous les autres cas.
+L'action peut être une URL absolue ou relative. Si elle est relative, elle est
+relative à l'URL de la page contenant le formulaire. Par exemple, si l'URL de la
+page est
+http://localhost:5000/formulaire, et que l'action du formulaire est
+../contact, le formulaire sera envoyé à
+http://localhost:5000/contact.
+L'URL relative est souvent utilisée pour envoyer le formulaire à la même page
+que celle qui l'affiche :
+action="". Dans le reste des cas, on préfère souvent
+utiliser l'URL absolue, qui est plus explicite et évite les erreurs de chemin,
+sans la partie nom de domaine (pour permettre de d'utiliser le même code en
+développement et en production, entre autres).
+<!-- Formulaire de recherche, non sensible, => GET -->
+<form action="/search" method="GET">
+ <label for="query">Rechercher :</label>
+ <input type="text" id="query" name="query">
+ <button type="submit">Rechercher</button>
+</form>
+<!-- Formulaire de contact, envoie un mail = non idempotente => POST -->
+<form action="/contact" method="POST">
+ <label for="nom">Nom :</label>
+ <input type="text" id="nom" name="nom">
+ <label for="message">Message :</label>
+ <textarea id="message" name="message"></textarea>
+ <button type="submit">Envoyer</button>
+</form>
+Référence : Documentation de la balise form en HTML
+## Les champs de formulaire
+Pour que les données d’un champ de formulaire soient envoyée lors de la soumission du formulaire,
+il faut que chaque champ ait un attribut
+name.
+Plusieurs balises de formulaire sont disponible selon ce que l’on veut saisir comme données :
+<input> : pour saisir du texte, un mot de passe, une case à cocher, un bouton radio, une date, une couleur, un fichier, etc. Référence : Documentation de la balise input en HTML
+name : le nom du champ, utilisé pour identifier la valeur envoyée au serveur
+id : l'identifiant unique du champ, utilisé pour le lier à une étiquette
+<label>
+type : l'attribut
+type permet de définir le type de champ de saisie
+text : pour saisir du texte
+password : pour saisir un mot de passe (les caractères sont masqués)
+checkbox : pour une case à cocher
+radio : pour un bouton radio (un choix parmi plusieurs)
+date : pour choisir une date
+color : pour choisir une couleur
+file : pour télécharger un fichier
+placeholder : un texte d'aide qui s'affiche dans le champ avant la saisie
+value : la valeur par défaut du champ
+checked : pour pré-cocher une case à cocher ou un bouton radio
+disabled : pour désactiver un champ
+readonly : pour rendre un champ en lecture seule
+required : pour rendre un champ obligatoire
+minlength et
+maxlength : pour définir une longueur minimale et maximale (pour les champs de type
+text,
+password, etc.)
+pattern : pour définir une expression régulière que la valeur doit respecter (pour les champs de type
+text,
+password, etc.)
+size : pour définir la taille du champ (en nombre de caractères)
+step : pour définir l'incrément de la valeur (pour les champs de type
+number,
+date, etc.)
+min et
+max : pour définir une valeur minimale et maximale (pour les champs de type
+number,
+date, etc.)
+<textarea> : pour saisir un texte sur plusieurs lignes. Référence : Documentation de la balise textarea en HTML
+name : le nom du champ, utilisé pour identifier la valeur envoyée au serveur
+id : l'identifiant unique du champ, utilisé pour le lier à une étiquette
+<label>
+rows : le nombre de lignes visibles
+cols : le nombre de colonnes visibles
+placeholder : un texte d'aide qui s'affiche dans le champ avant la saisie
+value : la valeur par défaut du champ
+disabled : pour désactiver un champ
+readonly : pour rendre un champ en lecture seule
+required : pour rendre un champ obligatoire
+minlength et
+maxlength : pour définir une longueur minimale et maximale
+<select> : pour choisir une valeur dans une liste déroulante. Référence : Documentation de la balise select en HTML
+name : le nom du champ, utilisé pour identifier la valeur envoyée au serveur
+id : l'identifiant unique du champ, utilisé pour le lier à une étiquette
+<label>
+size : le nombre d'options visibles (par défaut 1)
+multiple : pour permettre de sélectionner plusieurs options
+disabled : pour désactiver un champ
+required : pour rendre un champ obligatoire
+<option> : pour définir une option dans la liste déroulante
+value : la valeur envoyée au serveur si cette option est sélectionnée
+selected : pour pré-sélectionner une option
+disabled : pour désactiver une option
+label : pour définir un texte d'aide qui s'affiche dans la liste déroulante
+hidden : pour cacher une option
+## Envoi du formulaire
+L'envoi du formulaire est déclenché par l'utilisateur :
+- avec un clic sur un champ de type
+submit
+- avec un clic sur un bouton (
+<button>)
+- en appuyant sur la touche
+Entrée dans un champ de saisie de texte si un bouton un champ de type
+submit est présent dans le formulaire (si plusieurs boutons ou champs submit sont présents, l'appui sur entrée est équivalent à un clic sur le premier bouton de type
+submit ou sur le premier champ de type
+submit du formulaire)
+Exemple : https://codepen.io/jmsolidev/pen/NWqLORY
+<form method="POST" action="https://echo.solidev.net/formulaire">
+ <label for=" inputnom">Votre nom</label>
+ <input type="text" name="nom" id="inputnom" />
+ <br />
+ <label for="inputpass">Votre mot de passe</label>
+ <input type="password" name="pass" id="inputpass" />
+ <br />
+ <button>Envoyer 1</button>
+ <input type="submit" value="Envoyer 2" name="res" />
+ <input type="submit" value="Envoyer 3" name="res" />
+ <button>Envoyer 4</button>
+</form>
+Le formulaire ci-dessus envoie les données à l'URL
+https://echo.solidev.net/formulaire (echo.solidev.net est un service qui affiche comme un écho le détail de la requête envoyée - vous pouvez l'utiliser pour tester vos formulaires ou pour débugger vos applications).
+POST /formulaire HTTP/1.1
+
+Host: echo.solidev.net
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Content-Length: 27
+Content-Type: application/x-www-form-urlencoded
+Origin: https://cdpn.io
+Priority: u=4
+Referer: https://cdpn.io/
+Sec-Fetch-Dest: iframe
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Te: trailers
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+X-Forwarded-Proto: https
+
+nom=machin&pass=supersecret
+Si on modifie le formulaire pour qu'il envoie les données avec la méthode
+GET:
+GET /formulaire?nom=machin&pass=supersecret HTTP/1.1
+
+Host: echo.solidev.net
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+Priority: u=4
+Referer: https://cdpn.io/
+Sec-Fetch-Dest: iframe
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: cross-site
+Sec-Fetch-User: ?1
+Te: trailers
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0
+Programme
+- SNT : thème Internet
+- NSI 1ère : intéraction client/serveur, requêtes HTTP, réponses du serveur
+- NSI 1ère : formulaire d'une page web, interaction avec l'utilisateur dans une page web
+===== serveur/formulaires_serveur =====
+# Côté serveur
+- Classe
+Request
+- Accéder aux données
+- Routage
+- Exemples
+- Formulaire de contact basique
+- Formulaire de contact avec vérification des erreurs
+- Choix d'options multiples
+- Upload de fichiers
+- En pratique
+- Calculatrice
+- Options de voiture
+Les données envoyées par le formulaire arrivent au serveur. Bottle fournit
+l'objet
+request, qui contient toutes les informations sur la requête, et en
+particulier les données du formulaire.
+## Classe
+Request
+Référence de la classe
+Request :
+https://bottlepy.org/docs/dev/api.html#bottle.BaseRequest
+Il faut importer
+request depuis
+bottle :
+from bottle import request
+Les données de formulaire sont accessible via :
+request.query ou
+request.GET pour les données envoyées par la méthode
+GET
+request.forms et
+request.files, ou
+request.POST qui combine les deux
+pour les données envoyées par la méthode
+POST
+Ces données sont rendues disponibles sous forme de dictionnaire (plus
+précisément un
+MultiDict, qui est
+un type de données permettant de gérer plusieurs valeurs pour une même clé. Il
+est utile pour traiter les formulaires où plusieurs valeurs peuvent être
+envoyées pour un même champ).
+## Accéder aux données
+Pour accéder aux données, on peut utiliser la syntaxe
+request.POST['nom'] ou
+request.forms.get('nom'). La méthode
+get permet de spécifier une valeur par
+défaut si la clé n'existe pas, par exemple
+request.forms.get('nom', default=None).
+Il est aussi possible d'utiliser directement un accès par attribut, par exemple
+request.forms.nom.
+Si plusieurs valeurs sont envoyées pour un même champ (exemple avec une requète
+GET /formulaire?choix=1&choix=2&choix=3), on peut les récupérer avec
+request.GET.getall('choix') ou
+request.GET.getlist('choix'), qui renvoient
+une liste de toutes les valeurs associées à la clé
+choix.
+.keys(),
+.values() et
+.items() fonctionnent aussi sur les objets
+request.GET et
+request.POST, ce qui permet de les parcourir comme un
+dictionnaire classique.
+Lorsqu'on envoie des fichiers via un formulaire
+(voir ci-dessous), on peut les récupérer avec
+request.files, qui est un dictionnaire associant le nom du champ à un objet
+FileUpload. Cet objet contient des méthodes pour accéder au contenu du
+fichier, à son nom, à son type MIME, etc. Par exemple, pour récupérer le nom du
+fichier téléchargé, on peut utiliser
+request.files['fichier'].filename.
+La méthode
+save de l'objet
+FileUpload permet d'enregistrer le fichier sur le
+serveur. Elle prend en paramètre le chemin où le fichier doit être enregistré.
+Par exemple, pour enregistrer le fichier dans le dossier
+/tmp, on peut
+utiliser (sauf sous Windows) :
+request.files['fichier'].save('/tmp/' + request.files['fichier'].filename)
+## Routage
+Le traitement des données du formulaire se fait dans une route; deux options
+sont possibles :
+utiliser la même route que celle qui affiche le formulaire, en spécifiant la
+méthode
+POST dans le décorateur de la route. C'est souvent la méthode la
+plus simple pour pouvoir gérer les erreurs de saisie et afficher le formulaire
+avec les données déjà saisies pour correction.
+from bottle import route, run, template, request
+
+@route('/formulaire', method=['GET', 'POST'])
+def formulaire():
+ if request.method == 'POST':
+ # Traitement des données du formulaire
+ nom = request.forms.get('nom', None)
+ message = request.forms.get('message', None)
+ # ... traitement des données
+ if erreur_dans_le_formulaire:
+ return template("formulaire.html",
+ erreur=erreur,
+ nom=nom,
+ message=message)
+ # Vérification des données OK
+ # ... traitement des données (envoi de mail, etc..)
+ return template("merci_message.html")
+ else:
+ return template("formulaire.html")
+utiliser une route différente pour traiter les données du formulaire, en
+spécifiant l'URL de la route dans l'attribut
+action du formulaire
+from bottle import route, run, template, request
+
+@route('/formulaire', method='GET')
+def formulaire():
+ return template("formulaire.html")
+
+@route('/traitement', method='POST')
+def traitement():
+ # Traitement des données du formulaire
+ nom = request.forms.get('nom')
+ message = request.forms.get('message')
+ # ...
+ return template("merci_message.html")
+## Exemples
+### Formulaire de contact basique
+Télécharger le code
+<body>
+ <form action="/contact" method="POST">
+ <label for="nom">Nom :</label>
+ <input type="text" id="nom" name="nom" />
+ <label for="message">Message :</label>
+ <textarea id="message" name="message"></textarea>
+ <button type="submit">Envoyer</button>
+ </form>
+</body>
+Télécharger le code
+from bottle import route, request, template, run
+
+def envoyer_email(nom, message):
+ # Simuler l'envoi d'un email
+ print(f"Envoi d'un email à {nom} avec le message : {message}")
+
+@route('/contact', method=['GET', 'POST'])
+def contact():
+ if request.method == 'GET':
+ return template("contact_formulaire.html")
+ # Récupération des données du formulaire
+ nom = request.forms.get('nom', default=None)
+ message = request.forms.get('message', default=None)
+
+ # Traitement des données (par exemple, envoi d'un email)
+ envoyer_email(nom, message)
+
+ return template("merci.html")
+### Formulaire de contact avec vérification des erreurs
+Télécharger le code
+% setdefault("erreur", None)
+% setdefault("nom", "")
+% setdefault("message", "")
+<!-- ... -->
+<body>
+ <form action="/contact" method="POST">
+ % if erreur is not None:
+ <p class="erreur">{{ erreur }}</p>
+ % end
+ <label for="nom">Nom :</label>
+ <input type="text" id="nom" name="nom" value="{{ nom }}" />
+ <label for="message">Message :</label>
+ <textarea id="message" name="message">{{ message }}</textarea>
+ <button type="submit">Envoyer</button>
+ </form>
+</body>
+Télécharger le code
+from bottle import route, request, template, run
+
+def envoyer_email(nom, message):
+ # Simuler l'envoi d'un email
+ print(f"Envoi d'un email à {nom} avec le message : {message}")
+
+@route('/contact', method=['GET', 'POST'])
+def contact():
+ if request.method == 'POST':
+ # Récupération des données du formulaire
+ nom = request.forms.get('nom', default=None)
+ message = request.forms.get('message', default=None)
+
+ # Vérification des erreurs
+ if not nom or not message:
+ erreur = "Tous les champs sont obligatoires."
+ return template("contact_formulaire_check.html",
+ erreur=erreur, nom=nom, message=message)
+ if len(message) < 10:
+ erreur = "Le message doit contenir au moins 10 caractères."
+ return template("contact_formulaire_check.html", 
+ erreur=erreur, nom=nom, message=message)
+ if "spam" in message:
+ erreur = "Le message contient un mot interdit."
+ return template("contact_formulaire_check.html",
+ erreur=erreur, nom=nom, message=message)
+ # Traitement des données (par exemple, envoi d'un email)
+ envoyer_email(nom, message)
+ return template("merci.html")
+ else:
+ return template("contact_formulaire_check.html")
+### Choix d'options multiples
+Télécharger le code : choix_formulaire.html (avec les 2 versions et l'affichage des choix)
+% setdefault("choix", list())
+<!DOCTYPE html>
+<html lang="fr">
+
+Avec un `select[multiple]` :
+
+```html
+% setdefault("choix", list())
+
+ <form action="/choix" method="POST">
+ <label for="choix">Choisissez une ou plusieurs options :</label>
+ <select id="choix" name="choix" multiple>
+ <option value="choix1" {{"selected" if "choix1" in choix else ""}}>Option 1</option>
+ <option value="choix2" {{"selected" if "choix2" in choix else ""}}>Option 2</option>
+ <option value="choix3" {{"selected" if "choix3" in choix else ""}}>Option 3</option>
+ </select>
+ <button type="submit">Envoyer</button>
+ </form>
+ou bien avec des
+input[type=checkbox] :
+% setdefault("choix", list())
+
+ <form action="/choix" method="POST">
+ <input type="checkbox" id="choix1" name="choix"
+ value="choix1" {{"checked" if "choix1" in choix else ""}}>
+ <label for="choix1">Option 1</label><br>
+ <input type="checkbox" id="choix2" name="choix"
+ value="choix2" {{"checked" if "choix2" in choix else ""}}>
+ <label for="choix2">Option 2</label><br>
+ <input type="checkbox" id="choix3" name="choix" 
+ value="choix3" {{"checked" if "choix3" in choix else ""}}>
+ <label for="choix3">Option 3</label><br>
+ <button type="submit">Envoyer</button>
+ </form>
+Dans les deux cas, affichage des options choisies :
+% if len(choix) > 0:
+ <hr>
+ <h2>Vous avez choisi :</h2>
+ <ul>
+ % for c in choix:
+ <li>{{ c }}</li>
+ % end
+ </ul>
+ % end
+Télécharger le code du serveur
+@route('/choix', method=['GET', 'POST'])
+def choix():
+ if request.method == 'POST':
+ # Récupération des choix
+ choix = request.POST.getall('choix')
+ print(choix)
+ return template("choix_formulaire.html", choix=choix)
+ else:
+ return template("choix_formulaire.html")
+## Upload de fichiers
+Pour permettre à l'utilisateur d'uploader un fichier, il faut utiliser
+l'attribut
+enctype="multipart/form-data" dans la balise
+<form>. Cela permet
+d'envoyer des fichiers binaires au serveur.
+request.files contiendra alors
+le fichier uploadé.
+Télécharger le code : upload.html
+<form action="/upload" method="POST" enctype="multipart/form-data">
+ <label for="fichier">Choisissez un fichier :</label>
+ <input type="file" id="fichier" name="fichier" />
+ <button type="submit">Envoyer</button>
+ </form>
+Télécharger le code du serveur
+from bottle import route, request, run, template
+from os.path import join, dirname
+
+@route('/upload', method=['GET', 'POST'])
+def upload():
+ if request.method == 'GET':
+ return template("upload.html")
+ 
+ # Récupération du fichier
+ fichier = request.files.get('fichier')
+ # Traitement du fichier (par exemple, enregistrement sur le serveur
+ # dans un dossier "uploads" situé dans le même répertoire que le script)
+ if fichier:
+ fichier.save(join(dirname(__file__), "uploads", fichier.filename))
+ return template("merci.html")
+Référence :
+Documentation de la balise input type="file" en HTML
+et
+Documentation de la méthode save() de bottle
+## En pratique
+### Calculatrice
+Créer un formulaire de calcul qui permet de saisir deux nombres et de choisir
+(avec une liste déroulante) une opération (addition, soustraction,
+multiplication, division), et qui affiche le résultat. La route du formulaire
+et du résultat est la même (
+/calculatrice), la méthode est
+GET, et la
+page doit afficher
+- un message d'erreur si au moins un des deux nombres n'est pas un nombre ou si
+l'opération n'est pas reconnue
+- le résultat du calcul juste après le formulaire (forme "[a] [op] [b] =
+[resultat]")
+Correction
+Télécharger le code : calculatrice.html
+% setdefault("a", "")
+% setdefault("b", "")
+% setdefault("op", "")
+% setdefault("resultat", None)
+% setdefault("erreur", None)
+
+<body>
+ <h1>Calculatrice</h1>
+ <form action="/calculatrice" method="GET">
+ % if erreur is not None:
+ <p class="erreur">{{erreur }}</p>
+ % end
+ <input type="text" id="a" name="a" value="{{ a }}" placeholder="Nombre 1" />
+ <select id="op" name="op">
+ <option value="" {{ "selected" if op is None else "" }}>??</option>
+ <option value="add" {{ "selected" if op == "add" else "" }}>+</option>
+ <option value="sub" {{ "selected" if op == "sub" else "" }}>-</option>
+ <option value="mul" {{ "selected" if op == "mul" else "" }}>*</option>
+ <option value="div" {{ "selected" if op == "div" else "" }}>/</option>
+ </select>
+ <input type="text" id="b" name="b" value="{{ b }}" placeholder="Nombre 2"/>
+ <button type="submit">=</button>
+ % if resultat is not None:
+ <span class="resultat">= {{ resultat }}</span>
+ % end
+ </form>
+ % end
+</body>
+Télécharger le code du serveur
+from bottle import route, run, template, static_file, get, request
+
+# Calculatrice
+@get('/calculatrice')
+def calculatrice():
+ a = request.query.get('a', default=None)
+ b = request.query.get('b', default=None)
+ op = request.query.get('op', default=None)
+ if a is None and b is None and op is None:
+ # Aucune valeur saisie, on affiche le formulaire vide
+ return template("calculatrice.html")
+ try:
+ a = float(a)
+ b = float(b)
+ except ValueError:
+ # Erreur de conversion, on affiche le formulaire avec un message d'erreur
+ return template("calculatrice.html", 
+ erreur="Les valeurs saisies ne sont pas des nombres.",
+ a=a, b=b, op=op)
+ match op:
+ case "add":
+ resultat = a + b
+ case "sub":
+ resultat = a - b
+ case "mul":
+ resultat = a * b
+ case "div":
+ if b == 0:
+ return template("calculatrice.html", erreur="Division par zéro.",
+ a=a, b=b, op=op)
+ resultat = a / b
+ case _:
+ return template("calculatrice.html", erreur="Opération inconnue.",
+ a=a, b=b, op=op)
+ # Affichage du résultat
+ return template("calculatrice.html", a=a, b=b, op=op, resultat=resultat)
+### Options de voiture
+Créer un formulaire à l'adresse
+/mavoiture, permettant de choisir des
+options pour une voiture, et qui affiche un résumé des choix ainsi que le
+prix de la voiture (prix de base sans options = 18000 euros) lorsque le
+formulaire est soumis (méthode POST). Les options sont disponibles dans le dictionnaire
+suivant :
+{
+ "pmetal": {
+ "titre": "Peinture métallisée",
+ "prix": 500
+ },
+ "gps": {
+ "titre": "GPS",
+ "prix": 1000
+ },
+ "sieges": {
+ "titre": "Sièges cuir",
+ "prix": 1500
+ },
+ "toit": {
+ "titre": "Toit ouvrant panoramique",
+ "prix": 2000
+ },
+ "jantes": {
+ "titre": "Jantes alliage",
+ "prix": 400
+ }
+}
+Vous pouvez choisir d'afficher les options dans une liste déroulante
+<select> (avec l'attribut
+multiple) ou avec des cases à cocher
+<input type="checkbox">. Dans les deux cas, le prix total doit être affiché
+sous le formulaire.
+Correction
+En version
+select[multiple] (Télécharger le code) :
+% setdefault("options", {})
+% setdefault("selected", [])
+% setdefault("prix", 18000)
+<body>
+ <form action="/mavoiture" method="POST">
+ <label for="options">Choisissez vos options :</label>
+ <select id="options" name="options" multiple>
+ % for key, value in options.items():
+ <option value="{{ key }}" 
+ {{ "selected" if key in selected else "" }}>
+ {{ value['titre'] }} ({{ value['prix'] }} €)
+ </option>
+ % end
+ </select>
+ <button type="submit">Calculer le prix</button>
+ </form>
+ <p>Prix de base : 18000 €</p>
+ % if prix > 18000:
+ <p>Prix total : {{ prix }} €</p>
+ % end
+</body>
+Ou en version
+input[type=checkbox] (Télécharger le code) :
+% setdefault("options", {})
+% setdefault("selected", [])
+% setdefault("prix", 18000)
+<body>
+ <form action="/mavoiture" method="POST">
+ <label for="options">Choisissez vos options :</label>
+ % for key, value in options.items():
+ <div>
+ <input type="checkbox" id="{{ key }}" 
+ name="options" value="{{ key }}"
+ {{ "checked" if key in selected else "" }}>
+ <label for="{{ key }}">
+ {{ value['titre'] }} ({{ value['prix'] }} €)
+ </label>
+ </div>
+ % end
+ <button type="submit">Calculer le prix</button>
+ </form>
+ <p>Prix de base : 18000 €</p>
+ % if prix > 18000:
+ <p>Prix total : {{ prix }} €</p>
+ % end
+Télécharger le code du serveur
+from bottle import route, run, template, static_file, get, request
+
+@route('/mavoiture', method=['GET', 'POST'])
+def mavoiture():
+ if request.method == 'POST':
+ # Récupération des options
+ options = request.POST.getall('options')
+ prix = 18000
+ for option in options:
+ prix += OPTIONS[option]['prix']
+ return template("mavoiture.html", options=OPTIONS, selected=options, prix=prix)
+ else:
+ return template("mavoiture.html", options=OPTIONS, selected=[], prix=18000)
+Programme
+- NSI 1ère : intéraction client/serveur, requêtes HTTP, réponses du serveur
+- NSI 1ère : formulaire d'une page web, interaction avec l'utilisateur dans une page web
+===== serveur/fichiers =====
+# Serveur de fichiers
+- Ajouter une route pour les fichiers statiques
+- En pratique
+- Ajouter la route
+static
+- Afficher une image dans la page d'accueil
+- Créer un fichier CSS et l'utiliser
+En utilisant les routes dynamiques, il est possible de créer un serveur de
+fichier en quelques lignes.
+Bottle dispose d’une fonction
+static_file qui permet de renvoyer la réponse
+correspondant à un fichier donné.
+Cette fonction prend au moins 2 arguments obligatoires :
+filename : un nom de fichier ou un chemin vers un fichier
+root : un paramètre root qui indique à partir de quel répertoire de la
+machine on va chercher le fichier ci-dessus
+Références :
+- https://bottlepy.org/docs/dev/tutorial.html#serving-assets
+- https://bottlepy.org/docs/dev/api.html#bottle.static_file
+## Ajouter une route pour les fichiers statiques
+Il faut d'abord créer le répertoire de base pour les fichiers.
+Traditionnellement, il s'appelle
+static ou
+assets ou
+public mais on peut
+l'appeler comme on veut. Nous allons l'appeler
+static, dans le répertoire
+serveur, et nous allons y ajouter un sous-répertoire
+images pour y placer
+des images.
+mkdir -p static/images
+Si vous êtes en manque d'inspiration, vous pouvez télécharger quelques
+Tux (il
+y en a 946) à partir de l'adresse suivante :
+https://solidev.net/tux/tux1.png et les
+placer dans le répertoire
+static/images.
+cd static/images
+wget https://solidev.net/tux/tux1.png
+wget https://solidev.net/tux/tux2.png
+wget https://solidev.net/tux/tux3.png
+wget https://solidev.net/tux/tux4.png
+Ce répertoire
+static doit être précisé dans le paramètre
+root de la fonction
+static_files. On peut le définir de plusieurs manières :
+- "en dur" :
+root=/home/user/serveur/static mais ce n'est pas "portable".
+- "en relatif" :
+root=./static mais ce n'est pas "portable" non plus, le
+chemin relatif est pris à partir du répertoire courant d'exécution du script,
+qui peut être différent selon l'endroit où on lance le script.
+- "calculé" :
+root=join(dirname(__file__), "static") qui permet de calculer le
+chemin à partir du répertoire du script en cours d'exécution. C'est la méthode
+la plus portable (il faut au préalable importer
+join et
+dirname de
+os.path).
+from os.path import join, dirname
+from bottle import static_file #...
+# ...
+
+@route('/static/<filename:path>')
+def server_static(filename):
+ return static_file(filename, root=join(dirname(__file__), "static"))
+## En pratique
+### Ajouter la route
+static
+Rajouter la route
+/static/<filename:path> dans le fichier
+main.py pour
+servir les fichiers statiques.
+Correction
+Télécharger le code
+from bottle import route, run, template, static_file
+from os.path import dirname, join
+
+# ...
+# Fichiers statiques
+@route('/static/<filename:path>')
+def server_static(filename):
+ return static_file(filename, root=join(dirname(__file__), "static"))
+### Afficher une image dans la page d'accueil
+Dans le template de la page d'accueil, rajouter l'affichage d'une image
+provenant de notre serveur de fichier statique au dessus du message d'accueil.
+Correction
+<body>
+ <h1>Page d'accueil</h1>
+ <img class="home-img" src="/static/images/tux1.png" alt="Tux" width="200">
+ <p>Bienvenue sur notre site !</p>
+ <p><a href="/hello/Bob">Dire bonjour à Bob</a></p>
+ </body>
+### Créer un fichier CSS et l'utiliser
+Créer un fichier
+style.css et y déplacer les styles définis dans les
+templates, et lier ce fichier CSS dans le template de la page d'accueil avec
+<link rel="stylesheet" href="/static/style.css">.
+Correction
+Télécharger le code
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Page d'accueil</title>
+ <link rel="stylesheet" href="/static/style.css">
+ </head>
+Télécharger le code
+body {
+ background-color: #f0f0f0;
+ color: #333;
+ font-family: Arial, sans-serif;
+}
+h1 {
+ color: #007BFF;
+}
+.home-img {
+ display: block;
+ margin: 0 auto;
+ border: 2px solid #007BFF;
+ border-radius: 10px;
+ padding: 5px;
+}
+Programme
+- SNT : thème Internet
+- NSI 1ère : intéraction client/serveur, requêtes HTTP, réponses du serveur
+===== serveur/api =====
+# API
+- Exemple
+- Côté serveur
+- Côté client
+Jusqu'à présent, nous avons utilisé notre serveur pour servir des pages HTML ou
+des fichiers statiques. Cependant, nous pouvons aussi l'utiliser pour créer une
+API (Application Programming Interface) qui permet de communiquer différemment
+avec le client. Selon le type renvoyé par la route, Bottle peut aussi renvoyer
+des données sous d'autres formats. Par exemple, si on renvoie un dictionnaire,
+le contenu du dictionnaire est renvoyé au format JSON. Plus de détails dans la
+note 1.
+## Exemple
+Dans cette partie, nous allons :
+- côté serveur, créer une API qui renvoie des données au format JSON
+- côté client, utiliser JavaScript pour faire des requêtes à cette API et
+afficher les données reçues dans la page HTML
+### Côté serveur
+Nous allons créer un point d'entrée
+/api/pwgen qui renvoie une liste de
+caractères aléatoires.
+Télécharger le code
+@route('/api/pwgen')
+def api_pwgen():
+ """
+ Renvoie une liste de caractères aléatoires.
+ """
+ # On génère une liste de 10 caractères aléatoires
+ import random
+ import string
+ chars = [random.choice(string.ascii_letters + string.digits) for _ in range(10)]
+ # On renvoie un dictionnaire pour que Bottle le convertisse en JSON
+ return {'password': ''.join(chars)}
+### Côté client
+Le point d'entréé
+/api/pwgen peut être appelé en javascript dans une page,
+et être utilisé pour afficher le mot de passe généré dans la page HTML, sans
+rechargement de la page.
+Télécharger le code
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Exemple API</title>
+ <script>
+ const fetchPassword = async () => {
+ const response = await fetch('/api/pwgen');
+ const data = await response.json();
+ document.getElementById('password').innerText = data.password;
+ }
+ </script>
+</head>
+<body>
+ <h1>Générateur de mot de passe</h1>
+ <button onclick="fetchPassword()">Générer un mot de passe</button>
+ <code id="password"></code`>
+</body>
+</html>
+Dans ce code, nous avons ajouté un bouton qui, lorsqu'il est cliqué, appelle la
+fonction
+fetchPassword(). Cette fonction utilise l'API Fetch pour faire une
+requête GET à notre point d'entrée
+/api/pwgen. La réponse est ensuite
+convertie en JSON et le mot de passe généré est affiché dans la page.
+Programme
+- NSI 1ère : intéraction client/serveur, requêtes HTTP, réponses du serveur
+- NSI 1ère : évènements
+- NSI 1ère : intéraction avec l'utilisateur dans une page web
+1
+Si la fonction renvoie :
+- un dictionnaire, Bottle le convertit automatiquement en JSON et le renvoie
+au client avec le
+Content-Type approprié (
+application/json)
+- une chaîne de caractères vide,
+False,
+None : réponse vide
+(
+204 No Content)
+- une lise de chaînes de caractères : elles sont concaténées et renvoyées
+comme une seule chaîne de caractères
+- une chaîne de caractères unicode : elle encodée avec le codec approprié
+spécifié dans l'en-tête
+Content-Type de la réponse (
+utf-8 par défaut)
+et traitéee ensuite comme une liste d'octets (byte string).
+- un liste d'octets (byte string) : elle est renvoyée telle quelle, sans
+traitement.
+- une instance de
+HTTPError ou
+HTTPResponse : elle est utilisée
+directement pour générer la réponse, en ignorant les modifications faites
+sur
+response
+- un fichier ou un objet de type fichier (n'importe quel objet qui a une
+méthode
+read()) : il est envoyé en listant les octets via
+read();
+Content-Type et
+Content-Length ne sont pas générés automatiquement.
+Pour plus de sécurité, il est recommandé d'utiliser
+static_file() pour
+servir des fichiers.
+- un iterable ou un générateur : le contenu est envoyé au fur et à mesure
+qu'il est produit, en mode
+streaming. Le
+Content-Length n'est pas
+généré dans ce cas.
+Référence :
+https://bottlepy.org/docs/dev/tutorial.html#generating-content.
+===== serveur/securite =====
+# Sécurité
+Principe de base : le serveur ne doit pas faire confiance au client. Il faut donc
+vérifier toutes les données envoyées par le client avant de les utiliser. Cela
+inclut les données envoyées par les formulaires, mais aussi éventuellement les données
+récupérées par une API ou dans une capture de paramètre d'URL.
+Donc :
+- ne jamais utiliser
+eval sur des données envoyées par le client (eval is evil...)
+- ne jamais utiliser de données envoyées par le client pour exécuter directement des commandes
+système (ex. :
+os.system(),
+subprocess.run(), etc.) (shell injection)
+- ne jamais utiliser de données envoyées par le client pour exécuter des requêtes sans les protéger au préalable (SQL injection)
+- ne jamais afficher des donnéés envoyers par le client sans les échapper au préalable
+(ex. :
+return f"{nom}" ou
+{{! xxxx }} dans un template) (XSS)
+- ne jamais faire confiance à une validation des données effectuée côté client (ex:
+required,
+pattern,
+minlength, etc..), il faut toujours
+valider les données côté serveur.
+...
+D'autres attaques existent :
+- CSRF (Cross-Site Request Forgery) : une attaque qui consiste à faire exécuter une action sur un site web par un utilisateur sans son consentement (remède = token CSRF)
+- Clickjacking : une attaque qui consiste à faire cliquer un utilisateur sur un élément d'une page web en le superposant à un autre élément (remède =
+X-Frame-Options)
+- ...
+Nous reviendrons plus particulièrement sur :
+- les injections SQL dans la partie sur les bases de données
+- les XSS dans la partie sur l'authentification
+Plus (beaucoup plus) de lecture (en anglais) : https://cheatsheetseries.owasp.org/index.html
