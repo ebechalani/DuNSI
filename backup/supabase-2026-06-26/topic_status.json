@@ -1,0 +1,26 @@
+[
+ {
+  "topic_key": "ev_pos",
+  "status": "not_started"
+ },
+ {
+  "topic_key": "ev_eval",
+  "status": "not_started"
+ },
+ {
+  "topic_key": "b0_imperatif",
+  "status": "mastered"
+ },
+ {
+  "topic_key": "b0_os",
+  "status": "mastered"
+ },
+ {
+  "topic_key": "b0_archi",
+  "status": "mastered"
+ },
+ {
+  "topic_key": "b0_python",
+  "status": "mastered"
+ }
+]
