@@ -3029,12 +3029,10 @@ function renderTPCard(tp) {
   if (origName) {
     const res = allRessources.find(r => r.file_name === origName)
     if (res) {
-      const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
-      const url = data.publicUrl
       if (tp.notebook) {
-        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
       }
-      downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${url}?download=${encodeURIComponent(origName)}" title="Télécharger le document original">⬇ TP original</a>`
+      downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${ressourceUrl(res)}" download="${escapeHtml(origName)}" title="Télécharger le document original">⬇ TP original</a>`
     }
   }
   const printBtns = `${downloadBtn}${basthonBtn}<button class="tp-print-btn" data-print-tp="${tp.id}">🖨 Imprimer / PDF</button>`
@@ -3445,6 +3443,17 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
 }
 
+// ── Fichiers des ressources : servis depuis le dépôt ─────
+// Les fichiers uploadés avant le cutoff ont été copiés dans ressources/uploads/
+// (zéro egress Supabase) ; les uploads plus récents restent servis par le bucket.
+const RESSOURCES_LOCAL_CUTOFF = '2026-06-27'
+function ressourceUrl(r) {
+  if ((r.created_at || '') < RESSOURCES_LOCAL_CUTOFF) return 'ressources/uploads/' + r.file_path
+  return db.storage.from('ressources').getPublicUrl(r.file_path).data.publicUrl
+}
+// URL absolue (nécessaire pour Basthon, service externe qui vient chercher le fichier)
+function ressourceAbsUrl(r) { return new URL(ressourceUrl(r), window.location.href).href }
+
 // ── Onglet Projets ───────────────────────────────────────
 function renderProjets() {
   const wrap = document.getElementById('projets-list')
@@ -3457,8 +3466,7 @@ function renderProjets() {
   const parcoursNb = allRessources.filter(r => isNb(r) && r.topic === 'Python — parcours').sort(sortNom)
   const projetsNb  = allRessources.filter(r => isNb(r) && r.topic === 'Python — projets').sort(sortNom)
   const btn = r => {
-    const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
-    return `<a class="btn-basthon" href="https://notebook.basthon.fr/?from=${encodeURIComponent(data.publicUrl)}" target="_blank" rel="noopener">⚡ ${escapeHtml(r.title || r.file_name)}</a>`
+    return `<a class="btn-basthon" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(r))}" target="_blank" rel="noopener">⚡ ${escapeHtml(r.title || r.file_name)}</a>`
   }
   let banner = ''
   if (parcoursNb.length || projetsNb.length) {
@@ -3620,8 +3628,7 @@ function showFicheRead(fiche) {
   if (ba) {
     const res = nbMatch && allRessources.find(r => r.file_name === nbMatch[1])
     if (res) {
-      const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
-      ba.href = 'https://notebook.basthon.fr/?from=' + encodeURIComponent(data.publicUrl)
+      ba.href = 'https://notebook.basthon.fr/?from=' + encodeURIComponent(ressourceAbsUrl(res))
       ba.classList.remove('hidden')
     } else {
       ba.classList.add('hidden')
@@ -3641,8 +3648,8 @@ function showFicheRead(fiche) {
   if (dl) {
     const res = fiche.topic && allRessources.find(r => r.topic && r.topic === fiche.topic && r.file_name)
     if (res) {
-      const { data } = db.storage.from('ressources').getPublicUrl(res.file_path)
-      dl.href = data.publicUrl + '?download=' + encodeURIComponent(res.file_name)
+      dl.href = ressourceUrl(res)
+      dl.setAttribute('download', res.file_name)
       dl.classList.remove('hidden')
     } else {
       dl.classList.add('hidden')
@@ -4099,12 +4106,11 @@ function renderUploadedRessources() {
   empty.classList.toggle('hidden', allRessources.length > 0)
 
   wrap.innerHTML = `<div class="calendar-list">` + allRessources.map(r => {
-    const { data } = db.storage.from('ressources').getPublicUrl(r.file_path)
-    const url = data.publicUrl
+    const url = ressourceUrl(r)
     const meta = [r.topic, humanSize(r.file_size)].filter(Boolean).join(' · ')
     const isNotebook = /\.ipynb$/i.test(r.file_name || '') || (r.file_type || '').includes('ipynb')
     const basthonBtn = isNotebook
-      ? `<a class="btn-secondary btn-basthon" style="margin:0 0 0 8px;padding:6px 12px;font-size:.8rem" href="https://notebook.basthon.fr/?from=${encodeURIComponent(url)}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Basthon</a>`
+      ? `<a class="btn-secondary btn-basthon" style="margin:0 0 0 8px;padding:6px 12px;font-size:.8rem" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(r))}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Basthon</a>`
       : ''
     return `
       <div class="calendar-row">
