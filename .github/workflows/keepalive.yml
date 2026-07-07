@@ -1,0 +1,18 @@
+name: Supabase keep-alive
+
+# Le plan gratuit Supabase met le projet en pause après ~7 jours sans requête.
+# Ce ping bi-hebdomadaire maintient le projet actif.
+on:
+  schedule:
+    - cron: '17 6 * * 1,4'   # lundi et jeudi, 06:17 UTC
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          curl -sf "https://tnkwbcevfyslpetuuxlu.supabase.co/rest/v1/fiches?select=id&limit=1" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRua3diY2V2ZnlzbHBldHV1eGx1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxOTkzMjMsImV4cCI6MjA5NDc3NTMyM30.bMQJwMVioi6OSYWYqXFEwGA89AompDtnr-eDg6movWw" \
+            > /dev/null && echo "Supabase ping OK"
