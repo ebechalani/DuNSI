@@ -192,7 +192,12 @@
       "Bash(cd \"C:/Users/PC/Documents/GitHub/DuNSI\")",
       "Bash(rm -f _eleves.txt _s2tp.ipynb _s2tp.txt)",
       "Bash(sed -i 's/v=20260623c/v=20260623d/g' index.html)",
-      "Bash(curl -s -o /dev/null -w \"local PDF served: %{http_code}\\\\n\" \"http://localhost:5500/ressources/web/book-html.pdf\")"
+      "Bash(curl -s -o /dev/null -w \"local PDF served: %{http_code}\\\\n\" \"http://localhost:5500/ressources/web/book-html.pdf\")",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\PC\\\\Desktop\\\\EDDY 1-6-2026\\\\DCIM\\\\101NCZ_8_shareable\" | Measure-Object -Property Length -Maximum -Minimum -Average | Select-Object Count, @{N=\"Max MB\";E={[math]::Round\\($_.Maximum/1MB,2\\)}}, @{N=\"Min MB\";E={[math]::Round\\($_.Minimum/1MB,2\\)}}, @{N=\"Avg MB\";E={[math]::Round\\($_.Average/1MB,2\\)}})",
+      "Bash(python _backup.py)",
+      "Bash(rm -f _backup.py)",
+      "Bash(sed -i 's/v=20260625b/v=20260626a/g' index.html)",
+      "Bash(curl -s -o /dev/null -w \"API Supabase : HTTP %{http_code} en %{time_total}s\\\\n\" \"https://tnkwbcevfyslpetuuxlu.supabase.co/rest/v1/fiches?select=id&limit=1\" -H \"apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRua3diY2V2ZnlzbHBldHV1eGx1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxOTkzMjMsImV4cCI6MjA5NDc3NTMyM30.bMQJwMVioi6OSYWYqXFEwGA89AompDtnr-eDg6movWw\")"
     ]
   }
 }
