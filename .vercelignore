@@ -3,6 +3,8 @@ backup/
 _md/
 __pycache__/
 /*.py
+/_*.js
+/_*.json
 _serveur.txt
 setup.sql
 .claude/
