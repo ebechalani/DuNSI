@@ -2,7 +2,7 @@
 backup/
 _md/
 __pycache__/
-*.py
+/*.py
 _serveur.txt
 setup.sql
 .claude/

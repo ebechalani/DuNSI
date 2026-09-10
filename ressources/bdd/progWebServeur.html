@@ -1,0 +1,349 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Programmation Web côté serveur</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="indexParadigmes.html">Programmation Web côté serveur et interaction avec une base de données</h1>
+<div id="contenu">
+  <h2>I. Introduction</h2>
+  <p>L'année dernière, vous avez pu voir la programmation Web côté client avec Javascript. Lorsqu'une application web doit interagir avec une base de données, celle-ci est sur un serveur, donc utiliser de la programmation "côté client" ne convient plus. Il faut donc passer à de la programmation côté serveur.</p>
+  <p>Le principe général de la programmation web côté serveur est le suivant : lorsqu'une requête http est envoyée, ce n'est pas une page web statique qui est renvoyée, mais une page web générée par un programme. Ce programme peut être écrit dans un langage tel que Python, donc faire tous les calculs imaginables, accéder à une base de données, etc. C'est le serveur web qui fait le lien entre la requête http et le programme.</p>
+  <p>Les langages les plus utilisés pour faire de la programmation web côté serveur sont PHP et Java. Javascript peut également être utilisé pour faire de la programmation côté serveur. Mais beaucoup d'autres langages le permettent également (C, Ruby, etc.)</p>
+  <p>Afin d'éviter de vous faire découvrir un langage supplémentaire, nous découvrirons ici la programmation web côté serveur en Python.</p>
+  <h2>II. Création du serveur web</h2>
+  <p>Comme pour toute site web, il faut commencer par disposer d'un serveur web. Pour Python, on crée un serveur web dédié... en Python ainsi (code repris depuis une page web) et le lancer :
+  </p>
+  <pre class="algo">
+#!/usr/bin/python
+ 
+import http.server
+ 
+PORT = 8888
+server_address = ("", PORT)
+
+server = http.server.HTTPServer
+handler = http.server.CGIHTTPRequestHandler
+handler.cgi_directories = ["/"]
+print("Serveur actif sur le port :", PORT)
+
+httpd = server(server_address, handler)
+httpd.serve_forever()
+  </pre>
+  <p>Tant que l'exécution du programme n'est pas interrompue, le serveur web tournera "sur le port 8888". Notez que ceci bloque le terminal dans lequel vous avez lancé le serveur. N'hésitez donc pas à lancer un autre terminal si nécessaire.</p>
+<p><strong><em>N.B.</em></strong>: Si votre script comporte des erreurs, c'est dans le terminal dans lequel est lancé le serveur qu'elles seront affichées. Donc si votre page web ne s'affiche pas, n'hésitez pas à aller jeter un coup d'oeil au terminal dans lequel tourne votre serveur.</p>
+
+  <h2>III. Création de pages dont le contenu ne dépend pas d'informations fournies par l'utilisateur</h2>
+  <h3>A. Page web statique</h3>
+<p>Pour créer une page web statique, il faut écrire un script Python qui va écrire sur la sortie standard le contenu de la page.</p>
+<p style="color:red"><strong>Attention</strong> : ce script doit avoir les droits en exécution (sous linux, faire un <code>chmod 755 <em>nomDuScript</em></code>).</p>
+<p>Voici un exemple, stocké dans un fichier <em>essai.py</em> :</p>
+<pre class="algo">
+#!/usr/bin/python
+
+page= '''&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Essai&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;h1&gt;Essai&lt;/h1&gt;
+    &lt;p&gt;Voici un exemple de page html.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;'''
+
+print(page)
+</pre>
+
+<p>Pour afficher la page correspondante, il faut taper l'URL suivante dans la barre d'adresse du navigateur :</p>
+<pre class="algo">
+http://localhost:8888/essai.py
+</pre>
+<p>Dans cette adresse : </p>
+<ul>
+  <li><code>localhost</code> désigne la machine courante :</li>
+  <li><code>888</code> désigne le numéro de port sur lequel le serveur est lancé (voir le fichier <em>serveur.py</em>) ;
+  <li><code>essai.py</code> désigne le nom du script dans le répertoire du serveur.</li>
+</ul>
+<p>
+On peut vérifier le code html généré en lançant directement le programme python depuis la ligne de commande.
+</p>
+
+<h3>B. Page web dynamique</h3>
+<p>Le texte de la page peut également être calculé, comme dans le programme suivant qui affiche la date et l'heure :</p>
+<pre class="algo">
+#!/usr/bin/python
+
+from datetime import date
+from datetime import datetime
+
+debutPage= '''&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Essai&lt;/title&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;h1&gt;Date et heure&lt;/h1&gt;
+    &lt;p&gt;'''
+
+moment = date.today().strftime("%d/%m/%Y")
+heure = datetime.now().strftime("%H:%M:%S")
+
+maintenant = "Nous sommes le " + moment + " et il est " + heure
+
+finPage ='''&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;'''
+
+page = debutPage + maintenant + finPage
+
+print(page)
+</pre>
+
+<h3>C. Affichage d'informations provenant d'une base de données</h3>
+<p>Le programme Python générant la page web est un programme Python classique ; il peut donc tout à fait utiliser la bibliothèque <em>sqlite3</em> pour afficher des informations provenant d'une base de données (présente dans le réperoire du serveur).</p>
+<p>À titre d'exemple, voici un exemple de programme renvoyant le contenu de la table <em>Editeur</em> dans une page web (notez la deuxième ligne nécessaire en cas de caractères accentués) :</p>
+<pre class="algo">
+#!/usr/bin/python
+#coding: utf-8
+
+import sqlite3
+
+print("Content-type: text/html; charset=utf-8\n")
+
+print("&lt;html&gt;&lt;body&gt;")
+
+
+conn = sqlite3.connect('ludotheque.db')
+curseur = conn.execute("select * from Editeur")
+
+
+print("&lt;h1&gt;Contenu de la table Editeur&lt;/h1&gt;")
+print("&lt;table border='1'&gt;")
+print("&lt;tr&gt;&lt;th colspan='3'&gt;Éditeurs&lt;/th&gt;&lt;/tr&gt;")
+print("&lt;tr&gt;&lt;th&gt;Identifiant&lt;/th&gt;&lt;th&gt;Nom&lt;/th&gt;&lt;th&gt;Nationalité&lt;/th&gt;&lt;/tr&gt;")
+
+for tuple in curseur:
+    print("&lt;tr&gt;")
+    liste = list(tuple)
+    for champ in liste:
+        print("&lt;td&gt;" + str(champ) + "&lt;/td&gt;")
+    print("&lt;/tr&gt;")
+print("&lt;/table&gt;")
+print("&lt;/body&gt;&lt;/html&gt;")
+conn.close()
+</pre>
+<p>Cela permet d'obtenir la page web suivante :</p>
+<img src="pageWebAffichageEditeur.png" width="40%" alt="Page web générée par le programme précédent"/>
+
+<h2>IV. Traitement d'informations fournies par l'utilisateur</h2>
+<h3>A. Un exemple simple</h3>
+<h4>1. Présentation générale</h4>
+<p>Via des formulaires, l'utilisateur peut fournir des informations qui pourront être prises en compte par les programmes s'exécutant côté serveur. Voici un premier exemple simple, dont le principe est le suivant :</p>
+<ul>
+  <li>Sur une première page, statique, générée par un programme <code>saisieIdentite.py</code>, l'utilsateur rentre ses nom et prénom. Sur validation, les informations sont transmises à un autre programme, <code>hello.py</code> ;</li>
+  <li>Le script <code>hello.py</code> génère une page web saluant l'utilisateur en l'appelant par son prénom et son nom.</li>
+</ul>
+<h4>2. Programme <code>saisieIdentite.py</code></h4>
+<p>Ce programme se contente de générer un formulaire statique permettant à l'utilisateur de saisir ses nom et prénom, puis passe la main au programme <code>hello.py</code></p> :
+<pre class="algo">
+#!/usr/bin/python
+#coding: utf-8
+
+print("Content-type: text/html; charset=utf-8\n")
+
+html = """&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Saisie d'un nom&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;form action="/hello.py" method="get"&gt;
+    &lt;input type="text" name="nom" placeholder="Votre nom" /&gt;
+    &lt;input type="text" name="prenom" placeholder="Votre prénom" /&gt;
+    &lt;input type="submit" value="Envoyer"&gt;
+  &lt;/form&gt; 
+&lt;/body&gt;
+&lt;/html&gt;
+"""
+
+print(html)
+</pre>
+<h4>3. Programme <code>hello.py</code></h4>
+<p>Le programme doit récupérer les informations qui ont été saisies dans le formulaire. Pour ce faire, il faut utiliser le module <code>cgi</code>, et récupérer les valeurs saisies dans le formulaire dans un objet via la méthode <code>FieldStorage</code>. Ensuite, la valeur de chaque champ peut être récupérée grâce à la méthode <code>getvalue</code>. Voilà ce que cela donne :</p>
+<pre class="algo">
+#!/usr/bin/python
+
+import cgi 
+
+formulaire = cgi.FieldStorage()
+print("Content-type: text/html; charset=utf-8\n")
+
+nom = formulaire.getvalue('nom')
+prenom = formulaire.getvalue('prenom')
+
+print("&lt;html&gt;&lt;body&gt;&lt;h1&gt;")
+print("Bonjour " + prenom + " " + nom)
+print("&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;")
+</pre>
+<h2>B. Consultation de la base de données à partir de données fournies par l'utilisateur</h2>
+<div class="exo">
+<p><strong>Exercice 1 </strong> : Maintenant que vous avez tout ce qu'il faut pour, écrivez une application web qui demande à l'utilisateur une nationalité, puis qui affiche la liste des éditeurs ayant la nationalité en question
+  </p>
+      <p><input type="button" class="correction" value="Correction formulaire" idCorrection="corr1a"/>
+  <input type="button" class="correction" value="Correction traitement" idCorrection="corr1b"/></p>
+</div>
+<div class="correction" id="corr1a">
+  <pre class="algo">
+  #!/usr/bin/python
+#coding: utf-8
+
+print("Content-type: text/html; charset=utf-8\n")
+
+
+html = """&lt;html>
+&lt;head>
+  &lt;title>Saisie d'un nationalité&lt;/title>
+&lt;/head>
+&lt;body>
+  &lt;form action="/editeursNation.py" method="get">
+    &lt;input type="text" name="nation" placeholder="Nationalité recherchée" />
+    &lt;input type="submit" value="Envoyer">
+  &lt;/form> 
+&lt;/body>
+&lt;/html&gt;
+"""
+
+print(html)
+
+  </pre>
+</div>
+<div class="correction" id="corr1b">
+  <pre class="algo">
+#!/usr/bin/python
+#coding: utf-8
+
+import cgi
+import sqlite3
+
+print("Content-type: text/html; charset=utf-8\n")
+
+print("&lt;html&gt;&lt;body&gt;")
+
+formulaire = cgi.FieldStorage()
+
+nationalite = formulaire.getvalue("nation")
+
+connexion = sqlite3.connect('ludotheque.db')
+
+requete = '''SELECT nomEditeur
+                               FROM Editeur
+                               WHERE upper(nationaliteEditeur) = upper(?)
+                               ORDER BY nomEditeur'''
+
+curseur = connexion.execute(requete, (nationalite,))
+
+
+print("&lt;h1&gt;Éditeur de nationalité " + nationalite + "&lt;/h1&gt;")
+print("&lt;table border='1'&gt;")
+print("&lt;tr&gt;&lt;th&gt;Nom&lt;/th&gt;&lt;/tr&gt;")
+
+for tuple in curseur:
+    print("&lt;tr&gt;")
+    nom = list(tuple)[0]
+    print("&lt;td&gt;" + nom + "&lt;/td&gt;")
+    print("&lt;/tr&gt;")
+print("&lt;/table&gt;")
+
+print("&lt;/body&gt;&lt;/html&gt;")
+connexion.close()
+  </pre>
+</div>
+
+<div class="exo">
+  <p><strong>Exercice 2</strong> : Écrire une application web qui demande à l'utilisateur le nom d'une table, puis qui affiche le contenu de la table en question.</p>
+  <p><em>Indication</em> : l'objet <em>curseur</em> renvoyé par la méthode <code>execute</code> contient un objet <code>description</code> qui contient une description de chacune des colonnes de la table sous la forme d'un tuple dont la première coordonnée est le nom de la colonne. On peut donc récupérer ainsi la liste des noms de colonnes :</p><p><code>[description[0] for description in cursor.description]</code>.</p>
+      <p><input type="button" class="correction" value="Correction formulaire" idCorrection="corr2a"/>
+  <input type="button" class="correction" value="Correction traitement" idCorrection="corr2b"/></p>
+  </div>
+<div class="correction" id="corr2a">
+  <pre class="algo">
+#!/usr/bin/python
+# coding: utf-8
+
+import cgi 
+
+print("Content-type: text/html; charset=utf-8\n")
+
+
+html = """&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Choix d'une table à afficher&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;form action="/affichageTable.py" method="get"&gt;
+    &lt;input type="text" name="nomTable" placeholder="Nom de la table" /&gt;
+    &lt;input type="submit" value="Envoyer"&gt;
+  &lt;/form&gt; 
+&lt;/body&gt;
+&lt;/html&gt;
+"""
+
+print(html)
+  </pre>
+</div>
+<div class="correction" id="corr2b">
+  <pre class="algo">
+#!/usr/bin/python
+#coding: utf-8
+
+import cgi 
+import sqlite3
+
+form = cgi.FieldStorage()
+print("Content-type: text/html; charset=utf-8\n")
+
+nomTable = form.getvalue('nomTable')
+
+print("&lt;html&gt;&lt;body&gt;")
+print("&lt;h1&gt;Informations sur la table " + nomTable + "&lt;/h1&gt;"
+);
+
+conn = sqlite3.connect('ludotheque.db')
+curseur = conn.execute("select * from " + nomTable)
+
+colonnes = [description[0] for description in curseur.description]
+
+print("&lt;h2&gt;Liste des colonnes&lt;/h2&gt;")
+print("&lt;ul&gt;")
+for c in colonnes:
+    print("&lt;li&gt;" + c + "&lt;/li&gt;")
+
+print("&lt;/ul&gt;")
+
+print("&lt;h2&gt;Contenu de la table&lt;/h2&gt;")
+print("&lt;table border='1'&gt;")
+print("&lt;tr&gt;&lt;th colspan='" + str(len(colonnes)) + "'&gt;" + nomTable + "&lt;/th&gt;&lt;/tr&gt;")
+print("&lt;tr&gt;")
+for col in colonnes:
+    print("&lt;th&gt;" + col + "&lt;/th&gt;")
+print("&lt;/tr&gt;")
+
+for tuple in curseur:
+    print("&lt;tr&gt;")
+    liste = list(tuple)
+    for champ in liste:
+        print("&lt;td&gt;" + str(champ) + "&lt;/td&gt;")
+    print("&lt;/tr&gt;")
+print("&lt;/table&gt;")
+print("&lt;/body&gt;&lt;/html&gt;")
+conn.close()
+  </pre>
+</div>
+</div>
+</div>
+</body>
+</html>
