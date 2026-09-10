@@ -1,0 +1,8 @@
+# Fichiers de développement — exclus du déploiement Vercel
+backup/
+_md/
+__pycache__/
+*.py
+_serveur.txt
+setup.sql
+.claude/
