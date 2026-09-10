@@ -192,6 +192,38 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'knn-2026-09-10',
+    iso: '2026-09-10', dateLabel: '10 septembre 2026 (2ᵉ partie)', bloc: 'bloc2',
+    titre: 'Apprentissage supervisé : les k plus proches voisins',
+    formateur: 'Laurent Amanton', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'ressources/knn/KNN_Amanton.pdf',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+        { t: 'Support du cours — 30 diapositives (PDF)', u: 'ressources/knn/KNN_Amanton.pdf' },
+      ]},
+      { titre: 'Cours (fiches internes)', items: [
+        { t: 'Apprentissage supervisé et principe du k-NN',   f: 'k-NN — apprentissage supervisé et principe' },
+        { t: "L'algorithme et le vote majoritaire",           f: "k-NN — l'algorithme et le vote majoritaire" },
+        { t: 'Mesurer la distance entre deux exemples',       f: 'k-NN — mesurer la distance entre deux exemples' },
+        { t: 'Deux exemples déroulés (2-NN et 3-NN)',         f: 'k-NN — deux exemples déroulés (2-NN et 3-NN)' },
+        { t: 'Le choix de k et le compromis biais-variance',  f: 'k-NN — le choix de k et le compromis biais-variance' },
+        { t: "Effets d'échelle et normalisation min-max",     f: "k-NN — effets d'échelle et normalisation min-max" },
+        { t: 'De l\'implémentation manuelle à scikit-learn',  f: 'k-NN en Python — de l\'implémentation manuelle à scikit-learn' },
+      ]},
+      { titre: 'Travaux pratiques', items: [
+        { t: 'TP « Classer des rugbymen avec k-NN » — voir l\'onglet TP', u: 'ressources/knn/tp_knn_rugby.py' },
+        { t: 'Solution complète du TP (script Python commenté)',          u: 'ressources/knn/tp_knn_rugby.py' },
+      ]},
+      { titre: 'Pour aller plus loin', items: [
+        { t: 'Jeu de données Iris (UCI) — celui du cours',      u: 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data' },
+        { t: 'scikit-learn — KNeighborsClassifier',             u: 'https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html' },
+        { t: 'Basthon — exécuter du Python sans installation',  u: 'https://console.basthon.fr' },
+      ]},
+    ],
+  },
 ]
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
 const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
@@ -3375,7 +3407,7 @@ function renderFiches() {
       if (!cats.has(c)) cats.set(c, [])
       cats.get(c).push(f)
     })
-    const order = ['Python', 'Bases de données', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
+    const order = ['Python', 'Bases de données', 'Algorithmique & apprentissage', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
     const ordered = [...cats.keys()].sort((a, b) => {
       const ia = order.indexOf(a), ib = order.indexOf(b)
       return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
@@ -3427,6 +3459,7 @@ function ficheCategorie(topic) {
   const t = (topic || '').toLowerCase()
   if (t.startsWith('python')) return 'Python'
   if (/(bases de données|sql|sgbd|relationnel)/.test(t)) return 'Bases de données'
+  if (/(apprentissage|k-nn|knn|voisins|algorithmique)/.test(t)) return 'Algorithmique & apprentissage'
   if (/(linux|shell|bash|unix|exploitation)/.test(t)) return 'Linux & Shell'
   if (/(paradigme|fonctionnel|impératif|imperatif)/.test(t)) return 'Paradigmes de programmation'
   if (/(compilation|interpr|fondements)/.test(t)) return 'Concepts généraux'
@@ -3490,6 +3523,8 @@ function escapeHtml(s) {
 // (zéro egress Supabase) ; les uploads plus récents restent servis par le bucket.
 const RESSOURCES_LOCAL_CUTOFF = '2026-06-27'
 function ressourceUrl(r) {
+  // file_path déjà relatif au dépôt (ressources/…) : servi tel quel, quelle que soit la date
+  if ((r.file_path || '').startsWith('ressources/')) return r.file_path
   if ((r.created_at || '') < RESSOURCES_LOCAL_CUTOFF) return 'ressources/uploads/' + r.file_path
   return db.storage.from('ressources').getPublicUrl(r.file_path).data.publicUrl
 }
@@ -4055,7 +4090,10 @@ function renderAgendaBanner() {
   const s = todaySession || nextSession
   if (!s) { el.innerHTML = ''; return }
   const isToday = !!todaySession
-  const jLabel = isToday ? "Aujourd'hui" : `Dans ${daysUntil(s.iso)} j`
+  // Plusieurs séances le même jour (ex. 10 septembre : bases de données puis k-NN)
+  const memeJour = sessions.filter(x => x.iso === s.iso).length
+  const jLabel = (isToday ? "Aujourd'hui" : `Dans ${daysUntil(s.iso)} j`) +
+                 (memeJour > 1 ? ` · ${memeJour} séances` : '')
   el.innerHTML = `
     <button class="agenda-banner ${isToday ? 'is-today' : ''}" id="dash-agenda-btn">
       <span class="agenda-banner-tag">📋 ${jLabel}</span>
@@ -4218,8 +4256,11 @@ async function uploadRessource() {
 async function deleteRessource(id) {
   const r = allRessources.find(x => x.id === id)
   if (!r) return
-  if (!confirm('Supprimer cette ressource ?')) return
-  await db.storage.from('ressources').remove([r.file_path])
+  const dansLeDepot = (r.file_path || '').startsWith('ressources/')
+  if (!confirm(dansLeDepot
+    ? 'Retirer cette ressource de la liste ? Le fichier restera dans le dépôt (à supprimer par un commit).'
+    : 'Supprimer cette ressource ?')) return
+  if (!dansLeDepot) await db.storage.from('ressources').remove([r.file_path])
   await db.from('ressources').delete().eq('id', id)
   allRessources = allRessources.filter(x => x.id !== id)
   renderUploadedRessources()
