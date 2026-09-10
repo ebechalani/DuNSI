@@ -154,6 +154,31 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'bdd-2026-09-10',
+    iso: '2026-09-10', dateLabel: '10 septembre 2026', bloc: 'bloc4',
+    titre: 'Bases de données relationnelles et SQL',
+    formateur: 'Support DIU (en ligne)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: '',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+        { t: 'Site du cours (support complet)', u: 'https://bases-de-donnees-26b46e.gitlab.io/' },
+      ]},
+      { titre: 'Cours (fiches internes)', items: [
+        { t: 'Le modèle relationnel (tables, clés, schéma)', f: 'Bases de données — le modèle relationnel' },
+        { t: 'Interroger une base : SELECT, WHERE, ORDER BY', f: 'SQL — interroger une base (SELECT)' },
+        { t: 'Jointures et agrégation (JOIN, GROUP BY)', f: 'SQL — jointures et agrégation' },
+        { t: 'Créer et modifier : CREATE, INSERT, UPDATE, DELETE', f: 'SQL — créer et modifier une base' },
+        { t: 'SGBD, transactions et injection SQL', f: 'SGBD — transactions, contraintes et injection SQL' },
+      ]},
+      { titre: 'Pour pratiquer', items: [
+        { t: 'SQLite Online — exécuter du SQL dans le navigateur', u: 'https://sqliteonline.com' },
+        { t: 'SQL Murder Mystery — enquête policière en SQL (ludique)', u: 'https://mystery.knightlab.com' },
+      ]},
+    ],
+  },
 ]
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
 const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
@@ -166,6 +191,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🔢', title: 'Représentation des données (support DIU)', desc: 'Cours complet : numération & bases, entiers (complément à 2), IEEE 754, caractères (ASCII/Unicode/UTF-8) + diapos & exos Slate — Jour en ligne 22 juin', url: 'https://diu-representations-0abb3a.forge.apps.education.fr/index.html' },
   { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
   { icon: '🧑‍💻', title: 'Créer une appli web en NSI (mdBook complet)', desc: 'Référence Flask/Python : serveur, routes, templates, formulaires, bases de données (SQL, SQLite, injection), authentification (cookies, sessions, tokens), déploiement (SSH, SSL)', url: 'https://2025-formation-web-app-python-26f3cf.forge.apps.education.fr/' },
+  { icon: '🗄️', title: 'Bases de données (support DIU)', desc: 'Cours complet : modèle relationnel, SQL (SELECT, jointures, agrégation, CREATE/INSERT), SGBD — Jour en ligne 10 septembre (Bloc 4)', url: 'https://bases-de-donnees-26b46e.gitlab.io/' },
   { icon: '📁', title: 'Dépôts source des supports DIU (forge éducation)', desc: 'Groupe GitLab diu-2026-eil : code source de tous les supports (HTML/CSS, représentations…), toujours à jour', url: 'https://forge.apps.education.fr/diu-2026-eil' },
   { icon: '🐍', title: 'Listes, n-uplets et dictionnaires (Y. Pigné)', desc: 'Dépôt de notebooks (cours + TP + fiches élèves) : listes, tuples, piles/files, dictionnaires, ensembles — Bloc 1 (23 juin, ouvrables dans Basthon)', url: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires' },
   { icon: '📖', title: 'Modèle de von Neumann (Pixees / D. Roche)', desc: 'Cours en ligne 1ʳᵉ NSI sur l\'architecture séquentielle — pédagogique et concis', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_von_neu.html' },
@@ -3334,7 +3360,7 @@ function renderFiches() {
       if (!cats.has(c)) cats.set(c, [])
       cats.get(c).push(f)
     })
-    const order = ['Python', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
+    const order = ['Python', 'Bases de données', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
     const ordered = [...cats.keys()].sort((a, b) => {
       const ia = order.indexOf(a), ib = order.indexOf(b)
       return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
@@ -3385,6 +3411,7 @@ function renderFiches() {
 function ficheCategorie(topic) {
   const t = (topic || '').toLowerCase()
   if (t.startsWith('python')) return 'Python'
+  if (/(bases de données|sql|sgbd|relationnel)/.test(t)) return 'Bases de données'
   if (/(linux|shell|bash|unix|exploitation)/.test(t)) return 'Linux & Shell'
   if (/(paradigme|fonctionnel|impératif|imperatif)/.test(t)) return 'Paradigmes de programmation'
   if (/(compilation|interpr|fondements)/.test(t)) return 'Concepts généraux'
