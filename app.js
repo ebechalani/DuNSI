@@ -214,8 +214,7 @@ const SESSIONS_ENLIGNE = [
         { t: 'De l\'implémentation manuelle à scikit-learn',  f: 'k-NN en Python — de l\'implémentation manuelle à scikit-learn' },
       ]},
       { titre: 'Travaux pratiques', items: [
-        { t: 'TP « Classer des rugbymen avec k-NN » — voir l\'onglet TP', u: 'ressources/knn/tp_knn_rugby.py' },
-        { t: 'Solution complète du TP (script Python commenté)',          u: 'ressources/knn/tp_knn_rugby.py' },
+        { t: 'Correction officielle du TP rugby, commentée (script Python)', u: 'ressources/knn/tp_knn_rugby.py' },
       ]},
       { titre: 'Pour aller plus loin', items: [
         { t: 'Jeu de données Iris (UCI) — celui du cours',      u: 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data' },
@@ -954,6 +953,296 @@ function projetCategorie(f) { return (f.topic || '').replace(/^Projet ·\s*/, ''
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
+  // ── TP k-NN — Bloc 2, séance en ligne du 10 septembre (L. Amanton) ──
+  {
+    id: "tp-knn-rugby", bloc: "bloc2", jour: "En ligne — 10 septembre 2026",
+    theme: "Apprentissage automatique — k plus proches voisins",
+    title: "TP — Classer des rugbymen avec les k plus proches voisins",
+    type: 'tp',
+    intro: "On dispose de la taille et du poids de 30 internationaux français, avec leur poste (Avant ou Arrière). Objectif : écrire k-NN entièrement à la main pour deviner le poste d'un joueur à partir de son seul gabarit, puis mesurer le taux d'erreur et chercher la meilleure valeur de k. Uniquement la bibliothèque standard (math, random) et matplotlib pour la courbe finale : ni numpy, ni scikit-learn. Cherche la réponse avant d'ouvrir la correction.",
+    steps: [
+      {
+        num: "1", title: "Le jeu de données",
+        intro: "Chaque joueur est une liste [Nom, Taille (cm), Poids (kg), Poste]. Les 16 avants sont donnés d'abord, puis les 14 arrières.",
+        code: `import math
+import random
+import matplotlib.pyplot as plt
+
+# [Nom, Taille (cm), Poids (kg), Poste] — 30 joueurs (16 Avants, 14 Arrières)
+joueurs = [
+    # --- Avants ---
+    ["Atonio", 196, 145, "Avant"], ["Baille", 182, 115, "Avant"],
+    ["Marchand", 181, 108, "Avant"], ["Flament", 203, 116, "Avant"],
+    ["Meafou", 203, 145, "Avant"], ["Alldritt", 191, 114, "Avant"],
+    ["Ollivon", 199, 113, "Avant"], ["Cros", 190, 110, "Avant"],
+    ["Wardi", 185, 110, "Avant"], ["Mauvaka", 183, 105, "Avant"],
+    ["Aldegheri", 181, 115, "Avant"], ["Taofifenua", 200, 135, "Avant"],
+    ["Woki", 196, 109, "Avant"], ["Boudehent", 192, 106, "Avant"],
+    ["Jelonch", 193, 106, "Avant"], ["Bamba", 185, 117, "Avant"],
+    # --- Arrières ---
+    ["Dupont", 174, 85, "Arrière"], ["Ntamack", 186, 86, "Arrière"],
+    ["Penaud", 192, 97, "Arrière"], ["Fickou", 190, 100, "Arrière"],
+    ["Danty", 181, 106, "Arrière"], ["Bielle-Biarrey", 184, 82, "Arrière"],
+    ["Ramos", 178, 81, "Arrière"], ["Lucu", 177, 84, "Arrière"],
+    ["Jalibert", 189, 86, "Arrière"], ["Moefana", 183, 98, "Arrière"],
+    ["Depoortère", 194, 94, "Arrière"], ["Lebel", 185, 93, "Arrière"],
+    ["Gailleton", 185, 89, "Arrière"], ["Barré", 188, 88, "Arrière"]
+]
+
+# TODO : afficher le nombre de joueurs, puis le minimum et le maximum
+#        de la taille, et le minimum et le maximum du poids.`,
+        questions: [
+          "Quelles sont les deux caractéristiques utilisées pour décider, et quelle est l'étiquette à prédire ?",
+          "Sur quelle plage varie la taille ? et le poids ? Laquelle des deux varie le plus ?",
+          "En regardant Danty (181 cm, 106 kg) et Marchand (181 cm, 108 kg), que peut-on déjà craindre ?"
+        ],
+        correction: [
+          { text: "Les caractéristiques sont la taille et le poids : ce sont les deux nombres à partir desquels on calcule des distances. L'étiquette à prédire est le poste, une valeur non numérique (« Avant » ou « Arrière ») : c'est donc un problème de CLASSIFICATION, pas de régression." },
+          { code: `print(len(joueurs), "joueurs")
+
+tailles = [j[1] for j in joueurs]
+poids = [j[2] for j in joueurs]
+print("taille :", min(tailles), "à", max(tailles), "cm  (amplitude", max(tailles) - min(tailles), ")")
+print("poids  :", min(poids), "à", max(poids), "kg  (amplitude", max(poids) - min(poids), ")")` },
+          { text: "On obtient une taille de 174 à 203 cm (amplitude 29) et un poids de 81 à 145 kg (amplitude 64). Le poids varie donc sur une plage plus de deux fois plus large : dans le calcul d'une distance euclidienne, il pèsera environ deux fois plus lourd que la taille. Retiens cette remarque, on y reviendra." },
+          { text: "Danty est un arrière de 181 cm pour 106 kg ; Marchand est un avant de 181 cm pour 108 kg. Deux joueurs presque confondus dans le plan (taille, poids) mais de postes différents : aucun algorithme fondé sur ces deux seules mesures ne pourra les distinguer. C'est la limite du jeu de caractéristiques, pas celle de k-NN." }
+        ]
+      },
+      {
+        num: "2", title: "Séparer entraînement et test",
+        intro: "On garde environ 75 % des joueurs pour « apprendre » et 25 % pour évaluer honnêtement le modèle sur des joueurs qu'il n'a jamais vus.",
+        code: `# La liste est rangée par poste : 16 avants D'ABORD, puis 14 arrières.
+# TODO : pourquoi prendre directement joueurs[:22] serait-il une très mauvaise idée ?
+# TODO : mélanger la liste, puis la couper en 22 / 8.
+
+entrainement = ...
+test = ...`,
+        note: "Règle d'or : on n'évalue JAMAIS un modèle sur des données qui ont servi à l'entraîner. Il les a mémorisées, il aurait 100 % de réussite et on n'aurait rien mesuré.",
+        questions: [
+          "Que contiendraient entrainement = joueurs[:22] et test = joueurs[22:] sans mélange préalable ?",
+          "Écrire le mélange et le découpage 22 / 8.",
+          "Relance le programme deux fois : obtiens-tu les mêmes joueurs dans le test ? Comment rendre le tirage reproductible ?"
+        ],
+        correction: [
+          { text: "Sans mélange, l'entraînement recevrait les 16 avants et seulement 6 arrières, et le test serait composé de 8 arrières et d'aucun avant. Le modèle n'aurait presque jamais vu d'arrières, et on l'évaluerait uniquement sur des arrières : la mesure n'aurait aucun sens. C'est pourquoi on mélange d'abord." },
+          { code: `random.shuffle(joueurs)
+
+entrainement = joueurs[:22]
+test = joueurs[22:30]  # 8 joueurs` },
+          { text: "random.shuffle mélange la liste SUR PLACE : il ne renvoie rien, il modifie joueurs directement. Écrire joueurs = random.shuffle(joueurs) est une erreur classique qui remplace la liste par None." },
+          { text: "Non, le tirage change à chaque exécution : les 8 joueurs du test ne sont jamais les mêmes, donc les résultats non plus. Pour figer le tirage le temps d'une comparaison, on fixe la graine du générateur aléatoire avant de mélanger." },
+          { code: `random.seed(42)     # même mélange à chaque exécution
+random.shuffle(joueurs)` }
+        ]
+      },
+      {
+        num: "3", title: "La distance euclidienne",
+        intro: "Pour trouver les voisins d'un joueur, il faut d'abord savoir mesurer à quel point deux joueurs se ressemblent.",
+        code: `def distance_euclidienne(p1, p2):
+    # p1 et p2 sont deux couples [taille, poids]
+    # TODO : renvoyer la racine carrée de la somme des carrés des écarts
+    pass
+
+# Vérification : Danty [181, 106] et Marchand [181, 108]
+print(distance_euclidienne([181, 106], [181, 108]))`,
+        questions: [
+          "Écrire la fonction distance_euclidienne.",
+          "Que vaut la distance entre Danty [181, 106] et Marchand [181, 108] ? Et entre Dupont [174, 85] et Atonio [196, 145] ?",
+          "Pourquoi extrait-on les caractéristiques avec joueur[1:3] plutôt que d'utiliser le joueur entier ?"
+        ],
+        correction: [
+          { text: "La distance euclidienne du cours, en deux dimensions, est la racine carrée de la somme des carrés des écarts sur chaque caractéristique : c'est la longueur du segment qui relie les deux points dans le plan (taille, poids)." },
+          { code: `def distance_euclidienne(p1, p2):
+    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)` },
+          { text: "Entre Danty et Marchand : racine(0² + 2²) = 2,0 — ils sont quasiment au même endroit. Entre Dupont et Atonio : racine(22² + 60²) = racine(484 + 3600) = racine(4084) ≈ 63,9 — le demi de mêlée et le pilier sont aux deux extrémités du nuage." },
+          { text: "Un joueur est [Nom, Taille, Poids, Poste] : le nom et le poste ne sont pas des nombres, on ne peut pas les soustraire. La tranche joueur[1:3] prend les éléments d'indice 1 et 2 — la taille et le poids — et s'arrête avant l'indice 3. C'est exactement le couple de caractéristiques attendu par la fonction." }
+        ]
+      },
+      {
+        num: "4", title: "Les k plus proches voisins et le vote",
+        intro: "Le cœur de l'algorithme : calculer toutes les distances, garder les k plus petites, puis faire voter les voisins retenus.",
+        code: `def knn(donnees_ent, cible, k):
+    distances = []
+    for joueur in donnees_ent:
+        caracteristiques = joueur[1:3]   # taille et poids
+        classe = joueur[3]               # le poste
+        # TODO : calculer la distance à la cible et l'empiler avec la classe
+
+    # TODO : trier par distance croissante, puis garder les k premiers
+    k_voisins = ...
+
+    # TODO : compter les postes présents parmi ces k voisins
+    effectifs = {}
+
+    # TODO : renvoyer le poste le plus représenté
+    return ...`,
+        note: "Rien n'est calculé tant qu'on ne prédit pas : la phase d'entraînement de k-NN se résume à garder les données sous la main. C'est ce que le cours appelle un apprentissage paresseux.",
+        questions: [
+          "Compléter la fonction knn.",
+          "À quoi sert le paramètre key dans distances.sort(key=lambda x: x[0]) ?",
+          "Expliquer l'idiome effectifs[classe] = effectifs.get(classe, 0) + 1.",
+          "Que renvoie max(effectifs, key=effectifs.get) : une clé ou une valeur ?"
+        ],
+        correction: [
+          { text: "On construit une liste de couples (distance, classe), on la trie, on coupe aux k premiers, on compte les classes dans un dictionnaire, et on renvoie celle qui revient le plus souvent." },
+          { code: `def knn(donnees_ent, cible, k):
+    distances = []
+    for joueur in donnees_ent:
+        caracteristiques = joueur[1:3]
+        classe = joueur[3]
+        dist = distance_euclidienne(caracteristiques, cible)
+        distances.append((dist, classe))
+
+    distances.sort(key=lambda x: x[0])
+    k_voisins = distances[:k]
+
+    effectifs = {}
+    for _, classe in k_voisins:
+        effectifs[classe] = effectifs.get(classe, 0) + 1
+
+    return max(effectifs, key=effectifs.get)` },
+          { text: "key indique SUR QUOI trier. Chaque élément x est un couple (distance, classe) ; x[0] est la distance. Sans key, Python comparerait les couples entiers : à distance égale il comparerait les chaînes de caractères des postes, ce qui n'a aucun sens ici. Le tri de Python est stable : deux joueurs à égale distance restent dans leur ordre d'origine." },
+          { text: "dictionnaire.get(cle, 0) renvoie la valeur associée à la clé, ou 0 si la clé est absente. La ligne ajoute donc 1 au compteur du poste, en le créant à 0 la première fois. Sans .get, il faudrait tester if classe in effectifs avant chaque incrémentation." },
+          { text: "Elle renvoie une CLÉ. max parcourt les clés du dictionnaire et les compare d'après effectifs.get(cle), c'est-à-dire d'après leur effectif. Le résultat est donc le poste majoritaire, pas son nombre de voix." },
+          { text: "Une prédiction, pour vérifier : knn(entrainement, [190, 100], 3) donne le poste attribué à un joueur de 190 cm pour 100 kg." }
+        ]
+      },
+      {
+        num: "5", title: "Évaluer le modèle : le taux d'erreur",
+        intro: "On applique la prédiction à chacun des 8 joueurs du test et on compte les fois où le modèle s'est trompé.",
+        code: `def evaluer_modele(donnees_ent, donnees_test, k):
+    """Calcule le taux d'erreur du modèle pour un k donné."""
+    erreurs = 0
+    for joueur in donnees_test:
+        cible = joueur[1:3]
+        vraie_classe = joueur[3]
+        # TODO : prédire, comparer à la vraie classe, compter les erreurs
+
+    # TODO : renvoyer le ratio d'erreurs (entre 0.0 et 1.0)
+    return ...
+
+print(evaluer_modele(entrainement, test, 3))`,
+        questions: [
+          "Compléter evaluer_modele.",
+          "Le jeu de test compte 8 joueurs : quelles valeurs le taux d'erreur peut-il prendre ?",
+          "Un taux d'erreur de 0,0 signifie-t-il que le modèle est parfait ?"
+        ],
+        correction: [
+          { code: `def evaluer_modele(donnees_ent, donnees_test, k):
+    """Calcule le taux d'erreur du modèle pour un k donné."""
+    erreurs = 0
+    for joueur in donnees_test:
+        cible = joueur[1:3]
+        vraie_classe = joueur[3]
+        prediction = knn(donnees_ent, cible, k)
+
+        if prediction != vraie_classe:
+            erreurs += 1
+
+    return erreurs / len(donnees_test)` },
+          { text: "Avec 8 joueurs, le nombre d'erreurs est un entier de 0 à 8 : le taux ne peut valoir que 0 %, 12,5 %, 25 %, 37,5 %… Il avance par marches de 12,5 %. Une seule erreur de plus ou de moins fait donc bouger la courbe de façon très visible : c'est le signe que l'échantillon de test est petit." },
+          { text: "Non. Cela signifie que le modèle a correctement classé CES 8 joueurs-là. Avec un autre tirage, le résultat serait différent. Un taux mesuré sur 8 exemples est une estimation très imprécise de la qualité réelle du modèle." }
+        ]
+      },
+      {
+        num: "6", title: "L'influence de k",
+        intro: "k est un hyperparamètre : ce n'est pas le programme qui l'apprend, c'est nous qui le choisissons. Testons plusieurs valeurs.",
+        code: `# On ne teste que des valeurs IMPAIRES pour éviter les ex aequo dans le vote
+valeurs_k = [1, 3, 5, 7, 9, 11, 13, 15]
+taux_erreurs = []
+
+for k in valeurs_k:
+    # TODO : évaluer le modèle pour ce k, stocker le taux, puis l'afficher
+    pass`,
+        questions: [
+          "Écrire la boucle.",
+          "Pourquoi se limiter à des valeurs impaires de k ?",
+          "Le cours conseille k proche de la racine carrée du nombre d'exemples d'entraînement : que cela donne-t-il ici ?",
+          "Que se passerait-il avec k = 22, le nombre total d'exemples d'entraînement ?"
+        ],
+        correction: [
+          { code: `valeurs_k = [1, 3, 5, 7, 9, 11, 13, 15]
+taux_erreurs = []
+
+for k in valeurs_k:
+    erreur = evaluer_modele(entrainement, test, k)
+    taux_erreurs.append(erreur)
+    print(f"Pour k={k}, taux d'erreur = {erreur * 100:.1f}%")` },
+          { text: "Il y a deux postes possibles. Avec un k pair, le vote peut donner 2 contre 2 ou 3 contre 3 : le résultat dépendrait alors de l'ordre des données, pas de leur contenu. Un k impair rend toujours une majorité possible. Règle générale : éviter que k soit un multiple du nombre de classes." },
+          { text: "L'entraînement compte 22 joueurs, et racine(22) ≈ 4,69 : la règle du cours conseille donc k = 5. C'est bien dans l'intervalle de 3 à 10 que le cours recommande en pratique." },
+          { text: "Avec k = 22, les 22 joueurs d'entraînement votent pour CHAQUE prédiction : le résultat ne dépend plus du tout du joueur à classer, le modèle répond toujours la classe majoritaire du jeu d'entraînement. C'est le sous-apprentissage poussé à l'extrême — le modèle a cessé de regarder ses entrées." }
+        ]
+      },
+      {
+        num: "7", title: "Tracer la courbe du taux d'erreur",
+        intro: "La même courbe que la diapositive « Taux d'erreur » du cours, mais sur nos rugbymen plutôt que sur les iris.",
+        code: `plt.figure(figsize=(9, 5))
+plt.plot(valeurs_k, taux_erreurs, marker='o', linestyle='-', color='crimson', linewidth=2)
+plt.title("Évolution du taux d'erreur en fonction de k (Hyperparamètre)")
+plt.xlabel("Valeur de k (Nombre de voisins considérés)")
+plt.ylabel("Taux d'erreur (0.0 = aucune erreur)")
+plt.xticks(valeurs_k)
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# TODO : annoter le graphique aux deux extrémités (sur-apprentissage / sous-apprentissage)
+
+plt.show()`,
+        questions: [
+          "Ajouter les deux annotations pédagogiques aux extrémités de la courbe.",
+          "Quelle forme la courbe est-elle censée avoir, et pourquoi ?",
+          "Relance le programme plusieurs fois. La courbe garde-t-elle la même allure ?"
+        ],
+        correction: [
+          { code: `plt.text(valeurs_k[0], taux_erreurs[0], ' Overfitting potentiel', verticalalignment='bottom')
+plt.text(valeurs_k[-1], taux_erreurs[-1], ' Sous-apprentissage\\n (Bruitage par la classe majoritaire)',
+         horizontalalignment='right')` },
+          { text: "Elle est censée avoir une forme de U, ou de vallée. À gauche (k = 1) le modèle recopie son plus proche voisin et épouse le moindre bruit : c'est le SUR-APPRENTISSAGE (overfitting). À droite (k = 15) le vote est noyé par des joueurs de plus en plus lointains et tend vers la classe majoritaire : c'est le SOUS-APPRENTISSAGE. Le meilleur k est au creux de la vallée, ce que le cours appelle le compromis biais-variance." },
+          { text: "Non, et c'est le point le plus instructif de ce TP. Le tirage change à chaque exécution, et le taux est mesuré sur 8 joueurs seulement : il arrive souvent que la courbe soit toute plate, ou qu'elle monte et descende sans former de vallée. Sur 3000 tirages différents mesurés, environ 38 % donnent exactement le même taux d'erreur pour toutes les valeurs de k. Une seule exécution ne prouve rien — c'est l'objet de l'étape suivante." }
+        ]
+      },
+      {
+        num: "8", title: "Pour aller plus loin : moyenner sur plusieurs découpages",
+        intro: "Un taux mesuré sur 8 joueurs tirés au hasard est trop instable pour choisir k. La parade : répéter l'expérience et faire la moyenne.",
+        code: `# TODO : refaire N fois (par exemple 200) le mélange, le découpage et l'évaluation,
+#        puis afficher le taux d'erreur MOYEN pour chaque valeur de k.
+N = 200
+moyennes = []
+
+for k in valeurs_k:
+    total = 0
+    for essai in range(N):
+        ...
+    moyennes.append(total / N)`,
+        note: "Répéter le tirage pour stabiliser une mesure est exactement l'idée de la validation croisée, utilisée dans tous les vrais projets d'apprentissage automatique.",
+        questions: [
+          "Écrire la double boucle et afficher la courbe moyenne.",
+          "Quelle valeur de k ressort comme la meilleure ?",
+          "Comparer avec la valeur conseillée par la règle de la racine carrée."
+        ],
+        correction: [
+          { text: "On remélange à chaque essai, on redécoupe, on évalue, et on accumule. Attention à bien travailler sur une COPIE de la liste si l'on veut préserver l'ordre d'origine." },
+          { code: `N = 200
+moyennes = []
+
+for k in valeurs_k:
+    total = 0
+    for essai in range(N):
+        melange = joueurs[:]          # copie de la liste
+        random.shuffle(melange)
+        ent, tst = melange[:22], melange[22:30]
+        total += evaluer_modele(ent, tst, k)
+    moyennes.append(total / N)
+    print(f"k={k:2} : taux d'erreur moyen = {moyennes[-1] * 100:.1f}%")
+
+plt.plot(valeurs_k, moyennes, marker='s', color='navy', label=f"moyenne sur {N} découpages")
+plt.legend()
+plt.show()` },
+          { text: "La vallée apparaît enfin. Sur 3000 découpages, les taux d'erreur moyens mesurés sont : 9,9 % à k=1 ; 6,7 % à k=3 ; 5,5 % à k=5 ; 5,2 % à k=7 ; 6,0 % à k=9 ; 5,7 % à k=11 ; 6,6 % à k=13 ; 10,3 % à k=15. Le minimum se situe vers k = 7, et les deux extrémités sont bien les plus mauvaises : le sur-apprentissage à k=1 et le sous-apprentissage à k=15 sont donc réels, mais ils ne se voient qu'en moyenne." },
+          { text: "La règle de la racine carrée conseillait k = 5, pour un minimum observé vers k = 7 : l'écart est faible et les taux à k=5, 7, 9 et 11 sont très proches (entre 5,2 % et 6,0 %). La règle donne bien un bon ordre de grandeur — c'est un point de départ, pas un oracle. Avec 200 essais au lieu de 3000, tes chiffres différeront un peu : c'est normal, la moyenne se stabilise quand N grandit." }
+        ]
+      }
+    ]
+  },
   // ── Mémo Séance 1 ──────────────────────────────────────
   {
     id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',

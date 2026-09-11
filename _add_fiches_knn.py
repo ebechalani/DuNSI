@@ -28,11 +28,12 @@ RESSOURCES = [
                     "influence de k, normalisation min-max, implémentation Python et scikit-learn sur Iris.",
      'file_path': 'ressources/knn/KNN_Amanton.pdf',
      'file_name': 'KNN_Amanton.pdf', 'file_type': 'application/pdf'},
-    {'title': 'TP k-NN — solution complète (rugby)',
+    {'title': 'TP k-NN — correction officielle commentée (rugby)',
      'bloc': BLOC, 'topic': TOPIC,
-     'description': "Script Python autonome et commenté du TP « Classer des rugbymen avec k-NN » : "
-                    "découpage stratifié entraînement/test, distance euclidienne, vote majoritaire, "
-                    "taux de réussite, influence de k, normalisation min-max et visualisation matplotlib.",
+     'description': "Correction du TP « Classer des rugbymen avec k-NN » (L. Amanton), commentée et complétée : "
+                    "mélange aléatoire puis découpage 22/8, distance euclidienne, vote majoritaire, taux d'erreur, "
+                    "influence de k de 1 à 15 et courbe matplotlib — plus une moyenne sur 200 découpages, "
+                    "sans laquelle la vallée du compromis biais-variance reste invisible.",
      'file_path': 'ressources/knn/tp_knn_rugby.py',
      'file_name': 'tp_knn_rugby.py', 'file_type': 'text/x-python'},
 ]
