@@ -71,6 +71,20 @@ function controler(champ, texte) {
     bloquants.push(`${lignesTableau} ligne(s) de tableau sans séparation |---|---| : aucun tableau produit`)
   }
 
+  // Colonnes décalées : une barre verticale dans une cellule (valeur absolue,
+  // « ou » logique, tube shell…) découpe la ligne en cellules supplémentaires.
+  ;(html.match(/<table[\s\S]*?<\/table>/g) || []).forEach((t, n) => {
+    const largeurs = t.split(/<tr>/).slice(1)
+      .map(r => (r.match(/<t[dh]/g) || []).length)
+      .filter(x => x > 0)
+    const attendu = largeurs[0]
+    const fautives = largeurs.filter(x => x !== attendu).length
+    if (fautives) {
+      bloquants.push(`tableau ${n + 1} : ${fautives} ligne(s) n'ont pas ${attendu} colonnes ` +
+        `(${[...new Set(largeurs)].join('/')}) — une barre verticale dans une cellule ?`)
+    }
+  })
+
   if (champ === 'content' && !/^\d+\)\s+\S/m.test(texte)) {
     styles.push('pas de section "1) TITRE" (mise en forme des fiches antérieures)')
   }

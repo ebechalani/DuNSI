@@ -1168,7 +1168,7 @@ for k in valeurs_k:
     erreur = evaluer_modele(entrainement, test, k)
     taux_erreurs.append(erreur)
     print(f"Pour k={k}, taux d'erreur = {erreur * 100:.1f}%")` },
-          { text: "Il y a deux postes possibles. Avec un k pair, le vote peut donner 2 contre 2 ou 3 contre 3 : le résultat dépendrait alors de l'ordre des données, pas de leur contenu. Un k impair rend toujours une majorité possible. Règle générale : éviter que k soit un multiple du nombre de classes." },
+          { text: "Il y a deux postes possibles. Avec un k pair, le vote peut donner 2 contre 2 ou 3 contre 3 : le résultat dépendrait alors de l'ordre des données, pas de leur contenu. Un k impair rend toujours une majorité possible. Avec trois classes ou plus, en revanche, aucun k ne met à l'abri d'un ex æquo (k = 5 autorise 2 – 2 – 1) : il faut alors prévoir une règle de départage, par exemple la classe du voisin le plus proche." },
           { text: "L'entraînement compte 22 joueurs, et racine(22) ≈ 4,69 : la règle du cours conseille donc k = 5. C'est bien dans l'intervalle de 3 à 10 que le cours recommande en pratique." },
           { text: "Avec k = 22, les 22 joueurs d'entraînement votent pour CHAQUE prédiction : le résultat ne dépend plus du tout du joueur à classer, le modèle répond toujours la classe majoritaire du jeu d'entraînement. C'est le sous-apprentissage poussé à l'extrême — le modèle a cessé de regarder ses entrées." }
         ]
