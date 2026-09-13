@@ -1,0 +1,423 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Modèle conceptuel d'une bases de données relationnelles</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="contraintesReference.html">Modèle conceptuel d'une base de données relationnelle</h1>
+<div id="contenu">
+  <h2>I. Diagramme de classe</h2>
+  <p>
+  Une autre façon de modéliser le problème de la ludothèque présenté précédemment est d'établir un schéma conceptuel, en utilisant, au choix un <em>modèle entité-association</em> ou un <em>diagramme de classes</em>. Afin d'éviter de multiplier les formalismes, on s'orientera ici plutôt vers un diagramme de classe au format <em>UML</em>. <strong>Attention</strong> : si vous lisez des cours utilisant plutôt le modèle Entité-Association, vous risquez d'être surpris par l'endroit où sont notées les <em>cardinalités</em> (voir plus loin)... Faites donc bien attention à ne pas mélanger les 2 notations.
+  </p>
+  <h3>A. Représentation des classes</h3>
+  <p>Sur un diagramme de classes, on représente chaque <em>type de donnée</em> de notre base sous la forme d'une <em>classe</em>, définie par un <em>nom</em> et par un ensemble d'<em>attributs</em>. Une première étape, dans la conception d'une base de données, consiste donc à recenser les types d'éléments que nous allons devoir manipuler et d'identifier leurs éléments.</p>
+  <div class="exo">
+    <p><strong>Exercice 1</strong> : Déterminer les types de données du problème de la ludothèque.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr1"/></p>
+  </div>
+  <div class="correction" id="corr1">
+    <p>La base de donnée va manipuler <em>a priori</em> les types suivants :</p>
+    <ul>
+      <li>Jeu (NomJeu, NbJoueursMin, NbJoueursMax, Durée)</li>
+      <li>Auteur (NomAuteur, PrénomAuteur)</li>
+      <li>Éditeur (NomÉditeur, NationalitéÉditeur)</li>
+      <li>Illustrateur (NomIllustrateur, PrénomIllustrateur, NationalitéIllustrateur)</li>
+    </ul>
+    <p>Une autre solution, dont on pourra discuter, aurait été d'identifier également le type de donnée <em>Nationalité</em> Pour aboutir à l'ensemble d'entité suivant : </p>
+    <ul>
+      <li>Jeu (NomJeu, NbJoueursMin, NbJoueursMax, Durée)</li>
+      <li>Auteur (NomAuteur, PrénomAuteur)</li>
+      <li>Éditeur (NomÉditeur)</li>
+      <li>Illustrateur (NomIllustrateur, PrénomIllustrateur)</li>
+      <li>Nationalité (NomNationalité)</li>
+    </ul>
+  </div>
+  <p>Pour chaque classe, on peut identifier un ensemble d'attributs constituant une clé minimale, mais il est plutôt recommandé (on pourra en re-discuter...) d'introduire un champ supplémentaire non significatif, typiquemenet un numéro, qui servira de clé. On peut alors représenter l'ensemble de nos classes sur un schéma comme le diagramme ci-dessous :</p>
+  <p><img src="classes.png" width="60%" alt="graphe des classes"/></p>
+  <p>Ce schéma peut déjà être amélioré en déclarant les types des attributs :
+  </p>
+  <p><img src="classesTypees.png" width="60%" alt="graphe des classes"/></p>
+  <h3>B. Représentation des associations</h3>
+  <h4>1. Associations</h4>
+  <p>
+  Mais il est également indispensable de faire apparaître sur ce schéma les <strong>associations</strong> (ou <em>relations</em>) entre entités de chacune des classes. Ainsi, dans le cas de notre problème, il y a une association entre <em>auteur</em> et <em>jeu</em> pour représenter le fait qu'un jeu est écrit par un ou plusieurs auteurs. Une relation se notre par un trait nommé entre 2 classes. Par exemple, la relation entre <em>Jeu</em> et <em>Auteur</em> se représente ainsi :
+  </p>
+  <p><img src="association1.png" width="60%" alt="exemple simplifié d'association"/></p>
+  <div class="exo">
+    <p><strong>Exercice 2</strong> : Complétez le diagramme de classe complet avec toutes les associations nécessaires</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr2"/></p>
+  </div>
+  <div class="correction" id="corr2">
+    <p>On aboutit alors au schéma suivant. On notera que, si cela va de soit, il n'est pas nécessaire de préciser dans quel sens (orientation) il faut interpréter le nom de l'association :
+    </p>
+    <p><img src="association2.png" width="60%" alt="ensemble des associations sans cardinalité"/></p>
+  </div>
+  <h4>2. Représentation des cardinalités</h4>
+  <p>Sur le schéma obtenu dans l'exercice précédent, on constate que le fait qu'un <em>jeu</em> puisse avoir plusieurs <em>auteurs</em>, mais n'a qu'un seul <em>illustrateur</em>, n'apparaît pas. Il est en effet indispensable de rajouter, pour chaque association, les <strong>cardinalités</strong> la concernant.</p> Cela consite à préciser, sur le schéma, pour chaque association entre 2 classes A et B, à combien d'instances de B peut être reliée chaque instance de A, et à combien d'instances de A peut être reliée chaque instance de B. Les cardinalités sont alors inscrites sur le schéma à l'extrémité de chaque association sous la forme d'un intervalle. Les cardinalités les plus classiques sont les suivantes :
+  <ul>
+    <li><strong>1..*</strong> : au moins 1</li>
+    <li><strong>0..*</strong> : un nombre quelconque (souvent noté <strong>*</strong>)</li>
+    <li><strong>0..1</strong> : au plus 1</li>
+    <li><strong>1..1</strong> : exactement 1 (souvent noté <strong>1</strong>)</li>
+  </ul>
+  <p>La définition des cardinalités est une travail essentiel, qui nécessite de bien réfléchir au problème :</p>
+  <ul>
+    <li>Des cardinalités trop souples risquent d'autoriser la création d'une base non cohérente ;</li>
+    <li>Des cardinalités trop strictes risquent d'empêcher de modéliser certains cas non envisagés au départ, ou de bloquer l'évolution de la base.</li>
+  </ul>
+  <p>Par ailleurs, la définition des cardinalités dépend également fortement du cahier des charges. Ainsi, dans notre problème, nous avons précisé qu'un jeu n'avait qu'un seul éditeur. Mais dans la réalité, certains jeux son co-édités par plusieurs éditeurs.</p>
+  <p>Illustrons la définition des cardinalités sur la relation entre <em>Jeu</em> et <em>Auteur</em> :</p>
+  <ul>
+    <li>Combien un jeu peut-il avoir d'auteurs au maximum ? <span style="color:red">Plusieurs</span> (c'est par exemple le cas du jeu <em>Les chevaliers de la table ronde</em>) ;</li>
+    <li>Combien un jeu peut-il avori d'auteurs au minimum ? On pourrait être tenté de répondre <em>1</em>, mais il faut envisager tous les cas possibles. Or si on prend le cas du jeu d'échecs, par exemple, il est impossible d'associer un <em>auteur</em> à ce jeu. Il faut donc prévoir qu'un jeu peut ne pas avoir d'auteur dans la base. La réponse est donc <span style="color:red">0</span> ;</li>
+    <li>Combien de jeux un auteur peut-il avoir créés au maximum ? <span style="color:blue">Plusieurs</span> (C'est par exemple le cas de <em>Serget Laget</em>) ;</li>
+    <li>Combien de jeux un auteur peut-il avoir créés au minimum ? On pourrait répondre <em>1</em>, car il apparaît illogique de définir (et de gérer) comme <em>Auteur de jeu</em> quelqu'un qui n'a créé aucun des jeux de notre base, mais cela compliquerait la saisie (il apparaît raisonnable de pouvoir créer des auteurs avant de les associer à des jeux). Du coup, on préférera donner comme réponse <span style="color:blue">0</span>.</li>
+  </ul>
+  <p>
+  La représentation complète de l'association entre les tables <em>Jeu</em> et <em>Auteur</em> devient alors :</p>
+  <p><img src="cardinalite1.png" width="70%" alt="association auteur-jeu avec cardinalité"/></p>
+  
+<div class="exo">
+  <p><strong>Exercice 3</strong> : Complétez le diagramme de classe en rajoutant les cardinalités</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr3"/></p>
+</div>
+<div class="correction" id="corr3">
+  <p><img src="cardinalite2.png" width="60%" alt="diagramme de classes avec cardinalités"/></p>
+</div>
+<h2>II. Du diagramme de classes au modèle relationnel</h2>
+<p>
+Pour transformer un diagramme de classes en schémas de relation, il faut procéder en plusieurs étapes :
+</p>
+<ol>
+  <li>Créer un schéma de relation par classe ;</li>
+  <li>Pour chaque association N-M (c'est-à-dire dont les 2 cardinalités maximales sont "*"), créer un schéma de relation SR dont les attributs sont ceux apparaissant dans les clés des schémas de relations associés aux classes participant à l'association. La clé de SR est composée de l'ensemble des attributs y figurant;</li>
+  <li>Pour chaque association 1-N (c'est-à-dire dont la cardinalité minimale est "1" et la maximale "*"), créer un schéma de relation SR dont les attributs sont ceux apparaissant dans les clés des schémas de relations associés aux classes participant à l'association. La clé de SR est composée des mêmes attributs que ceux de la clé du schéma de relation associé à la classe se trouvant du "côté *" de l'association;</li>
+  <li>Fusionner les schémas de relation de mêmes clés.</li>
+  <li><strong>NB:</strong>A l'issue de ce processus, considérons l'ensemble ATT des attributs non-clef portant le même nom que des attributs clefs dans d'autres tables. Soit un attribut a de ATT et l'attribut clef a' portant le même nom et clef dans une autre table. Les valeurs de a doivent obligatoirement appartenir à l'ensemble des valeurs prises par a'. <br/>
+    Exemple : l'attribut <strong> idEditeur </strong> de la relation <em>Jeu</em> doit avoir des valeurs appartenant à l'ensemble des valeurs prises par l'attribut <strong> idEditeur </strong> dans la relation <em>Editeur</em>. <br/>
+    Pour représenter cela pour le moment dans le modèle relationnel, les noms des attributs de ATT sont précédés par un #.
+  </li>
+</ol>
+<div class="exo">
+  <p><strong>Exercice 4</strong> : Transformez le diagramme de classes obtenu à l'exercice 3 en schémas de relation.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr4"/></p>
+</div>
+<div class="correction" id="corr4">
+  <p>En suivant les différentes étapes, on obtient :</p>
+  <ul>
+    <li>Étape 1 : On obtient les relations suivantes :</li>
+    <ul>
+      <li>Illustrateur(<span style="text-decoration: underline">IdIllustrateur</span>, NomIllustrateur, PrénomIllustrateur, NationalitéIllustrateur)</li>
+      <li>Auteur(<span style="text-decoration: underline">IdAuteur</span>, NomAuteur, PrénomAuteur)</li>
+      <li>Éditeur(<span style="text-decoration: underline">IdÉditeur</span>, NomÉditeur, NationalitéÉditeur)</li>
+      <li>Thème(<span style="text-decoration: underline">IdThème</span>, NomThème)</li>
+      <li>Jeu(<span style="text-decoration: underline">IdJeu</span>, NomJeu, NJoueursMin, NbJoueursMax, Durée)</li>
+    </ul>
+    <li>Étape 2 : On rajoute les relations suivantes :</li>
+    <ul>
+      <li>EstDessinéPar(<span style="text-decoration: underline">#IdIllustrateur, IdJeu</span>)</li>
+      <li>EstAuteurDe(<span style="text-decoration: underline">#IdAuteur,#IdJeu</span>)</li>
+      <li>ParleDe(<span style="text-decoration: underline">#IdThème,#IdJeu</span>)</li>
+    </ul>
+    <li>Étape 3 : Il faut encore ajouter la relation suivante :</li>
+    <ul>
+      <li>Publie(<span style="text-decoration: underline">#IJeu</span>, #IdÉditeur)</li>
+    </ul>
+    <li>Étape 4 : on fusionne les tables de mêmes clés (ici, Jeu et Publie) et on obtient au final l'ensemble suivant de relations :
+    <ul>
+      <li>Illustrateur(<span style="text-decoration: underline">IdIllustrateur</span>, NomIllustrateur, PrénomIllustrateur, NationalitéIllustrateur)</li>
+      <li>Auteur(<span style="text-decoration: underline">IdAuteur</span>, NomAuteur, PrénomAuteur)</li>
+      <li>Éditeur(<span style="text-decoration: underline">IdÉditeur</span>, NomÉditeur, NationalitéÉditeur)</li>
+      <li>Thème(<span style="text-decoration: underline">IdThème</span>, NomThème)</li>
+      <li>Jeu(<span style="text-decoration: underline">IdJeu</span>, NomJeu, NJoueursMin, NbJoueursMax, Durée, #IdÉditeur)</li>
+      <li>EstDessinéPar(<span style="text-decoration: underline">#IdIllustrateur</span>, <span style="text-decoration: underline">#IdJeu</span>)</li>
+      <li>EstAuteurDe(<span style="text-decoration: underline">#IdAuteur</span>, <span style="text-decoration: underline">#IdJeu</span>)</li>
+      <li>ParleDe(<span style="text-decoration: underline">#IdThème</span>, <span style="text-decoration: underline">#IdJeu</span>)</li>
+    </ul>
+  </ul>
+</div>
+<div class="exo">
+  <p><strong>Exercice 5</strong> : Donnez le contenu des tables établies dans l'exercice précédent permettant de représenter les données du problème initial</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr5"/></p>
+</div>
+<div class="correction" id="corr5">
+  <table border="1">
+    <tr><th colspan="4">Illustrateur</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdIllustrateur</th><th>NomIllustrateur</th><th>PrénomIllustrateur</th><th>NationalitéIllustrateur</th></tr>
+    <tr>
+      <td>1</td>
+      <td>Delval</td>
+      <td>Julien</td>
+      <td>Française</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Coimbra</td>
+      <td>Miguel</td>
+      <td>Française</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Quilliams</td>
+      <td>Chris</td>
+      <td>Canadienne</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Balixa</td>
+      <td>Bruno</td>
+      <td>Américaine</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Alsop</td>
+      <td>Dave</td>
+      <td>Américaine</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Torres</td>
+      <td>Francisco Rico</td>
+      <td>Américaine</td>
+    </tr>
+  </table>
+  <table border="1">
+    <tr><th colspan="3">Auteur</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdAuteur</th><th>NomAuteur</th><th>PrénomAuteur</th></tr>
+    <tr>
+      <td>1</td>
+      <td>Laget</td>
+      <td>Serge</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Cathala</td>
+      <td>Bruno</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Leackock</td>
+      <td>Matt</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Person</td>
+      <td>Paul</td>
+    </tr>
+  </table>
+  <table border="1">
+    <tr><th colspan="3">Éditeur</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdÉditeur</th><th>NomÉditeur</th><th>NationalitéÉditeur</th></tr>
+    <tr>
+      <td>1</td>
+      <td>Days of wonder</td>
+      <td>Française</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>EggertSpiele</td>
+      <td>Allemande</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Iello</td>
+      <td>Française</td>
+    </tr>
+  </table>
+  <table border="1">
+    <tr><th colspan="2">Thème</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdThème</th><th>NomThème</th></tr>
+    <tr>
+      <td>1</td>
+      <td>Moyen-âge</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Légende arthurienne</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Marché noir</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Navigation marchande</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Médiéval</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Construction</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Fantastique</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Monstre</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Pirate</td>
+    </tr>
+  </table>
+  <table border="1">
+    <tr><th colspan="6">Jeu</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdJeu</th><th>NomJeu</th><th>NbJoueursMin</th><th>NbJoueursMax</th><th>Durée</th><th>IdEditeur</th></tr>
+    <tr>
+      <td>1</td>
+      <td>Les chevaliers de la table ronde</td>
+      <td>3</td>
+      <td>7</td>
+      <td>90</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Cargo noir</td>
+      <td>2</td>
+      <td>5</td>
+      <td>60</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Era: medieval age</td>
+      <td>1</td>
+      <td>4</td>
+      <td>50</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Smash up</td>
+      <td>2</td>
+      <td>4</td>
+      <td>45</td>
+      <td>3</td>
+    </tr>
+    </table>
+  <table border="1">
+    <tr><th colspan="2">EstDessinéPar</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdIllustrateur</th><th style="text-decoration: underline; background: yellow">IdJeu</th></tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>4</td>
+    </tr>
+    </table>
+  <table border="1">
+    <tr><th colspan="2">EstAuteurDe</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdAuteur</th><th style="text-decoration: underline; background: yellow">IdJeu</th></tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>4</td>
+    </tr>
+    </table>
+  <table border="1">
+    <tr><th colspan="2">ParleDe</th></tr>
+    <tr><th style="text-decoration: underline; background: yellow">IdThème</th><th style="text-decoration: underline; background: yellow">IdJeu</th></tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>4</td>
+    </tr>
+    </table>
+  </div>
+  <h2>III. Pour aller plus loin avec les associations</h2>
+  <h3>A. Associations entre plus de 2 classes</h3>
+  <p>Dans certains cas on peut avoir à considérer une association entre plusieurs classes. C'est par exemple le cas si je veux pouvoir représenter quel enseignant enseigne quelle matière à quel groupe. Celà se représente ainsi :</p>
+  <p><img src="associationTernaire2.png" width="30%" alt="représentation d'une association ternaire"/></p>
+  <p><em>N.B.</em> : Cela n'est pas redondant ni équivalent avec l'éventuelle représentation des associations 2 à 2 entre chacune de ces classes.
+  </p>
+  <h3>B. Associations réflexives</h3>
+  <p>
+  Une relation peut relier 2 entités d'une même classe. C'est le cas par exemple d'une relation qui exprimerait un lien de parenté entre 2 personnes. On peut alors indiquer des <em>rôles</em> aux extrémités de la relation pour clarifier l'interprétation des cardinalités :</p>
+  <p><img src="associationReflexive.png" width="30%" alt="représentation d'une association réflexive"/></p>
+  <h3>C. Plusieurs associations entre mêmes classes</h3>
+  <p>Il peut très bien y avoir plusieurs associations reliant 2 mêmes classes. Dans ce cas-là, on représente chacune des associations avec son nom et ses cardinalités.
+  </p>
+  <h3>D. Attributs d'association</h3>
+  <p>
+  Considérons une base de données consistant à stocker les moyennes des élèves pour chaque matière. L'attribut <em>Note</em> ne peut être dans la classe <em>Élève</em>, car dans ce cas un élève ne pourrait avoir qu'une seule moyenne, quelle que soit la matière. Mais il ne peut pas non plus faire partie de la classe <em>Matière</em>, car dans ce cas, il n'y aurait qu'une seule moyenne par matière, quel que soit l'élève. L'attribut <em>Note</em> doit être un attribut de l'association entre <em>Élève</em> et <em>Matière</em> ; ainsi, pour chaque couple (élève, matière), on pourra avoir une moyenne. Cela se représente ainsi :
+  </p>
+  <p><img src="attributAssociation.png" width="'0%" alt="représentation d'un attribut d'association"/></p>
+<p>N'hésitez pas, lors du cours, à poser des questions sur la traduction des attributs d'association lorsque l'on passe au modèle relationnel</p>.
+  </div>
+  </div>
+</body>
+</html>

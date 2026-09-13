@@ -1,0 +1,206 @@
+.important {
+  background-color: pink;
+}
+
+.titrePartie {
+  text-align: center;
+  font-weight: bold;
+}
+
+body {
+/*  background-color: black;*/
+  color: darkblue;
+}
+
+#main {
+/*  background-color: #ddccbb;*/
+/*  background-color: #CEF6CE;*/
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+/*  width:80%;*/
+  border: solid 4px #DF01D7;/*819FF7;*/
+  border-radius: 20px;
+  padding-top: 0px;
+  padding-bottom: 0em;
+}
+
+#contenu {
+/*  overflow: auto;*/
+/*  height: 80%;*/
+}
+
+h1 {
+  text-align: center;
+/*  color: #223366  ;*/
+  color: #8A0886;
+/*  background-color: #819ff7;*/
+    background-color: #F5A9E1;
+  border-radius: 10px 10px 0px 0px;
+  padding-bottom: 0.3em;
+  padding-top: 0.2em;
+  margin-top: 0px;
+}
+
+h2,h3, h4, h5 {
+  margin: 1em;
+  font-style: italic;
+  color: #663322;
+}
+
+h3 {
+  margin-left: 1.5em;
+}
+h4 {
+  margin-left: 2em;
+}
+h5 {
+  margin-left: 3em;
+}
+
+p, dd, li {
+  text-align: justify;
+  margin-right: 6em;
+}
+
+p {
+  margin-left: 2em;
+}
+
+td p, td li {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+dd, li {
+  margin-left: 3em;
+}
+
+dt {
+  font-weight: bold;
+  margin-left: 2em;
+}
+
+a:hover {
+  background-color: yellow;
+}
+
+a {
+/*  color: #bb33aa;*/
+    color: #FE9A2E;
+  font-weight: bold;
+}
+a:visited {
+/*  color: #aa55ee;*/
+    color: #DF7401;
+}
+h1 a.suivant, h1 a.menu {
+  color:blue;
+}
+
+.centre {
+  margin: auto;
+  font-size: 1.5em;
+}
+
+pre, code {
+  font-size: 1.2em;
+}
+
+div.exo {
+  border: solid 2px red;
+  font-family: monospace;
+  font-size: 1.2em;
+  margin-left: 6em;
+  width: 50%;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  background-color: #ffe6ff;
+}
+
+pre.correction {
+  border: solid 2px green;
+  font-family: monospace;
+  margin-left: 6em;
+  margin-right: 6em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  background-color: #99ff99;
+/*  display: none;*/
+}
+
+div.correction {
+  border: solid 2px green;
+  margin-left: 6em;
+  margin-right: 6em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+  background-color: #99ff99;
+/*  display: none;*/
+}
+
+pre.algo {
+  border: solid 2px #404777;
+  padding: 0.2em;
+  margin-left: 6em;
+  width: 70%;
+  background-color: #bbaa99;
+}
+
+pre.classe {
+  border: solid 2px #404777;
+  padding: 0.2em;
+  margin-left: 6em;
+  width: 500px;
+  background-color: #A9D0F5;
+}
+
+pre.haskell {
+  border: solid 2px #404777;
+  padding: 0.2em;
+  margin-left: 6em;
+  width: 70%;
+  background-color: black;  
+}
+
+pre.python {
+  border: solid 2px #404777;
+  padding: 0.2em;
+  margin-left: 1em;
+  width: 95%;
+  background-color: black;  
+}
+
+span.num {
+  color: red;
+}
+span.entree {
+  color: orange;
+}
+
+span.type {
+  color: white;
+}
+
+span.sortie {
+  color: lightgreen;
+}
+
+div#copyright {
+  text-align: right;
+  background-color: #F5A9E1;/*819ff7;*/
+  border-radius: 0px 0px 10px 10px;
+  padding-bottom: 0em;
+  padding-top: 0em;
+  margin-bottom: 0px;
+}
+
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+
+.nouveau {
+  color: green;
+  }

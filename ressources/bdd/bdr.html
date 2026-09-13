@@ -1,0 +1,677 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Bases de données relationnelles</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="modeleConceptuel.html">Bases de données relationnelles</h1>
+<div id="contenu">
+  <h2>I. Introduction</h2>
+  <h3>A. Exemple introductif</h3>
+  <p>On souhaite informatiser notre ludothèque. On peut représenter cela sous la forme d'une table ainsi :</p>
+  <p><table border="1">
+    <tr><th>Nom du jeu</th><th>Auteur 1</th><th>Auteur
+    2</th><th>Éditeur</th><th>NbJoueursMin</th><th>NbJoueursMax</th><th>Nationalité
+    éditeur</th><th>Durée en
+    min</th><th>Illustrateur</th><th>Nationnalité
+    illustrateur</th><th>Thèmes</th></tr>
+    <tr>
+      <td>Les chevaliers de la table ronde</td>
+      <td>Bruno Cathala</td>
+      <td>S. Laget</td>
+      <td>Days of wonder</td>
+      <td>3</td>
+      <td>7</td>
+      <td>Française</td>
+      <td>90</td>
+      <td>Julien Delval</td>
+      <td>Française</td>
+      <td>Moyen-âge, Légende arthurienne</td>
+    </tr>
+    <tr>
+      <td>Cargo Noir</td>
+      <td>Serge Laget</td>
+      <td></td>
+      <td>Days of wonder</td>
+      <td>2</td>
+      <td>5</td>
+      <td>Française</td>
+      <td>60</td>
+      <td>Miguel Coimbra</td>
+      <td>Française</td>
+      <td>Marché Noir, Navigation marchande</td>
+      </tr>
+    <tr>
+      <td>Era : medieval age</td>
+      <td>Matt Leacock</td>
+      <td></td>
+      <td>EggertSpiele</td>
+      <td>1</td>
+      <td>4</td>
+      <td>Allemande</td>
+      <td>50</td>
+      <td>Chris Quilliams</td>
+      <td>Canadienne</td>
+      <td>Médiéval, Construction</td>
+      </tr>
+    <tr>
+      <td>Smash up</td>
+      <td>Paul Peterson</td>
+      <td></td>
+      <td>Iello</td>
+      <td>2</td>
+      <td>4</td>
+      <td>Française</td>
+      <td>45</td>
+      <td>Bruno Balixa, Dave Alsop, Franciso Rico Torres</td>
+      <td>Américaine</td>
+      <td>Fantastique, Monstre, Pirate</td>
+      </tr>
+    </table></p>
+    <p>
+    Cet exemple servira de fil rouge tout au long de ce court, aussi devez-vous vous y référer chaque fois que cela sera nécessaire.
+    </p>
+    <h3>B. Quelques premières définitions</h3>
+    <p>
+    La plupart des bases de données sont exprimées en utilisant <strong>le modèle relationnnel</strong>.
+    <p>
+    Dans un tel modèle, les données  sont stockées dans des tables, appelées <strong>Relations</strong>. Une relation est notamment définie par l'ensemble des noms des colonnes et leur type, appelé <strong>Schéma de relation</strong>, à savoir dans l'exemple <em>(Nom du jeu, Auteur 1, Auteur 2, Éditeur, NbJoueursMin, NbJoueursMax, Nationalité éditeur, Durée en min, Illustrateur, Nationnalité illustrateur, Thèmes)</em>.
+    </p>
+    <p>
+    On appelle chaque ligne de la table un <strong>Enregistrement</strong> ou un <strong>Tuple</strong>. Les colonnes peuvent être appelées <strong>Attribut</strong> ou <strong>Champ</strong>. Les attributs sont caractérisés par un <em>nom</em> et un <em>type</em> (ou ensemble de définition).
+    </p>
+    <h3>C. Premiers constats</h3>
+    <p>
+    Une telle table présente plusieurs inconvénients :
+    </p>
+    <ul>
+      <li>On a des redondances ; par exemple, la nationnalité de l'éditeur <em>Days of Wonder</em>, est précisée 2 fois ;</li>
+      <li>La structure permet de préciser 2 auteurs au plus, mais un seul illustrateur. Du coup, Si on a plus de 2 auteurs ou plus de 2 illustrateurs, on doit triturer la structure de la table (c.f. le cas des illustrateurs pour le jeu <em>Smash Up</em>). Inversement, si on a moins de 2 auteurs, on perd de la place avec des cases vides ;</li>
+      <li>Les contenus des cellules sont libres. Ainsi, l'auteur <em>Serge Laget</em> est référencé soit sous son nom complet <em>Serge Laget</em>, soit sous la forme <em>S. Laget</em>, ce qui ne facilite pas les recherches. De même, les jeux portant sur le Moyen-Âge sont référencés soit avec le thème <em>Moyen-âge</em>, soit avec le thème <em>Médiéval</em> ;</li>
+      <li>Les valeurs pour le champ <em>Thèmes</em> peuvent contenir plusieurs informations. Ceci ne facilite pas les recherches.</li>
+    </ul>
+    <h3>D. Modification de la table</h3>
+    <p>Pour éviter le problème des dépendances multiples (plusieurs auteurs et illustrateurs), on décide de représenter les informations précédentes sous la forme suivante :</p>
+  <p><table border="1">
+    <tr><th>Nom du jeu</th><th>Auteur</th><th>Éditeur</th><th>NbJoueursMin</th><th>NbJoueursMax</th><th>Nationalité éditeur</th><th>Durée en min</th><th>Illustrateur</th><th>Nationnalité illustrateur</th><th>Thèmes</th></tr>
+    <tr>
+      <td>Les chevaliers de la table ronde</td>
+      <td>Bruno Cathala</td>
+      <td>Days of wonder</td>
+      <td>3</td>
+      <td>7</td>
+      <td>Française</td>
+      <td>90</td>
+      <td>Julien Delval</td>
+      <td>Française</td>
+      <td>Moyen-âge, Légende arthurienne</td>
+    </tr>
+    <tr>
+      <td>Les chevaliers de la table ronde</td>
+      <td>S. Laget</td>
+      <td>Days of wonder</td>
+      <td>3</td>
+      <td>7</td>
+      <td>Française</td>
+      <td>90</td>
+      <td>Julien Delval</td>
+      <td>Française</td>
+      <td>Moyen-âge, Légende arthurienne</td>
+    </tr>
+    <tr>
+      <td>Cargo Noir</td>
+      <td>Serge Laget</td>
+      <td>Days of wonder</td>
+      <td>2</td>
+      <td>5</td>
+      <td>Française</td>
+      <td>60</td>
+      <td>Miguel Coimbra</td>
+      <td>Française</td>
+      <td>Marché Noir, Navigation marchande</td>
+      </tr>
+    <tr>
+      <td>Era : medieval age</td>
+      <td>Matt Leacock</td>
+      <td>EggertSpiele</td>
+      <td>1</td>
+      <td>4</td>
+      <td>Allemande</td>
+      <td>50</td>
+      <td>Chris Quilliams</td>
+      <td>Canadienne</td>
+      <td>Médiéval, Construction</td>
+      </tr>
+    <tr>
+      <td>Smash up</td>
+      <td>Paul Peterson</td>
+      <td>Iello</td>
+      <td>2</td>
+      <td>4</td>
+      <td>Française</td>
+      <td>45</td>
+      <td>Bruno Balixa</td>
+      <td>Américaine</td>
+      <td>Fantastique, Monstre, Pirate</td>
+      </tr>
+    <tr>
+      <td>Smash up</td>
+      <td>Paul Peterson</td>
+      <td>Iello</td>
+      <td>2</td>
+      <td>4</td>
+      <td>Française</td>
+      <td>45</td>
+      <td>Franciso Rico Torres</td>
+      <td>Américaine</td>
+      <td>Fantastique, Monstre, Pirate</td>
+      </tr>
+    <tr>
+      <td>Smash up</td>
+      <td>Paul Peterson</td>
+      <td>Iello</td>
+      <td>2</td>
+      <td>4</td>
+      <td>Française</td>
+      <td>45</td>
+      <td>Dave Alsop</td>
+      <td>Américaine</td>
+      <td>Fantastique, Monstre, Pirate</td>
+      </tr>
+    </table></p>
+    <p>Avec une telle représentation, le problème de redondance devient alors criant.</p>
+    <p>Or les redondances peuvent engendrer des <strong>anomalies de mise à jour</strong>.
+      On va donc chercher à re-structurer les relations (en les décomposant en plusieurs relations) pour limiter les redondances
+    <P>
+      
+    <h2>II. Un peu de vocabulaire et de théorie...</h2>
+    <h3>A. Notion de dépendance fonctionnelle</h3>
+    <h4>1. Définitions</h4>
+    <p>
+    Pour décomposer une relation, celle décrivant notre ludothèque par exemple, on s'appuie sur la notion de <em>dépendance fonctionnelle</em> entre attributs :
+    </p>
+  <div class="def"><p>
+    Il y a <strong>dépendance fonctionnelle</strong> (<em>df</em>) d'un ensemble d'attributs E vers un attribut A si et seulement si, sur l'ensemble des tuples que peut contenir la relation, la valeur de A dépend fonctionnellement des valeurs des attributs de E. Autrement dit, pour tous les tuples ayant les mêmes valeurs pour les attributs de E, la valeur de A est identique.</p>
+  </div>
+  <p>Par ailleurs, on préfère avoir uniquement des champs <em>atomiques</em> :</p>
+  <div class="def">
+    <p>Un attibut est <strong>atomique</strong> si et seulement si il ne contient qu'une seule valeur et que cette valeur n'est pas composite. La valeur ne peut donc pas être une collection de valeurs (comme les villes d'un département) et elle ne peut pas être décomposée en plusieurs valeurs distinctes (comme dans une adresse par exemple)</p>
+  </div>
+  <h4>2. Exercices</h4>
+  <div class="exo">
+    <p><strong>Exercice 1 :</strong> Dans l'exemple introductif, déterminez les champs qui ne sont pas atomiques, et proposez un nouveau schéma de relation.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr1"/></p>
+  </div>
+  <div class="correction" id="corr1">
+    <p>L'attribut <em>Thèmes</em> est bien évidemment un attribut non atomique, puisque, comme mentionné au-dessus, il peut contenir plusieurs thèmes.</p>
+    <p>L'atomicité des champs <em>Auteur 1</em>, <em>Auteur 2</em> et <em>Illustrateur</em> est quant à elle discutable : si l'on souhaite pouvoir mieux caractériser les auteurs et ilustrateurs, il peut être souhaitable de distinguer prénom et nom.</p>
+    <p>On peut alors proposer le schéma de relation suivant :</p>
+    <p>
+    &Omega; = (NomJeu, NomAuteur, PrénomAuteur, Éditeur, NbJoueursMin, NbJoueursMax, NationalitéÉditeur, Durée, NomIllustrateur, PrénomIllustrateur, NationnalitéIllustrateur, Thème)
+    </p>
+  </div>
+  <div class="exo">
+    <p><strong>Exercice 2 :</strong>
+    Sur le schéma de relation &Omega; déterminé dans l'exercice précédent, donneez l'ensemble des dépendances fonctionnelles qui existent.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr2"/></p>
+  </div>
+  <div class="correction" id="corr2">
+    <p>
+    Il existe un grand nombre de dépendances fonctionnelles. Il y a bien sûr celles qui viennent naturellement à l'esprit :
+    </p>
+    <p>
+    <ul>
+      <li>NomJeu &rarr; Éditeur</li>
+      <li>NomJeu &rarr; NbJoueursMin</li>
+      <li>NomJeu &rarr; NbJoueursMax</li>
+      <li>NomJeu &rarr; Durée</li>
+      <li>Éditeur &rarr; NationalitéÉditeur</li>
+      <li>(NomIllustrateur, PrénomIllustrateur) &rarr; NationalitéIllustrateur</li>
+    </ul>
+    </p>
+    <p>
+    Mais il y a également des dépendances fonctionnelles tellement triviales qu'on a tendance à les oublier ; ce sont toutes les dépendances <strong>réflexives</strong> :</p>
+    <ul>
+      <li>NomJeu &rarr; NomJeu</li>
+      <li>NbJoueursMin &rarr; NbJoueursMin</li>
+      <li>...</li>
+    </ul>
+    <p>Et il y a également d'autres dépendances, toutes aussi triviales, obtenues par <strong>Augmentation</strong> :
+    </p>
+    <ul>
+      <li>(NomJeu, NomÉditeur) &rarr; Nomjeu</li>
+      <li>(NomÉditeur, NomAuteur, PrénomIllustrateur) &rarr; PrénomIllustrateur</li>
+      <li>...</li>
+    </ul>
+    <p>La composition de fonction étant une loi de composition interne, la notion de dépendance fonctionnelle est également transitive. Et donc on a également par exemple : </p>
+    <ul>
+      <li>NomJeu &rarr; NationalitéÉditeur</li>
+    </ul>
+  </div>
+
+  <div class="def">
+    <p><strong>Résumé des propriétés des dépendances fonctionnelles</strong></p>
+    <ul>
+      <li>dépendances <strong>réflexives</strong>: il s'agit de dépendances de la forme A &rarr; A. Elles sont toujours vraies. On les appelle aussi des dépendances triviales.</li>
+      <li>dépendances <strong> élémentaires </strong>: il s'agit de dépendances qui ne peuvent pas être obtenues par <strong>augmentation</strong>.
+	Soit une dépendance f1 : X &rarr; A, avec X un ensemble d'attributs et A un attribut, toute dépendance obtenue par augmentation de f1 ie. en ajoutant des attributs
+	dans la partie gauche, est une dépendance vraie.</li>
+      <li>dépendances <strong> directes </strong>: il s'agit de dépendances qui ne peuvent pas être obtenues par <strong>transitivité</strong>.
+	Soit les dépendances X &rarr; A et A &rarr; B (avec X un ensemble d'attributs et A et B deux attributs), la transitivité permet de déduire que la dépendance
+	X &rarr; B est vraie également.</li>
+    </ul>
+    
+  </div>
+  
+  <h4>3. Couverture minimale</h4>
+  <p>
+  A partir d'un schéma de relation &Omega; et d'un ensemble de dépendances fonctionnelles <em>DF</em>, on essaie en général de déterminer un ensemble minimal de dépendances fonctionnelles non réflexives, élémentaires et directes à partir desquelles toutes les dépendances fonctionnelles vraies pour &Omega; peuvent être déduites. Pour s'assurer de ce dernier point, on va vérifier que la <em>fermeture transitive</em> de cet ensemble minimal est égale à la fermeture transitive de l'ensemble <em>DF</em>.</p>
+  <div class="def">
+    <p>On appelle <strong>fermeture transitive</strong> d'un ensemble de dépendances fonctionnelles <em>df</em> l'ensemble <em>ftdf</em> obtenu en faisant l'union entre les dépendances de <em>df</em> et de toutes les dépendances fonctionnelles vraies que l'on peut obtenir en appliquant itérativement les règles de transitivité, de réflexivité et d'augmentation aux dépendances de <em>df</em>.
+    </p>
+  </div>
+  
+  <div class="def">
+    <p>
+    On appelle <strong>Couverture minimale</strong> d'une structure (&Omega;, DF1) une structure (&Omega;, CMDF) telle que :
+    </p>
+    <ul>
+      <li>La fermeture transitive de CMDF est égale à la fermeture transitive de DF1 ;</li>
+      <li>Aucune dépendance fonctionnelle de CMDF ne peut être éliminée sans perdre l'égalité des fermetures transitives.
+	  Autrement dit, on peut déduire les mêmes dépendances fonctionnelles à partir de DF1 et de CMDF.</li>
+    </ul>
+  </div>
+  <p>
+    Il existe des algorithmes pour calculer la couverture minimale d'un ensemble de dépendances fonctionnelles, mais cela dépasse le cadre de ce cours.
+    Lorsque l'on va chercher à restructurer un schéma de relation par décomposition, on va utiliser uniquement la couverture minimale des dépendances fonctionnelles associées
+    à ce schéma de relation.
+  </p>
+  
+  <div class="exo">
+    <p><strong>Exercice 3</strong> : Déterminez la couverture minimale du schéma de relation précédent.
+    </p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr3"/></p>
+  </div>
+  <div class="correction" id="corr3">
+    <p>Sur l'exemple précédent, une couverture minimale est la suivante :
+    CMDF = {NomJeu &rarr; Éditeur, NomJeu &rarr; NbJoueursMin, NomJeu &rarr; NbJoueursmax, NomJeu &rarr; Durée, Éditeur &rarr; NationalitéÉditeur, (NomIllustrateur, PrénomIllustrateur) &rarr; NationalitéIllustrateur}
+    </p>
+    <p><em>Remarque :</em> cela suppose qu'il n'y a pas 2 jeux de mêmes noms, ni 2 illustrateurs homonymes.</p>
+  </div>
+  <p>On représente souvent un ensemble de dépendances fonctionnelles sous la forme d'un graphe exempt des <em>df</em> triviales.</p>
+
+  <div class="exo">
+    <p><strong>Exercice 3bis</strong> : Représentez la couverture minimale obtenue à l'exercice 3 par un graphe de dépendances fonctionnelles.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr3bis"/></p>
+  </div>
+  <div class="correction" id="corr3bis">
+    <img src="grapheDF.png" width="60%" alt="graphe des dépendances fonctionnelles"/>
+  </div>
+  <h3>B. Notion de clé</h3>
+  <div class="def">
+    <p>Une <strong>clé</strong> d'une structure (&Omega;, DF) est un sous-ensemble d'attributs K de &Omega; tel que pour tout attribut A de &Omega; la dépendance K &rarr; A est vraie ie. elle appartient à DF ou se déduit des dépendances de DF. </p>
+    <p><strong>Corollaire</strong> : Dans une relation, il ne peut pas y avoir deux tuples dont les valeurs des attributs appartenant à la clef sont identiques.</p>
+    <p><strong>Notation</strong> : Dans un schéma de relation, on représente en général les attributs faisant partie de la clé retenue en les soulignant.</p>
+    <p><strong>NB</strong>: Il existe plusieurs clefs pour une même structure (&Omega;, DF). En particulier, si K est une clef alors tout sur-ensemble de K est une clef. 
+  </div>
+  <div class="def">
+    <p>Une <strong>clé minimale</strong> d'une structure (&Omega; DF) est une clé dont aucun sous-ensemble n'est clé de (&Omega; DF).</p>
+    <p><em>Remarque</em> : la clé minimale d'une relation n'est pas forcément unique. Ce sont celles qui vont nous intéresser pour la décomposition de notre relation.</p>
+  </div>
+  <div class="exo">
+    <p><strong>Exercice 4</strong> : Déterminer une clé minimale pour le cas de la ludothèque.
+    </p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr4"/></p>
+  </div>
+  <div class="correction" id="corr4">
+    <p>Une clé minimale de (&Omega;, CMDF) est : (NomJeu, NomAuteur, PrénomAuteur, NomIllustrateur, PrénomIllustrateur, Thème).</p>
+  </div>
+  
+  <h3>C. Formes Normales</h3>
+  <p>Pour éviter un certain nombre de problèmes (redondance par exemple), différentes <em>formes normales</em> ont été définies pour les bases de données.
+    Plus la forme normale vérifiée est élevée, moins il y a de redondances dans le schéma de relation.
+  </p>
+  <p><strong>NB</strong>: l'ensemble des schémas de relation vérifiant la forme normale I est inclus dans l'ensemble des schémas de relation
+    vérifiant la forme normale I+1. 
+  </p>
+  <p>Voici les 3 premières :</p>
+  <div class="def">
+    <p>
+      Un schéma de relation est en <strong>Première Forme Normale</strong> (1FN) si et seulement si tous ses attributs sont atomiques.
+      <strong>NB</strong>: c'est la base dans le modèle relationnel.
+    </p>
+  </div>
+  <div class="def">
+    <p>
+    Un schéma de relation est en <strong>Deuxième Forme Normale</strong> (2FN) si et seulement si :
+    </p>
+    <ul>
+      <li>Il est en 1FN ;</li>
+      <li>Aucun attribut non clé ne dépend (au sens des DF) que d'une partie d'une clé minimale.</li>
+    </ul>
+    <p><em>N.B.</em> : par "attribut non clé", il faut comprendre "n'appartenant à aucune une clé minimale".</p>
+  </div>
+  <div class="def">
+    <p>
+    Un schéma de relation est en <strong>Troisième Forme Normale</strong> (3FN) si et seulement si :
+    </p>
+    <ul>
+      <li>Il est en 2FN ;</li>
+      <li>Il n'y a aucune dépendance fonctionnelle entre attributs non clés.</li>
+    </ul>
+    <p><em>N.B.</em> : par "attribut non clé", il faut comprendre "non membre d'une clé minimale".</p>
+  </div>
+  <p><em>Remarque : </em>La 3FN ne garantit pas totalement l'absence de redondance dans tous les cas.</p>
+  <div class="exo">
+    <p><strong>Exercice 5 :</strong> Déterminez si la structure (&Omega;, CMDF) est en 1FN, en 2FN et en 3FN.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr5"/></p>    
+  </div>
+  <div class="correction" id="corr5">
+    <p>
+    La structure (&Omega;, CMDF) est en 1FN puisque tous ses attributs sont atomiques (suite au travail fait à l'exercice 1).
+    </p>
+    <p>
+    La structure (&Omega;, CMDF) n'est pas en 2FN puisque l'attribut <em>NationalitéIllustrateur</em> ne dépend que d'une partie de la clé (<em>NomIllustrateur, PrénomIllustrateur</em>).
+    </p>
+    <p>
+    La structure (&Omega;, CMDF) n'est pas en 3FN puisqu'elle n'est pas en 2FN.
+    </p>
+  </div>
+  <h3>D. Transformer un schéma de relation en 3FN</h3>
+  <p>
+  Il est toujours possible de transformer un schéma de relation en 3FN. Pour cela, Il va falloir créer plusieurs relations afin de se ramener aux règles des différentes formes normales.
+  </p>
+  <h4>1. Rendre tous les attributs atomiques</h4>
+  <p>Cette première phase permet d'obtenir une relation en 1FN. C'est ce qui a été fait dans l'exercice 1.</p>
+  <h4>2. Passer en 2FN</h4>
+  <p>
+  Pour passer en 2FN, on va éclater le schéma de relation initial en plusieurs schémas, de façon à ce que chaque fois qu'on a une dépendance fonctionnelle de la forme (<em>partieClé&nbsp;&rarr;&nbsp;attributNonClé</em>), on crée une relation spécifique avec pour clé <em>partieClé</em> et pour attribut <em>attributNonClé</em>. Une fois ceci fait, si plusieurs relations ont même clé, on les fusionne en 1 seule relation ayant tous les attributs des relations de départ. Par ailleurs, on gardera une relation avec l'ensemble des attributs de la clé minimale.
+  </p>
+  <div class="exo">
+    <p><strong>Exercice 6 :</strong> Transformer la structure (&Omega;, CMDF) en une structure en 2FN.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr6"/></p>    
+  </div>
+  <div class="correction" id="corr6">
+    <ul>
+      <li>R1 = (<span style="text-decoration: underline">NomJeu, NomAuteur, PrénomAuteur, NomIllustrateur, PrénomIllustrateur, Thème</span>)</li>
+      <li>R2 = (<span style="text-decoration: underline">NomJeu</span>, Éditeur, NbJoueursMin, NbJoueursMax, Durée, NationalitéÉditeur)</li>
+      <li>R3 = (<span style="text-decoration: underline">NomIllustrateur, PrénomIllustrateur</span>, NationalitéIllustrateur)</li>
+    </ul>
+  </div>
+  <h4>3. Passer en 3FN</h4>
+  <p>Pour passer en 3FN, pour chaque dépendance de la forme <em>AttributNonClé1&nbsp;&rarr;&nbsp;AttributNonClé2</em>, on va créer une table (<span style="text-decoration: underline">AttributNonClé1</span>, AttributNonClé2), et on supprime <em>AttributNonClé2</em> de la relation de départ. À la fin du processus, on fusionne les tables de même clé.
+  </p>
+  <div class="exo">
+    <p><strong>Exerice 7</strong> : Passer le schéma de relation précédent en 3FN</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr7"/></p>    
+  </div>
+  <div class="correction" id="corr7">
+    <p>
+    Dans le schéma en 2FN, la seule <em>df</em> violant la règle de la 3FN est la <em>df</em> Éditeur&nbsp;&rarr;&nbsp;NationalitéÉditeur. On obtient donc :
+    </p>
+    <ul>
+      <li>R1 = (<span style="text-decoration: underline">NomJeu, NomAuteur, PrénomAuteur, NomIllustrateur, PrénomIllustrateur, Thème</span>)</li>
+      <li>R2a = (<span style="text-decoration: underline">NomJeu</span>, Éditeur, NbJoueursMin, NbJoueursMax, Durée)</li>
+      <li>R2b = (<span style="text-decoration: underline">Éditeur</span>, NationalitéÉditeur)</li>
+      <li>R3 = (<span style="text-decoration: underline">NomIllustrateur, PrénomIllustrateur</span>, NationalitéIllustrateur)</li>
+    </ul>
+  </div>
+  <div class="exo">
+    <p><strong>Exercice 8 :</strong> Transformez la table donnée en énoncé en plusieurs tables conformes au schéma de relation obtenu dans l'exercice précédent.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr8"/></p>
+  </div>
+  <div class="correction" id="corr8">
+    <table border="1">
+      <tr><th colspan="6">R1</th></tr>
+      <tr>
+	<th>NomJeu</th>
+	<th>NomAuteur</th>
+	<th>PrénomAuteur</th>
+	<th>NomIllustrateur</th>
+	<th>PrénomIllustrateur</th>
+	<th>Thème</th>
+      </tr>
+      <tr>
+	<td>Les chevaliers de la table ronde</td>
+	<td>Cathala</td>
+	<td>Bruno</td>
+	<td>Delval</td>
+	<td>Julien</td>
+	<td>Moyen-âge</td>
+      </tr>
+      <tr>
+	<td>Les chevaliers de la table ronde</td>
+	<td>Laget</td>
+	<td>Serge</td>
+	<td>Delval</td>
+	<td>Julien</td>
+	<td>Moyen-âge</td>
+      </tr>
+      <tr>
+	<td>Les chevaliers de la table ronde</td>
+	<td>Cathala</td>
+	<td>Bruno</td>
+	<td>Delval</td>
+	<td>Julien</td>
+	<td>Légende Arthurienne</td>
+      </tr>
+      <tr>
+	<td>Les chevaliers de la table ronde</td>
+	<td>Laget</td>
+	<td>Serge</td>
+	<td>Delval</td>
+	<td>Julien</td>
+	<td>Légende Arthurienne</td>
+      </tr>
+      <tr>
+	<td>Cargo Noir</td>
+	<td>Laget</td>
+	<td>Serge</td>
+	<td>Coimbra</td>
+	<td>Miguel</td>
+	<td>Marché noir</td>
+      </tr>
+      <tr>
+	<td>Cargo Noir</td>
+	<td>Laget</td>
+	<td>Serge</td>
+	<td>Coimbra</td>
+	<td>Miguel</td>
+	<td>Navigation marchande</td>
+      </tr>
+      <tr>
+	<td>Era: medieval age</td>
+	<td>Leacock</td>
+	<td>Matt</td>
+	<td>Quilliams</td>
+	<td>Chris</td>
+	<td>Médiéval</td>
+      </tr>
+      <tr>
+	<td>Era: medieval age</td>
+	<td>Leacock</td>
+	<td>Matt</td>
+	<td>Quilliams</td>
+	<td>Chris</td>
+	<td>Construction</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Balixa</td>
+	<td>Bruno</td>
+	<td>Fantastique</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Torres</td>
+	<td>Francisco Rico</td>
+	<td>Fantastique</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Alsop</td>
+	<td>Dave</td>
+	<td>Fantastique</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Balixa</td>
+	<td>Bruno</td>
+	<td>Monstre</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Torres</td>
+	<td>Francisco Rico</td>
+	<td>Monstre</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Alsop</td>
+	<td>Dave</td>
+	<td>Monstre</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Balixa</td>
+	<td>Bruno</td>
+	<td>Pirate</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Torres</td>
+	<td>Francisco Rico</td>
+	<td>Pirate</td>
+      </tr>
+      <tr>
+	<td>Smash Up</td>
+	<td>Peterson</td>
+	<td>Paul</td>
+	<td>Alsop</td>
+	<td>Dave</td>
+	<td>Pirate</td>
+      </tr>
+    </table>
+    <table border="1">
+      <tr><th colspan="5">R2a</th></tr>
+      <tr>
+	<th>NomJeu</th>
+	<th>Éditeur</th>
+	<th>NbJoueursMin</th>
+	<th>NbJoueursMax</th>
+	<th>Durée</th>
+      </tr>
+      <tr>
+	<td>Les chevaliers de la table ronde</td>
+	<td>Days of wonder</td>
+	<td>3</td>
+	<td>7</td>
+	<td>90</td>
+      </tr>
+      <tr>
+	<td>Cargo Noir</td>
+	<td>Days of wonder</td>
+	<td>2</td>
+	<td>5</td>
+	<td>60</td>
+      </tr>
+      <tr>
+	<td>Era: medieval age</td>
+	<td>EggertSpiele</td>
+	<td>1</td>
+	<td>4</td>
+	<td>50</td>
+      </tr>
+      <tr>
+	<td>Smash up</td>
+	<td>Iello</td>
+	<td>2</td>
+	<td>4</td>
+	<td>45</td>
+      </tr>
+    </table>
+    <table border="1">
+      <tr><th colspan="2">R2b</th></tr>
+      <tr>
+	<th>Éditeur</th>
+	<th>NationalitéÉditeur</th>
+      </tr>
+      <tr>
+	<td>Days of wonder</td>
+	<td>Française</td>
+      </tr>
+      <tr>
+	<td>EggertSpiele</td>
+	<td>Allemande</td>
+      </tr>
+      <tr>
+	<td>Iello</td>
+	<td>Française</td>
+      </tr>
+    </table>
+    <table border="1">
+      <tr><th colspan="3">R3</th></tr>
+      <tr>
+	<th>NomIllustrateur</th>
+	<th>PrénomIllustrateur</th>
+	<th>NationalitéIllustrateur</th>
+      <tr>
+	<td>Delval</td>
+	<td>Julien</td>
+	<td>Française</td>
+      </tr>
+      <tr>
+	<td>Coimbra</td>
+	<td>Miguel</td>
+	<td>Française</td>
+      </tr>
+      <tr>
+	<td>Quilliams</td>
+	<td>Chris</td>
+	<td>Canadienne</td>
+      </tr>
+      <tr>
+	<td>Balixa</td>
+	<td>Bruno</td>
+	<td>Américaine</td>
+      </tr>
+      <tr>
+	<td>Alsop</td>
+	<td>Dave</td>
+	<td>Américaine</td>
+      </tr>
+      <tr>
+	<td>Torres</td>
+	<td>Francisco Rico</td>
+	<td>Américaine</td>
+      </tr>
+    </table>
+  </div>
+  <h3>E. Remarque sur la 3FN et sur le travail fait précédemment</h3>
+  <p>La 3FN permet d'éviter un certain nombre de redondances, mais ne les supprime pas toutes, comme on peut le voir sur l'exemple précédent. On peut bien sûr obtenir mieux, mais avec un schéma qui n'est pas équivalent au schéma initial. Les explications dépassent cependant le cadre de ce cours.</p>
+  <p>Par ailleurs, procéder comme cela a été fait précédemment ne permet pas de mettre en évidence que les attributs <em>(NomAuteur, PrénomAuteur)</em> correspondent à une même entité, à savoir la notion d'<em>Auteur</em>.
+  </p>
+  </div>
+  </div>
+</body>
+</html>
