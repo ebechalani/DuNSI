@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>SGBD</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="sql.html">Système de Gestion de Bases de Données</h1>
+<div id="contenu">
+  <h2>I. Notion de SGBD et caractéristiques</h2>
+  <h3>A. Définition</h3>
+  <div class="exo">
+    <p>Nombreux sont les logiciels informatiques nécessitant une base de données. Afin de ne pas réinventer la roue à chaque fois, des logiciels dédiés à la gestion de bases de données ont été développés. La plupart de ces logiciels gèrent des bases de données relationnelles. Ils sont en général implantés sous la forme d'un logiciel serveur indépendant (pouvant tourner sur la même machine que l'application cliente, ou bien sur une autre machine). On appelle ces logiciels des <strong>Systèmes de Gestion de Bases de Données (SGBD)</strong>.</p>
+  </div>
+  <h3>B. Caractéristiques</h3>
+  <p>Les SGBD doivent proposer un certain nombre de caractéristiques :</p>
+  <ul>
+    <li>Disposer d'un moyen de créer une base de données (relationnelle)</li>
+    <li>Proposer des moyens pour modifier le contenu d'une base de données relationnelle, tout en contrôlant le respect de contraintes (par exemple les contraintes de référence)</li>
+    <li>Proposer un <em>langage de requêtes</em> pour explorer les données présentes dans la base</li>
+    <li>Gérer la persistance des données</li>
+    <li>Gérer efficacement des bases de données potentiellement très grandes</li>
+    <li>Gérer des accès concurrents à la base</li>
+    <li>Proposer une gestion des droits d'accès à la base</li>
+    <li>Déclencher automatiquement certaines tâches sur certaines actions</li>
+    <li>Proposer des moyens pour limiter les risques de perte de données en cas de panne ou fausse manipulation</li>
+    <li>...</li>
+  </ul>
+  <h2>II. Quelques exemples de SGBD</h2>
+  <p>
+  Il y a de nombreux SGBD sur le marché, avec leur avantages et leurs défauts. Voici une présentation sommaire des plus connus :
+  </p>
+  <dl>
+    <dt>Oracle</dt>
+    <dd>La référence en terme de SGBD relationnel professionnel. Une version gratuite existe depuis quelques années. Un peu lourd, pas toujours en avance sur les évolutions, mais le plus robuste, le plus contrôlable à de nombreux points de vue.</dd>
+    <dt>MySql</dt>
+    <dd>Le plus connu depuis le développement des sites web. C'est un SGBD relativement léger, gratuit, de plus en plus complet - surtout depuis son rachat par Oracle - mais avec certains défauts. Notamment, dans ses premières versions, il ignorait totalement les contraintes de référence. Il manque aussi d'un certain nombre de fonctionnalités nécessaire au développement d'une base de qualité.</dd>
+    <dt>PostGres</dt>
+    <dd>Un excellent compromis entre Oracle et MySql. Très fiable et efficace, moins lourd à administrer qu'Oracle et plus en avance sur certaines fonctionnalités, gratuit : de nombreuses entreprises se sont mises à l'utiliser</dd>
+    <dt>Sql Server</dt>
+    <dd>Le SGBD de microsoft. Je ne le connais pas assez pour en parler</dd>
+    <dt>Access</dt>
+    <dd>Le <em>SGBD pour les nuls</em> de Microsoft. Beaucoup hésitent à le classer dans les SGBD. Mais pour une utilisation non professionnelle, il dépanne bien.</dd>
+    <dt>Libre Office Base</dt>
+    <dd>Le <em>SGBD pour les nuls</em> Open Source. Beaucoup hésitent à le classer dans les SGBD. Mais pour une utilisation non professionnelle, il dépanne bien.</dd>
+  </dl>
+
+  <p>Tous ces SGBD fonctionnant sous la forme de serveurs, leur utilisation nécessite plusieurs choses :</p>
+  <ul>
+    <li>Installer le SGBD en lui-même avec des droits de super-utilisateur ; suivant les cas, ce n'est pas toujours très simple ;</li>
+    <li>Disposer d'une bibliothèque dédiée pour le langage de programmation choisi ; ce n'est pas toujours disponible.</li>
+  </ul>
+
+  <p>Pour simplifier les choses, dans le cadre de ce cours, nous avons choisi d'utiliser <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a> (version 3). C'est une sorte de SGBD dédiée aux bases de données <em>embarquées</em> dans l'application. En effet, aucun logiciel serveur n'est nécessaire, et il n'y a donc pas d'installation à faire. C'est un SGBD qui est par exemple très utilisée dans les applications mobiles. Il existe une bibliothèque dédiée dans Python : <a href="https://docs.python.org/3.8/library/sqlite3.html" target="_blank">sqlite3</a>. Bien sûr, il ne permet pas de gérer d'aussi grosses bases de données que Oracle ou Postgres par exemple et il propose moins de fonctionnalités.
+  </p>
+</div>
+</div>
+</body>
+</html>

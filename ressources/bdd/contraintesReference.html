@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Contraintes de référence</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="sgbd.html">Contraintes de référence</h1>
+<div id="contenu">
+  <p>Dans la partie précédente, nous avions notamment abouti à définir les 2 tables suivantes :
+  </p>
+  <ul>
+    <li><strong>Illustrateur</strong>(<span style="text-decoration: underline">IdIllustrateur</span>, NomIllustrateur, PrénomIllustrateur, NationalitéIllustrateur)</li>
+    <li><strong>EstDessinéPar</strong>(<span style="text-decoration: underline">#IdIllustrateur</span>, <span style="text-decoration: underline">#IdJeu</span>)</li>
+  </ul>
+  <p>
+  Dans les 2 tables, nous remarquons la présence d'un attribut <em>IdIllustrateur</em>. Bien sûr, ces 2 attributs ne sont pas indépendants les uns des autres : dans la table <em>EstDessinéPar</em>, les seuls valeurs que l'on peut mettre pour l'attribut <em>IdIllustrateur</em> sont des valeurs qui doivent exister pour l'attribut <em>IdIllustrateur</em> de la table <em>Illustrateur</em> (ce que l'on a représenté par un # dans le nom de l'attribut dont les valeurs dépendent de celles de l'autre). Dans le modèle relationnel, la notation # n'existe pas en tant que tel. Cette contrainte doit être représentée par une contrainte de référence. Dans l'exemple précédent, il faut donc créer une contrainte de référence de l'attribut <em>IdIllustrateur</em> de la table <em>EstDessinéPar</em> vers l'attribut <em>IdIllustrateur</em> de la table <em>Illustrateur</em>. On peut le noter ainsi : <em>EstDessinéPar(IdIllustrateur) référence Illustrateur(IdIllustrateur)</em>.
+  </p>
+<div class="Exo">
+  <p>
+  Soient 2 relations RA et RB, att<sub>RA</sub> un attribut de RA et att<sub>RB</sub> un attribut <strong>clef</strong> de RB. Une <strong>contrainte de référence</strong>  :</p>
+  <p style="text-align: center"><code>RA(att<sub>RA</sub>) <em>référence</em> RB(att<sub>RB</sub>)</code>.</p>
+  signifie que les valeurs que peut prendre l'attribut att<sub>RA</sub> sont forcément des valeurs prises par l'attribut att<sub>RB</sub>. Autrement dit, si dans un tuble de la relation RA, att<sub>RA</sub> a pour valeur v alors il doit existe au moins un tuple dans la relation RB dans lequel att<sub>RB</sub> a pour valeur v.</p>
+  <p><em>NB1</em> : on dit parfois que att<sub>RA</sub> est une <strong>clef étrangère</strong> de RA.
+  <p><em>NB2</em> : dans le cas général, les attributs <code>att<sub>RA</sub></code> et de <code>att<sub>RB</sub></code> n'ont pas forcément les mêmes noms même si c'est souvent le cas.</p>
+  <p><em>NB3</em> : dans le cas général, non traité ici, une contrainte de référence peut être définie d'un ensemble d'attributs vers un autre ensemble d'attributs (qui doivent former une clef) (et non plus forcément un seul attribut de chaque coté.</p>
+  <p><strong>Précision</strong> : l'existence d'une contrainte de référence n'impose pas que des valeurs soient définies pour les attributs <em>clé étrangère</em> pour tous les tuples ; elle impose seulement que si une valeur est définie, alors cette valeur est présente pour les champs référencés de la table référencée.</p>
+</div>
+<div class="exo">
+  <p>
+  <strong>Exercice</strong> : déterminer toutes les contraintes de référence sur le problème de la ludothèque (prendre le schéma de relation obtenu dans l'exercice 4 du cours "Modèle conceptuel d'une base de données relationnelle").
+  </p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr1"/></p>
+</div>
+<div class="correction" id="corr1">
+  <p>Voici la liste des contraintes de référence :</p>
+  <ul>
+    <li>Jeu(IdÉditeur) référence Éditeur(IdÉditeur) ;</li>
+    <li>EstDessinéPar(IdIllustrateur) référence Illustrateur(IdIllustrateur) ;</li>
+    <li>EstDessinéPar(IdJeu) référence Jeu(IdJeu) ;</li>
+    <li>EstAuteurDe(IdAuteur) référence Auteur(IdAuteur) ;</li>
+    <li>EstAuteurDe(IdJeu) référence Jeu(IdJeu) ;</li>
+    <li>ParleDe(IdThème) référence Thème(IdThème) ;</li>
+    <li>ParleDe(IdJeu) référence Jeu(IdJeu).</li>
+  </ul>
+</div>
+<p>On peut aussi noter les contraintes de référence avec des flèches sur un graphe représentant les schémas de relation (c'est par exemple ce que proposent des outils comme <em>Access</em> ou <em>Libre Office</em>. Mais attention de ne pas mélanger cette représentation avec un diagramme de classes. Voici un exemple (représentation non normalisée) :</p>
+<p><img src="contraintesReference.png" width="70%" alt="Représentation graphique des contraintes de référence"/></p>
+  </div>
+  </div>
+</body>
+</html>

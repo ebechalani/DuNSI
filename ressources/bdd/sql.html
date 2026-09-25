@@ -1,0 +1,570 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>SQL</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="sqlEtPython.html">SQL</h1>
+<div id="contenu">
+  <h2>I. Présentation de SQL</h2>
+  <p>Afin d'effectuer toutes les requêtes possibles et imaginables sur les données d'une base de données, il faut diposer d'un langage de requête. Très vite, un langage dédié s'est détaché, et est maintenant reconnu par la plupart des SGBD : il s'agit de <strong>SQL</strong> (<strong>Structured Query Language</strong>). SQL n'est en fait pas qu'un langage de requête ; il est constitué de 4 parties :
+  <ul>
+    <li><strong>Langage d'Interrogation de Données (LID)</strong> : pour retrouver des informations dans la base de données ;</li>
+    <li><strong>Langage de Manipulation de Données (LMD)</strong> : pour modifier les données de la base ;</li>
+    <li><strong>Langage de Description de Données (LDD)</strong> : pour définir la structure d'une base de données ;</li>
+    <li><strong>Langage de Contrôle de Données (LCD)</strong> : pour définir les droits  d'accès à la base.</li>
+  </ul>
+  <p>
+  Dans le cadre de ce cours, nous survolerons les aspects LID, LMD et LDD, mais nous n'aborderons pas l'aspect LCD.
+  </p>
+  <h2>II. SQL comme Langage d'Interrogation de Données</h2>
+  <p> SQL permet d'écrire des requêtes sur une base de données existante. Une requête renvoie en résultat un ensemble de tuples, chaque tuple étant composé des valeurs prises dans la base de données par les attributs utilisés dans la requête dans les tables utilisées dans la requête. 
+  </p>
+  <h3>A. Tâche préliminaire</h3>
+  <ul>
+    <li>Créez un répertoire appelé <code>Ludotheque</code> ;</li>
+    <li>Copiez dans le répertoire <code>Ludotheque</code> le fichier <a href="Ludotheque/creationTableIllustrateur.py" target="_blank">creationTableIllustrateur.py</a>. Ne vous souciez pas de son contenu pour le moment ;</li>
+    <li>Exécutez le fichier <code>creationTableIllustrateur.py</code>. Vous constatez que cela crée dans le répertoire <code>Ludotheque</code> un fichier appelé <code>ludotheque.db</code>. Ce fichier contient la base de données (réduite pour le moment à la table <em>Illustrateur</em>) au format <em>sqllite3</em> ;</li>
+  </ul>
+  <h3>B. Introduction : affichez le contenu de la table <em>Illustrateur</em></h3>
+  <h4>1. Première solution : utiliser l'outil sqlite3</h4>
+  <p>L'outil <em>sqlite3</em> est un programme qui permet d'interagir en mode lignes de commandes avec une base de données Sqlite.
+    Une fois lancé et connecté à une base de données, on peut taper directement des commandes SQL qui seront exécutées sur la
+    base. On peut aussi utiliser des commandes propres à l'outil qui commencent toutes par un point. Vous pouvez trouver à la fin de cette page un paragraphe résumant certaines de ces commandes.
+  </p>
+  <p>Si vous êtes sous Linux ou MacOS, l'outil  <code>sqlite3</code> est certainement installé.
+    Si vous êtes sous Windows (pas recommandé pour ce module), il n'est pas forcément installé.
+  </p>
+  <p> <strong>NB1: </strong>vous pouvez trouver dans discord un fichier vous donnant les liens pour pouvoir télécharger
+      l'outil et l'installer sur votre machine.
+  </p>
+  <p> <strong>NB2: </strong>ne pas confondre <em>sqlite3</em> l'outil présenté dans ce paragraphe et <em>sqlite3</em> la librairie
+    python utilisée par la suite pour interagir avec une base de données Sqlite en python.
+  </p>
+  <p>
+    Une fois installé, vous pouvez alors le lancer ainsi depuis le répertoire <code>Ludotheque</code> (dans une fenêtre shell sous Linux ou MacOS ou dans une fenêtre d'invite de commandes sous Windows):
+  </p>
+  <pre class="algo"><span class="constant">sqlite3 ludotheque.db</span></pre>
+  <p>Vous pouvez alors taper l'instruction suivante (en n'oubliant pas le ";" final), qui permet d'afficher le contenu de la table <em>Illustrateur</em> :</p>
+  <pre class="algo">sqlite3> <span class="constant">select * from illustrateur;</span></pre>
+  <p>Vous devez alors obtenir l'affichage suivant :</p>
+  <pre class="algo">
+<span class="comment">1|Delval|Julien|Française</span>
+<span class="comment">2|Coimbra|Miguel|Française</span>
+<span class="comment">3|Quilliams|Chris|Canadienne</span>
+<span class="comment">4|Balixa|Bruno|Américaine</span>
+<span class="comment">5|Alsop|Dave|Américaine</span>
+<span class="comment">6|Torres|Francisco Rico|Américaine</span>
+  </pre>
+  <p style="color:red"><strong>N.B.</strong> : Pour toutes les tables que vous aurez à manipuler dans cette partie, les noms de champs existant dans plusieurs tables sont suffixés par le nom de la table. Ainsi, les champs de la table <em>Illustrateur</em> s'appellent "<em>idIllustrateur, nomIllustrateur, prenomIllustrateur,</em> et <em>nationaliteIllustrateur</em>.</p>
+  <p>
+  Pour quitter <em>sqlite3</em>, tapez <code>ctrl-D</code> ou <code>.quit</code>.
+  </p>
+  <h4>2. Deuxième solution : en python avec la bibliothèque sqlite3</h4>
+  <p>
+    Récupérez le programme python <a href="Ludotheque/lectureLudotheque.py" target="_blank">lectureLudotheque.py</a> et mettez-le dans le répertoire <code>Ludotheque</code>, puis exécutez-le en tapant la requête suivante (sans ';') :</p>
+  <pre class="algo">
+Requête : <span class="constant">select * from illustrateur</span>
+<span class="comment">(1, 'Delval', 'Julien', 'Française')</span>
+<span class="comment">(2, 'Coimbra', 'Miguel', 'Française')</span>
+<span class="comment">(3, 'Quilliams', 'Chris', 'Canadienne')</span>
+<span class="comment">(4, 'Balixa', 'Bruno', 'Américaine')</span>
+<span class="comment">(5, 'Alsop', 'Dave', 'Américaine')</span>
+<span class="comment">(6, 'Torres', 'Francisco Rico', 'Américaine')</span>
+</pre>
+  </p>
+  <h3>C. Projection</h3>
+  <p>La base d'une requête SQL est constituée de 2 mots-clés introduisant 2 parties :
+  <ol>
+    <li><strong>SELECT</strong> introduit la liste des attributs que l'on veut voir figurer dans les tuples renvoyés (séparés par des ","). "*" est un raccourci pour désigner tous les attributs présents dans les tuples calculés par la requête. </li>
+    <li><strong>FROM</strong> introduit la liste des tables à partir desquelles la recherche doit être faite. Dans un premier temps on se limitera aux requêtes ne portant que sur une table.
+  </ol>
+  </p>
+<div class="exo">
+  <p><strong>Exercice 1 :</strong> Donnez les requêtes permettant d'afficher :</p>
+  <ol>
+    <li>La liste des noms des illustrateurs</li>
+    <li> La liste des prénoms et noms des illustrateurs</li> 
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr1"/></p>
+  </ol>
+</div>
+<div class="correction" id="corr1">
+  <ol>
+    <li>La liste des noms des illustrateurs : <code class="constant">select nomIllustrateur from illustrateur</code></li>
+    <li> La liste des prénoms et noms des illustrateurs <code class="constant">select prenomIllustrateur, nomIllustrateur from illustrateur</code></li> 
+  </ol>
+</div>
+<p>En général, on préfère afficher des résultats triés. Pour ce faire, on peut compléter la requête SQL avec une troisième partie, introduite par le mot-clé <strong>ORDER BY</strong>, et donnant la liste des attributs à prendre en compte dans le tri.
+</p>
+<div class="exo">
+  <p><strong>Exercice 2 :</strong> Écrivez les requêts permettant d'obtenir :</p>
+  <ol>
+    <li>La liste des noms des illustrateurs triée par ordre alphabétique des noms</li>
+    <li> La liste des prénoms et noms des illustrateurs triés par nationalité, puis en cas d'égalité par nom</li> 
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr2"/></p>
+  </ol>
+</div>
+<div class="correction" id="corr2">
+  <ol>
+    <li>La liste triée des noms des illustrateurs : <code class="constant">select nomIllustrateur from illustrateur order by nomIllustrateur</code></li>
+    <li> La liste triée des prénoms et noms des auteurs <code class="constant">select prenomIllustrateur, nomIllustrateur from illustrateur order by nationaliteIllustrateur, nomIllustrateur</code></li> 
+  </ol>
+</div>
+  <p><strong>Remarques sur le tri</strong></p>
+  <ul>
+    <li>Le tri est effectué avec un ordre numérique sur les attributs numériques, et un ordre alphanumérique sur les attributs contenant du texte ;</li>
+    <li>Si l'on veut un tri par ordre inverse sur certaines attributs, il suffit, dans la clause <em>order by</em>, de faire suivre le nom du champ du mot-clé <code>DESC</code> (comme <em>descending order</em>).</li>
+  </ul>
+<div class="exo">
+  <p><strong>Exerice 3 :</strong> Affichez l'ensemble des informations sur les illustrateurs par ordre décroissant d'identifiant</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr3"/></p>
+</div>
+<div class="correction" id="corr3">
+  <p><code class="constant">select * from illustrateur order by idIllustrateur desc</code></p>
+</div>
+<h3>D. Restriction</h3>
+<h4>1. Restriction simple</h4>
+<p>Une autre fonctionnalité du langage SQL est de permettre de ne sélectionner que les tuples d'une table vérifiant certaines propriétés. Pour cela, on va rajouter à notre requête une clause <strong>WHERE <em>condition</em></strong>. Par exemple, pour n'afficher que les illustrateurs français :</p>
+<pre class="algo">select * from illustrateur where nationaliteIllustrateur='Française'</pre>
+<p>On remarque alors que :</p>
+<ul>
+  <li>Les constantes de type <em>texte</em> doivent être mises entre apostrophes simples ;</li>
+  <li>La recherche est sensible à la casse (majuscule/minuscule) : essayez avec 'française' au lieu de 'Française' ;</li>
+  <li>En utilisant l'opérateur "=", il faut une égalité stricte : essayez avec 'Français' au lieu de 'française'.</li>
+</ul>
+<p>Pour ne pas tenir compte de la casse, on peut faire une égalité stricte entre les valeurs converties en majuscule  grâce à la fonction <code>upper</code>:</p>
+<pre class="algo">select * from illustrateur where upper(nationaliteIllustrateur)=upper('Française')</pre>
+<p>Pour ne pas se restreindre à l'égalité strict, on peut utiliser l'opérateur de comparaison <strong>LIKE</strong>. Celui-ci est suivi d'un modèle dans lequel :
+<ul>
+  <li>Le caractère '%' est un joker qui correspond à un nombre quelconque de caractères, y compris 0 ;</li>
+  <li>Le caractère '_' est un joker qui correspond exactement 1 caractère quelconque ;</li>
+  <li>Tous les autres caractères doivent être présents tels quels.</li>
+</ul>
+<p>Par exemple pour afficher la liste des illustrateurs dont la nationalité contient un "i" puis un "e" séparés par exactement 1 caractère :
+<pre class="algo">select * from illustrateur where nationaliteIllustrateur like '%i_e%'</pre>
+<p> Bien sûr, on peut également utiliser des opérateurs tels que &lt;, &gt;, &lt;=, &gt;=, &lt;&gt; IN, BETWEEN, ... Les relations d'ordre peuvent également être utilisées sur les chaînes de caractères, mais dans ce cas-là, il faut savoir que toutes les majuscules sont considérées comme inférieures à toutes les minuscules.</p> 
+<h4>2. Restrictions multiples</h4>
+<p>Si la restriction porte sur plusieurs conditions, il eset possible de les combiner avec les opérateurs <strong>AND</strong>, <strong>OR</strong>, avec éventuellement des parenthèses. Par exemple, pour retrouver les illustrateurs français dont le nom commence par une des 12 premières lettres de l'alphabet :</p>
+<pre class="algo">
+SELECT *
+FROM   illustrateur
+WHERE  nationalitéIllustrateur = 'Française'
+AND    nomIllustrateur < 'M'
+</pre>
+<div class="exo">
+  <p><strong>Exercice 4 :</strong> Écrire la requête permettant de retrouver tous les illustrateurs français et tous les illustrateurs américains dont le prénom comporte un 'o'.<p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr4"/></p>
+</div>
+<div class="correction" id="corr4">
+<pre class="algo">
+SELECT *
+FROM illustrateur
+WHERE (nationaliteIllustrateur = 'Américaine' AND
+      upper(prenomIllustrateur) LIKE '%O%')
+OR    nationaliteIllustrateur = 'Française'
+</pre>
+</div>
+
+<h4>3. Combiner restriction et projection</h4>
+<p>Il est bien sûr possible de combiner restriction et projection. La projection est effectuée en dernier, ce qui signifie que la restriction peut tout à fait porter sur des attributs qui ne sont pas renvoyés au final par la requête.</p>
+<div class="exo">
+  <p><strong>Exercice 5 :</strong> Écrire la requête permettant de retrouver les prénoms des illustrateurs français, triés par ordre alphabétique.<p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr5"/></p>
+</div>
+<div class="correction" id="corr5">
+<pre class="algo">
+SELECT prenomIllustrateur
+FROM illustrateur
+WHERE nationaliteIllustrateur = 'Française'
+ORDER BY prenomIllustrateur
+</pre>
+</div>
+
+<h4>4. Éviter les occurrences multiples</h4>
+<p>Pour récupérer la liste des nationalités des illustateurs de la base de données, on pourrait taper la requête suivante :
+</p>
+<pre class="algo">
+<span class="constant">SELECT nationaliteIllustrateur FROM illustrateur</span>
+</pre>
+<p>Mais cela produit l'affichage suivant :</p>
+<pre class="algo">
+<span class="comment">Française</span>
+<span class="comment">Française</span>
+<span class="comment">Canadienne</span>
+<span class="comment">Américaine</span>
+<span class="comment">Américaine</span>
+<span class="comment">Américaine</span>
+</pre>
+
+<p>Pour éviter cette redondance dans le résultat, on peut rajouter le mot-clé <strong>DISTINCT</strong> après le mot-clé <strong>SELECT</strong> :</p>
+<pre class="algo">
+<span class="constant">SELECT DISTINCT nationaliteIllustrateur FROM illustrateur</span>
+</pre>
+<p>L'affichage produit est alors le suivant :</p>
+<pre class="algo">
+<span class="comment">Française</span>
+<span class="comment">Canadienne</span>
+<span class="comment">Américaine</span>
+</pre>
+<h4>5. Fonctions d'agréation</h4>
+<p> Il existe également des <em>fonctions d'agrégation</em> dans SQL qui permettent d'effectuer des statistiques sur les données de la base. Voici quelques exemples :</p>
+<ol>
+  <li>Nombre d'illustrateurs dans la base :</li>
+  <pre class="algo"><span class="constant">SELECT COUNT(*) FROM Illustrateur</span></pre>
+  <li>Nombre de nationalités différentes parmi les illustrateurs :</li>
+  <pre class="algo"><span class="constant">SELECT COUNT(DISTINCT nationaliteIllustrateur) FROM Illustrateur</span></pre>
+  <li>Identifiant le plus grand parmi les illustrateurs :</li>
+  <pre class="algo"><span class="constant">SELECT MAX(idIllustrateur) FROM Illustrateur</span></pre>
+</ol>
+  <p> <strong>NB: </strong> un SELECT contenant au moins une fonction d'aggrégation (on peut en avoir plusieurs) ne peut pas
+  contenir des noms d'attributs comme dans les requêtes précédentes sauf si l'on utilise un GROUP BY dans la requête (pas vu
+  dans ce cours). Mais dans ce cas le sens de la requête est différent.
+  </p>
+<h3>E. Requêtes portant sur plusieurs tables</h3>
+<h4>1. Étape prélimiaire</h4>
+<p>Récupérez le programmme python <a href="Ludotheque/creationTablesEditeurJeu.py" target="_blank">creationTablesEditeurJeu.py</a>, placez-le dans votre répertoire <code>Ludotheque</code>, et exécutez-le. Ce programme crée les tables <em>Editeur</em> et <em>Jeu</em> avec leur contenu. Le résultat peut être vérifié avec les 2 requêtes suivantes :</p>
+<pre class="algo">
+<span class="constant">SELECT * FROM editeur</span>
+<span class="comment">(1, 'Days of wonder', 'Française')</span>
+<span class="comment">(2, 'EggertSpiele', 'Allemande')</span>
+<span class="comment">(3, 'Iello', 'Française')</span>
+<span class="constant">SELECT * FROM jeu</span>
+<span class="comment">(1, 'Les chevaliers de la table ronde', 3, 7, 90, 1)</span>
+<span class="comment">(2, 'Cargo Noir', 2, 5, 60, 1)</span>
+<span class="comment">(3, 'Era: medieval age', 1, 4, 50, 2)</span>
+<span class="comment">(4, 'Smash up', 2, 4, 45, 3)/pre></span>
+</pre>
+<h4>2. Produit cartésien</h4>
+<p>Que se passe-t-il si on effectue naïvement une requête en spécifiant plusieurs tables dans la clause <code>FROM</code> de la requête ? Essayons avec l'exemple suivant : </p>
+<pre class="algo">
+<span class="constant">SELECT * FROM jeu, editeur</span>
+<span class="comment">(1, 'Les chevaliers de la table ronde', 3, 7, 90, 1, 1, 'Days of wonder', 'Française')</span>
+<span class="comment">(1, 'Les chevaliers de la table ronde', 3, 7, 90, 1, 2, 'EggertSpiele', 'Allemande,')</span>
+<span class="comment">(1, 'Les chevaliers de la table ronde', 3, 7, 90, 1, 3, 'Iello', 'Française')</span>
+<span class="comment">(2, 'Cargo Noir', 2, 5, 60, 1, 1, 'Days of wonder', 'Française')</span>
+<span class="comment">(2, 'Cargo Noir', 2, 5, 60, 1, 2, 'EggertSpiele', 'Allemande,')</span>
+<span class="comment">(2, 'Cargo Noir', 2, 5, 60, 1, 3, 'Iello', 'Française')</span>
+<span class="comment">(3, 'Era: medieval age', 1, 4, 50, 2, 1, 'Days of wonder', 'Française')</span>
+<span class="comment">(3, 'Era: medieval age', 1, 4, 50, 2, 2, 'EggertSpiele', 'Allemande,')</span>
+<span class="comment">(3, 'Era: medieval age', 1, 4, 50, 2, 3, 'Iello', 'Française')</span>
+<span class="comment">(4, 'Smash up', 2, 4, 45, 3, 1, 'Days of wonder', 'Française')</span>
+<span class="comment">(4, 'Smash up', 2, 4, 45, 3, 2, 'EggertSpiele', 'Allemande')</span>
+<span class="comment">(4, 'Smash up', 2, 4, 45, 3, 3, 'Iello', 'Française')</span>
+</pre>
+<p>Comme on peut le voir sur l'exemple qui précède, en mettant directement plusieurs tables dans la clause <code>FROM</code> d'une requête SQL, la réponse donnée est un produit cartésien des tables précisées, c'est-à-dire que l'on obtient tous les tuples qu'il est possible de construire en mettant pour les premières composantes les tuples de la première table et pour les dernières composantes tous les tuples de la deuxième table. Ceci n'est pas très intéressant.</p>
+<h4>3. Jointure</h4>
+<p>Il serait en effet plus intéressant de ne récupérer que des tuples constitués d'un jeu et de l'éditeur correspondant. Pour ce faire, on va utiliser, dans la clause <code>FROM</code>, l'opérateur <strong><code>JOIN... ON</code></strong>, pour préciser que l'on ne constituera que des tuples dont la valeur du champ <em>idEditeur</em> dans la table <em>Jeu</em> (noté <em>Jeu.idEditeur</em>) est égale à la valeur du champ<em>idEditeur</em> dans la table <em>Editeur</em> (noté <em>Editeur.idEditeur</em>:</p>
+<pre class="algo">
+<span class="constant">SELECT * FROM jeu JOIN editeur ON jeu.idEditeur = editeur.idEditeur</span>
+<span class="comment">1|Les chevaliers de la table ronde|3|7|90|1|1|Days of wonder|Française</span>
+<span class="comment">2|Cargo Noir|2|5|60|1|1|Days of wonder|Française</span>
+<span class="comment">3|Era: medieval age|1|4|50|2|2|EggertSpiele|Allemande</span>
+<span class="comment">4|Smash up|2|4|45|3|3|Iello|Française</span>
+</pre>
+<p>
+Les attributs sur lesquels faire la jointure ayant les mêmes noms dans les 2 tables et la condition de jointure étant une égalité, cette requête peut aussi être écrite en utilisant le mot-clé <strong>USING</strong> ainsi :
+</p>
+<pre class="algo">
+<span class="constant">SELECT * FROM jeu JOIN editeur USING (idEditeur)</span>
+</pre>
+
+<p>Il est alors possible d'effectuer des restrictions et des projections sur le résultat d'une jointure.</p> 
+<div class="exo">
+  <p><strong>Exercice 6 :</strong> Écrire la requête permettant d'associer à chaque nom de jeu la nationalité de son éditeur, avec un tri par nationalité, puis nom de jeu.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr6"/></p>
+</div>
+<div class="correction" id="corr6">
+<pre class="algo">
+SELECT   nomJeu, nationaliteEditeur
+FROM     Jeu JOIN Editeur ON Jeu.idEditeur = Editeur.IdEditeur
+ORDER BY nationaliteEditeur, nomJeu
+</pre>
+</div>
+<div class="exo">
+  <p><strong>Exercice 7 :</strong> Écrire la requête permettant d'afficher tous les noms de jeu édités par un éditeur français.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr7"/></p>
+</div>
+<div class="correction" id="corr7">
+<pre class="algo">
+SELECT   nomJeu
+FROM     Jeu JOIN Editeur USING (idEditeur)
+WHERE    nationaliteEditeur = 'Française'
+ORDER BY nationaliteEditeur, nomJeu
+</pre>
+</div>
+<p><strong>NB: </strong>une condition de jointure ne porte forcément sur une égalité d'attributs et pas non plus forcément sur 
+des attributs reliés par des contraintes de référence comme dans les exemples précédents. 
+
+<div class="exo">
+  <p><strong>Exercice 8 :</strong> Écrire la requête permettant d'afficher les noms des illustrateurs ayant la même nationalité qu'au moins un éditeur .</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr8"/></p>
+</div>
+<div class="correction" id="corr8">
+<pre class="algo">
+SELECT   distinct(nomIllustrateur)
+FROM     illustrateur JOIN editeur ON illustrateur.nationaliteIllustrateur = editeur.nationaliteEditeur
+</pre>
+</div>
+  
+<h4>4. Le cas des association N-M</h4>
+<p>Commencez par récupérer et exécuter le programme python <a href="Ludotheque/creationTableEstDessinePar.py" target="_blank">creationTableEstDessinePar.py</a>.
+<p>Supposons que l'on souhaite retrouver, pour chaque jeu, tous ses illustrateurs. Nous avons besoin de la table <em>Jeu</em> pour avoir le nom du jeu, de la table <em>Illustrateur</em> pour avoir le nom de l'illustrateur, et de la table <em>EstDessinePar</em> pour faire le lien entre les jeux et leurs illustrateurs.</p>
+<p>La requête à écrire est alors la suivante :</p>
+<pre class="algo">
+<span class='constant'>SELECT nomJeu, prenomIllustrateur, nomIllustrateur</span>
+<span class='constant'>FROM Jeu JOIN EstDessinePar USING (idJeu) JOIN Illustrateur USING (idIllustrateur)</span>
+<span class='constant'>ORDER BY nomJeu, nomIllustrateur</span>
+</pre>
+<p>
+On obtient alors le résultat suivant :
+</p>
+<pre class="algo">
+<span class='comment'>Cargo Noir|Miguel|Coimbra</span>
+<span class='comment'>Era: medieval age|Chris|Quilliams</span>
+<span class='comment'>Les chevaliers de la table ronde|Julien|Delval</span>
+<span class='comment'>Smash up|Dave|Alsop</span>
+<span class='comment'>Smash up|Bruno|Balixa</span>
+<span class='comment'>Smash up|Francisco Rico|Torres</span>
+</pre>
+<p>Comme on peut le voir, s'il y a plusieurs dessinateurs pour un jeu, on récupère une ligne pour chaque couple (jeu, dessinateur).
+</p>
+<p>Les fonctionnalités de la partie LID de SQL sont bien plus larges que cet aperçu, mais cela dépasse le cadre de ce cours. Voici 2 exercices que vous pouvez faire <strong>sur papier</strong> (les tables nécessaires ne sont pas encore créées) en utilisant les tables qui ont été définies dans l'exercice 4 du cours sur la notion de <a href="modeleConceptuel.html">modèle conceptuel</a>.</p>
+<div class="exo">
+  <p><strong>Exercice 9 :</strong> Écrire une requête permettant de trouver tous les jeux jouables à 4 joueurs en 1h au plus et portant sur la navigation marchande.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr9"/></p>  
+</div>
+<div class="correction" id="corr9">
+<pre class="algo">
+SELECT nomJeu
+FROM jeu JOIN parleDe USING (idJeu) JOIN theme USING (idTheme)
+WHERE nbJoueursMin <= 4
+AND nbJoueursMax >= 4
+AND duree <= 60
+AND upper(nomTheme) = 'NAVIGATION MARCHANDE'
+</pre>
+</div>
+
+<div class="exo">
+  <p><strong>Exercice 10 :</strong> Écrire une requête permettant de trouver tous les jeux dont l'éditeur à la même nationalité qu'un des dessinateurs.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr10"/></p>  
+</div>
+<div class="correction" id="corr10">
+<pre class="algo">
+SELECT nomJeu
+FROM illustrateur JOIN estDessinePar USING(idIllustrateur)
+                  JOIN jeu USING (idJeu)
+                  JOIN editeur USING (idEditeur)
+WHERE nationaliteIllustrateur = nationaliteEditeur
+</pre>
+</div>
+<h3>F. Absence de valeur pour un attribut</h3>
+<p>
+  Pour un tuple donné d'une table, il se peut qu'un attribut n'ait pas de valeur connue. Cette absence de valeur peut être testée dans la clause <code>WHERE</code> d'une requête avec l'expression <code>attribut IS NULL</code> ou <code>attribut IS NOT NULL</code>. Attention : utiliser <code> = NULL</code> ne marchera pas, <code>NULL</code> n'étant pas une valeur, mais représentant l'absence de valeur.
+</p>
+
+<p> Par exemple la requête suivante renvoie tous les illustrateurs dont la nationalité est définie.<P>
+<pre class="algo">
+<span class="constant">SELECT nomIllustrateur FROM illustrateur WHERE nationaliteIllustrateur IS NOT NULL</span>
+</pre>
+  
+<h2>III. SQL comme Langage de Manipulation de Données (LMD)</h2>
+<p>En tant que langage de manipulation de données, SQL permet 3 types d'actions :
+</p>
+<ul>
+  <li>L'insertion d'un tuple dans une table</li>
+  <li>La suppression de tuples dans une table</li>
+  <li>La modificaiton de tuples dans une table</li>
+</ul>
+<p>Nous allons étudier chacune de ces fonctionnalités dans la suite de cette partie.</p>
+<h3>A. Insertion d'un tuple</h3>
+<p>L'insertion d'un tuple dans une table se fait grâce à l'instruction suivante :</p>
+<pre class="algo">
+INSERT INTO <em>NomTable</em> VALUES (<em>valeurAttribut1</em>, <em>valeurAttribut2</em>, ... <em>valeurAttributn</em>)
+</pre>
+Ainsi, pour ajouter <em>David Cochard</em> parmi les illustrateurs de jeux, on exécutera la requête suivante :
+<pre class="algo">
+INSERT INTO Illustrateur VALUES (7, 'Cochard', 'David', 'Française')
+</pre>
+<p>Si on ne souhaite pas préciser de valeur pour un champ, il faut utiliser le mot-clé dédié <strong>NULL</strong>. Ainsi, l'illustrateur <em>Naiade</em> serait inséré ainsi :</p>
+<pre class="algo">
+INSERT INTO Illustrateur VALUES (8, 'Naiade', NULL, 'Française')
+</pre>
+<p>Une autre façon de faire est de spécifier explicitement la liste des attributs auxquels correspondent les valeurs du nouveau tuple : </p>
+<pre class="algo">
+INSERT INTO Illustrateur(idIllustrateur, nomIllustrateur, nationaliteIllustrateur) VALUES (8, 'Naiade', 'Française')
+</pre>
+<p>On pourra noter que l'éventuelle violation d'une contrainte telle que l'unicité d'une clé est signalée et l'insertion refusée :</p>
+<pre class="algo">
+<span class='constant'>INSERT INTO Illustrateur values (1, 'Cardouat', 'Marie', 'Française')</span>
+<span class='comment'>Error: UNIQUE constraint failed: illustrateur.idIllustrateur</span>
+</pre>
+<h3>B. Suppression de tuples</h3>
+<p>La suppression de tuples dans une table se fait grâce à la commande suivante :</p>
+<pre class="algo">
+DELETE FROM <em>NomTable</em>
+WHERE <em>condition</em>
+</pre>
+<p>
+Ainsi, pour supprimer les tuples rajoutés dans la partie précédente, on peut lancer la commande suivante :
+</p>
+<pre class="algo">
+DELETE FROM Illustrateur
+WHERE idIllustrateur >= 7
+</pre>
+<p> Pour supprimer tous les tuples d'une table, on peut utiliser la commande suivante :
+</p>
+<pre class="algo">
+DELETE FROM estDessinePar
+</pre>
+  <p> <strong>NB: </strong>si le contrôle des contraintes de référence est activé (cf PRAGMA partie IV.A), alors on ne peut pas supprimer les tuples dans n'importe quel ordre sinon on risque de ne plus respecter certaines contraintes de référence. Par exemple, si j'ai dans la table jeu un tuple T1 dont l'attribut idEditeur vaut 4, à cause de la contrainte de référence associée à cet attribut dans la table jeu, cela impose donc qu'au moins un tuple T2 de la table editeur a pour valeur 4 pour l'attribut idEditeur. Si on veut supprimer T2 de la table editeur, alors la contrainte de référence serait non respectée pour le tuple T1 dans jeu. La suppression est alors refusée et déclenche une erreur. 
+</p>
+
+<h3>C. Modification de tuples</h3>
+<p>La modification de tuples dans une table s'effectue avec la commande suivante :</p>
+<pre class="algo">
+UPDATE <em>nomTable</em>
+SET <em>attribut<sub>x</sub> = val<sub>x</sub>, attribut<sub>y</sub> = val<sub>y</sub>, ...</em>
+WHERE <em>condition</em>
+</pre>
+<p>Notez qu'étant donnée la forme de l'instruction, cela permet de modifier éventuellement plusieurs tuples. Si on veut éviter cela, on passera souvent par un <em>WHERE</em> portant sur la valeur de la clé du seul tuple à modifier. Par exemple, pour mettre un majuscule à "Wonder" dans le nom de l'éditeur Days of Wonder, on effectuera la requête suivante :</p>
+<pre class ="algo">
+UPDATE Editeur
+SET nomEditeur='Days of Wonder'
+WHERE idEditeur = 1
+</pre>
+<p>
+Mais si l'on veut modifier la nationalité pour supprimer la cédille dans "Française" pour tous les éditeurs, on pourra procéder en une seule fois ainsi :
+<pre class ="algo">
+UPDATE Editeur
+SET nationaliteEditeur = 'Francaise'
+WHERE nationaliteEditeur = 'Française'
+</pre>
+
+<p>
+  Comme pour les suppressions de tuples dans la partie précédente, il faut faire attention au respect des contraintes de référence
+  lors de modifications de tuples.
+</p>
+
+<h2>IV. SQL comme Langage de Description de Données (LDD)</h2>
+<p>La partie <em>Langage de Description de Données</em> du langage SQL permet de créer, modifier et supprimer des tables au sein de la base de données.</p>
+<h3>A. Création de table</h3>
+<p>Nous allons présenter la création de tables au moyen de quelques exemples progressifs.</p>
+<p>Voici par exemple comment créer la table <em>Editeur</em> de notre étude de cas :</p>
+<pre class="algo">
+CREATE TABLE editeur (
+     idEditeur int primary key not null,
+     nomEditeur text not null,
+     nationaliteEditeur text
+)
+</pre>
+<p> Comme on peut le voir sur l'exemple précédent, on utilise l'instruction <code><strong>CREATE TABLE</strong> <em>nomTable</em> (<em>liste des attributs</em>)</code>.</p>
+<p>Les attributs sont définis par leur nom suivi de leur type et éventuellement de contraintes (NOT NULL, de clef primaire, de référence). Les types mentionnés ici (<code>int</code>, <code>text</code>) sont des types propres à <em>SQLite</em>. Pour plus de détails sur les types des attributs, voir <a href="https://www.sqlite.org/datatype3.html" target="_blank">cette page</a>.</p>
+<p>On remarque également que la définition de l'attribut idEditeur est suivie de 2 contraintes :</p>
+<ul>
+  <li>une <em>contrainte de clé primaire</em> : <code><strong>primary key</strong></code>. Ainsi, il ne sera pas possible d'insérer dans cette table 2 tuples ayant la même valeur pour l'attribut  <em>idEditeur</em></li>
+  <li>une contrainte de non nullité : <code><strong>not null</strong></code>. Ainsi, il ne sera pas possible d'insérer dans cette table de tuple n'ayant pas de valeur pour l'attribut idEditeur.</li>
+</ul>
+<p>Dans la plupart des SGBD, préciser qu'un attribut est "clé primaire" implique que cet attribut ne peut pas contenir de valeur <code>NULL</code>, mais ce n'est pas le cas avec <em>SQLite</em>. 
+</p>
+<p> Dans la table <em>Editeur</em>, on remarque que l'attribut <em>nomEditeur</em> possède lui aussi la contrainte <em>NOT NULL</em> (définir un éditeur sans lui donner de nom n'a pas de sens), mais ce n'est pas le cas de l'attribut <em>nationaliteEditeur</em> ; cela permet par exemple de faire figurer malgré tout dans la base un éditeur dont on ne connaît pas la nationalité.</p>
+
+<p>Voici maintenant comment la table <em>Jeu</em> a été créée :</p>
+<pre class="algo">
+CREATE TABLE jeu (
+     idJeu int primary key not null,
+     nomJeu text not null,
+     nbJoueursMin int,
+     nbJoueursMax int,
+     duree int,
+     idEditeur int REFERENCES Editeur(idEditeur)
+)
+</pre>
+<p>
+Comme on peut le voir, une contrainte de <em>référence</em> a été associée à l'attribut <em>idEditeur</em>. Ceci doit normalement garantir que les seule valeurs autorisées pour cet attribut sont des valeurs existant pour l'attribut <em>idEditeur</em> de la table <em>Editeur</em>. Toutefois, avec la version 3 de <em>SQLite</em>, ces contraintes ne sont pas vérifiées par défaut. Pour qu'elles soient vérifiées, il faut, avant d'utiliser la base (pour faire des modifications par exemple), exécuter la commande suivante :</p>
+<pre class="algo">
+PRAGMA foreign_keys = ON
+</pre>
+
+<p>Voici maintenant le code ayant permis de créer la table <em>EstDessinePar</em> :</p>
+<pre class="algo">
+CREATE TABLE EstDessinePar (
+     idIllustrateur int not null,
+     idJeu int not null,
+     PRIMARY KEY (idJeu, idIllustrateur),
+     FOREIGN KEY(idJeu) REFERENCES Jeu(idJeu),
+     FOREIGN KEY(idIllustrateur) REFERENCES Illustrateur(IdIllustrateur)
+)
+</pre>
+
+<p>Comme on peut le voir, les contraintes de référence ont ici été déclarées en fin de définition de la table. C'est tout à fait possible, mais cela nécessite de repréciser le nom de l'attribut concerné.
+</p>
+<p>La contrainte de clé primaire est elle aussi déclarée en fin de définition de la table. Elle ne peut cette fois-ci pas être déclarée sur la même ligne qu'un attribut car la clé est ici constituée de 2 attributs.</p>
+
+<h3>B. Supprimer une table</h3>
+<p>Pour supprimer une table, il suffit d'utiliser une instruction SQL de la forme :</p>
+<pre class="algo">
+DROP TABLE <em>NomTable</em>
+</pre>
+
+<p><strong style="color:red">Important</strong> : Avec SQLite, sans le PRAGMA évoqué précédemment, il est ainsi possible de supprimer une table impliquées dans des contraintes de référence dans d'autres tables, rompant ainsi la structure de la base. Il faut donc faire très attention à toujours utiliser le PRAGMA. Ceci n'est fort heureusement pas possible avec la plupart des autres SGBD.</p>
+
+<p>La requête ci-dessus génére une erreur si la table n'existe pas. Si on souhaite éviter cela (pratique dans un programme par exemple) on peut plutôt utiliser cette version-ci :</p>
+<pre class="algo">
+DROP TABLE IF EXISTS <em>NomTable</em>
+</pre>
+
+
+<h2>V. Quelques considérations générales</h2>
+<h4>1. Sensibilité ou non à la casse</h4>
+<p>Concernant les noms des tables, des attributs et les mots-clés, SQL n'est pas sensible à la casse. Il est cependant recommandé de se définir une norme à respecter, comme par exemple :</p>
+<ul>
+  <li>Les mots-clés SQL en majuscule ;</li>
+  <li>Les noms des tables en <code>CamelCase</code> ;</li>
+  <li>Les noms des attributs en <code>camelCase</code>.</li>
+</ul>
+<p>Par contre, concernant les données elles-mêmes, SQL est bel et bien sensible à la casse.</p>
+<h4>2. Nommage des attributs</h4>
+<p>Dans tout le support de cours, pour clarifier les choses, je me suis efforcée de données des noms différents à tous les attributs. En fait, 2 attributs de 2 tables différentes peuvent très bien avoir le même nom. S'il est nécessaire de les distinguer, lors d'une jointure par exemple, il suffit de les préfixer avec le nom de la table puis le caractère "." : <em>Jeu.idJeu</em> par exemple.</p>
+<h4>3. Vérification des contraintes de référence</h4>
+<p>
+Comme cela a été précisé plus haut, par défaut, <em>SQLite</em> ne vérifie pas les contraintes de référence (il est probable que cela change dans une future version). Ces contraintes étant fondamentales, il est <strong style="color:red">indispensable</strong> de forcer leur contrôle avec l'instruction <code>PRAGMA foreign_keys = ON</code>.</p>
+<p>
+
+<h4>4. Quelques commandes de l'outil sqlite3</h4>
+<p>Au sein de l'outil <code>sqlite3</code>, on trouve quelques commandes (qui ne sont pas du SQL) fort pratiques. Elles sont toutes préfixées par un ".", et ne requièrent pas de ";" final. En voici quelques-unes :</p>
+<dl>
+  <dt>.help</dt>
+  <dd>affiche la liste des commandes</dd>
+  <dt>.quit</dt>
+  <dd>permet de quitter <code>sqlite3</code></dd>
+  <dt>.tables</dt>
+  <dd>affiche la liste des tables de la base courante</dd>
+  <dt>.schema <em>NomTable</em></dt>
+  <dd>affiche la requête ayant permis la création de la table <em>NomTable</em></dd>
+  <dt>.fullschema</dt>
+  <dd>affiche la liste des requêtes ayant permis de créer toutes les tables de la base</dd>
+  <dt>.read <em>fichier</em></dt>
+  <dd>Exécute les commandes SQL contenues dans le fichier <em>fichier</em>.</dd>
+  <dt>.once <em>fichier</em> / .once -e / .once -x</dt>
+  <dd>L'affichage de la commande suivante n'est pas fait dans le terminal mais dans un fichier / dans un éditeur / dans un tableur.</dd>
+  <dt>.dump</dt>
+  <dd><p>génère le code nécessaire à la re-création de la base (création et remplissage des tables). Une utilisation pratique pour la mise en oeuvre d'un TP avec une base pré-configurée est la suivante. Une fois la base créée et remplie, effectuer depuis <code>sqlite3</code> les commandes suivantes :</p>
+  <ol>
+    <li><code>.once initialisation.sql</code></li>
+    <li><code>.dump</code></li>
+  </ol>
+  <p>En éditant le fichier généré, on peut ainsi facilement ne garder que les créations de tables et tuples intéressants, ou les séparer en différentes parties. Les élèves pourront alors faire un <code>.read <em>fichier.sql</em></code> depuis <code>sqlite3</code> pour initialiser la base dans l'état souhaité. Si on souhaite faire travailler les élèves sur toute la base telle qu'elle, autant leur donner directement le fichier <code>.db</code>.</p>
+  </dd>
+</dl>
+<h2>VI. Exercice</h2>
+<div class="exo">
+  <p><strong>Exercice 11 :</strong> Écrivez les requêtes de création de table manquantes pour le problème de la ludothèque ainsi que les commandes d'insertion de tuples associées.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
