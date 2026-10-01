@@ -48,13 +48,17 @@ function etape(st) {
 }
 
 const tp = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+// Champs facultatifs : notebook en ligne (bouton ⚡ Basthon) et fichier d'origine (bouton ⬇)
+const options = ['basthonUrl', 'notebook', 'original']
+  .filter(k => tp[k])
+  .map(k => `${IND.repeat(2)}${k}: ${s(tp[k])},\n`).join('')
 const sortie = `${IND}// ── ${tp.commentaire || tp.title} ──
 ${IND}{
 ${IND.repeat(2)}id: ${s(tp.id)}, bloc: ${s(tp.bloc)}, jour: ${s(tp.jour)},
 ${IND.repeat(2)}theme: ${s(tp.theme)},
 ${IND.repeat(2)}title: ${s(tp.title)},
 ${IND.repeat(2)}type: 'tp',
-${IND.repeat(2)}intro: ${s(tp.intro)},
+${options}${IND.repeat(2)}intro: ${s(tp.intro)},
 ${IND.repeat(2)}steps: [
 ${tp.steps.map(etape).join(',\n')}
 ${IND.repeat(2)}]
