@@ -960,8 +960,10 @@ const TPS = [
     theme: "Algorithmes gloutons",
     title: "TP — Les algorithmes gloutons",
     type: 'tp',
+    // notebook : Basthon ouvre la copie du dépôt (et le bouton ⬇ la propose au téléchargement).
+    // basthonUrl ne sert que de secours, si la ressource n'est pas encore chargée.
+    notebook: "FDIU_algorithmes_gloutons.ipynb",
     basthonUrl: "https://notebook.basthon.fr/?from=https://raw.githubusercontent.com/LANSIG/NSI/refs/heads/main/FDIU%20-%20Les%20algorithmes%20gloutons.ipynb",
-    original: "FDIU_algorithmes_gloutons.ipynb",
     intro: "Un algorithme glouton résout un problème d'optimisation en appliquant toujours la même règle locale, sans jamais revenir en arrière. Simple à écrire, rapide — mais sans garantie d'optimalité. Ce TP le met à l'épreuve sur quatre problèmes : conversion en binaire, rendu de monnaie, sac à dos et planning de conférenciers, puis le compare à la recherche exhaustive. Ouvre le notebook dans Basthon pour travailler, cherche par toi-même, puis déplie la correction.",
     steps: [
       {
