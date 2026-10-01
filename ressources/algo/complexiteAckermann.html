@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Complexite/complexiteEspace04Ackermann.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+
+<span class="Statement">def</span> <span class="Identifier">ackermann</span>(m,n):
+    <span class="Statement">if</span> m == <span class="Constant">0</span>:
+        <span class="Statement">return</span> n+<span class="Constant">1</span>
+    <span class="Statement">elif</span> n == <span class="Constant">0</span>:
+        <span class="Statement">return</span> ackermann(m-<span class="Constant">1</span>,<span class="Constant">1</span>)
+    <span class="Statement">else</span>:
+        <span class="Statement">return</span> ackermann(m-<span class="Constant">1</span>, ackermann(m, n-<span class="Constant">1</span>))
+
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">A(0,n) :</span><span class="Constant">&quot;</span>)
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">10</span>):
+    <span class="Identifier">print</span> (<span class="Constant">&quot;</span><span class="Constant">  A(0,</span><span class="Constant">&quot;</span>+<span class="Identifier">str</span>(i)+<span class="Constant">&quot;</span><span class="Constant">) = </span><span class="Constant">&quot;</span>,<span class="Identifier">str</span>(ackermann(<span class="Constant">0</span>,i)),sep=<span class="Constant">&quot;&quot;</span>)
+
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">A(1,n) :</span><span class="Constant">&quot;</span>)
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">10</span>):
+    <span class="Identifier">print</span> (<span class="Constant">&quot;</span><span class="Constant">  A(1,</span><span class="Constant">&quot;</span>+<span class="Identifier">str</span>(i)+<span class="Constant">&quot;</span><span class="Constant">) = </span><span class="Constant">&quot;</span>,<span class="Identifier">str</span>(ackermann(<span class="Constant">1</span>,i)),sep=<span class="Constant">&quot;&quot;</span>)
+
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">A(2,n) :</span><span class="Constant">&quot;</span>)
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">10</span>):
+    <span class="Identifier">print</span> (<span class="Constant">&quot;</span><span class="Constant">  A(2,</span><span class="Constant">&quot;</span>+<span class="Identifier">str</span>(i)+<span class="Constant">&quot;</span><span class="Constant">) = </span><span class="Constant">&quot;</span>,<span class="Identifier">str</span>(ackermann(<span class="Constant">2</span>,i)),sep=<span class="Constant">&quot;&quot;</span>)
+
+<span class="Comment"># Pile explose pour n = 7</span>
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">A(3,n) :</span><span class="Constant">&quot;</span>)
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">7</span>):
+    <span class="Identifier">print</span> (<span class="Constant">&quot;</span><span class="Constant">  A(3,</span><span class="Constant">&quot;</span>+<span class="Identifier">str</span>(i)+<span class="Constant">&quot;</span><span class="Constant">) = </span><span class="Constant">&quot;</span>,<span class="Identifier">str</span>(ackermann(<span class="Constant">3</span>,i)),sep=<span class="Constant">&quot;&quot;</span>)
+
+<span class="Comment"># Pile explose pour n = 1</span>
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">A(4,n) :</span><span class="Constant">&quot;</span>)
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">1</span>):
+    <span class="Identifier">print</span> (<span class="Constant">&quot;</span><span class="Constant">  A(4,</span><span class="Constant">&quot;</span>+<span class="Identifier">str</span>(i)+<span class="Constant">&quot;</span><span class="Constant">) = </span><span class="Constant">&quot;</span>,<span class="Identifier">str</span>(ackermann(<span class="Constant">4</span>,i)),sep=<span class="Constant">&quot;&quot;</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

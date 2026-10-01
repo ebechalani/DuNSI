@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Tests/test_Calculatrice2.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Type { color: #008000; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">import</span> pytest
+
+<span class="PreProc">from</span> calculatrice <span class="PreProc">import</span> Calculatrice
+
+<span class="Statement">def</span> <span class="Identifier">test_estVideVrai</span>():
+    calc = Calculatrice();
+    <span class="Statement">assert</span> calc.estVide(), <span class="Constant">&quot;</span><span class="Constant">la pile doit être vide au départ</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_estVideFaux</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">4</span>)
+    <span class="Statement">assert</span> <span class="Statement">not</span>(calc.estVide()), <span class="Constant">&quot;</span><span class="Constant">Une pile avec un élément n'est pas vide</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_estVideFaux2</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">4</span>)
+    calc.empiler(<span class="Constant">3</span>)
+    <span class="Statement">assert</span> <span class="Statement">not</span>(calc.estVide()), <span class="Constant">&quot;</span><span class="Constant">Une pile avec deux éléments n'est pas vide</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_sommet1</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">10</span>)
+    resAttendu = <span class="Constant">10</span>
+    resEffectif = calc.sommet()
+    <span class="Statement">assert</span> resAttendu == resEffectif, <span class="Constant">&quot;</span><span class="Constant">Quand on empile 1 nombre, il est au sommet</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_sommet2</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">10</span>)
+    calc.empiler(<span class="Constant">2340</span>)
+    calc.empiler(-<span class="Constant">101</span>)
+    resAttendu = -<span class="Constant">101</span>
+    resEffectif = calc.sommet()
+    <span class="Statement">assert</span> resAttendu == resEffectif, <span class="Constant">&quot;</span><span class="Constant">Quand on empile plusieurs nombres, le dernier est au sommet</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_somme1</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">7</span>)
+    calc.empiler(<span class="Constant">3</span>)
+    resAttendu = <span class="Constant">10</span>
+    calc.ajouter()
+    resEffectif = calc.sommet()
+    <span class="Statement">assert</span> resAttendu == resEffectif, <span class="Constant">&quot;</span><span class="Constant">la somme de 7 et de 3 vaut 10</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_somme2</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">743</span>)
+    calc.empiler(-<span class="Constant">43</span>)
+    resAttendu = <span class="Constant">700</span>
+    calc.ajouter()
+    resEffectif = calc.sommet()
+    <span class="Statement">assert</span> resAttendu == resEffectif, <span class="Constant">&quot;</span><span class="Constant">la somme de 743 et de -43 vaut 700</span><span class="Constant">&quot;</span>
+
+<span class="Statement">def</span> <span class="Identifier">test_empilerPasNombre</span>():
+    calc = Calculatrice()
+    <span class="Statement">with</span> pytest.raises(<span class="Type">AssertionError</span>):
+        calc.empiler(<span class="Constant">&quot;</span><span class="Constant">toto</span><span class="Constant">&quot;</span>)
+
+<span class="Statement">def</span> <span class="Identifier">test_sommePasAssezArguments</span>():
+    calc = Calculatrice()
+    calc.empiler(<span class="Constant">7</span>)
+    <span class="Statement">with</span> pytest.raises(<span class="Type">AssertionError</span>):
+        calc.ajouter()
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
