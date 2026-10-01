@@ -2,7 +2,6 @@
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
   "headers": [
     {
-      "comment": "Basthon va chercher les notebooks depuis son propre domaine : sans cet en-tête, le navigateur bloque la requête.",
       "source": "/ressources/(.*)",
       "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*" }]
     }
