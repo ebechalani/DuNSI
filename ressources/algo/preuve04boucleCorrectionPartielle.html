@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Preuve/preuve04boucleCorrectionPartielle.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+liste = [<span class="Constant">3</span>, <span class="Constant">1</span>, <span class="Constant">4</span>, <span class="Constant">1</span>, <span class="Constant">5</span>, <span class="Constant">9</span>, <span class="Constant">2</span>, <span class="Constant">6</span>, <span class="Constant">5</span>, <span class="Constant">3</span>, <span class="Constant">5</span>, <span class="Constant">8</span>]
+
+
+<span class="Statement">def</span> <span class="Identifier">maximum</span>(liste):
+    <span class="Identifier">max</span> = liste[<span class="Constant">0</span>]
+    <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Identifier">len</span>(liste)):
+        <span class="Statement">if</span> liste[i] &gt; <span class="Identifier">max</span>:
+            <span class="Identifier">max</span> = liste[i]
+        <span class="Comment">#Invariant de boucle</span>
+        <span class="Statement">assert</span> <span class="Identifier">max</span> == <span class="Identifier">sorted</span>(liste[:i+<span class="Constant">1</span>])[-<span class="Constant">1</span>]
+    <span class="Statement">assert</span> <span class="Identifier">max</span> == <span class="Identifier">sorted</span>(liste[:])[-<span class="Constant">1</span>]
+    <span class="Statement">return</span> <span class="Identifier">max</span>
+
+<span class="Identifier">print</span>(maximum(liste))
+<span class="Identifier">print</span>(maximum(liste[:<span class="Constant">4</span>]))
+
+<span class="Comment"># Il faut prouver :</span>
+<span class="Comment">#1. L'invariant de boucle est vrai au départ</span>
+<span class="Comment">#2. L'invariant de boucle est préservé lors d'une itération</span>
+<span class="Comment">#3. Quand on sort de la boucle, la post-condition de la boucle est vérifiée</span>
+
+<span class="Comment">#1. Invariant vrai au départ :</span>
+<span class="Comment">#max = liste[0] =&gt; max == sorted(liste[0])[-1]</span>
+<span class="Comment">#2. Invariant préservé</span>
+<span class="Comment">#max == sorted(liste[:i+1])[-1] &amp; liste[i+1] &gt; max =&gt; [max := liste[i+1]](max == sorted(liste[:i+2][-1]))</span>
+<span class="Comment">#2.1 le nouvel élément est plus petit que le max mémorisé :</span>
+<span class="Comment">#max == sorted(liste[:i+1])[-1] &amp; liste[i+1] &lt;= max =&gt; max == sorted(liste[:i+2][-1])</span>
+<span class="Comment">#Principe : sorted(liste[:i+2])[-1] = max(liste[:i+2])</span>
+<span class="Comment">#                                  = max(max(liste[:i+1]),liste[i+1])]</span>
+<span class="Comment">#                                  = max(liste[:i+1])</span>
+<span class="Comment">#                                  = sorted(liste[:i+1])[-1]</span>
+<span class="Comment">#                                  = max</span>
+<span class="Comment">#2.2 le nouvel élément est plus petit que le max mémorisé :</span>
+<span class="Comment">#max == sorted(liste[:i+1])[-1] &amp; liste[i+1] &gt; max =&gt; [max := liste[i+1]](max == sorted(liste[:i+2][-1]))</span>
+<span class="Comment">#Soit :</span>
+<span class="Comment">#max == sorted(liste[:i+1])[-1] &amp; liste[i+1] &gt; max =&gt; liste[i+1]] == sorted(liste[:i+2][-1])</span>
+<span class="Comment">#Principe : sorted[liste[:i+2][-1] = max(liste[:i+2])</span>
+<span class="Comment">#                                  = max(max(liste[:i+1]),liste[i+1])]</span>
+<span class="Comment">#                                  = liste[i+1]</span>
+<span class="Comment">#                                  = max</span>
+<span class="Comment">#3. Sortie de boucle</span>
+<span class="Comment">#max == sorted(liste[:i+1])[-1] &amp; i = len(liste) =&gt; max == sorted(liste[:])[-1]</span>
+<span class="Comment">#max == sorted(liste[:i+1])[-1] = sorted(liste[:len(liste)])[-1] = sorted(liste[:])[-1]</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

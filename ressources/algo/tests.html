@@ -1,0 +1,202 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Tests unitaires en Python</title>
+  </head>
+  <body>
+    <div id="main">
+      <h1 suivant="complexite.html" class="fin">Tests unitaires en Python</h1>
+      <div id="contenu">
+  <h2>I. Introduction</h3>
+    <h3>A. Définition préliminaire</h3>
+      <p>Tester un programme signifie l'exécuter dans des situations données
+          et vérifier que le résultat obtenu possède les propriétés attendues.</p>
+    <h3>B. Que tester ?</h3>
+      <p>Un programme peut être testé par rapport à différents critères. En voici une liste non exhaustive :</p>
+      <ul>
+        <li>Tests fonctionnels</li>
+        <li>Tests des fonctionnalités implantées</li>
+        <li>Tests en volume</li>
+        <li>Tests de charge</li>
+        <li>Tests utilisateur</li>
+        <li>Tests de sécurité</li>
+        <li>Tests de performance</li>
+        <li>Tests de compatibilité</li>
+        <li>Tests de documentation</li>
+      </ul>
+      <p>Dans le cadre de ce cours, nous ne nous consacrerons qu'aux tests
+        fonctionnels, c'est-à-dire ceux visant à établir la correction du
+        résultat fourni par le programme.</p>
+    <h3>C. Définitions</h3>
+      <h4>Cas de test</h4>
+        <p>Un cas de test pour une fonctionnalité est défini au minimum par :</p>
+        <ul>
+          <li>une définition non ambiguë de la situation initiale</li>
+          <li>une définition du résultat attendu.</li>
+        </ul>
+      <h4>Test</h4>
+        <p>Un test est défini comme un ensemble de cas de tests.</p>
+    <h3>D. Pourquoi et comment tester ?</h3>
+      <p>Les bugs sont fréquents, et peuvent avoir des conséquences graves
+        (voir <a href="https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf">https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf</a>).</p>
+      <p>Automatiser les tests permet de :</p>
+      <ul>
+        <li>lancer facilement les tests</li>
+        <li>effectuer les tests très rapidement</li>
+        <li>ne pas oublier des cas</li>
+      </ul>
+      <p>La meilleure façon d'automatiser les tests est de les écrire dans le
+        langage utilisé pour développer.</p>
+      <p>Il devient alors possible d'utiliser les tests pour :</p>
+      <ul>
+        <li>valider le développement</li>
+        <li>assurer la non-régression au fur et à mesure de l'évolution du code</li>
+        <li>apporter une garantie en cas de <em>refactoring</em> (modification de la structure
+          du code en vue d'améliorer sa qualité sans changer sa fonctionnalité).</li>
+      </ul>
+      <p>De tels tests font partie intégrante du code source de l'application,
+        et son partagés quand le code source est partagé.</p>
+    <h3>E. Interpréter les résultats d'un test</h3>
+      <ul>
+        <li>Au moins 1 cas de test échoue : il y a une erreur (éventuellement dans le cas de test !)</li>
+        <li>Tous les cas de test réussissent : l'application est correcte sur les cas de test écrits</li>
+      </ul>
+    <h3>F. Les différents niveaux de test</h3>
+      <ul>
+        <li>Tests d'acceptation (tests systèmes ou tests d'acceptation utilisateur) : on vérifie chaque fonctionnalité, globalement</li>
+        <li>Tests d'intégration : on vérifie l'interaction entre les différents modules</li>
+        <li>Tests unitaires : on vérifier le fonctionnement de chaque méthode, chaque classe</li>
+      </ul>
+    <h3>G. Quand écrire les tests ? Quand les exécuter ?</h3>
+      <h4>1. Stratégie de test dans le modèle en V</h4>
+        <p><img src="modeleEnV.gif" alt="Le modèle en V"/></p>
+          <p>Les test sont écrits relativement tôt, mais exécutés très tard :
+            on détecte les erreurs tard, quand ça coûte plus cher.</p>
+        <h4>2. Les tests comme spécification</h4>
+          <p>On écrit tous les tests avant de développer</p>
+          <p>Problème : les tests écrits ne seront certainement pas compatibles
+            avec la structure du code développé au final, et seront donc à
+            réécrire.</p>
+        <h4>3. Le TDD (<em>Test Driven Development</em>)</h3>
+          <p>Dans le TDD, on itère sur un cyle "écrire un cas de test &lrarr; développer
+            le code y répondant". Cela oblige à un <em>refactoring</em> régulier,
+            mais semble, au final, donner une bien meilleure garantie.</p>
+          <p><img src="TDD.jpg" alt="Schéma de mise en oeuvre du TDD"/></p>
+
+  <h2>II. Méthodologie de construction des cas de test</h2>
+    <h3>a. Tests "boîte noire"</h3>
+      <p>Dans les tests "boîte noire", on construit les cas de tests sans connaître la structure du code, mais en se fondant sur les caractéristiques du problème.</p>
+        <p>Exemples de méthodologie (voir<a href="https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf"> https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf</a>) :</p>
+        <ul>
+          <li>partitionnement en classes d'équivalence</li>
+          <li>partitionnement en classes d'équivalence étendues aux valeurs frontières</li>
+        </ul>
+    <h3>b. Tests "boîte blanche"</h3>
+      <p>Dans les tests "boîte noire", on construit les tests en fonction du code développé ; on cherche à maximiser le "taux de couverture" des tests</p>
+      <p>Différents types de "couverture de code" :</p>
+      <ul>
+        <li>couverture des instructions : on cherche à passer par toutes les instructions au moins une fois</li>
+        <li>couverture des décisions : on cherche à passer par toutes les branches au moins une fois</li>
+        <li>couverture des conditions multiples : on cherche à passer par toutes les branches et, pour chaque branche, on souhaite y passer pour chacune des raisons possibles</li>
+      </ul>
+      <p><em>Exemple :</em> Soit le programme suivant :</p>
+        <pre class="algo">
+c = 0
+if a &gt; 10 or b &lt;100:
+  c = 1
+c = c + 1
+</pre>
+  <p>Pour obtenir une couverture des instructions de 100%, un cas de test suffit :</p>
+  <pre class="algo">
+entrée : (a = 12, b = 150)
+sortie : c = 2
+&rarr; on passe par toutes les instruction puisqu'on rentre dans le "then"</pre>
+<p>Pour obtenir une couverture des décisions de 100%, 2 cas de test suffisent :</p>
+<pre class="algo">
+cas 1 :
+  entrée : (a = 12, b = 150)
+  sortie : c = 2
+  &rarr; la décision "a &gt; 10 or b &lt; 100" est vraie
+cas 2 :
+  entrée : (a = 5, b = 150)
+  sortie : c = 1
+  &rarr; la décision "a &gt; 10 or b &lt; 100" est fausse
+</pre>
+<p>Pour obtenir une couverture des conditions multiples, il faut 3 cas de test :</p>
+<pre class="algo">
+cas 1 :
+  entrée : (a = 12, b = 150)
+  sortie : c = 2
+  &rarr; on rentre dans le "then" car a &gt; 10 est vrai
+cas 2 :
+  entrée : (a = 5, b = 50)
+  sortie : c = 2
+  &rarr; on rentre dans le "then" car b &lt; 100 est vrai
+cas 3 :
+  entrée : (a = 5, b = 150)
+  sortie : c = 1
+  &rarr; on ne rentre pas dans le "then" car "a &gt; 10 or b &lt; 100" est faux
+</pre>
+  <h2>III. Les tests en Python</h2>
+    <h3>A. Introduction</h3>
+      <p>Il existe 3 principaux frameworks de test en Python</p>
+      <ul>
+        <li><strong>unittest</strong> : intégré à Python, les tests sont dans les modules à tester</li>
+        <li><strong>doctest</strong> : les tests sont intégrés aux documentations des méthodes</li>
+        <li><strong>pytest</strong> : les tests peuvent être spécifiés dans des modules séparés.
+          C'est un programme externe qui est appelé pour effectuer les tests.</li>
+      </ul>
+      <p>Dans ce cours, on présente pytest car :</p>
+      <ul>
+        <li>c'est le plus utilisé</li>
+        <li>il est plus judicieux que les tests ne soient pas dans les mêmes
+          fichiers que les fichiers de l'application, car cela allège la taille
+          du code de l'application à distribuer aux clients.</li>
+        <li>il est plutôt riche en fonctionnalité</li>
+      </ul>
+    <h3>B. Mise en œuvre avec pytest</h3>
+    <p>On double chaque module d'un module de test.</p>
+    <p>Dans le module de test, toutes les méthodes de test <strong>doivent</strong>
+      avoir un nom commençant par <code>test_</code>.</p>
+    <p>On lance les tests en tapant en ligne de commande : <code>pytest <em>nomModuleTest.py</em></code>.</p>
+    <p>Si on lance pytest sans argument, il exécute automatiquement tous les tests
+      des fichiers préfixés par <strong>test_</strong>.</p>
+    <p>À titre d'exemple vous pouvez essayer avec le fichier <a href="calculatrice.html">calculatrice.py</a>,
+      qui donne les bases pour une calculatrice fonctionnant en notation polonaise
+      inversée, et le module de test <a href="test_Calculatrice.html">test_Calculatrice.py</a>.</p>
+    <p>Pour vérifier qu'une méthode lève bien une exception, on peut utiliser
+      <code>pytest.raises</code>, comme dans le fichier <a href="test_Calculatrice2.html">test_Calculatrice2.py</a>.</p>
+    <p>Lorsqu'on souhaite faire plusieurs tests d'une même méthode avec des
+      paramètres différents, plutôt que d'écrire plusieurs méthodes de test,
+      on peut utiliser les tests paramétrés, comme dans le fichier
+      <a href="test_Calculatrice3.html">test_Calculatrice3.py</a>.</p>
+      <p>Il est possible de faire ignorer à pytest des tests dans certains cas
+        en utilisant la fonction <code>pytest.skip()</code> ou les annotations
+        <code>pytest.mark.skip</code> / <code>pytest.mark.skipif</code>. Le
+        fichier <a href="test_Calculatrice4.html">test_Calculatrice4.py</a>
+        montre une utilisation de <code>pytest.skip()</code> et une utilisation
+            de <code>pytest.mark.skipif()</code>.</p>
+      <p>On peut aussi préciser que certains tests vont rater et que c'est
+        normal (test écrit alors que la fonction n'est pas encore implanté,
+        par exemple). Pour cela, il faudra utiliser l'annoation
+        <code>pytest.mark.xfail()</code>, ou la fonction
+        <code>pytest.xfail()</code>.</p>
+      <p>pytest fournit de nombreuses autres fonctionnalités, que l'on peut
+        trouver là : <a href="https://docs.pytest.org/en/latest/">https://docs.pytest.org/en/latest/</a>.</p>
+  <h2 style="color:red">IV. Exercice</h2>
+        <div class="exo"><p><strong>Exercice 1</strong> : en reprenant l'exemple
+          de la calculatrice :</p>
+          <p>a. envisagez l'ajout des opérations suivantes :
+          produit, différence, élévation à la puissance et donnez le tableau des
+          cas de tests que vous souhaitez développer.</p>
+        <p>b. Développez les cas de test correspondant avec <code>pytest</code></p>
+        <p>c. Écrivez le code des opérations division, et factorielle</p>
+        <p>d. Développez les cas de test correspondant avec <code>pytest</code>
+          en essayant de maximiser la couverture de votre code</p>
+      </div>
+      </div>
+    </div>
+</body>
+</html>

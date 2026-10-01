@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Introduction à la validation</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="preuve.html">Introduction à la validation</h1>
+    <div id="contenu">
+      <h2>1. Pourquoi Valider ?</h2>
+        <p>Un programme / un algorithme est un objet complexe, dont il est
+          difficile d'estimer la validité, exactement comme c'est le cas pour un
+          théorème de mathématiques, un postulat en physique, etc.
+        </p>
+      <h2>2. Comment valider ?</h2>
+        <h3>A. Ailleurs... :</h3>
+          <h4>1. Validation d'un modèle physique</h4>
+            <p>On regarde certains faits et on vérifie s'ils sont en adéquation
+              avec le modèle :</p>
+            <ul>
+              <li>Tous les faits en adéquation semblent confirmer le modèle ;</li>
+              <li>Un seul fait en contradiction montre que le modèle est erroné.</li>
+            </ul>
+
+          <h4>2. Validation d'un théorème en mathématiques</h4>
+          <p>On essaie de prouver le théorème :</p>
+          <ul>
+            <li>Si la preuve aboutit (et qu'elle est juste...) alors le théorème est vrai ;</li>
+            <li>Sinon : soit on ne sait pas faire la preuve, soit le théorème est faux.</li>
+          </ul>
+
+          <h4>3. Validation d'une solution technique</h4>
+          <p>"Preuve de concept" : On fait une expérience où un bout de la
+            solution technique est réalisé :</p>
+          <ul>
+            <li>tout le monde est d'accord sur l'expérience : on a bien compris
+              la même chose ; </li>
+            <li>ça semble marcher : il semble que l'on soit sur la bonne voie.</li>
+          </ul>
+
+    <h3>B. En informatique</h3>
+      <h4>1. Test</h4>
+      <p>On essaie notre algorithmes sur différentes valeurs d'entrée, et on
+        regarde si le résultat produit par notre algorithme (notre "modèle") est
+        conforme à nos attentes (la "réalité").
+      </p>
+      <p>→ analogie avec la validation d'un modèle physique</p>
+      <h4>2. Preuve</h4>
+      <p>On essaie de vérifier formellement que notre algorithme fonctionne dans
+        tous les cas.</p>
+      <p>→ analogie avec la validation d'un théorème mathématique</p>
+      <h4>3. Prototypage</h4>
+      <p>On écrit une fonction qui simule ce que devrait calculer l'algorithme.</p>
+      <p>→ analogie avec la preuve de concept</p>
+
+      <h3>C. Comparaison entre les 3 principes de validation ci-dessus</h3>
+      <table border="1" class="centre" width="80%">
+        <tr><th></th><th>Ce qui est vérifié</th><th>Cible</th><th>Avantage</th><th>Inconvénient</th></tr>
+        <tr><th>Protypage</th><td>La bonne compréhension du problème</td><td>Développeurs</td><td>Intervient très tôt</td><td>Aucune garantie sur le résultat final</td></tr>
+        <tr><th>Test</th><td>Un fonctionnement correct dans des cas bien précis</td><td>Programme exécuté</td><td>Facilité de mise en oeuvre, nombreux outils</td><td>Intervient à la fin, loin d'être exhaustif</td></tr>
+        <tr><th>Preuve</th><td>La correction par rapport aux propriétés spécifiées formellement</td><td>Code et/ou conception</td><td>Garantie obtenue</td><td>Lourd à mettre en place</td></tr>
+        <caption>Comparaison entre les différentes techniques de validation</caption>
+      </table>
+    <h2>III. Le cas particulier du <em>model checking</em></h2>
+      <h3>A. Principe</h3>
+      <p><em>Model checking</em> = test exhaustif</p>
+      <h3>B. Avantages</h3>
+      <ul>
+        <li>Facile à mettre en oeuvre</li>
+        <li>Garantie obtenue</li>
+        <li>Nombreux outils</li>
+      </ul>
+      <h3>C. Inconvénients</h3>
+      <ul>
+        <li>Temps de calcul</li>
+        <li>Pas toujours possible : le système doit être fini et de taille
+        raisonnable, ou doit pouvoir se ramener à un tel système</li>
+        <li>Interprétation des résultats difficiles en cas d'échec : un bug se
+          traduit par de nombreuses traces d'exécution "en échec", traces qui
+          sont souvent difficiles à interpréter.</li>
+      </ul>
+</div>
+</div>
+</body>
+</html>

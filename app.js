@@ -223,6 +223,40 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'algo-2026-10-01',
+    iso: '2026-10-01', dateLabel: '1er octobre 2026', bloc: 'bloc2',
+    titre: 'Correction des algorithmes : validation, preuve et tests',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Correction des algorithmes — la séance du jour', items: [
+        { t: 'A. Introduction à la validation (1 h)',          f: 'Validation des algorithmes — test, preuve et prototypage',          u: 'validation.html' },
+        { t: 'B. Preuve de programme — logique et Hoare',      f: 'Preuve de programme — logique, triplets de Hoare et substitution',  u: 'preuve.html' },
+        { t: 'B. Preuve — invariants et correction totale',    f: 'Preuve de programme — invariants, correction partielle et totale',  u: 'preuve.html' },
+        { t: 'B. Preuve — assertions Python et exercices',     f: 'La preuve en pratique — assertions Python et exercices corrigés',   u: 'preuve.html' },
+        { t: 'C. Tests unitaires en Python (1 h 30)',          f: 'Tests unitaires en Python — méthodologie et pytest',                u: 'tests.html' },
+      ]},
+      { titre: 'I. Algorithmes classiques (9 h)', items: [
+        { t: 'A. Algorithmes gloutons — le TP est dans l\'onglet TP', f: 'Algorithmes gloutons — principe, limites et alternatives', u: 'gloutons.html' },
+        { t: 'B. Diviser pour régner (3 h)',                   f: 'Diviser pour régner',                                               u: 'diviser.html' },
+        { t: 'C. K plus proches voisins (1 h 30)',             f: 'k-NN — apprentissage supervisé et principe',                        u: 'voisins.html' },
+      ]},
+      { titre: 'III. Complexité des algorithmes (3 h)', items: [
+        { t: 'Complexité en temps, en espace et prolongements', f: 'Complexité des algorithmes — en temps, en espace et prolongements', u: 'complexiteTemps.html' },
+      ]},
+      { titre: 'Support complet (copie locale, hors ligne)', items: [
+        { t: 'Sommaire du chapitre',                           u: 'ressources/algo/index.html' },
+        { t: 'Exercices de preuve corrigés (horloge, maximum, tri à bulle)', u: 'ressources/algo/preuve.html' },
+        { t: 'Test logiciel — support PDF complémentaire (B. Mermet)', u: 'https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf' },
+        { t: 'Documentation pytest',                           u: 'https://docs.pytest.org/en/latest/' },
+      ]},
+    ],
+  },
 ]
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
 const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
@@ -236,6 +270,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
   { icon: '🧑‍💻', title: 'Créer une appli web en NSI (mdBook complet)', desc: 'Référence Flask/Python : serveur, routes, templates, formulaires, bases de données (SQL, SQLite, injection), authentification (cookies, sessions, tokens), déploiement (SSH, SSL)', url: 'https://2025-formation-web-app-python-26f3cf.forge.apps.education.fr/' },
   { icon: '🗄️', title: 'Bloc 4 — Bases de données (B. Mermet, en ligne)', desc: 'Chapitre 1 complet : BDD relationnelles (DF, formes normales), modèle conceptuel, contraintes de référence, SGBD, SQL (LID/LMD/LDD), sqlite3 en Python, web côté serveur — Jour en ligne 10 septembre', url: 'https://bases-de-donnees-26b46e.gitlab.io/indexBD.html' },
+  { icon: '📐', title: 'Bloc 2 Algorithmique — copie locale du chapitre (B. Mermet)', desc: 'Les 17 pages du chapitre et leurs schémas, consultables hors ligne : gloutons, diviser pour régner, k plus proches voisins, validation, preuve de programme et ses exercices corrigés, tests unitaires, complexité', url: 'ressources/algo/index.html' },
   { icon: '💾', title: 'Support BDD — copie locale + scripts ludothèque', desc: 'Les 7 pages du chapitre, les schémas et les 4 scripts Python du TP (creationTable…, lectureLudotheque.py), consultables hors ligne', url: 'ressources/bdd/indexBD.html' },
   { icon: '🐍', title: 'Doc Python — module sqlite3', desc: 'Documentation officielle : connect, execute, executemany, commit, curseurs, requêtes paramétrées (utilisée dans le cours BDD du 10 septembre)', url: 'https://docs.python.org/3/library/sqlite3.html' },
   { icon: '🍬', title: 'Notebook « Les algorithmes gloutons » (FDIU)', desc: 'TP complet sur les problèmes d\'optimisation : conversion binaire, rendu de monnaie, sac à dos, planning de conférenciers, recherche exhaustive et programmation dynamique — ouvrable dans Basthon', url: 'https://github.com/LANSIG/NSI' },

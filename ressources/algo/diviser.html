@@ -1,0 +1,226 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Algorithmes de type "Diviser pour régner"</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="voisins.html">Algorithmes de type "Diviser pour régner"</h1>
+    <div id="contenu">
+      <h2>I. Définition, principes, cas d'utilisation</h2>
+      <h3>A. Définition</h3>
+      <p>Un algorithme de type "diviser pour régner" est un algorithme qui, pour
+        résoudre un problème de taille <em>n</em>, utilise la résolution d'un ou
+        plusieurs problèmes de tailles inférieures à <em>n</em>. Il s'agit donc
+        souvent d'algorithmes récursifs.
+      </p>
+      <h3>B. Caractéristiques générales</h3>
+      <p>Ces algorithmes présentent en général les caractéristiques suivantes :
+      </p>
+      <ul>
+        <li>Un algorithme récursif peut mener à un débordement de pile ;</li>
+        <li>Ces algorithmes peuvent souvent s'avérer plutôt efficaces, mais cela
+          peut fortement varier selon la décomposition qui est faite ;</li>
+        <li>Ces algorithmes se prêtent souvent bien à la parallélisation.</li>
+      </ul>
+      <h2>II. Quelques exemples classiques</h2>
+      <h3>A. Exemples simples</h3>
+      <p>
+        Pour déterminer le maximum de 4 nombres, on peut passer par le maximum
+        de 2 nombres, selon différentes façons d'ailleurs :
+      </p>
+      <ul>
+        <li><code>max(a, b, c, d) = max(max(a, b), max(c, d))</code></li>
+        <li><code>max(a, b, c, d) = max (a, max(b, max (c,d)))</code></li>
+      </ul>
+      <p>Pour déterminer le maximum d'une liste de taille <em>n</em>, on peut passer par
+        le maximum d'une liste de taille <em>n-1</em> :
+      </p>
+      <pre>
+        max([a<sub>1</sub>, a<sub>2</sub>, ... a<sub>n</sub>]) = max (a<sub>1</sub>, max([a<sub>2</sub>, ... a<sub>n</sub>]))
+      </pre>
+      <h3>B. Exemples plus complexes</h3>
+      <p>Le problème des tours de Hanoi est un problème typique des problèmes
+        avec une résolution récursive :
+      </p>
+      <pre class="algo">
+deplacer(n, A, B, C):
+  deplacer(n-1, A, C, B)
+  deplacer(1, A, B, C)
+  deplacer(n-1, C, B, A)
+      </pre>
+      <div class="exo">
+        <p>
+          <strong>Exercice 1</strong> : écrire un programme donnant la solution au
+        problème des tours de Hanoi à <em>n</em> disques.
+        </p>
+        <p><input type="button" class="correction" idCorrection="corr1" value="Correction"/></p>
+      </div>
+      <pre id="corr1" class="correction">
+        <span class="PreProc">from</span> sys <span class="PreProc">import</span> argv
+
+        <span class="Statement">def</span> <span class="Identifier">hanoi</span>(n, depart, arrivee, intermediaire):
+            <span class="Statement">if</span> n &lt; <span class="Constant">0</span> :
+                <span class="Statement">raise</span> <span class="Constant">&quot;</span><span class="Constant">Nombre de disque négatif !</span><span class="Constant">&quot;</span>
+            <span class="Statement">if</span> n == <span class="Constant">0</span> :
+                <span class="Statement">return</span>
+            <span class="Statement">elif</span> n == <span class="Constant">1</span>:
+                <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">déplacer 1 disque de</span><span class="Constant">&quot;</span>, depart, <span class="Constant">&quot;</span><span class="Constant">à</span><span class="Constant">&quot;</span>, arrivee)
+            <span class="Statement">else</span>:
+                hanoi(n-<span class="Constant">1</span>,depart, intermediaire, arrivee)
+                hanoi(<span class="Constant">1</span>, depart, arrivee, intermediaire)
+                hanoi(n-<span class="Constant">1</span>, intermediaire, arrivee, depart)
+
+        hanoi(<span class="Identifier">int</span>(argv[<span class="Constant">1</span>]), <span class="Constant">&quot;</span><span class="Constant">A</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">B</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">C</span><span class="Constant">&quot;</span>)
+      </pre>
+      <p>D'autres algorithmes classiques reposent sur le principe "Diviser pour
+        Régner" :</p>
+      <ul>
+        <li>Recherche par dichotomie dans une liste triée</li>
+        <li>Certains algorithmes de tri (tri rapide, tri fusion)</li>
+      </ul>
+      <div class="exo">
+        <p><strong>Exercice 2</strong> : écrire un programme de recherche
+          dichotomique dans une liste triée</p>
+        <p><input type="button" class="correction" idCorrection="corr2" value="Correction"/></p>
+      </div>
+      <pre id="corr2" class="correction">
+        <span class="PreProc">from</span> sys <span class="PreProc">import</span> argv
+        <span class="Statement">def</span> <span class="Identifier">recherche</span>(liste, valeur, debutZoneRecherche, finZoneRecherche):
+          <span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Constant">  Fonction renvoyant l'indice d'une valeur si elle est présente dans liste,</span>
+        <span class="Constant">  et renvoyant -1 sinon</span>
+        <span class="Constant">  </span><span class="Constant">&quot;&quot;&quot;</span>
+          <span class="Statement">if</span> <span class="Identifier">len</span>(liste) == <span class="Constant">0</span>:
+            <span class="Statement">return</span> -<span class="Constant">1</span>
+          indiceMilieu = <span class="Identifier">int</span>((debutZoneRecherche+finZoneRecherche)/<span class="Constant">2</span>)
+          valeurMediane = liste[indiceMilieu]
+          <span class="Statement">if</span> valeurMediane == valeur:
+            <span class="Statement">return</span> indiceMilieu
+          <span class="Statement">elif</span> valeur &lt; valeurMediane <span class="Statement">and</span> indiceMilieu &gt; debutZoneRecherche:
+            <span class="Statement">return</span> recherche(liste, valeur, debutZoneRecherche, indiceMilieu-<span class="Constant">1</span>)
+          <span class="Statement">elif</span> valeur &gt; valeurMediane <span class="Statement">and</span> indiceMilieu &lt; finZoneRecherche:
+            <span class="Statement">return</span> recherche(liste, valeur, indiceMilieu+<span class="Constant">1</span>, finZoneRecherche)
+          <span class="Statement">else</span>:
+            <span class="Statement">return</span> -<span class="Constant">1</span>
+
+        listeTest = [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">4</span>, <span class="Constant">6</span>, <span class="Constant">7</span>, <span class="Constant">9</span>, <span class="Constant">10</span>, <span class="Constant">12</span>, <span class="Constant">16</span>, <span class="Constant">20</span>]
+        <span class="Identifier">print</span>(listeTest)
+        <span class="Identifier">print</span>(recherche(listeTest, <span class="Identifier">int</span>(argv[<span class="Constant">1</span>]), <span class="Constant">0</span>, <span class="Identifier">len</span>(listeTest)-<span class="Constant">1</span>))
+      </pre>
+
+      <div class="exo">
+        <p><strong>Exercice 3</strong> : écrire un programme implantant un
+          algorithme de tri rapide sur une liste</p>
+        <p><input type="button" class="correction" idCorrection="corr3" value="Correction"/></p>
+      </div>
+      <pre class="correction" id="corr3">
+        <span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+        liste = []
+        <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">30</span>):
+            liste.append(randint(<span class="Constant">1</span>,<span class="Constant">100</span>))
+
+        <span class="Identifier">print</span>(liste)
+
+        <span class="Statement">def</span> <span class="Identifier">triRapide</span>(liste):
+            <span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Constant">    fonction qui initialise la fonction récursive de tri rapide d'une liste.</span>
+        <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+            trier(liste, <span class="Constant">0</span>, <span class="Identifier">len</span>(liste+<span class="Constant">1</span>))
+
+        <span class="Statement">def</span> <span class="Identifier">trier</span>(liste, indiceDebut, indiceFin):
+            <span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Constant">    fonction récursive qui trie une liste en utilisant la méthode trie rapide.</span>
+        <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+            <span class="Statement">if</span> (indiceFin &lt;= indiceDebut):
+                <span class="Statement">return</span>
+            indicePivot = randint(indiceDebut, indiceFin)
+            pivot = liste[indicePivot]
+            indicePivot = partitionner(liste, pivot, indiceDebut, indicePivot, indiceFin)
+            trier(liste, indiceDebut, indicePivot-<span class="Constant">1</span>)
+            trier(liste, indicePivot+<span class="Constant">1</span>, indiceFin)
+
+        <span class="Statement">def</span> <span class="Identifier">partitionner</span>(liste, pivot, indiceDebut, indicePivot, indiceFin):
+            <span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Constant">    fonction qui partitionne une liste en fonction d'un pivot en mettant à gauche</span>
+        <span class="Constant">    du pivot les éléments plus petits que le pivot et à droite les éléments plus</span>
+        <span class="Constant">    grand. L'indice du pivot est susceptible d'être modifié au cours du traitement ;</span>
+        <span class="Constant">    il est donc renvoyé par cette fonction.</span>
+        <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+            termine = <span class="Identifier">False</span>
+            indiceCourant = indiceDebut
+            <span class="Statement">while</span> indiceCourant &lt;= indiceFin:
+                <span class="Statement">if</span> liste[indiceCourant] &gt; pivot <span class="Statement">and</span> indiceCourant &lt; indicePivot:
+                    liste[indicePivot] = liste[indiceCourant]
+                    liste[indiceCourant] = liste[indicePivot-<span class="Constant">1</span>]
+                    liste[indicePivot-<span class="Constant">1</span>] = pivot
+                    indicePivot = indicePivot - <span class="Constant">1</span>
+                <span class="Statement">elif</span> liste[indiceCourant] &lt; pivot <span class="Statement">and</span> indiceCourant &gt; indicePivot:
+                    liste[indicePivot] = liste[indiceCourant]
+                    liste[indiceCourant] = liste[indicePivot+<span class="Constant">1</span>]
+                    liste[indicePivot+<span class="Constant">1</span>] = pivot
+                    indicePivot = indicePivot + <span class="Constant">1</span>
+                <span class="Statement">else</span>:
+                    indiceCourant = indiceCourant + <span class="Constant">1</span>
+            <span class="Statement">return</span> indicePivot
+
+        triRapide(liste)
+        <span class="Identifier">print</span>(liste)
+      </pre>
+
+      <div class="exo">
+        <p><strong>Exercice 4</strong> : écrire un programme implantant un
+          algorithme de tri fusion sur une liste</p>
+        <p><input type="button" class="correction" idCorrection="corr4" value="Correction"/></p>
+      </div>
+      <pre class="correction" id="corr4">
+        <span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+        liste = []
+        <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">30</span>):
+            liste.append(randint(<span class="Constant">1</span>,<span class="Constant">100</span>))
+
+        <span class="Identifier">print</span>(liste)
+
+        <span class="Statement">def</span> <span class="Identifier">trier</span>(liste):
+            <span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Constant">    renvoie une version triée d'une liste en utilisant la méthode du tri fusion.</span>
+        <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+            taille = <span class="Identifier">len</span>(liste)
+            <span class="Statement">if</span> taille &lt;= <span class="Constant">1</span>:
+                <span class="Statement">return</span> liste
+            milieu = <span class="Identifier">int</span>(taille/<span class="Constant">2</span>)
+            <span class="Statement">return</span> fusionner(trier(liste[:milieu]), trier(liste[milieu:]))
+
+        <span class="Statement">def</span> <span class="Identifier">fusionner</span>(listeA, listeB):
+            <span class="Constant">&quot;&quot;&quot;</span>
+        <span class="Constant">    fonction qui fusionne 2 listes triées</span>
+        <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+            fusion = []
+            teteA = listeA[<span class="Constant">0</span>]
+            teteB = listeB[<span class="Constant">0</span>]
+            <span class="Statement">while</span> (<span class="Identifier">len</span>(listeA) &gt; <span class="Constant">0</span> <span class="Statement">and</span> <span class="Identifier">len</span>(listeB) &gt; <span class="Constant">0</span>):
+                <span class="Statement">if</span> teteA &lt; teteB:
+                    fusion.append(teteA)
+                    listeA.pop(<span class="Constant">0</span>)
+                    <span class="Statement">if</span> <span class="Identifier">len</span>(listeA) &gt; <span class="Constant">0</span>:
+                        teteA = listeA[<span class="Constant">0</span>]
+                <span class="Statement">else</span>:
+                    fusion.append(teteB)
+                    listeB.pop(<span class="Constant">0</span>)
+                    <span class="Statement">if</span> <span class="Identifier">len</span>(listeB) &gt; <span class="Constant">0</span>:
+                        teteB = listeB[<span class="Constant">0</span>]
+            fusion = fusion + listeA + listeB
+            <span class="Statement">return</span> fusion
+
+        resultat = trier(liste)
+        <span class="Identifier">print</span>(resultat)
+      </pre>
+
+</div>
+</div>
+</body>
+</html>

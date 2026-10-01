@@ -1,0 +1,261 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Preuve de programme</title>
+  </head>
+  <body>
+    <div id="main">
+      <h1 suivant="tests.html">Preuve de programme</h1>
+      <div id="contenu">
+
+
+        <h2>I. Bases logiques</h3>
+        <h3>A. Calcul des prédicats (du premier ordre)</h3>
+        <p>Les formules de la logique du premier ordre sont des formules logiques dans lesquelles on peut trouver :</p>
+        <ul>
+            <li>des variables</li>
+            <li>des connecteurs logiques</li>
+            <li>des prédicats sur les variables (fonctions à valeur booléenne)</li>
+            <li>des fonctions sur les variables</li>
+            <li>des quantificateurs (universel et existentiel)</li>
+        </ul>
+        <p>Exemple :</p>
+        <pre class="algo">
+∀ x, ∀ y ∃ z.( x ∈ ℤ ∧ y ∈ ℤ ∧ z ∈ ℤ → (z ≥ 0 ∧ (x = y + z ∨ y = x + z)))
+      </pre>
+      <h3>B. Un peu de vocabulaire</h3>
+        <p>Une variable quantifiée (existentiellement ou universellement) est appelée <strong>variable liée</strong>.</p>
+        <p>Une variable non quantifiée est appelée <strong>variable libre</strong>.</p>
+        <p>Une <strong>formule close</strong> est une formule dont toutes les variables sont liées.</p>
+        <p/>
+        <p>Un <strong>modèle</strong> M d'un langage du premier ordre est une structure (elements, fonctions, prédicats) dans lequel on donne un sens aux symboles du langage.</p>
+        <p>Une <strong>formule F est satisfaisable</strong> s'il existe un modèle M dans lequel F est vraie. On note alors M ⊧ F.</p>
+        <p>Une <strong>formule F est valide</strong> si et seulement si elle est vraie dans tout modèle du langage. On note cela ⊧ F.</p>
+        <p/>
+        <p>Le calcul des prédicat est <strong>semi-décidable</strong> : il est possible
+          d'énumérer tous les théorèmes, mais il n'existe pas d'algorithme capable de
+          prouver à coup sûr n'importe quel théorème.</p>
+        <p>Sans les fonctions, le calcul des prédicats est <strong>complet</strong> :
+          tout théorème est démontrable (théorème de complétude de Gödel). Cependant,
+          si on rajoute les fonctions sur l'arithmétique, on obtient un système
+          <strong>incomplet</strong> : il existe des théorèmes
+            non démontrables (théorème d'incomplétude de Gödel).</p>
+
+        <h3>C. Skolémisation</h4>
+          <p>La skolémisation est un processus qui consiste à transformer une formule
+            du calcul du prédicat de façon à :</p>
+        <ul>
+            <li>Supprimer tout quantificateur existentiel en remplaçant la
+              variable quantifiée par une fonction des variables quantifiées
+              universellement qui la précèdent ;</li>
+            <li>Ramener tous les quantificateurs universels en tête de formule</li>
+            <li>(Omettre les quantificateurs universels)</li>
+        </ul>
+
+        <p>Exemple pour la formule précédente :</p>
+        <pre class="algo">
+&nbsp; ∀ x, ∀ y ( x ∈ ℤ ∧ y ∈ ℤ ∧ z(x,y) ∈ ℤ → (z ≥ 0 ∧ (x = y + z ∨ y = x + z)))
+</pre>
+        <p>Transformable éventulement en :</p>
+        <pre class="algo">
+&nbsp; ( x ∈ ℤ ∧ y ∈ ℤ ∧ z(x,y) ∈ ℤ → (z ≥ 0 ∧ (x = y + z ∨ y = x + z)))
+</pre>
+      <h3>D. Triplet de Hoare</h3>
+        <p>un Triplet de Hoare se note <strong>{Pré} Inst {Post}</strong>, avec :</p>
+        <ul>
+          <li><strong>Pré</strong> : un prédicat (pré-condition)</li>
+          <li><strong>Inst</strong> : une instruction</li>
+          <li><strong>Post</strong> : un prédicat (post-condition)</li>
+        </ul>
+        <p>Il permet de spécifier que si la propriété <strong>Pré</strong> est
+          vraie avant l'exécution de l'instruction <strong>Inst</strong>, alors
+          la propriété <strong>Post</strong> est vraie à la fin de l'exécution
+          de l'instruction <strong>Inst</strong>. Les triples de Hoare permettent
+          de :</p>
+        <ul>
+          <li>Donner la sémantique d'un langage</li>
+          <li>Faire des preuves de programme</li>
+        </ul>
+            <p><em>Exemples</em> :</p>
+            <pre class='algo'>
+{x = n} (x = x+1) {x = n+1}
+          </pre>
+          <pre class='algo'>
+{x = n} (if b then x = n + 1 else x = n -1) {(b → x = n+1) ∧ (¬b → x = n - 1)}
+          </pre>
+        <p>Les notions de pré-condition et post-condition sont étendues aux fonctions/méthodes ainsi :</p>
+        <ul>
+            <li>Une précondition d'une fonction est un prédicat qui doit être vérifié lorsque la fonction est appelée ;</li>
+            <li>Une postcondition d'une fonction est un prédicat qui doit être vérifié à la fin de l'exécution de la fonction.</li>
+        </ul>
+        <p><strong>Remarque</strong> : les préconditions et postconditions sont en
+          fait des formules de la logique des prédicats skolémisées.</p>
+
+        <h3>E. Substitution</h3>
+
+        <p>Appliquer une substitution est une opération qui consiste à remplacer
+          une ou plusieurs variables libres dans un prédicat par une valeur. On
+          note en général une substitution {val1/var1, val2/var2, ...}.</p>
+        <p><em>Exemple</em> :</p>
+        <pre class="algo">
+{4/x, 5/y}(x + 1 = y) ≡ (4 + 1 = 5)
+</pre>
+
+        <p>Mais on peut également noter une substitution [var1 := val1 || var2 := val2 ...].</p>
+        <p><em>Exemple</em> :</p>
+        <p class="algo">[x := 4 || y := 5](x + 1 = y)&nbsp;≡ (4 + 1 = 5)</p>
+        <p>En effet, une affectation n'est ni plus ni moins qu'une substitution...</p>
+        <p>Ainsi, à partir d'une précondition d'une fonction, on peut,
+          instruction après instruction, établir la nouvelle propriété établie
+          par l'instruction, et ainsi, vérifier si la fonction établit bien sa
+          post condition.</p>
+        <p><em>Exemple :</em></p>
+        <pre class="algo">
+f(x):
+  PRE:
+    x ≥ 0
+  CORPS:
+    x = x + 1; PROP : x ≥ 1
+    x = 2 * x; PROP : x ≥ 2
+    x = x - 1
+  POST:
+    x ≥ 1
+  </pre>
+        <pre class="algo">
+Preuve de PROP 1 :
+    x ≥ 0 → [x := x+1](x ≥ 1)
+    x ≥ 0 → (x+1 ≥ 1)
+
+Preuve de PROP 2 :
+    x ≥ 1 → [x := 2x](x ≥ 2)
+    x ≥ 1 → (2x ≥ 2)
+
+Preuve de POST :
+    x ≥ 2 → [x := x - 1](x ≥ 1)
+    x ≥ 2 → (x-1 ≥ 1)
+</pre>
+
+    <h2>II. Invariant</h2>
+      <h3>A. Notion d'Invariant de boucle</h3>
+        <p>Comment utiliser les mécanismes précédents avec une boucle ?</p>
+        <p>On introduit un <strong>invariant de boucle</strong> : prédicat vrai
+          à chaque itération, mais tel que, conjugué à la condition de sortie de
+          la boucle, il nous permette d'établir la post-condition.</p>
+          <p><em>Exemple :</em></p>
+        <pre class="algo">
+def maximum(liste):
+  max = liste[0]
+  for i in range(0, len(liste)):
+    if liste[i] &gt; max:
+      max = liste[i]
+    <span class="important">#Invariant de boucle : max = maximum(liste[0:i])</span>
+  return max
+</pre>
+      <h3>B. Invariant de boucle et preuve</h3>
+        <p>Principe de la preuve d'un invariant de boucle = preuve par récurrence :</p>
+        <ul>
+            <li>On prouve que l'invariant est vrai au départ</li>
+        <pre class="algo">[INIT](INV)</pre>
+            <li>On prouve que si l'invariant est vrai à l'étape i, il est vrai à l'étape i+1 :</li>
+        <pre class="algo"> INV → [CORPS_BOUCLE](INV)</pre>
+        </ul>
+        <p>L'invariant de boucle doit être là pour établir la post-condition.
+          Il faudra donc que la formule suivante soit vraie :</p>
+        <pre class="algo">PRE ∧ FIN_BOUCLE ∧ INV → POST</pre>
+      <h3>C. Invariant de classe</h3>
+        <p>L'utilisation d'un objet d'une classe (avec encapsulation) peut être
+          vue comme une suite d'appels des méthodes de l'objet, ce qui revient à
+          comparer cela à une boucle sur un choix d'une méthode parmi toutes
+          celles définies dans la classe. On peut donc associer un invariant à
+          une classe. La preuve de cet invariant consistera à prouver que :</p>
+        <ul>
+            <li>À la création d'une instance de la classe, l'invariant est établi ;</li>
+            <li>Chaque fois qu'une méthode de la classe est appelée, on peut
+              considérer que l'invariant est vérifié, et il faut alors vérifier
+              que cette méthode préserve l'invariant, c'est-à-dire qu'il est
+              vrai à la fin de l'exécution de la méthode.</li>
+        </ul>
+    <h2>III. Preuve de correction partielle</h2>
+      <p>Les principes vus précédemment permettent de vérifier que si on
+        programme correct termine, alors il établit sa post-condition. C'est ce
+        qu'on appelle la <strong>correction partielle</strong>.</p>
+      <p>Cela ne permet nullement de prouver que le programme se termine effectivement.</p>
+      <h2>IV. Correction Totale</h2>
+        <h3>A. Définition</h3>
+          <p>Pour qu'un programme soit réellement correct, il faut qu'il soit
+            partiellement correct, et qu'il se termine. C'est ce qu'on appelle
+            la correction totale.</p>
+        <h3>B. Principe de preuve de terminaison</h3>
+            <p>Pour prouver qu'une boucle termine, on va associer à la boucle un
+              <strong>Variant</strong>.</p>
+        <h3>C. Définitions</h3>
+          <h4>1. Variant</h4>
+          <p>Un variant est une suite strictement décroissante définie sur une
+            structure bien fondée.</p>
+          <h4>2. Structure bien fondée</h4>
+          <p>Une structure bien fondée est une structure (E, ≤) dans laquelle
+            toute suite strictement décroissante possède une borne inférieure.</p>
+          <p>Exemple fréquemment utilisé de structure bien fondée : (ℕ, ≤).</p>
+        <h3>d. Détail du processus de preuve</h3>
+          <p>On vérifie qu'avant la première itération, le variant est bien
+            défini (par exemple, est un naturel) :</p>
+        <pre class="algo">PRE → V ∈ ℕ</pre>
+        <p>On vérifie que la valeur du variant décroît et reste bien typée entre
+          2 itérations :</p>
+        <pre class="algo">V = v ∧ INV → [CORPS_BOUCLE](V &lt; v)</pre>
+    <h2>V. Applications</h2>
+      <h3>A. Préambule : écrire les pré-conditions, post-conditions et invariant en Python</h3>
+        <p>Il est possible d'écrire ces différents prédicats dans un programme
+          Python en utilisant les assertions. Cela n'a aucune valeur de preuve
+          mais permet :</p>
+        <ul>
+          <li>de documenter le code</li>
+          <li>d'avoir une exception claire à l'exécution si jamais une de ces
+            propriétés venait à être violée.</li>
+        </ul>
+        <p><strong>Note sur les assertions en Python :</strong></p>
+        <p>En Python, une assertion s'écrit sous l'une des formes suivantes :</p>
+        <ul>
+            <li><code>assert ExprBool, message</code></li>
+            <li><code>assert ExprBool</code></li>
+        </ul>
+        <p>lorsque l'instruction d'assertion est exécutée, l'expression à valeur
+          booléenne ExprBool est évaluée. Si elle est vraie, le programme
+          continue de s'exécuter. Sinon, le programme s'arrête avec une
+          exception et l'éventuel message est affiché.</p>
+        <h4>1. Écriture des préconditions</h4>
+            <p>Clause assert au début des méthodes</p>
+        <h4>2. Écriture des postconditions</h4>
+            <p>Clause assert à la fin des méthodes</p>
+        <h4>3. Écriture d'un invariant</h4>
+        <ul>
+            <li>Écriture d'une méthode <code>invariant()</code> regroupant sous
+              la forme d'une succession de "assert" toutes les propriétés d'invariance</li>
+            <li>Appel de cette méthode à la fin du constructeur et à la fin de chaque méthode</li>
+        </ul>
+      <h3>B. Exemple</h3>
+            <p><a href="preuve01personne.html">preuve01personne.py</a></p>
+      <h3>C. Exercices</h3>
+        <h4>1. Preuves d'invariants de classe et de post-conditions</h4>
+          <ul>
+          <li>Tenter de prouver la classe <a href="preuve02horloge.html">preuve02horloge.py</a>.
+            Proposer des <a href="preuve02horlogeCorrection.html">corrections</a>.</li>
+          <li>sur la version corrigée de la classe Horloge, écrire la <a href="preuve03horlogePostcondition.html">post-condition</a> de la méthode incrémenter() et la prouver</li>
+          </ul>
+        <h4>2. Preuves sur les boucles</h4>
+          <ul>
+          <li>Établir la preuve de correction partielle de la fonction
+            <code>maximum()</code> définie dans le fichier
+            <a href="preuve04boucleCorrectionPartielle.html">preuve04boucleCorrectionPartielle.py</a></li>
+          <li>Établir la <a href="preuve05boucleTerminaisonCorrection.html">preuve de terminaison</a> de cette fonction de façon à établir la correction totale.</li>
+            </ul>
+        <h4>3. Travail personnel</h4>
+          <p>Faire la preuve de correction totale pour la version non optimisée
+            du tri à bulle donnée dans le fichier
+            <a href="preuve06TriABulleNaif.html ">preuve06TriABulleNaif.py</a></p>
+      </div>
+    </div>
+</body>
+</html>
