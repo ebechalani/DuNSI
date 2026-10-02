@@ -27,6 +27,14 @@ ANON = ('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6In
 ABSENTS = ('sklearn', 'pandas', 'numpy', 'pytest', 'matplotlib')
 # Un bloc doit ressembler à du Python pour qu'un échec de syntaxe compte comme un défaut.
 PYTHONESQUE = re.compile(r'^\s*(def |class |import |from |for |while |if |print\(|assert |\w+\s*=[^=])', re.M)
+# Les fiches de preuve contiennent des obligations de preuve en notation logique
+# (x ≥ 0 → [x := x+1](x ≥ 1)) : ce n'est pas du Python, et ça ne doit pas être signalé.
+LOGIQUE = re.compile(r'[→∧∨¬∀∃∈∉⊧≡≥≤≠⇒⇔ℕℤℝ]')
+# Une transcription d'exécution (session pytest, traceback, REPL) n'est pas du code non plus.
+SORTIE = re.compile(r'^(={5,}|-{5,}|platform \w|Traceback \(|>>> |E\s{3,}|FAILED |PASSED |\w+\.py[: ])', re.M)
+# Ni le pseudo-code en français, ni les variants écrits à moitié en toutes lettres
+# (« V = 2 * inv(liste) + (1 si inversion est vraie, 0 sinon) »).
+PSEUDO = re.compile(r'\b(si |sinon|alors|tant que|pour tout|pour chaque|renvoyer|vraie?|fausse?)\b', re.I)
 
 
 def fiches():
@@ -40,9 +48,15 @@ def fiches():
 
 def executer(code):
     """Renvoie (verdict, détail)."""
+    if SORTIE.search(code) and not code.lstrip().startswith(('def ', 'class ', 'import ', 'from ')):
+        return 'IGNORÉ', 'transcription d\'exécution (session de test, traceback, REPL)'
+    if LOGIQUE.search(code):
+        return 'IGNORÉ', 'notation logique ou mathématique, pas du Python'
     try:
         ast.parse(code)
     except SyntaxError as e:
+        if PSEUDO.search(code):
+            return 'IGNORÉ', 'pseudo-code ou formule rédigée en français'
         if PYTHONESQUE.search(code):
             return 'ÉCHEC', f'syntaxe ligne {e.lineno} : {e.msg}'
         return 'IGNORÉ', 'pas du Python (pseudo-code, formule ou sortie de programme)'
@@ -57,7 +71,8 @@ def executer(code):
     if r.returncode == 0:
         return 'OK', (r.stdout or '').strip()
     derniere = (r.stderr.strip().splitlines() or [''])[-1]
-    if derniere.startswith(('NameError', 'IndentationError')):
+    # Un fichier de test importe légitimement le module qu'il teste, défini dans un bloc voisin.
+    if derniere.startswith(('NameError', 'IndentationError', 'ModuleNotFoundError', 'ImportError')):
         return 'PARTIEL', derniere
     return 'ÉCHEC', derniere
 
