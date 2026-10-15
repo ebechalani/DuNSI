@@ -1,0 +1,191 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Interaction SQL - Python</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="progWebServeur.html">Interagir avec une base de données SQLite3 depuis Python</h1>
+<div id="contenu">
+  <h2>I. Présentation générale</h2>
+  <p>
+  Pour interagir avec une base de données au format <em>SQLite3</em> depuis Python, il est nécessaire d'utiliser le module <code>sqlite3</code>. Ensuite, il faut effectuer un certain nombre d'étapes :</p>
+  <ol>
+    <li>Se connecter à la base de données ;</li>
+    <li>Exécuter la requête ;</li>
+    <li>Éventuellement, exploiter le résultat de la requête ;</li>
+    <li>Si la base a été modifiée, valider les changements ;</li>
+    <li>Se déconnecter de la base</li>
+  </ol>
+  <p>Nous allons maintenant étudier ces différentes parties dans le désordre.</p>
+  <h2>II. Connexion et déconnexion</h2>
+  <p>Pour une base <em>SQLite3</em>, ces 2 étapes sont très simples :</p>
+  <dl>
+    <dt>Connexion</dt>
+    <dd><pre class="algo">
+      connexion = sqlite3.connect('<em>NomFichierBase.db</em>')
+      </pre>
+      <p>La base sera en effet stockée dans un fichier dont le nom est suffixé par ".db"</p>
+    </dd>
+    <dt>Déconnexion</dt>
+    <dd><pre class="algo">
+      connexion.close()
+      </pre>
+    </dd>
+  </dl>
+  <h2>III. Valider les changements</h2>
+  <p>Les bases de données sont des systèmes <em>transactionnels</em>. Cela signifie qu'un programme qui interagit avec une base de données fait ses modifications en mémoire, jusqu'à ce que celles-ci soient validées. Lors de cette validation, si les modifications sont toujours possibles (ce n'est pas forcément le cas, si un autre utilisateur a modifié la base entre temps), elles sont toutes transférées dans la base de données sur le disque. Sinon, aucune n'est effectuée. C'est cette validation <em>par paquet</em> qui constitue une <em>transaction</em>. En Python, les transactions sont validées en appelant la méthode <code>commit()</code> sur l'objet <em>connexion</em>. Chaque <em>commit</em> termine la transaction précédente, puis en commence une autre. La première transaction est initiée lors de la connexion à la base de données.</p>
+  <p>Bien sûr, si aucune modification n'a été apportée à la base, la phase de validation n'est pas nécessaire. Dans le cas contraire, on valide nos modifications ainsi :</p>
+  <pre class="algo">
+  connexion.commit()
+  </pre>
+  <p>
+   Dans la partie précédente où on utilisait l'outil sqlite3, on ne faisait pas de commit et pourtant les opérations
+   sur la base étaient bel et bien validées lorsque l'on quittait l'outil. Cela est dû au fait que par défaut l'outil
+   est en mode AUTO_COMMIT ce qui signifie qu'une commit est automatiquement fait après chaque ordre SQL et les
+   validations sont donc faites au fur et à mesure de l'exécution des commandes SQL.
+ </p>
+ 
+  <h2>IV. Exécuter une requête ou un ordre SQL / Exploiter les résultats d'une requête</h2>
+  <h3>A. Exécuter une requête ou un ordre SQL</h3>
+  <p>
+  Pour exécuter une requête ou un ordre SQL, il faut la/le passer en paramètre de la méthode <code>execute</code> de l'objet <em>connexion</em>.
+  <h4>1. Création d'une table</h4>
+  <p>Voici par exemple le code d'un programme Python permettant de créer la table <em>Editeur</em> :
+  </p>
+  <pre class="algo">
+import sqlite3
+
+#connexion à la base
+connexion = sqlite3.connect('ludotheque.db')
+#activation de la vérification des contraintes de clé étrangère
+connexion.execute('PRAGMA foreign_keys = ON')
+
+#suppression éventuelle de l'ancienne table
+connexion.execute('DROP TABLE IF EXISTS editeur')
+
+#creation de la table Editeur
+connexion.execute('''CREATE TABLE editeur (
+     idEditeur int primary key not null,
+     nomEditeur text not null,
+     nationaliteEditeur text)''')
+
+#validation
+connexion.commit()
+
+#déconnexion
+connexion.close()
+  </pre>
+  <h4>2. Ajout de données dans une table</h4>
+  <p>Pour ajouter des données dans une table, on peut utiliser la méthode <code>execute()</code> présentée précédemment :</p>
+  <pre class="algo">
+import sqlite3
+
+connexion = sqlite3.connect('ludotheque.db')
+connexion.execute('PRAGMA foreign_keys = ON')
+
+connexion.execute('''INSERT INTO editeur
+     VALUES(1, 'Days of wonder', 'Française')''')
+connexion.commit()
+connexion.close()
+  </pre>
+
+<p>Commencez par exécuter le programme précédent en mettant en commentaire le <em>commit</em> et vérifiez le contenu de la table (avec le programme <code>sqlite3</code> par exemple) : vous constaterez que le tuple n'a pas été ajouté. Recommencez ensuite en décommentant le <em>commit</em></p>
+</p>
+<p>Lorsqu'on désire insérer plusieurs données dans une table, on peut utiliser avantageusement la méthode <code>executemany</code> : Celle-ci prend 2 paramètres : un ordre paramétré (des '?' signalent les zone paramétrées) et une liste de tuples : la requête est exécutée pour chaque tuple de la liste, en remplaçant le i-ème point d'interrogation par la i-ème composante du tuple. Exemple :</p>
+<pre class="algo">
+import sqlite3
+
+connexion = sqlite3.connect('ludotheque.db')
+connexion.execute('PRAGMA foreign_keys = ON')
+
+listeEditeurs = [
+    (2, 'EggertSiele', 'Allemande'),
+    (3, 'Iello', 'Française')
+    ]
+connexion.executemany("INSERT INTO editeur VALUES(?, ?, ?)", listeEditeurs)
+
+connexion.commit()
+connexion.close()
+
+</pre>
+<h3>B. Exploiter les résultats</h3>
+<p>Lorsqu'on effectue une requête d'interrogation, c'est <em>a priori</em> pour récupérer les résultats ! Il se trouve que la méthode <em>execute</em> présentée précédemment renvoie un objet <em>cursor</em> qui est itérable. On peut donc aisément parcourir les résutats d'une requête ainsi :</p>
+<pre class="algo">
+import sqlite3
+
+connexion = sqlite3.connect('ludotheque.db')
+connexion.execute('PRAGMA foreign_keys = ON')
+
+curseur = connexion.execute("SELECT * FROM Editeur")
+
+#chaque tuple renvoyé est représenté par un tuple python
+for tuple in curseur:
+    print(tuple)
+    
+connexion.close()
+</pre>
+
+<p>Pour récupérer les valeurs des différentes attributs de chaque tuple, on peut convertir chaque tuple en liste ainsi :</p>
+<pre class="algo">
+import sqlite3
+
+connexion = sqlite3.connect('ludotheque.db')
+connexion.execute('PRAGMA foreign_keys = ON')
+
+curseur = connexion.execute("SELECT * FROM Editeur")
+
+for tuple in curseur:
+    donnee = list(tuple)
+    print(donnee[1])
+    
+connexion.close()
+</pre>
+<p>Bien sûr, dans un tel cas, comme seuls les noms des éditeur importent, il es préférable d'avoir une requête avec une projection plus sélective :</p>
+<pre class="algo">
+import sqlite3
+
+connexion = sqlite3.connect('ludotheque.db')
+connexion.execute('PRAGMA foreign_keys = ON')
+
+curseur = connexion.execute("SELECT nomEditeur FROM Editeur")
+
+for tuple in curseur:
+    donnee = list(tuple)
+    print(donnee[0])
+    
+connexion.close()
+</pre>
+
+<h3>C. Risque d'injection et requêtes paramétrées</h3>
+<p>Une requête peut également être paramétrée, de la même manière que les ordres SQL passés en paramètre de la méthode <code>executeMany</code> vue précédemment. Voici un exemple d'un programme permettant de faire une recherche des éditeurs par nationalité :</p>
+<pre class="algo">
+import sqlite3
+
+connexion = sqlite3.connect('ludotheque.db')
+connexion.execute('PRAGMA foreign_keys = ON')
+
+nationalite = input("Nationalité recherchée ? ")
+
+curseur = connexion.execute('''SELECT nomEditeur
+                               FROM editeur
+                               WHERE upper(nationaliteEditeur) = upper(?)
+                               ORDER BY nomEditeur''',
+                            (nationalite,))
+
+for tuple in curseur:
+    print(list(tuple)[0])
+    
+connexion.close()
+</pre>
+<p>
+Lorqu'une requête est paramétrée par une information issue (directement ou indirectement) de l'utilisateur, il est hautement préférable d'utiliser les requêtes paramétrées plutôt que la concaténation de chaînes de Python pour éviter des attaques par <em>Injection SQL</em> (voir la <a href="https://fr.wikipedia.org/wiki/Injection_SQL" target="_blank">page wikipedia</a> sur le sujet).
+</p>
+
+</div>
+</div>
+</body>
+</html>

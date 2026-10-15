@@ -176,6 +176,75 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'bdd-2026-09-10',
+    iso: '2026-09-10', dateLabel: '10 septembre 2026', bloc: 'bloc4',
+    titre: 'Bases de données relationnelles et SQL',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'indexBD.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: "I. Structuration de l'information", items: [
+        { t: 'A. Bases de données relationnelles (DF, clés, formes normales)', f: 'Bases de données relationnelles — DF, clés et formes normales',        u: 'bdr.html' },
+        { t: 'B. Modèle conceptuel (diagramme de classes → relationnel)',     f: 'Modèle conceptuel — diagramme de classes et passage au relationnel',  u: 'modeleConceptuel.html' },
+        { t: 'C. Contraintes de référence',                                    f: 'Contraintes de référence (clés étrangères)',                          u: 'contraintesReference.html' },
+        { t: 'D. Notion de SGBD',                                              f: 'Notion de SGBD (et pourquoi SQLite)',                                 u: 'sgbd.html' },
+      ]},
+      { titre: "II. Langages de données et d'interrogation", items: [
+        { t: 'A. SQL — interrogation (LID) : projection, restriction, jointure', f: 'SQL — interroger une base (LID) : projection, restriction, jointure',                 u: 'sql.html' },
+        { t: 'A. SQL — manipulation et description (LMD / LDD)',                f: 'SQL — manipuler et décrire (LMD/LDD) : INSERT, DELETE, UPDATE, CREATE TABLE',       u: 'sql.html' },
+        { t: 'B. Interagir avec une base depuis Python (sqlite3)',              f: 'SQL et Python — le module sqlite3',                                                  u: 'sqlEtPython.html' },
+        { t: 'C. Programmation web côté serveur',                               f: 'Programmation web côté serveur (CGI Python + SQLite)',                               u: 'progWebServeur.html' },
+      ]},
+      { titre: 'Fichiers du TP « ludothèque » (copie locale)', items: [
+        { t: 'creationTableIllustrateur.py — crée ludotheque.db + table Illustrateur', u: 'ressources/bdd/Ludotheque/creationTableIllustrateur.py' },
+        { t: 'lectureLudotheque.py — taper une requête et voir le résultat',          u: 'ressources/bdd/Ludotheque/lectureLudotheque.py' },
+        { t: 'creationTablesEditeurJeu.py — tables Editeur et Jeu',                   u: 'ressources/bdd/Ludotheque/creationTablesEditeurJeu.py' },
+        { t: 'creationTableEstDessinePar.py — table d\'association N-M',              u: 'ressources/bdd/Ludotheque/creationTableEstDessinePar.py' },
+        { t: 'Support complet du chapitre (copie locale, hors ligne)',               u: 'ressources/bdd/indexBD.html' },
+      ]},
+      { titre: 'Références et pratique', items: [
+        { t: 'Doc Python — module sqlite3',                           u: 'https://docs.python.org/3/library/sqlite3.html' },
+        { t: 'Types de données SQLite (datatype3)',                   u: 'https://www.sqlite.org/datatype3.html' },
+        { t: 'SQLite Online — exécuter du SQL dans le navigateur',    u: 'https://sqliteonline.com' },
+        { t: 'Chapitre 2 (à venir) : Paradigmes de programmation',    u: 'indexParadigmes.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'knn-2026-09-10',
+    iso: '2026-09-10', dateLabel: '10 septembre 2026 (2ᵉ partie)', bloc: 'bloc2',
+    titre: 'Apprentissage supervisé : les k plus proches voisins',
+    formateur: 'Laurent Amanton', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'ressources/knn/KNN_Amanton.pdf',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+        { t: 'Support du cours — 30 diapositives (PDF)', u: 'ressources/knn/KNN_Amanton.pdf' },
+      ]},
+      { titre: 'Cours (fiches internes)', items: [
+        { t: 'Apprentissage supervisé et principe du k-NN',   f: 'k-NN — apprentissage supervisé et principe' },
+        { t: "L'algorithme et le vote majoritaire",           f: "k-NN — l'algorithme et le vote majoritaire" },
+        { t: 'Mesurer la distance entre deux exemples',       f: 'k-NN — mesurer la distance entre deux exemples' },
+        { t: 'Deux exemples déroulés (2-NN et 3-NN)',         f: 'k-NN — deux exemples déroulés (2-NN et 3-NN)' },
+        { t: 'Le choix de k et le compromis biais-variance',  f: 'k-NN — le choix de k et le compromis biais-variance' },
+        { t: "Effets d'échelle et normalisation min-max",     f: "k-NN — effets d'échelle et normalisation min-max" },
+        { t: 'De l\'implémentation manuelle à scikit-learn',  f: 'k-NN en Python — de l\'implémentation manuelle à scikit-learn' },
+      ]},
+      { titre: 'Travaux pratiques', items: [
+        { t: 'Correction officielle du TP rugby, commentée (script Python)', u: 'ressources/knn/tp_knn_rugby.py' },
+      ]},
+      { titre: 'Pour aller plus loin', items: [
+        { t: 'Jeu de données Iris (UCI) — celui du cours',      u: 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data' },
+        { t: 'scikit-learn — KNeighborsClassifier',             u: 'https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html' },
+        { t: 'Basthon — exécuter du Python sans installation',  u: 'https://console.basthon.fr' },
+      ]},
+    ],
+  },
 ]
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
 const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
@@ -188,6 +257,10 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🔢', title: 'Représentation des données (support DIU)', desc: 'Cours complet : numération & bases, entiers (complément à 2), IEEE 754, caractères (ASCII/Unicode/UTF-8) + diapos & exos Slate — Jour en ligne 22 juin', url: 'https://diu-representations-0abb3a.forge.apps.education.fr/index.html' },
   { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
   { icon: '🧑‍💻', title: 'Créer une appli web en NSI (mdBook complet)', desc: 'Référence Flask/Python : serveur, routes, templates, formulaires, bases de données (SQL, SQLite, injection), authentification (cookies, sessions, tokens), déploiement (SSH, SSL)', url: 'https://2025-formation-web-app-python-26f3cf.forge.apps.education.fr/' },
+  { icon: '🗄️', title: 'Bloc 4 — Bases de données (B. Mermet, en ligne)', desc: 'Chapitre 1 complet : BDD relationnelles (DF, formes normales), modèle conceptuel, contraintes de référence, SGBD, SQL (LID/LMD/LDD), sqlite3 en Python, web côté serveur — Jour en ligne 10 septembre', url: 'https://bases-de-donnees-26b46e.gitlab.io/indexBD.html' },
+  { icon: '💾', title: 'Support BDD — copie locale + scripts ludothèque', desc: 'Les 7 pages du chapitre, les schémas et les 4 scripts Python du TP (creationTable…, lectureLudotheque.py), consultables hors ligne', url: 'ressources/bdd/indexBD.html' },
+  { icon: '🐍', title: 'Doc Python — module sqlite3', desc: 'Documentation officielle : connect, execute, executemany, commit, curseurs, requêtes paramétrées (utilisée dans le cours BDD du 10 septembre)', url: 'https://docs.python.org/3/library/sqlite3.html' },
+  { icon: '🍬', title: 'Notebook « Les algorithmes gloutons » (FDIU)', desc: 'TP complet sur les problèmes d\'optimisation : conversion binaire, rendu de monnaie, sac à dos, planning de conférenciers, recherche exhaustive et programmation dynamique — ouvrable dans Basthon', url: 'https://github.com/LANSIG/NSI' },
   { icon: '📁', title: 'Dépôts source des supports DIU (forge éducation)', desc: 'Groupe GitLab diu-2026-eil : code source de tous les supports (HTML/CSS, représentations…), toujours à jour', url: 'https://forge.apps.education.fr/diu-2026-eil' },
   { icon: '🐍', title: 'Listes, n-uplets et dictionnaires (Y. Pigné)', desc: 'Dépôt de notebooks (cours + TP + fiches élèves) : listes, tuples, piles/files, dictionnaires, ensembles — Bloc 1 (23 juin, ouvrables dans Basthon)', url: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires' },
   { icon: '🥞', title: 'Notebook — Piles et files (FDIU, DU Normandie)', desc: 'Cours en ligne du 15 octobre (Bloc 4) : LIFO/FIFO, classes Pile et File, notation polonaise inversée, patate chaude, ordonnanceur round-robin — copie locale, s\'ouvre dans Basthon', url: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb' },
@@ -905,6 +978,706 @@ function projetCategorie(f) { return (f.topic || '').replace(/^Projet ·\s*/, ''
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
+  // ── TP algorithmes gloutons (FDIU) — Bloc 2 ──
+  {
+    id: "tp-gloutons", bloc: "bloc2", jour: "Bloc 2 — Algorithmique",
+    theme: "Algorithmes gloutons",
+    title: "TP — Les algorithmes gloutons",
+    type: 'tp',
+    // notebook : Basthon ouvre la copie du dépôt (et le bouton ⬇ la propose au téléchargement).
+    // basthonUrl ne sert que de secours, si la ressource n'est pas encore chargée.
+    notebook: "FDIU_algorithmes_gloutons.ipynb",
+    basthonUrl: "https://notebook.basthon.fr/?from=https://raw.githubusercontent.com/LANSIG/NSI/refs/heads/main/FDIU%20-%20Les%20algorithmes%20gloutons.ipynb",
+    intro: "Un algorithme glouton résout un problème d'optimisation en appliquant toujours la même règle locale, sans jamais revenir en arrière. Simple à écrire, rapide — mais sans garantie d'optimalité. Ce TP le met à l'épreuve sur quatre problèmes : conversion en binaire, rendu de monnaie, sac à dos et planning de conférenciers, puis le compare à la recherche exhaustive. Ouvre le notebook dans Basthon pour travailler, cherche par toi-même, puis déplie la correction.",
+    steps: [
+      {
+        num: "1", title: "Décimal vers binaire sur 16 bits",
+        intro: "Premier problème glouton, le plus simple : à chaque rang, on prend le plus grand poids qui « tient » encore.",
+        code: `def dec_vers_bin_16b(n):
+    # n est un entier de 0 a 65535, la fonction renvoie une chaine de 16 caracteres
+    # TODO : pour chaque rang i de 15 a 0
+    #          si n >= 2**i : ajouter "1" au resultat et retirer 2**i de n
+    #          sinon        : ajouter "0"
+    ...
+
+print(dec_vers_bin_16b(42))     # attendu : 0000000000101010`,
+        note: "L'énoncé du notebook écrit « si n >= i² » : c'est une coquille. Le poids du rang i vaut 2 puissance i (2**i), pas i au carré. Avec i², la conversion serait fausse dès le rang 3.",
+        questions: [
+          "Écrire la fonction dec_vers_bin_16b.",
+          "En quoi cet algorithme est-il glouton ? Quelle est la règle locale, et pourquoi ne revient-on jamais en arrière ?",
+          "Pourquoi le résultat est-il ici toujours optimal, contrairement aux problèmes suivants ?"
+        ],
+        correction: [
+          { text: "On parcourt les poids du plus fort au plus faible. À chaque rang, la question est simplement : ce poids tient-il dans ce qu'il reste ? Si oui on le prend, et on le retranche." },
+          { code: `def dec_vers_bin_16b(n):
+    resultat = ""
+    for i in range(15, -1, -1):          # du poids fort (2**15) au poids faible (2**0)
+        poids = 2 ** i
+        if n >= poids:
+            resultat += "1"
+            n -= poids
+        else:
+            resultat += "0"
+    return resultat` },
+          { text: "La règle locale est « prendre le plus grand poids disponible qui tient ». Elle est appliquée seize fois de suite, et une fois qu'un bit est écrit il n'est jamais remis en cause : c'est exactement la définition d'un algorithme glouton." },
+          { text: "Ici le glouton est optimal, et ce n'est pas un hasard : chaque poids vaut plus que la somme de tous les poids inférieurs (2**i > 2**(i-1) + ... + 2 + 1). Ne pas prendre un poids qui tient serait donc irrattrapable. C'est cette propriété qui manquera au système monétaire non canonique de l'étape 4." }
+        ]
+      },
+      {
+        num: "2", title: "Décimal vers binaire sans limite",
+        intro: "Même stratégie, mais sans savoir à l'avance combien de bits seront nécessaires.",
+        code: `def dec_vers_bin(n):
+    # TODO : chercher d'abord le plus grand poids utile, puis appliquer la meme regle
+    ...
+
+def dec_vers_bin_while(n):
+    # TODO : la version par divisions successives, avec une boucle while
+    ...
+
+for n in (0, 5, 42, 1000):
+    print(n, dec_vers_bin(n), dec_vers_bin_while(n))`,
+        questions: [
+          "Écrire dec_vers_bin, qui n'a plus de borne supérieure.",
+          "Écrire la version avec un while, par divisions successives par 2.",
+          "Quel cas particulier faut-il traiter à part dans les deux versions ?"
+        ],
+        correction: [
+          { text: "Sans borne connue, il faut d'abord trouver le plus grand poids utile : on double tant qu'on ne dépasse pas n. Ensuite, la boucle est identique à celle de l'étape 1." },
+          { code: `def dec_vers_bin(n):
+    if n == 0:
+        return "0"
+    poids = 1
+    while poids * 2 <= n:        # le plus grand poids qui ne depasse pas n
+        poids *= 2
+    resultat = ""
+    while poids >= 1:
+        if n >= poids:
+            resultat += "1"
+            n -= poids
+        else:
+            resultat += "0"
+        poids //= 2
+    return resultat` },
+          { text: "La version par divisions successives lit les bits dans l'autre sens — du poids faible vers le poids fort — d'où la concaténation à gauche." },
+          { code: `def dec_vers_bin_while(n):
+    if n == 0:
+        return "0"
+    resultat = ""
+    while n > 0:
+        resultat = str(n % 2) + resultat
+        n = n // 2
+    return resultat` },
+          { text: "Le cas n = 0 : la boucle while ne s'exécute jamais et on renverrait la chaîne vide. Il faut renvoyer \"0\" explicitement. Sur 16 bits le problème ne se posait pas, puisque la boucle for tournait de toute façon seize fois." }
+        ]
+      },
+      {
+        num: "3", title: "Le rendu de monnaie",
+        intro: "On dispose d'un nombre illimité de pièces de 1, 2, 5, 10, 20, 50, 100 et 200 centimes. La règle gloutonne : toujours rendre la plus grosse pièce possible.",
+        code: `def rendu_glouton(rst, lst_piece):
+    lst_rendu = []
+    i = 0
+    # TODO : tant qu'il reste quelque chose a rendre,
+    #        prendre la piece lst_piece[i] si elle tient, sinon passer a la suivante
+    return lst_rendu
+
+euro = [200, 100, 50, 20, 10, 5, 2, 1]
+rd = rendu_glouton(11, euro);  print(rd, rd == [10, 1])
+rd = rendu_glouton(48, euro);  print(rd, rd == [20, 20, 5, 2, 1])
+rd = rendu_glouton(52, euro);  print(rd, rd == [50, 2])`,
+        questions: [
+          "Écrire rendu_glouton et vérifier les trois tests.",
+          "Pourquoi la liste des pièces doit-elle être triée par ordre décroissant ?",
+          "Que fait l'indice i, et pourquoi ne le remet-on jamais à zéro ?"
+        ],
+        correction: [
+          { text: "Deux cas seulement dans la boucle : soit la pièce courante tient dans ce qu'il reste et on la prend (sans changer d'indice, car on peut la reprendre), soit elle est trop grosse et on passe définitivement à la suivante." },
+          { code: `def rendu_glouton(rst, lst_piece):
+    lst_rendu = []
+    i = 0
+    while rst > 0 and i < len(lst_piece):
+        if lst_piece[i] <= rst:
+            lst_rendu.append(lst_piece[i])
+            rst -= lst_piece[i]
+        else:
+            i += 1
+    return lst_rendu` },
+          { text: "Les trois tests passent : 11 donne [10, 1], 48 donne [20, 20, 5, 2, 1], 52 donne [50, 2]." },
+          { text: "Le tri décroissant EST la stratégie gloutonne : « la plus grosse pièce d'abord ». Avec une liste croissante, le même code rendrait 11 centimes avec onze pièces de 1 centime." },
+          { text: "i désigne la pièce qu'on essaie en ce moment. On ne le remet jamais à zéro parce qu'une pièce déclarée trop grosse le restera : le reste à rendre ne fait que diminuer. C'est le « on ne revient jamais en arrière » des algorithmes gloutons, et c'est aussi ce qui rend l'algorithme linéaire." }
+        ]
+      },
+      {
+        num: "4", title: "Quand le glouton se trompe",
+        intro: "Un système de pièces est dit canonique si l'algorithme glouton y donne toujours le nombre minimal de pièces. L'euro l'est. Le système britannique d'avant 1971 — 30, 24, 12, 6, 3 et 1 pence — ne l'est pas.",
+        code: `# Un systeme monetaire NON canonique
+print(rendu_glouton(48, [30, 24, 12, 6, 3, 1]))
+print(rendu_glouton(52, [30, 24, 12, 6, 3, 1]))
+
+# Et s'il n'y a plus de piece de 1 centime ?
+print(rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2]))
+
+# TODO : pour chacun des trois cas, trouver a la main une meilleure solution`,
+        note: "Une fois la décision prise, l'algorithme glouton ne la remet jamais en cause — même quand elle le conduit dans une impasse.",
+        questions: [
+          "Pour 48 pence, que rend le glouton ? Existe-t-il mieux ?",
+          "Pour 52 pence, même question.",
+          "Sans pièce de 1 centime, que se passe-t-il pour 11 centimes ? Le programme plante-t-il ?",
+          "Quelle solution correcte existe pourtant pour ces 11 centimes ?"
+        ],
+        correction: [
+          { text: "Pour 48 pence, le glouton rend [30, 12, 6], soit 3 pièces. Mais [24, 24] suffit : 2 pièces. Le glouton a pris la pièce de 30 parce qu'elle était la plus grosse, et ce choix l'a écarté de la solution optimale." },
+          { text: "Pour 52 pence, le glouton rend [30, 12, 6, 3, 1], soit 5 pièces, alors que [24, 24, 3, 1] n'en demande que 4." },
+          { text: "Sans pièce de 1 centime, rendre 11 donne [10] : le programme ne plante pas et ne boucle pas à l'infini — il s'arrête simplement en ayant rendu 10 centimes sur 11. C'est pire qu'une erreur visible : le résultat est faux mais silencieux. Le test « i < len(lst_piece) » de la boucle est ce qui évite la boucle infinie." },
+          { text: "Avec les pièces restantes, 11 = 5 + 2 + 2 + 2, soit 4 pièces. Le glouton a commencé par prendre 10, ce qui laissait 1 centime impossible à rendre. Il aurait fallu renoncer à la plus grosse pièce — exactement ce qu'un algorithme glouton ne sait pas faire." },
+          { text: "Pour vérifier ces affirmations, on peut écrire une référence exhaustive par programmation dynamique, qui calcule le vrai minimum :" },
+          { code: `def rendu_optimal(rst, lst_piece):
+    INF = float("inf")
+    mini = [0] + [INF] * rst
+    choix = [None] * (rst + 1)
+    for somme in range(1, rst + 1):
+        for p in lst_piece:
+            if p <= somme and mini[somme - p] + 1 < mini[somme]:
+                mini[somme] = mini[somme - p] + 1
+                choix[somme] = p
+    if mini[rst] == INF:
+        return None                      # somme impossible a rendre
+    pieces = []
+    while rst > 0:
+        pieces.append(choix[rst])
+        rst -= choix[rst]
+    return sorted(pieces, reverse=True)` }
+        ]
+      },
+      {
+        num: "5", title: "Le sac à dos — critère 1 : la valeur",
+        intro: "Quatre objets, décrits par un tuple (valeur, masse) : (5, 13), (4, 8), (3, 10) et (7, 12). Le sac accepte une masse maximale. Premier critère local : prendre d'abord l'objet le plus cher.",
+        code: `valeur_masse_objets = [(5, 13), (4, 8), (3, 10), (7, 12)]
+
+def masse(liste_objet):
+    # TODO : masse totale d'une liste d'objets
+    ...
+
+def valeur(liste_objet):
+    # TODO : valeur totale d'une liste d'objets
+    ...
+
+def sac_a_dos_1(masse_max, liste_objet):
+    # TODO : trier par valeur decroissante, puis prendre chaque objet s'il tient encore
+    ...
+
+sad = sac_a_dos_1(15, valeur_masse_objets); print(sad, sad == [(7, 12)])
+sad = sac_a_dos_1(21, valeur_masse_objets); print(sad, sad == [(7, 12), (4, 8)])
+sad = sac_a_dos_1(30, valeur_masse_objets); print(sad, sad == [(7, 12), (5, 13)])`,
+        questions: [
+          "Écrire masse, valeur et sac_a_dos_1, puis vérifier les trois tests.",
+          "À la main : avec un sac de 30 kg, quels objets faudrait-il vraiment prendre ?",
+          "Pourquoi sorted(liste, reverse=True) suffit-il ici, sans préciser de clé de tri ?"
+        ],
+        correction: [
+          { text: "Les objets sont des tuples (valeur, masse) : l'indice 0 est la valeur, l'indice 1 la masse." },
+          { code: `def masse(liste_objet):
+    total = 0
+    for objet in liste_objet:
+        total += objet[1]
+    return total
+
+
+def valeur(liste_objet):
+    total = 0
+    for objet in liste_objet:
+        total += objet[0]
+    return total
+
+
+def sac_a_dos_1(masse_max, liste_objet):
+    tries = sorted(liste_objet, reverse=True)      # tri sur le 1er element : la valeur
+    sac = []
+    for objet in tries:
+        if masse(sac) + objet[1] <= masse_max:
+            sac.append(objet)
+    return sac` },
+          { text: "Les trois tests passent. Avec 30 kg, le glouton prend (7, 12) puis (5, 13) : 25 kg pour 12 €. Il ne peut plus rien ajouter, (4, 8) ferait 33 kg." },
+          { text: "Pourtant la meilleure solution à 30 kg est (7, 12) + (4, 8) + (3, 10), soit 30 kg tout juste pour 14 €. En prenant l'objet à 5 €, le glouton a consommé 13 kg pour pas grand-chose et s'est fermé deux possibilités. Le critère « le plus cher d'abord » ignore complètement le prix à payer en place occupée." },
+          { text: "Python compare les tuples élément par élément : sorted trie donc d'abord sur la valeur, et ne départage sur la masse qu'en cas d'égalité de valeur. C'est exactement le critère voulu ici — mais dès qu'on voudra trier sur autre chose que le premier élément, il faudra passer une clé." }
+        ]
+      },
+      {
+        num: "6", title: "Le sac à dos — critère 2 : le rapport valeur/masse",
+        intro: "Un critère plus fin : privilégier les objets qui rapportent le plus par kilo. On construit des triplets (valeur, masse, valeur/masse) et on trie sur le rapport.",
+        code: `def sac_a_dos_2(masse_max, liste_objet):
+    # TODO : construire la liste des (valeur, masse, valeur/masse)
+    # TODO : la trier sur le rapport, par ordre decroissant
+    # TODO : puis prendre chaque objet s'il tient encore
+    ...
+
+print(sac_a_dos_2(30, valeur_masse_objets))
+
+# La grande liste : 20 objets
+valeur_masse = [(35, 120), (30, 30), (26, 50), (21, 20), (18, 40), (17, 60), (15, 30),
+                (14, 10), (13, 14), (11, 36), (10, 72), (9, 86), (8, 5), (7, 3), (6, 7),
+                (5, 23), (4, 49), (3, 57), (2, 69), (1, 12)]
+
+for max_sac in (205, 420):
+    s1 = sac_a_dos_1(max_sac, valeur_masse)
+    s2 = sac_a_dos_2(max_sac, valeur_masse)
+    print(max_sac, "kg :", valeur(s1), "EUR contre", valeur(s2), "EUR")`,
+        questions: [
+          "Écrire sac_a_dos_2.",
+          "Sur les quatre objets avec un sac de 30 kg, ce critère fait-il mieux que le premier ?",
+          "Sur la grande liste, lequel des deux critères donne le meilleur résultat à 205 kg ? Et à 420 kg ?",
+          "Peut-on conclure qu'un critère est meilleur que l'autre ?"
+        ],
+        correction: [
+          { text: "Le tri ne peut plus se faire sur le premier élément : il faut une clé qui désigne le rapport." },
+          { code: `def sac_a_dos_2(masse_max, liste_objet):
+    avec_ratio = [(v, m, v / m) for (v, m) in liste_objet]
+    tries = sorted(avec_ratio, key=lambda x: x[2], reverse=True)
+    sac = []
+    for (v, m, _) in tries:
+        if masse(sac) + m <= masse_max:
+            sac.append((v, m))
+    return sac` },
+          { text: "Sur les quatre objets avec 30 kg, oui : le critère du rapport trouve 14 €, soit exactement l'optimum, là où le critère de la valeur plafonnait à 12 €. L'ordre des objets a changé — (4, 8) rapporte 0,5 €/kg contre 0,58 pour (7, 12) et 0,38 pour (5, 13)." },
+          { text: "Sur la grande liste, les résultats mesurés sont les suivants. À 205 kg : le critère 1 donne 99 €, le critère 2 donne 151 € — le rapport écrase la valeur seule. À 420 kg en revanche : le critère 1 donne 215 € et le critère 2 seulement 210 €. Le classement s'inverse." },
+          { text: "Non, et c'est la vraie leçon du TP. Le critère du rapport est meilleur en général, mais « en général » n'est pas « toujours » : à 420 kg le critère naïf atteint 215 €, ce qui se trouve être l'optimum exact, pendant que le critère réputé plus fin s'arrête à 210 €. Un algorithme glouton n'a pas de garantie, seulement des tendances — et la seule façon de savoir est de mesurer." },
+          { text: "Pour trancher, il faut une référence exhaustive. Celle-ci parcourt les masses atteignables et garde le meilleur sac pour chacune :" },
+          { code: `def sac_a_dos_optimal(masse_max, liste_objet):
+    meilleurs = {0: []}                    # masse -> meilleur sac de cette masse
+    for (v, m) in liste_objet:
+        nouveaux = dict(meilleurs)
+        for mm, sac in meilleurs.items():
+            if mm + m <= masse_max:
+                cand = sac + [(v, m)]
+                if valeur(cand) > valeur(nouveaux.get(mm + m, [])):
+                    nouveaux[mm + m] = cand
+        meilleurs = nouveaux
+    return max(meilleurs.values(), key=valeur)` },
+          { text: "Elle donne 152 € à 205 kg (le critère 2 en trouvait 151, il s'en approche de très près) et 215 € à 420 kg (le critère 1 atteint donc bien l'optimum, par chance)." }
+        ]
+      },
+      {
+        num: "7", title: "Le planning des conférenciers — version gloutonne",
+        intro: "Des conférenciers ne sont disponibles que sur un créneau donné. Il faut en caser le plus grand nombre possible dans une seule salle. Un créneau est un tuple (début, fin, nom).",
+        code: `tab_conf_1 = [(3, 4, 'C1'), (0, 1, 'C2'), (2, 3, 'C3'), (1, 2, 'C4')]
+# TODO : ecrire tab_conf_2 et tab_conf_3 d'apres les schemas du notebook
+tab_conf_4 = [(0, 7, 'C1'), (2, 5, 'C2'), (6, 8, 'C3'), (1, 2, 'C4'), (5, 6, 'C5'),
+              (0, 2, 'C6'), (4, 7, 'C7'), (0, 1, 'C8'), (3, 6, 'C9'), (1, 3, 'C10'),
+              (4, 5, 'C11'), (6, 8, 'C12'), (0, 2, 'C13'), (5, 7, 'C14'), (1, 4, 'C15')]
+
+def planning1(tab_inter):
+    # TODO : trier selon le critere local choisi, puis retenir les creneaux compatibles
+    ...
+
+print(planning1(tab_conf_1))
+print(planning1(tab_conf_4))`,
+        questions: [
+          "Proposer deux critères locaux possibles pour choisir les conférenciers.",
+          "Traduire les cas 2 et 3 des schémas en listes de tuples.",
+          "Écrire planning1 avec le critère qui vous paraît le meilleur.",
+          "Combien de conférenciers le cas 4 permet-il de caser ?"
+        ],
+        correction: [
+          { text: "Trois critères viennent naturellement à l'esprit : commencer par le conférencier qui débute le plus tôt, par celui dont l'exposé est le plus court, ou par celui qui TERMINE le plus tôt. Les deux premiers semblent raisonnables et sont pourtant mauvais : celui qui débute le plus tôt peut occuper toute la journée (le cas 3 en est l'illustration), et le plus court peut tomber à cheval sur deux créneaux qu'il bloque tous les deux." },
+          { text: "Le bon critère est le troisième : finir le plus tôt possible, c'est libérer la salle au plus tôt et laisser le maximum de place à la suite. C'est le seul des trois qui soit démontrablement optimal." },
+          { text: "D'après les schémas : au cas 2, C2 occupe [0, 1], C4 occupe [0, 2], C3 occupe [1, 3] et C1 occupe [2, 4]. Au cas 3, C1 occupe [0, 3], C2 occupe [1, 2] et C3 occupe [2, 3]." },
+          { code: `tab_conf_2 = [(2, 4, 'C1'), (0, 1, 'C2'), (1, 3, 'C3'), (0, 2, 'C4')]
+tab_conf_3 = [(0, 3, 'C1'), (1, 2, 'C2'), (2, 3, 'C3')]
+
+
+def planning1(tab_inter):
+    tries = sorted(tab_inter, key=lambda c: c[1])    # tri sur l'heure de FIN
+    planning = []
+    fin_courante = 0
+    for conf in tries:
+        if conf[0] >= fin_courante:                  # la salle est libre
+            planning.append(conf)
+            fin_courante = conf[1]
+    return planning` },
+          { text: "Résultats : le cas 1 case les 4 conférenciers (C2, C4, C3, C1 — ils s'enchaînent parfaitement) ; le cas 2 en case 2 (C2 puis C3) ; le cas 3 en case 2 (C2 puis C3, C1 étant écarté malgré son heure de début la plus précoce) ; le cas 4 en case 5 (C8, C4, C2, C5, C3)." },
+          { text: "Le cas 3 mérite un arrêt : C1 commence le premier, à 0, mais occupe la salle jusqu'à 3. Le retenir interdirait tout le reste. Le critère de l'heure de fin l'écarte et permet d'en caser deux. C'est la démonstration par l'exemple que « commencer le plus tôt » est un mauvais critère." }
+        ]
+      },
+      {
+        num: "8", title: "Le planning — recherche exhaustive récursive",
+        intro: "L'algorithme concurrent : explorer toutes les combinaisons et garder la meilleure. Pour chaque conférence, deux possibilités — la prendre ou non.",
+        code: `def planning2(tab_inter, debut=0, i=0):
+    # Meilleur planning commencant a \`debut\` avec les conferences i et suivantes.
+    # TODO : s'il n'y a plus de conference -> planning vide
+    # TODO : si la conference i commence avant \`debut\` -> passer a i + 1
+    # TODO : sinon comparer les deux solutions (la prendre / ne pas la prendre)
+    ...
+
+for tab in (tab_conf_1, tab_conf_2, tab_conf_3, tab_conf_4):
+    print(planning2(sorted(tab)))`,
+        note: "On passe sorted(tab) : l'algorithme suppose les conférences rangées par heure de début croissante.",
+        questions: [
+          "Écrire planning2.",
+          "Le glouton trouve-t-il le même nombre de conférenciers que la recherche exhaustive ?",
+          "Modifier l'algorithme pour qu'à nombre égal il préfère le planning qui laisse le moins de trous.",
+          "Quelle est la complexité de planning2, et à quelle limite se heurte-t-elle ?"
+        ],
+        correction: [
+          { text: "Le cœur de la récursivité : pour chaque conférence compatible, on calcule le meilleur planning en la prenant, puis le meilleur en ne la prenant pas, et on garde le plus long." },
+          { code: `def planning2(tab_inter, debut=0, i=0):
+    if i >= len(tab_inter):
+        return []
+    if tab_inter[i][0] < debut:                   # conference deja commencee
+        return planning2(tab_inter, debut, i + 1)
+    avec = [tab_inter[i]] + planning2(tab_inter, tab_inter[i][1], i + 1)
+    sans = planning2(tab_inter, debut, i + 1)
+    return avec if len(avec) >= len(sans) else sans` },
+          { text: "Oui — et c'est le résultat le plus intéressant du TP. Sur les quatre cas, le glouton case exactement autant de conférenciers que la recherche exhaustive : 4, 2, 2 et 5. Contrairement au sac à dos, le critère « terminer le plus tôt » est ici démontrablement optimal. Ce problème s'appelle l'ordonnancement d'intervalles, et c'est l'un des rares où un glouton bien choisi donne la garantie de l'optimum." },
+          { text: "Pour départager deux plannings de même taille, on compare la durée totale réellement occupée : plus elle est grande, moins il y a de trous." },
+          { code: `def duree_occupee(planning):
+    return sum(fin - deb for (deb, fin, _) in planning)
+
+
+def planning3(tab_inter, debut=0, i=0):
+    if i >= len(tab_inter):
+        return []
+    if tab_inter[i][0] < debut:
+        return planning3(tab_inter, debut, i + 1)
+    avec = [tab_inter[i]] + planning3(tab_inter, tab_inter[i][1], i + 1)
+    sans = planning3(tab_inter, debut, i + 1)
+    if len(avec) != len(sans):
+        return avec if len(avec) > len(sans) else sans
+    return avec if duree_occupee(avec) >= duree_occupee(sans) else sans` },
+          { text: "Au cas 2, la différence se voit : planning2 retient C2 [0,1] puis C3 [1,3], soit 3 heures occupées, tandis que planning3 retient C4 [0,2] puis C1 [2,4], soit 4 heures — deux conférenciers dans les deux cas, mais une salle mieux remplie." },
+          { text: "Chaque appel en déclenche deux : la complexité est exponentielle, en O(2 puissance n). Avec 15 conférenciers cela reste instantané, mais le temps double à chaque conférencier ajouté — quelques dizaines suffisent à rendre le calcul impossible. C'est le prix de la garantie d'optimalité, et c'est exactement le défaut que la programmation dynamique cherche à corriger." }
+        ]
+      },
+      {
+        num: "9", title: "Le coût de la récursivité : Fibonacci",
+        intro: "Pour mesurer ce que coûte une exploration exhaustive naïve, un exemple plus simple : la suite de Fibonacci, où chaque terme est la somme des deux précédents.",
+        code: `def fiboR(n):
+    # TODO : la version recursive, traduction directe de la definition
+    ...
+
+# Combien de temps pour fiboR(35) ?
+
+dicFibo = {..., ...}
+
+def fiboD(n):
+    # TODO : la version dynamique, qui memorise les resultats deja calcules
+    ...
+
+print(fiboD(60))`,
+        note: "Mémoriser les résultats déjà calculés pour ne pas les recalculer s'appelle la programmation dynamique. C'est la réponse standard au coût exponentiel de la récursivité naïve.",
+        questions: [
+          "Écrire fiboR, la version récursive.",
+          "Pourquoi est-elle si lente ? Combien d'appels pour fiboR(6) ?",
+          "Écrire fiboD, la version qui mémorise ses résultats.",
+          "Que vaut fiboD(60) ? Pourquoi la version récursive ne peut-elle pas le calculer ?"
+        ],
+        correction: [
+          { code: `def fiboR(n):
+    if n < 2:
+        return n
+    return fiboR(n - 1) + fiboR(n - 2)` },
+          { text: "Elle est lente parce qu'elle recalcule sans cesse les mêmes valeurs. fiboR(6) appelle fiboR(5) et fiboR(4) ; fiboR(5) rappelle fiboR(4)… qui a déjà été calculé. L'arbre des appels compte 25 appels pour n = 6, et sa taille double presque à chaque incrément de n : la complexité est exponentielle." },
+          { text: "La version dynamique garde un dictionnaire des résultats connus. Il contient au départ les deux valeurs de base, et la recherche dans le dictionnaire sert de condition d'arrêt." },
+          { code: `dicFibo = {0: 0, 1: 1}
+
+
+def fiboD(n):
+    if n not in dicFibo:
+        dicFibo[n] = fiboD(n - 1) + fiboD(n - 2)
+    return dicFibo[n]` },
+          { text: "fiboD(60) vaut 1 548 008 755 920, calculé instantanément : chaque terme n'est calculé qu'une fois, la complexité est devenue linéaire. La version récursive naïve, elle, demanderait environ cinq mille milliards d'appels pour le même résultat : mesuré sur une machine courante qui enchaîne près de 18 millions d'appels par seconde, cela représente un peu plus de trois jours de calcul. Le passage de l'un à l'autre tient en trois lignes." }
+        ]
+      }
+    ]
+  },
+  // ── TP k-NN — Bloc 2, séance en ligne du 10 septembre (L. Amanton) ──
+  {
+    id: "tp-knn-rugby", bloc: "bloc2", jour: "En ligne — 10 septembre 2026",
+    theme: "Apprentissage automatique — k plus proches voisins",
+    title: "TP — Classer des rugbymen avec les k plus proches voisins",
+    type: 'tp',
+    intro: "On dispose de la taille et du poids de 30 internationaux français, avec leur poste (Avant ou Arrière). Objectif : écrire k-NN entièrement à la main pour deviner le poste d'un joueur à partir de son seul gabarit, puis mesurer le taux d'erreur et chercher la meilleure valeur de k. Uniquement la bibliothèque standard (math, random) et matplotlib pour la courbe finale : ni numpy, ni scikit-learn. Cherche la réponse avant d'ouvrir la correction.",
+    steps: [
+      {
+        num: "1", title: "Le jeu de données",
+        intro: "Chaque joueur est une liste [Nom, Taille (cm), Poids (kg), Poste]. Les 16 avants sont donnés d'abord, puis les 14 arrières.",
+        code: `import math
+import random
+import matplotlib.pyplot as plt
+
+# [Nom, Taille (cm), Poids (kg), Poste] — 30 joueurs (16 Avants, 14 Arrières)
+joueurs = [
+    # --- Avants ---
+    ["Atonio", 196, 145, "Avant"], ["Baille", 182, 115, "Avant"],
+    ["Marchand", 181, 108, "Avant"], ["Flament", 203, 116, "Avant"],
+    ["Meafou", 203, 145, "Avant"], ["Alldritt", 191, 114, "Avant"],
+    ["Ollivon", 199, 113, "Avant"], ["Cros", 190, 110, "Avant"],
+    ["Wardi", 185, 110, "Avant"], ["Mauvaka", 183, 105, "Avant"],
+    ["Aldegheri", 181, 115, "Avant"], ["Taofifenua", 200, 135, "Avant"],
+    ["Woki", 196, 109, "Avant"], ["Boudehent", 192, 106, "Avant"],
+    ["Jelonch", 193, 106, "Avant"], ["Bamba", 185, 117, "Avant"],
+    # --- Arrières ---
+    ["Dupont", 174, 85, "Arrière"], ["Ntamack", 186, 86, "Arrière"],
+    ["Penaud", 192, 97, "Arrière"], ["Fickou", 190, 100, "Arrière"],
+    ["Danty", 181, 106, "Arrière"], ["Bielle-Biarrey", 184, 82, "Arrière"],
+    ["Ramos", 178, 81, "Arrière"], ["Lucu", 177, 84, "Arrière"],
+    ["Jalibert", 189, 86, "Arrière"], ["Moefana", 183, 98, "Arrière"],
+    ["Depoortère", 194, 94, "Arrière"], ["Lebel", 185, 93, "Arrière"],
+    ["Gailleton", 185, 89, "Arrière"], ["Barré", 188, 88, "Arrière"]
+]
+
+# TODO : afficher le nombre de joueurs, puis le minimum et le maximum
+#        de la taille, et le minimum et le maximum du poids.`,
+        questions: [
+          "Quelles sont les deux caractéristiques utilisées pour décider, et quelle est l'étiquette à prédire ?",
+          "Sur quelle plage varie la taille ? et le poids ? Laquelle des deux varie le plus ?",
+          "En regardant Danty (181 cm, 106 kg) et Marchand (181 cm, 108 kg), que peut-on déjà craindre ?"
+        ],
+        correction: [
+          { text: "Les caractéristiques sont la taille et le poids : ce sont les deux nombres à partir desquels on calcule des distances. L'étiquette à prédire est le poste, une valeur non numérique (« Avant » ou « Arrière ») : c'est donc un problème de CLASSIFICATION, pas de régression." },
+          { code: `print(len(joueurs), "joueurs")
+
+tailles = [j[1] for j in joueurs]
+poids = [j[2] for j in joueurs]
+print("taille :", min(tailles), "à", max(tailles), "cm  (amplitude", max(tailles) - min(tailles), ")")
+print("poids  :", min(poids), "à", max(poids), "kg  (amplitude", max(poids) - min(poids), ")")` },
+          { text: "On obtient une taille de 174 à 203 cm (amplitude 29) et un poids de 81 à 145 kg (amplitude 64). Le poids varie donc sur une plage plus de deux fois plus large : dans le calcul d'une distance euclidienne, il pèsera environ deux fois plus lourd que la taille. Retiens cette remarque, on y reviendra." },
+          { text: "Danty est un arrière de 181 cm pour 106 kg ; Marchand est un avant de 181 cm pour 108 kg. Deux joueurs presque confondus dans le plan (taille, poids) mais de postes différents : aucun algorithme fondé sur ces deux seules mesures ne pourra les distinguer. C'est la limite du jeu de caractéristiques, pas celle de k-NN." }
+        ]
+      },
+      {
+        num: "2", title: "Séparer entraînement et test",
+        intro: "On garde environ 75 % des joueurs pour « apprendre » et 25 % pour évaluer honnêtement le modèle sur des joueurs qu'il n'a jamais vus.",
+        code: `# La liste est rangée par poste : 16 avants D'ABORD, puis 14 arrières.
+# TODO : pourquoi prendre directement joueurs[:22] serait-il une très mauvaise idée ?
+# TODO : mélanger la liste, puis la couper en 22 / 8.
+
+entrainement = ...
+test = ...`,
+        note: "Règle d'or : on n'évalue JAMAIS un modèle sur des données qui ont servi à l'entraîner. Il les a mémorisées, il aurait 100 % de réussite et on n'aurait rien mesuré.",
+        questions: [
+          "Que contiendraient entrainement = joueurs[:22] et test = joueurs[22:] sans mélange préalable ?",
+          "Écrire le mélange et le découpage 22 / 8.",
+          "Relance le programme deux fois : obtiens-tu les mêmes joueurs dans le test ? Comment rendre le tirage reproductible ?"
+        ],
+        correction: [
+          { text: "Sans mélange, l'entraînement recevrait les 16 avants et seulement 6 arrières, et le test serait composé de 8 arrières et d'aucun avant. Le modèle n'aurait presque jamais vu d'arrières, et on l'évaluerait uniquement sur des arrières : la mesure n'aurait aucun sens. C'est pourquoi on mélange d'abord." },
+          { code: `random.shuffle(joueurs)
+
+entrainement = joueurs[:22]
+test = joueurs[22:30]  # 8 joueurs` },
+          { text: "random.shuffle mélange la liste SUR PLACE : il ne renvoie rien, il modifie joueurs directement. Écrire joueurs = random.shuffle(joueurs) est une erreur classique qui remplace la liste par None." },
+          { text: "Non, le tirage change à chaque exécution : les 8 joueurs du test ne sont jamais les mêmes, donc les résultats non plus. Pour figer le tirage le temps d'une comparaison, on fixe la graine du générateur aléatoire avant de mélanger." },
+          { code: `random.seed(42)     # même mélange à chaque exécution
+random.shuffle(joueurs)` }
+        ]
+      },
+      {
+        num: "3", title: "La distance euclidienne",
+        intro: "Pour trouver les voisins d'un joueur, il faut d'abord savoir mesurer à quel point deux joueurs se ressemblent.",
+        code: `def distance_euclidienne(p1, p2):
+    # p1 et p2 sont deux couples [taille, poids]
+    # TODO : renvoyer la racine carrée de la somme des carrés des écarts
+    pass
+
+# Vérification : Danty [181, 106] et Marchand [181, 108]
+print(distance_euclidienne([181, 106], [181, 108]))`,
+        questions: [
+          "Écrire la fonction distance_euclidienne.",
+          "Que vaut la distance entre Danty [181, 106] et Marchand [181, 108] ? Et entre Dupont [174, 85] et Atonio [196, 145] ?",
+          "Pourquoi extrait-on les caractéristiques avec joueur[1:3] plutôt que d'utiliser le joueur entier ?"
+        ],
+        correction: [
+          { text: "La distance euclidienne du cours, en deux dimensions, est la racine carrée de la somme des carrés des écarts sur chaque caractéristique : c'est la longueur du segment qui relie les deux points dans le plan (taille, poids)." },
+          { code: `def distance_euclidienne(p1, p2):
+    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)` },
+          { text: "Entre Danty et Marchand : racine(0² + 2²) = 2,0 — ils sont quasiment au même endroit. Entre Dupont et Atonio : racine(22² + 60²) = racine(484 + 3600) = racine(4084) ≈ 63,9 — le demi de mêlée et le pilier sont aux deux extrémités du nuage." },
+          { text: "Un joueur est [Nom, Taille, Poids, Poste] : le nom et le poste ne sont pas des nombres, on ne peut pas les soustraire. La tranche joueur[1:3] prend les éléments d'indice 1 et 2 — la taille et le poids — et s'arrête avant l'indice 3. C'est exactement le couple de caractéristiques attendu par la fonction." }
+        ]
+      },
+      {
+        num: "4", title: "Les k plus proches voisins et le vote",
+        intro: "Le cœur de l'algorithme : calculer toutes les distances, garder les k plus petites, puis faire voter les voisins retenus.",
+        code: `def knn(donnees_ent, cible, k):
+    distances = []
+    for joueur in donnees_ent:
+        caracteristiques = joueur[1:3]   # taille et poids
+        classe = joueur[3]               # le poste
+        # TODO : calculer la distance à la cible et l'empiler avec la classe
+
+    # TODO : trier par distance croissante, puis garder les k premiers
+    k_voisins = ...
+
+    # TODO : compter les postes présents parmi ces k voisins
+    effectifs = {}
+
+    # TODO : renvoyer le poste le plus représenté
+    return ...`,
+        note: "Rien n'est calculé tant qu'on ne prédit pas : la phase d'entraînement de k-NN se résume à garder les données sous la main. C'est ce que le cours appelle un apprentissage paresseux.",
+        questions: [
+          "Compléter la fonction knn.",
+          "À quoi sert le paramètre key dans distances.sort(key=lambda x: x[0]) ?",
+          "Expliquer l'idiome effectifs[classe] = effectifs.get(classe, 0) + 1.",
+          "Que renvoie max(effectifs, key=effectifs.get) : une clé ou une valeur ?"
+        ],
+        correction: [
+          { text: "On construit une liste de couples (distance, classe), on la trie, on coupe aux k premiers, on compte les classes dans un dictionnaire, et on renvoie celle qui revient le plus souvent." },
+          { code: `def knn(donnees_ent, cible, k):
+    distances = []
+    for joueur in donnees_ent:
+        caracteristiques = joueur[1:3]
+        classe = joueur[3]
+        dist = distance_euclidienne(caracteristiques, cible)
+        distances.append((dist, classe))
+
+    distances.sort(key=lambda x: x[0])
+    k_voisins = distances[:k]
+
+    effectifs = {}
+    for _, classe in k_voisins:
+        effectifs[classe] = effectifs.get(classe, 0) + 1
+
+    return max(effectifs, key=effectifs.get)` },
+          { text: "key indique SUR QUOI trier. Chaque élément x est un couple (distance, classe) ; x[0] est la distance. Sans key, Python comparerait les couples entiers : à distance égale il comparerait les chaînes de caractères des postes, ce qui n'a aucun sens ici. Le tri de Python est stable : deux joueurs à égale distance restent dans leur ordre d'origine." },
+          { text: "dictionnaire.get(cle, 0) renvoie la valeur associée à la clé, ou 0 si la clé est absente. La ligne ajoute donc 1 au compteur du poste, en le créant à 0 la première fois. Sans .get, il faudrait tester if classe in effectifs avant chaque incrémentation." },
+          { text: "Elle renvoie une CLÉ. max parcourt les clés du dictionnaire et les compare d'après effectifs.get(cle), c'est-à-dire d'après leur effectif. Le résultat est donc le poste majoritaire, pas son nombre de voix." },
+          { text: "Une prédiction, pour vérifier : knn(entrainement, [190, 100], 3) donne le poste attribué à un joueur de 190 cm pour 100 kg." }
+        ]
+      },
+      {
+        num: "5", title: "Évaluer le modèle : le taux d'erreur",
+        intro: "On applique la prédiction à chacun des 8 joueurs du test et on compte les fois où le modèle s'est trompé.",
+        code: `def evaluer_modele(donnees_ent, donnees_test, k):
+    """Calcule le taux d'erreur du modèle pour un k donné."""
+    erreurs = 0
+    for joueur in donnees_test:
+        cible = joueur[1:3]
+        vraie_classe = joueur[3]
+        # TODO : prédire, comparer à la vraie classe, compter les erreurs
+
+    # TODO : renvoyer le ratio d'erreurs (entre 0.0 et 1.0)
+    return ...
+
+print(evaluer_modele(entrainement, test, 3))`,
+        questions: [
+          "Compléter evaluer_modele.",
+          "Le jeu de test compte 8 joueurs : quelles valeurs le taux d'erreur peut-il prendre ?",
+          "Un taux d'erreur de 0,0 signifie-t-il que le modèle est parfait ?"
+        ],
+        correction: [
+          { code: `def evaluer_modele(donnees_ent, donnees_test, k):
+    """Calcule le taux d'erreur du modèle pour un k donné."""
+    erreurs = 0
+    for joueur in donnees_test:
+        cible = joueur[1:3]
+        vraie_classe = joueur[3]
+        prediction = knn(donnees_ent, cible, k)
+
+        if prediction != vraie_classe:
+            erreurs += 1
+
+    return erreurs / len(donnees_test)` },
+          { text: "Avec 8 joueurs, le nombre d'erreurs est un entier de 0 à 8 : le taux ne peut valoir que 0 %, 12,5 %, 25 %, 37,5 %… Il avance par marches de 12,5 %. Une seule erreur de plus ou de moins fait donc bouger la courbe de façon très visible : c'est le signe que l'échantillon de test est petit." },
+          { text: "Non. Cela signifie que le modèle a correctement classé CES 8 joueurs-là. Avec un autre tirage, le résultat serait différent. Un taux mesuré sur 8 exemples est une estimation très imprécise de la qualité réelle du modèle." }
+        ]
+      },
+      {
+        num: "6", title: "L'influence de k",
+        intro: "k est un hyperparamètre : ce n'est pas le programme qui l'apprend, c'est nous qui le choisissons. Testons plusieurs valeurs.",
+        code: `# On ne teste que des valeurs IMPAIRES pour éviter les ex aequo dans le vote
+valeurs_k = [1, 3, 5, 7, 9, 11, 13, 15]
+taux_erreurs = []
+
+for k in valeurs_k:
+    # TODO : évaluer le modèle pour ce k, stocker le taux, puis l'afficher
+    pass`,
+        questions: [
+          "Écrire la boucle.",
+          "Pourquoi se limiter à des valeurs impaires de k ?",
+          "Le cours conseille k proche de la racine carrée du nombre d'exemples d'entraînement : que cela donne-t-il ici ?",
+          "Que se passerait-il avec k = 22, le nombre total d'exemples d'entraînement ?"
+        ],
+        correction: [
+          { code: `valeurs_k = [1, 3, 5, 7, 9, 11, 13, 15]
+taux_erreurs = []
+
+for k in valeurs_k:
+    erreur = evaluer_modele(entrainement, test, k)
+    taux_erreurs.append(erreur)
+    print(f"Pour k={k}, taux d'erreur = {erreur * 100:.1f}%")` },
+          { text: "Il y a deux postes possibles. Avec un k pair, le vote peut donner 2 contre 2 ou 3 contre 3 : le résultat dépendrait alors de l'ordre des données, pas de leur contenu. Un k impair rend toujours une majorité possible. Avec trois classes ou plus, en revanche, aucun k ne met à l'abri d'un ex æquo (k = 5 autorise 2 – 2 – 1) : il faut alors prévoir une règle de départage, par exemple la classe du voisin le plus proche." },
+          { text: "L'entraînement compte 22 joueurs, et racine(22) ≈ 4,69 : la règle du cours conseille donc k = 5. C'est bien dans l'intervalle de 3 à 10 que le cours recommande en pratique." },
+          { text: "Avec k = 22, les 22 joueurs d'entraînement votent pour CHAQUE prédiction : le résultat ne dépend plus du tout du joueur à classer, le modèle répond toujours la classe majoritaire du jeu d'entraînement. C'est le sous-apprentissage poussé à l'extrême — le modèle a cessé de regarder ses entrées." }
+        ]
+      },
+      {
+        num: "7", title: "Tracer la courbe du taux d'erreur",
+        intro: "La même courbe que la diapositive « Taux d'erreur » du cours, mais sur nos rugbymen plutôt que sur les iris.",
+        code: `plt.figure(figsize=(9, 5))
+plt.plot(valeurs_k, taux_erreurs, marker='o', linestyle='-', color='crimson', linewidth=2)
+plt.title("Évolution du taux d'erreur en fonction de k (Hyperparamètre)")
+plt.xlabel("Valeur de k (Nombre de voisins considérés)")
+plt.ylabel("Taux d'erreur (0.0 = aucune erreur)")
+plt.xticks(valeurs_k)
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# TODO : annoter le graphique aux deux extrémités (sur-apprentissage / sous-apprentissage)
+
+plt.show()`,
+        questions: [
+          "Ajouter les deux annotations pédagogiques aux extrémités de la courbe.",
+          "Quelle forme la courbe est-elle censée avoir, et pourquoi ?",
+          "Relance le programme plusieurs fois. La courbe garde-t-elle la même allure ?"
+        ],
+        correction: [
+          { code: `plt.text(valeurs_k[0], taux_erreurs[0], ' Overfitting potentiel', verticalalignment='bottom')
+plt.text(valeurs_k[-1], taux_erreurs[-1], ' Sous-apprentissage\\n (Bruitage par la classe majoritaire)',
+         horizontalalignment='right')` },
+          { text: "Elle est censée avoir une forme de U, ou de vallée. À gauche (k = 1) le modèle recopie son plus proche voisin et épouse le moindre bruit : c'est le SUR-APPRENTISSAGE (overfitting). À droite (k = 15) le vote est noyé par des joueurs de plus en plus lointains et tend vers la classe majoritaire : c'est le SOUS-APPRENTISSAGE. Le meilleur k est au creux de la vallée, ce que le cours appelle le compromis biais-variance." },
+          { text: "Non, et c'est le point le plus instructif de ce TP. Le tirage change à chaque exécution, et le taux est mesuré sur 8 joueurs seulement : il arrive souvent que la courbe soit toute plate, ou qu'elle monte et descende sans former de vallée. Sur 3000 tirages différents mesurés, environ 38 % donnent exactement le même taux d'erreur pour toutes les valeurs de k. Une seule exécution ne prouve rien — c'est l'objet de l'étape suivante." }
+        ]
+      },
+      {
+        num: "8", title: "Pour aller plus loin : moyenner sur plusieurs découpages",
+        intro: "Un taux mesuré sur 8 joueurs tirés au hasard est trop instable pour choisir k. La parade : répéter l'expérience et faire la moyenne.",
+        code: `# TODO : refaire N fois (par exemple 200) le mélange, le découpage et l'évaluation,
+#        puis afficher le taux d'erreur MOYEN pour chaque valeur de k.
+N = 200
+moyennes = []
+
+for k in valeurs_k:
+    total = 0
+    for essai in range(N):
+        ...
+    moyennes.append(total / N)`,
+        note: "Répéter le tirage pour stabiliser une mesure est exactement l'idée de la validation croisée, utilisée dans tous les vrais projets d'apprentissage automatique.",
+        questions: [
+          "Écrire la double boucle et afficher la courbe moyenne.",
+          "Quelle valeur de k ressort comme la meilleure ?",
+          "Comparer avec la valeur conseillée par la règle de la racine carrée."
+        ],
+        correction: [
+          { text: "On remélange à chaque essai, on redécoupe, on évalue, et on accumule. Attention à bien travailler sur une COPIE de la liste si l'on veut préserver l'ordre d'origine." },
+          { code: `N = 200
+moyennes = []
+
+for k in valeurs_k:
+    total = 0
+    for essai in range(N):
+        melange = joueurs[:]          # copie de la liste
+        random.shuffle(melange)
+        ent, tst = melange[:22], melange[22:30]
+        total += evaluer_modele(ent, tst, k)
+    moyennes.append(total / N)
+    print(f"k={k:2} : taux d'erreur moyen = {moyennes[-1] * 100:.1f}%")
+
+plt.plot(valeurs_k, moyennes, marker='s', color='navy', label=f"moyenne sur {N} découpages")
+plt.legend()
+plt.show()` },
+          { text: "La vallée apparaît enfin. Sur 3000 découpages, les taux d'erreur moyens mesurés sont : 9,9 % à k=1 ; 6,7 % à k=3 ; 5,5 % à k=5 ; 5,2 % à k=7 ; 6,0 % à k=9 ; 5,7 % à k=11 ; 6,6 % à k=13 ; 10,3 % à k=15. Le minimum se situe vers k = 7, et les deux extrémités sont bien les plus mauvaises : le sur-apprentissage à k=1 et le sous-apprentissage à k=15 sont donc réels, mais ils ne se voient qu'en moyenne." },
+          { text: "La règle de la racine carrée conseillait k = 5, pour un minimum observé vers k = 7 : l'écart est faible et les taux à k=5, 7, 9 et 11 sont très proches (entre 5,2 % et 6,0 %). La règle donne bien un bon ordre de grandeur — c'est un point de départ, pas un oracle. Avec 200 essais au lieu de 3000, tes chiffres différeront un peu : c'est normal, la moyenne se stabilise quand N grandit." }
+        ]
+      }
+    ]
+  },
   // ── Mémo Séance 1 ──────────────────────────────────────
   {
     id: 'memo-s1', bloc: 'bloc0', jour: 'Jour 1 — 19 mai 2026', theme: 'Linux — bases (navigation, fichiers, droits)', original: 'Jour2 tp1 unix_260520_121450.pdf',
@@ -3929,7 +4702,7 @@ function renderFiches() {
       if (!cats.has(c)) cats.set(c, [])
       cats.get(c).push(f)
     })
-    const order = ['Python', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
+    const order = ['Python', 'Bases de données', 'Algorithmique & apprentissage', 'Linux & Shell', 'Programmation — notions de base', 'Paradigmes de programmation', 'Concepts généraux']
     const ordered = [...cats.keys()].sort((a, b) => {
       const ia = order.indexOf(a), ib = order.indexOf(b)
       return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
@@ -3980,6 +4753,8 @@ function renderFiches() {
 function ficheCategorie(topic) {
   const t = (topic || '').toLowerCase()
   if (t.startsWith('python')) return 'Python'
+  if (/(bases de données|sql|sgbd|relationnel)/.test(t)) return 'Bases de données'
+  if (/(apprentissage|k-nn|knn|voisins|algorithmique|glouton|optimisation)/.test(t)) return 'Algorithmique & apprentissage'
   if (/(linux|shell|bash|unix|exploitation)/.test(t)) return 'Linux & Shell'
   if (/(paradigme|fonctionnel|impératif|imperatif)/.test(t)) return 'Paradigmes de programmation'
   if (/(compilation|interpr|fondements)/.test(t)) return 'Concepts généraux'
@@ -4043,6 +4818,8 @@ function escapeHtml(s) {
 // (zéro egress Supabase) ; les uploads plus récents restent servis par le bucket.
 const RESSOURCES_LOCAL_CUTOFF = '2026-06-27'
 function ressourceUrl(r) {
+  // file_path déjà relatif au dépôt (ressources/…) : servi tel quel, quelle que soit la date
+  if ((r.file_path || '').startsWith('ressources/')) return r.file_path
   if ((r.created_at || '') < RESSOURCES_LOCAL_CUTOFF) return 'ressources/uploads/' + r.file_path
   return db.storage.from('ressources').getPublicUrl(r.file_path).data.publicUrl
 }
@@ -4608,7 +5385,10 @@ function renderAgendaBanner() {
   const s = todaySession || nextSession
   if (!s) { el.innerHTML = ''; return }
   const isToday = !!todaySession
-  const jLabel = isToday ? "Aujourd'hui" : `Dans ${daysUntil(s.iso)} j`
+  // Plusieurs séances le même jour (ex. 10 septembre : bases de données puis k-NN)
+  const memeJour = sessions.filter(x => x.iso === s.iso).length
+  const jLabel = (isToday ? "Aujourd'hui" : `Dans ${daysUntil(s.iso)} j`) +
+                 (memeJour > 1 ? ` · ${memeJour} séances` : '')
   el.innerHTML = `
     <button class="agenda-banner ${isToday ? 'is-today' : ''}" id="dash-agenda-btn">
       <span class="agenda-banner-tag">📋 ${jLabel}</span>
@@ -4771,8 +5551,11 @@ async function uploadRessource() {
 async function deleteRessource(id) {
   const r = allRessources.find(x => x.id === id)
   if (!r) return
-  if (!confirm('Supprimer cette ressource ?')) return
-  await db.storage.from('ressources').remove([r.file_path])
+  const dansLeDepot = (r.file_path || '').startsWith('ressources/')
+  if (!confirm(dansLeDepot
+    ? 'Retirer cette ressource de la liste ? Le fichier restera dans le dépôt (à supprimer par un commit).'
+    : 'Supprimer cette ressource ?')) return
+  if (!dansLeDepot) await db.storage.from('ressources').remove([r.file_path])
   await db.from('ressources').delete().eq('id', id)
   allRessources = allRessources.filter(x => x.id !== id)
   renderUploadedRessources()
