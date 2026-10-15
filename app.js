@@ -154,6 +154,28 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'structures-lineaires-2026-10-15',
+    iso: '2026-10-15', dateLabel: '15 octobre 2026 (après-midi)', bloc: 'bloc4',
+    titre: 'Structures linéaires — piles, files, listes chaînées',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb',
+    parties: [
+      { titre: 'Piles et files (LIFO / FIFO)', items: [
+        { t: 'Cours : types abstraits, piles, files, NPI, round-robin', f: 'Piles et files : LIFO, FIFO et applications',
+          u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb' },
+        { t: 'Notebook à compléter (Basthon, en ligne)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb' },
+        { t: 'Télécharger le notebook (.ipynb, copie locale)', u: 'ressources/python/FDIU-Piles-Files-2026.ipynb' },
+      ]},
+      { titre: 'Listes chaînées', items: [
+        { t: 'Cours : cellules, pointeurs, double chaînage, récursif', f: 'Les listes chaînées',
+          u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Listes-chainees.ipynb' },
+        { t: 'Notebook à compléter (Basthon, en ligne)', u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Listes-chainees.ipynb' },
+        { t: 'Télécharger le notebook (.ipynb, copie locale)', u: 'ressources/python/FDIU-Listes-chainees.ipynb' },
+      ]},
+    ],
+  },
 ]
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
 const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
@@ -168,6 +190,8 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🧑‍💻', title: 'Créer une appli web en NSI (mdBook complet)', desc: 'Référence Flask/Python : serveur, routes, templates, formulaires, bases de données (SQL, SQLite, injection), authentification (cookies, sessions, tokens), déploiement (SSH, SSL)', url: 'https://2025-formation-web-app-python-26f3cf.forge.apps.education.fr/' },
   { icon: '📁', title: 'Dépôts source des supports DIU (forge éducation)', desc: 'Groupe GitLab diu-2026-eil : code source de tous les supports (HTML/CSS, représentations…), toujours à jour', url: 'https://forge.apps.education.fr/diu-2026-eil' },
   { icon: '🐍', title: 'Listes, n-uplets et dictionnaires (Y. Pigné)', desc: 'Dépôt de notebooks (cours + TP + fiches élèves) : listes, tuples, piles/files, dictionnaires, ensembles — Bloc 1 (23 juin, ouvrables dans Basthon)', url: 'https://git.litislab.fr/ypigne/2026-EIL-listes-tuples-dictionnaires' },
+  { icon: '🥞', title: 'Notebook — Piles et files (FDIU, DU Normandie)', desc: 'Cours en ligne du 15 octobre (Bloc 4) : LIFO/FIFO, classes Pile et File, notation polonaise inversée, patate chaude, ordonnanceur round-robin — copie locale, s\'ouvre dans Basthon', url: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb' },
+  { icon: '⛓️', title: 'Notebook — Listes chaînées (FDIU, DU Normandie)', desc: 'Cours en ligne du 15 octobre (Bloc 4) : classes Cellule et Liste, complexités, double chaînage, traitement récursif head/tail — copie locale, s\'ouvre dans Basthon', url: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Listes-chainees.ipynb' },
   { icon: '📖', title: 'Modèle de von Neumann (Pixees / D. Roche)', desc: 'Cours en ligne 1ʳᵉ NSI sur l\'architecture séquentielle — pédagogique et concis', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_von_neu.html' },
   { icon: '🧪', title: 'TP simulateur CPU (Pixees / D. Roche)', desc: '1ʳᵉ NSI : 3 programmes assembleur de difficulté croissante (saisie, conversion machine↔asm, boucle while)', url: 'https://pixees.fr/informatiquelycee/n_site/nsi_prem_sim_cpu.html' },
   { icon: '💻', title: 'Simulateur CPU en ligne (P. Higginson)', desc: 'Simulateur de processeur von Neumann (registres, mémoire, assembleur) — utilisé par le TP Pixees', url: 'https://peterhigginson.co.uk/AQA/' },
@@ -2858,6 +2882,577 @@ print(sorted(foot - theatre))` }
         correction: [
           { code: `print(len(set(notes)), "notes différentes")
 print(sorted(set(notes)))` }
+        ]
+      }
+    ]
+  },
+
+  // ── TP en ligne — Piles, files, listes chaînées (FDIU, 15 octobre) ──
+  {
+    id: 'pytp-pf', bloc: 'bloc4', jour: 'En ligne — 15 octobre 2026', theme: 'Python — structures de données linéaires',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb',
+    title: 'Python · TP — Piles et files (LIFO / FIFO)',
+    type: 'tp',
+    intro: "TP du cours en ligne du 15 octobre (FDIU — DU Normandie). Ouvre le notebook dans Basthon pour coder en ligne, ou travaille ici puis déplie les corrections. Fiche associée : « Piles et files : LIFO, FIFO et applications ».",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Lire une pile (sur papier)',
+        code: `p = creer_pile_vide()
+empiler(p, 8); empiler(p, 5); empiler(p, 2); empiler(p, 4)
+
+q = creer_pile_vide()
+while not est_vide(p):
+    empiler(q, depiler(p))
+
+for u in range(8):
+    if u % 2 != 0:
+        empiler(p, u)`,
+        questions: [
+          "Quel sera le contenu des piles p et q après exécution de ces instructions ?",
+          "Donne pour chacune l'ordre des éléments et la valeur au sommet."
+        ],
+        correction: [
+          "La boucle while vide p dans q en inversant l'ordre : q contient (du fond au sommet) 4, 2, 5, 8 — sommet = 8.",
+          "La boucle for empile ensuite les impairs de 0 à 7 dans p (vidée juste avant) : p contient 1, 3, 5, 7 — sommet = 7."
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — La classe Pile (avec une liste Python)',
+        code: `class Pile:
+    def __init__(self):
+        self._pile = ...
+    # à compléter : valeur(), depile(), empile(v), est_vide(), __len__()`,
+        questions: [
+          "Implémente la classe Pile : attribut privé _pile (une list Python).",
+          "valeur() renvoie le sommet (ou None si vide) sans dépiler ; depile() retire et renvoie le sommet (ou None).",
+          "empile(v) ajoute v ; est_vide() et __len__() complètent l'interface.",
+          "Teste : empile 2, 4, 6 puis dépile tout — vérifie l'ordre 6, 4, 2 (LIFO)."
+        ],
+        correction: [
+          { code: `class Pile:
+    def __init__(self):
+        self._pile = []
+
+    def valeur(self):
+        if self.est_vide():
+            return None
+        return self._pile[-1]      # le sommet, sans dépiler
+
+    def depile(self):
+        if self.est_vide():
+            return None
+        return self._pile.pop()    # pop() : dernier élément = sommet
+
+    def empile(self, v):
+        self._pile.append(v)
+
+    def est_vide(self):
+        return len(self._pile) == 0
+
+    def __len__(self):
+        return len(self._pile)` },
+          "Le sommet est la FIN de la liste : append et pop y travaillent en O(1)."
+        ]
+      },
+      {
+        num: 'E3', title: 'Exercice 3 — Calculatrice NPI (notation polonaise inversée)',
+        code: `def calcul_expression_NPI(exp):
+    """exp : str du type '1 2 + 4 * 3 +' — renvoie le résultat (float)."""
+    ...
+
+r = calcul_expression_NPI('2 3 +')
+print(r, r == 5)
+r = calcul_expression_NPI('1 2 + 4 * 3 +')
+print(r, r == 15)
+r = calcul_expression_NPI('3 2 + 6 * 5 / 4 +')
+print(r, r == 10)
+r = calcul_expression_NPI('33 2 - 6 - 5 - 4 +')
+print(r, r == 24)`,
+        questions: [
+          "Lis les symboles de gauche à droite (exp.split()).",
+          "Un nombre : empile-le. Un opérateur : dépile b puis a, calcule a op b, empile le résultat.",
+          "À la fin, la pile contient un seul élément : le résultat.",
+          "Attention à l'ordre des opérandes pour - et / : le premier dépilé est l'opérande de droite."
+        ],
+        correction: [
+          { code: `def calcul_expression_NPI(exp):
+    p = Pile()
+    for token in exp.split():
+        if token in ('+', '-', '*', '/'):
+            b = p.depile()     # opérande de droite (dépilé en premier !)
+            a = p.depile()     # opérande de gauche
+            if token == '+':   p.empile(a + b)
+            elif token == '-': p.empile(a - b)
+            elif token == '*': p.empile(a * b)
+            else:              p.empile(a / b)
+        else:
+            p.empile(float(token))
+    return p.depile()` },
+          "Les quatre tests affichent True : 5.0, 15.0, 10.0 et 24.0."
+        ]
+      },
+      {
+        num: 'E4', title: 'Exercice 4 — La classe File (avec une liste Python)',
+        code: `class File:
+    def __init__(self):
+        self._file = ...
+    # à compléter : valeur(), defile(), enfile(v), est_vide(), __len__()`,
+        questions: [
+          "Implémente la classe File : attribut privé _file (une list Python).",
+          "enfile(v) ajoute en fin ; defile() retire et renvoie le PREMIER entré (ou None) ; valeur() le consulte sans le retirer.",
+          "Teste : enfile 2, 4, 6 puis défile tout — vérifie l'ordre 2, 4, 6 (FIFO).",
+          "Question bonus : pourquoi cette implémentation n'est-elle pas optimale ?"
+        ],
+        correction: [
+          { code: `class File:
+    def __init__(self):
+        self._file = []
+
+    def valeur(self):
+        if self.est_vide():
+            return None
+        return self._file[0]       # le plus ancien, sans défiler
+
+    def defile(self):
+        if self.est_vide():
+            return None
+        return self._file.pop(0)   # retire le premier entré
+
+    def enfile(self, v):
+        self._file.append(v)
+
+    def est_vide(self):
+        return len(self._file) == 0
+
+    def __len__(self):
+        return len(self._file)` },
+          "Bonus : pop(0) décale tous les éléments restants, donc défiler coûte O(n). Pour une file efficace : collections.deque, ou une liste doublement chaînée (voir le TP Listes chaînées, exercice 6)."
+        ]
+      },
+      {
+        num: 'E5', title: 'Exercice 5 — La patate chaude (Hot Potato)',
+        code: `def hot_potato(noms, k):
+    """Renvoie le gagnant : à chaque tour, k passes puis élimination."""
+    ...
+
+gagnant = hot_potato(["Alice", "Bob", "Charlie", "Dave", "Eve"], 3)
+print(f"Le gagnant est {gagnant}")`,
+        questions: [
+          "Enfile tous les joueurs dans une File.",
+          "Une passe = défiler le joueur de tête et le renfiler aussitôt.",
+          "Après k passes, le joueur de tête est défilé sans être renfilé : éliminé.",
+          "Répète jusqu'à ce qu'il ne reste qu'un joueur : le gagnant."
+        ],
+        correction: [
+          { code: `def hot_potato(noms, k):
+    f = File()
+    for nom in noms:
+        f.enfile(nom)
+    while len(f) > 1:
+        for _ in range(k):
+            f.enfile(f.defile())   # il passe la patate et rejoint la fin
+        elimine = f.defile()       # pas renfilé : éliminé
+        print(elimine, "est éliminé")
+    return f.defile()` },
+          "Avec k = 3 et les 5 joueurs de l'énoncé, sont éliminés Dave, Charlie, Eve puis Bob : le gagnant est Alice."
+        ]
+      },
+      {
+        num: 'E6', title: 'Exercice 6 — Ordonnanceur round-robin (tourniquet)',
+        code: `from time import sleep
+
+class Processus:
+    def __init__(self, nom, duree, priorite=1):
+        self.nom = nom
+        self.duree_tache = duree      # temps en cycles CPU
+        self.duree_restante = duree
+        self.etat = 'prêt'
+
+    def executer(self):
+        if self.etat == 'prêt':
+            self.etat = 'en exécution'
+            sleep(0.1)
+            self.duree_restante -= 1
+            self.etat = 'prêt' if self.duree_restante > 0 else 'terminé'
+
+ps = [Processus("P0", duree=2), Processus("P1", duree=10),
+      Processus("P2", duree=3), Processus("P3", duree=8),
+      Processus("P4", duree=4, priorite=2)]
+
+def ordonnancer(processus, quantum=4):
+    file_attente = ...
+
+ordonnancer(ps, quantum=4)`,
+        questions: [
+          "Enfile tous les processus dans une file d'attente FIFO.",
+          "Défile le processus de tête et exécute-le au plus quantum fois (arrête-toi avant s'il est terminé).",
+          "S'il n'est pas terminé : il est préempté, renfile-le en fin de file. Sinon, signale sa terminaison.",
+          "Continue jusqu'à ce que la file soit vide, en renvoyant la liste des décisions."
+        ],
+        correction: [
+          { code: `def ordonnancer(processus, quantum=4):
+    file_attente = File()
+    for p in processus:
+        file_attente.enfile(p)
+    decisions = []
+    while not file_attente.est_vide():
+        p = file_attente.defile()
+        for _ in range(quantum):
+            p.executer()
+            if p.etat == 'terminé':
+                break
+        if p.etat == 'terminé':
+            decisions.append(p.nom + ' : terminé')
+            print(p.nom, ': terminé')
+        else:
+            decisions.append(p.nom + ' : préempté, reste ' + str(p.duree_restante))
+            print(p.nom, ': préempté, reste', p.duree_restante, 'cycles')
+            file_attente.enfile(p)   # retour en fin de file
+    return decisions` },
+          "C'est exactement la politique du tourniquet vue dans la fiche « Les processus » (Bloc 3) : personne ne monopolise le CPU.",
+          "Bonus (deux niveaux de priorité) : utilise deux files, une prioritaire et une normale ; l'ordonnanceur défile toujours la file prioritaire tant qu'elle n'est pas vide."
+        ]
+      }
+    ]
+  },
+  {
+    id: 'pytp-lc', bloc: 'bloc4', jour: 'En ligne — 15 octobre 2026', theme: 'Python — structures de données linéaires',
+    basthonUrl: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Listes-chainees.ipynb',
+    title: 'Python · TP — Listes chaînées',
+    type: 'tp',
+    intro: "TP du cours en ligne du 15 octobre (FDIU — DU Normandie). Cellules et pointeurs, liste chaînée complète, pile chaînée, file doublement chaînée, récursif. Fiche associée : « Les listes chaînées ». Convention pédagogique : pas de liste vide.",
+    steps: [
+      {
+        num: 'E1', title: 'Exercice 1 — Tester la classe Cellule (fournie)',
+        code: `class Cellule:
+    _compt = 0        # compteur de classe, pour numéroter les cellules (debug)
+
+    def __init__(self, value, next_cell=None):
+        Cellule._compt += 1
+        self._id_cell = Cellule._compt
+        self.value = value
+        self.next_cell = next_cell
+
+    def set_value(self, value):
+        self.value = value
+
+    def set_suivant(self, cell):
+        self.next_cell = cell
+
+    def _get_id(self):
+        return 'C' + str(self._id_cell)
+
+    def __repr__(self):
+        suiv = self.next_cell._get_id() if self.next_cell is not None else 'None'
+        return self._get_id() + ' : (' + str(self.value) + ', ' + suiv + ')'`,
+        questions: [
+          "Crée deux cellules a = Cellule(12) et b = Cellule(20), affiche-les.",
+          "Chaîne a vers b avec set_suivant, puis affiche a, a.value et a.next_cell.",
+          "Modifie la valeur de b avec set_value et vérifie."
+        ],
+        correction: [
+          { code: `a = Cellule(12)
+b = Cellule(20)
+print(a)             # C1 : (12, None)
+print(b)             # C2 : (20, None)
+a.set_suivant(b)
+print(a)             # C1 : (12, C2)
+print(a.value)       # 12
+print(a.next_cell)   # C2 : (20, None)
+b.set_value(25)
+print(a.next_cell)   # C2 : (25, None)` },
+          "Une cellule = une valeur + un pointeur vers la suivante. Chaîner, c'est simplement faire pointer next_cell vers une autre instance."
+        ]
+      },
+      {
+        num: 'E2', title: 'Exercice 2 — Classe Liste : le début de la liste',
+        code: `class Liste:
+    def __init__(self, value):
+        ...
+    def ajoute_d(self, value):
+        ...
+    def retire_d(self):
+        ...
+    def __len__(self):
+        ...`,
+        questions: [
+          "__init__(value) : crée cell_debut (une Cellule) et taille = 1.",
+          "ajoute_d(value) : nouvelle cellule en tête, qui pointe vers l'ancienne première — coût O(1).",
+          "retire_d() : retire et renvoie la première valeur (interdit si la liste n'a qu'un élément).",
+          "__len__() : renvoie l'attribut taille — coût O(1).",
+          "Teste la séquence de l'énoncé : Liste(22), ajoute_d(18), ajoute_d(12), ajoute_d(9), retire_d()."
+        ],
+        correction: [
+          { code: `class Liste:
+    def __init__(self, value):
+        self.cell_debut = Cellule(value)
+        self.taille = 1
+
+    def ajoute_d(self, value):                 # O(1)
+        self.cell_debut = Cellule(value, self.cell_debut)
+        self.taille += 1
+
+    def retire_d(self):                        # O(1)
+        if self.taille == 1:
+            raise ValueError('La liste ne peut pas être vide')
+        c = self.cell_debut
+        self.cell_debut = c.next_cell
+        self.taille -= 1
+        return c.value
+
+    def __len__(self):                         # O(1)
+        return self.taille` },
+          "Grâce à l'attribut taille tenu à jour, len() ne parcourt pas la liste : coût constant."
+        ]
+      },
+      {
+        num: 'E3', title: 'Exercice 3 — Classe Liste : la fin de la liste',
+        questions: [
+          "dernier() : renvoie la dernière cellule (sans rien supprimer) — il faut parcourir : O(n).",
+          "ajoute_f(value) : ajoute en queue (utilise dernier()).",
+          "retire_f() : retire et renvoie la dernière valeur (comme pop) — il faut s'arrêter sur l'avant-dernière cellule.",
+          "copie() : renvoie une copie indépendante (nouvelles cellules).",
+          "concatener(lst) : ajoute une copie des valeurs de lst à la fin (les deux listes restent indépendantes)."
+        ],
+        correction: [
+          { code: `    def dernier(self):                         # O(n)
+        c = self.cell_debut
+        while c.next_cell is not None:
+            c = c.next_cell
+        return c
+
+    def ajoute_f(self, value):                 # O(n)
+        self.dernier().set_suivant(Cellule(value))
+        self.taille += 1
+
+    def retire_f(self):                        # O(n)
+        if self.taille == 1:
+            raise ValueError('La liste ne peut pas être vide')
+        c = self.cell_debut
+        while c.next_cell.next_cell is not None:
+            c = c.next_cell                    # c = avant-dernière cellule
+        v = c.next_cell.value
+        c.set_suivant(None)
+        self.taille -= 1
+        return v
+
+    def copie(self):
+        new = Liste(self.cell_debut.value)
+        c = self.cell_debut.next_cell
+        while c is not None:
+            new.ajoute_f(c.value)
+            c = c.next_cell
+        return new
+
+    def concatener(self, lst):
+        c = lst.cell_debut
+        while c is not None:
+            self.ajoute_f(c.value)             # copie : nouvelles cellules
+            c = c.next_cell` },
+          "Pour retirer la dernière cellule, il faut détenir l'AVANT-dernière (afin de couper son pointeur) : d'où le double next_cell dans la condition du while."
+        ]
+      },
+      {
+        num: 'E4', title: 'Exercice 4 — Classe Liste : le milieu de la liste',
+        code: `l1 = Liste(10)
+l1.ajoute_f(20)
+l1.ajoute_f(30)
+l1.ajoute_f(40)
+l1.inserer(1, 15)     # (10, 15, 20, 30, 40)
+print(l1.get(1))      # 15
+l2 = l1.couper(2)     # l1 = (10, 15) ; l2 = (20, 30, 40)`,
+        questions: [
+          "get(i) : renvoie la valeur d'indice i (IndexError si i est hors limites) — parcours en O(n).",
+          "inserer(i, value) : insère à l'indice i en décalant la suite (i = 0 : réutilise ajoute_d).",
+          "couper(j) : coupe juste avant l'indice j et renvoie une nouvelle Liste avec la suite (interdit si l'un des morceaux serait vide).",
+          "Teste couper avec j = 1, 2, 3 — et vérifie que 0 et 4 lèvent bien une exception."
+        ],
+        correction: [
+          { code: `    def get(self, i):                          # O(n)
+        if i < 0 or i >= self.taille:
+            raise IndexError('Indice hors limites')
+        c = self.cell_debut
+        for _ in range(i):
+            c = c.next_cell
+        return c.value
+
+    def inserer(self, i, value):
+        if i < 0 or i > self.taille:
+            raise IndexError('Indice hors limites')
+        if i == 0:
+            self.ajoute_d(value)
+            return
+        c = self.cell_debut
+        for _ in range(i - 1):                 # c = cellule d'indice i-1
+            c = c.next_cell
+        c.set_suivant(Cellule(value, c.next_cell))
+        self.taille += 1
+
+    def couper(self, j):
+        if j == 0 or j > self.taille - 1:
+            raise ValueError('La liste ne peut pas être vide')
+        prec = self.cell_debut
+        for _ in range(j - 1):                 # prec = cellule d'indice j-1
+            prec = prec.next_cell
+        suite = prec.next_cell
+        prec.set_suivant(None)                 # on coupe la chaîne
+        new = Liste(None)                      # liste provisoire d'une cellule
+        new.cell_debut = suite                 # remplacée par la vraie suite
+        new.taille = self.taille - j
+        self.taille = j
+        return new` },
+          "L'insertion ne décale aucune donnée en mémoire : on ne fait que rebrancher deux pointeurs (c'est la force des listes chaînées).",
+          "couper réutilise les cellules existantes : la nouvelle liste commence à la cellule d'indice j, aucune valeur n'est copiée."
+        ]
+      },
+      {
+        num: 'E5', title: 'Exercice 5 — Une Pile avec des cellules chaînées',
+        code: `class Pile:
+    def __init__(self):
+        self._cell_dessus_pile = ...
+        self._taille = ...
+    # à compléter : valeur(), depile(), empile(v), est_vide(), __len__()
+    # valeur() et depile() lèvent une exception si la pile est vide`,
+        questions: [
+          "Le sommet de la pile est la TÊTE de la chaîne : empiler = ajouter en tête, dépiler = retirer la tête.",
+          "Quel avantage par rapport à la version « liste Python » de l'autre TP ?"
+        ],
+        correction: [
+          { code: `class Pile:
+    def __init__(self):
+        self._cell_dessus_pile = None          # None = pile vide
+        self._taille = 0
+
+    def valeur(self):
+        if self.est_vide():
+            raise ValueError('La pile est vide.')
+        return self._cell_dessus_pile.value
+
+    def depile(self):
+        if self.est_vide():
+            raise ValueError('La pile est vide.')
+        v = self._cell_dessus_pile.value
+        self._cell_dessus_pile = self._cell_dessus_pile.next_cell
+        self._taille -= 1
+        return v
+
+    def empile(self, v):
+        self._cell_dessus_pile = Cellule(v, self._cell_dessus_pile)
+        self._taille += 1
+
+    def est_vide(self):
+        return self._cell_dessus_pile is None
+
+    def __len__(self):
+        return self._taille` },
+          "Avantage : empiler et dépiler sont en O(1) GARANTI (aucun redimensionnement de tableau, contrairement au append des list qui n'est O(1) qu'en moyenne)."
+        ]
+      },
+      {
+        num: 'E6', title: 'Exercice 6 — Une File avec une liste doublement chaînée',
+        code: `class CelluleDoubleChainage:
+    def __init__(self, value):
+        self.value = value
+        self.cell_avant = None     # vers la cellule précédente
+        self.cell_apres = None     # vers la cellule suivante
+
+    def set_suivant(self, cell):
+        self.cell_apres = cell
+
+    def set_precedent(self, cell):
+        self.cell_avant = cell
+
+class File:
+    def __init__(self):
+        self.cell_entree = ...
+        self.cell_sortie = ...
+        self.taille = ...
+    # à compléter : valeur(), defile(), enfile(v), est_vide(), __len__()`,
+        questions: [
+          "La file garde un pointeur vers l'ENTRÉE (dernier arrivé) et la SORTIE (prochain servi).",
+          "enfile(v) : la nouvelle cellule devient l'entrée (chaînée à l'ancienne entrée dans les deux sens).",
+          "defile() : retire la cellule de sortie ; la précédente devient la nouvelle sortie (attention au cas où la file se vide).",
+          "Pourquoi obtient-on enfin une file où enfiler ET défiler coûtent O(1) ?"
+        ],
+        correction: [
+          { code: `class File:
+    def __init__(self):
+        self.cell_entree = None
+        self.cell_sortie = None
+        self.taille = 0
+
+    def valeur(self):
+        if self.est_vide():
+            raise ValueError('La file est vide.')
+        return self.cell_sortie.value
+
+    def defile(self):                          # O(1)
+        if self.est_vide():
+            raise ValueError('La file est vide.')
+        v = self.cell_sortie.value
+        self.cell_sortie = self.cell_sortie.cell_avant
+        if self.cell_sortie is None:           # la file est devenue vide
+            self.cell_entree = None
+        else:
+            self.cell_sortie.set_suivant(None)
+        self.taille -= 1
+        return v
+
+    def enfile(self, v):                       # O(1)
+        c = CelluleDoubleChainage(v)
+        if self.est_vide():
+            self.cell_entree = c
+            self.cell_sortie = c
+        else:
+            c.set_suivant(self.cell_entree)    # chaînage dans les deux sens
+            self.cell_entree.set_precedent(c)
+            self.cell_entree = c
+        self.taille += 1
+
+    def est_vide(self):
+        return self.taille == 0
+
+    def __len__(self):
+        return self.taille` },
+          "Grâce aux deux pointeurs d'extrémité, on touche directement l'entrée et la sortie : aucun parcours, aucun décalage — O(1) aux deux bouts (ce que ni la list Python ni la liste simplement chaînée n'offraient)."
+        ]
+      },
+      {
+        num: 'E7', title: 'Exercice 7 — Traitement récursif (head / tail, comme en LISP)',
+        code: `# La classe ListeChainee (fournie complète dans le notebook) offre :
+#   lst.head()  -> la première valeur
+#   lst.tail()  -> le reste de la liste (None au bout)
+#   l1 + l2     -> concaténation (nouvelle liste)
+#   itérable : for v in lst
+
+l1 = ListeChainee(12, 13, 14, 15, 16)`,
+        questions: [
+          "double(lst) : renvoie une nouvelle liste dont les éléments sont les doubles de ceux de lst.",
+          "applique(fct, lst) : renvoie une nouvelle liste des images fct(v) (c'est le map des langages fonctionnels).",
+          "somme(lst) : renvoie la somme des éléments.",
+          "Chaque fonction est RÉCURSIVE : cas de base = tail() is None, sinon on traite head() et on relance sur tail()."
+        ],
+        correction: [
+          { code: `def double(lst):
+    if lst.tail() is None:                     # cas de base : dernière cellule
+        return ListeChainee(lst.head() * 2)
+    return ListeChainee(lst.head() * 2) + double(lst.tail())
+
+def applique(fct, lst):
+    if lst.tail() is None:
+        return ListeChainee(fct(lst.head()))
+    return ListeChainee(fct(lst.head())) + applique(fct, lst.tail())
+
+def somme(lst):
+    if lst.tail() is None:
+        return lst.head()
+    return lst.head() + somme(lst.tail())
+
+l1 = ListeChainee(12, 13, 14, 15, 16)
+print(double(l1))                     # 〘24, 26, 28, 30, 32〙
+print(applique(lambda x: x + 1, l1))  # 〘13, 14, 15, 16, 17〙
+print(somme(l1))                      # 70` },
+          "Remarque : double(lst) n'est qu'un cas particulier d'applique : applique(lambda x: x * 2, lst)."
         ]
       }
     ]
