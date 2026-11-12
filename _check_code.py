@@ -35,6 +35,11 @@ SORTIE = re.compile(r'^(={5,}|-{5,}|platform \w|Traceback \(|>>> |E\s{3,}|FAILED
 # Ni le pseudo-code en français, ni les variants écrits à moitié en toutes lettres
 # (« V = 2 * inv(liste) + (1 si inversion est vraie, 0 sinon) »).
 PSEUDO = re.compile(r'\b(si |sinon|alors|tant que|pour tout|pour chaque|renvoyer|vraie?|fausse?)\b', re.I)
+# Les fiches « Paradigmes » et SQL contiennent du Haskell, du Prolog et du SQL : on ne les
+# exécute pas ici avec Python (ils se vérifient avec ghci, swipl ou sqlite3).
+AUTRE_LANGAGE = re.compile(
+    r'(::|->|<-|\\\w+\s*->|^\s*(ghci|Prelude|\*Main)>|^\s*:t |^\s*\?-|:-'
+    r'|^\s*(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b)', re.M)
 
 
 def fiches():
@@ -57,6 +62,8 @@ def executer(code):
     except SyntaxError as e:
         if PSEUDO.search(code):
             return 'IGNORÉ', 'pseudo-code ou formule rédigée en français'
+        if AUTRE_LANGAGE.search(code):
+            return 'IGNORÉ', 'autre langage (Haskell, Prolog ou SQL), vérifié à part'
         if PYTHONESQUE.search(code):
             return 'ÉCHEC', f'syntaxe ligne {e.lineno} : {e.msg}'
         return 'IGNORÉ', 'pas du Python (pseudo-code, formule ou sortie de programme)'

@@ -49,9 +49,10 @@ function etape(st) {
 
 const tp = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
 // Champs facultatifs : notebook en ligne (bouton ⚡ Basthon) et fichier d'origine (bouton ⬇)
-const options = ['basthonUrl', 'notebook', 'original']
-  .filter(k => tp[k])
-  .map(k => `${IND.repeat(2)}${k}: ${s(tp[k])},\n`).join('')
+// aux : fichiers que Basthon doit charger avec le notebook (modules .py, images), chemins du dépôt
+const options = ['basthonUrl', 'notebook', 'original', 'aux']
+  .filter(k => tp[k] && (!Array.isArray(tp[k]) || tp[k].length))
+  .map(k => `${IND.repeat(2)}${k}: ${Array.isArray(tp[k]) ? JSON.stringify(tp[k]) : s(tp[k])},\n`).join('')
 const sortie = `${IND}// ── ${tp.commentaire || tp.title} ──
 ${IND}{
 ${IND.repeat(2)}id: ${s(tp.id)}, bloc: ${s(tp.bloc)}, jour: ${s(tp.jour)},

@@ -280,8 +280,17 @@ const SESSIONS_ENLIGNE = [
     ],
   },
 ]
+// « basthon:ressources/x.ipynb|ressources/module.py|ressources/image.jpg » : ouvre la copie du dépôt dans
+// Basthon, quel que soit l'hébergeur du site (Vercel, GitHub Pages, local), avec ses fichiers annexes.
+function basthonLien(spec) {
+  const [nb, ...annexes] = spec.slice('basthon:'.length).split('|')
+  const abs = p => encodeURIComponent(new URL(p, window.location.href).href)
+  return 'https://notebook.basthon.fr/?from=' + abs(nb) +
+    annexes.map(p => (p.endsWith('.py') ? '&module=' : '&aux=') + abs(p)).join('')
+}
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
-const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
+const resolveUrl = (base, u) => u.startsWith('basthon:') ? basthonLien(u)
+  : (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
 const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
   { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
@@ -4433,7 +4442,13 @@ function renderTPCard(tp) {
     const res = allRessources.find(r => r.file_name === origName)
     if (res) {
       if (tp.notebook) {
-        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+        // Fichiers dont le notebook a besoin (modules .py importés, images…) : Basthon les charge
+        // dans son système de fichiers via les paramètres module= et aux= de l'URL.
+        const extras = (tp.aux || []).map(p => {
+          const abs = encodeURIComponent(new URL(p, window.location.href).href)
+          return (p.endsWith('.py') ? '&module=' : '&aux=') + abs
+        }).join('')
+        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}${extras}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
       }
       downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${ressourceUrl(res)}" download="${escapeHtml(origName)}" title="Télécharger le document original">⬇ TP original</a>`
     }
@@ -5440,7 +5455,7 @@ function renderAgendaBanner() {
 
 function renderRessources() {
   const makeCard = r => `
-    <a class="resource-card" href="${r.url}" target="_blank" rel="noopener">
+    <a class="resource-card" href="${r.url.startsWith('basthon:') ? basthonLien(r.url) : r.url}" target="_blank" rel="noopener">
       <div class="resource-card-icon">${r.icon}</div>
       <div>
         <div class="resource-card-title">${r.title}</div>

@@ -1,0 +1,255 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Programmation logique</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="progObjet.html">Programmation logique</h1>
+<div id="contenu">
+  <h2>I. Présentation</h2>
+  <p>La programmation logique est un paradigme de programmation déclaratif très différent de tout ce que vous avez pu voir jusqu'à présent. Il repose essentiellement sur la logique des prédicats (ou logique du premier ordre). Il y a peu de langages mettant en oeuvre la programmation logique. On pourra toutefois en citer 2 : Prolog et mercury. Prolog restant malgré tout la référence, c'est avec ce langage que ce cours va être illustré.</p>
+  <p>Prolog est un langage créé en 1972 par un français (Cocorico !) : Alain Colmerauer. C'est un langage principalement utilisé dans le domaine de l'intelligence artificielle, mais aussi dans le traitement du langage.</p>
+  <p>Pour utiliser Prolog, vous pouvez bien sûr installer <a href="https://www.swi-prolog.org/" target="_blank">swi-prolog</a> sur votre marchine, mais le plus simple pour tester les exemples de ce cours est de vous rendre sur l'interpréteur en ligne <a href="https://swish.swi-prolog.org/" target="_blank">swish</a>.</p>
+  <h2>II. Principe général de fonctionnement avec un premier exemple</h2>
+  <p>Dans Prolog, un programme est une <em>base de faits et règles</em>, et le programme est en quelque sorte exécuté en <em>posant une question</em> appelée <em>but</em> dans l'interpréteur.</p>
+  <p>Pour illustrer le fonctionnement de Prolog, nous allons partir sur la manipulation de l'arbre généralogique suivant, très conventionnel il est vrai (couples hétérosexuels, pas de remariages, etc.), mais c'est pour la bonne cause : vous simplifier la vie !) :</p>
+  <p><img src="genealogie.png" width="60%" alt="Arbre généalogique"/></p>
+  <p>Dans notre base de faits, nous allons décrire différents types d'information pour représenter cet arbre :</p>
+  <ul>
+    <li>Le sexe (masculin ou féminin) de chacun ;</li>
+    <li>Les couples (qui est marié avec qui) ;</li>
+    <li>Les liens de filiation (qui est enfant de qui.</li>
+  </ul>
+  <p>Par exemple, pour représenter le fait que Gabriel est de sexe masculin, on va tout simplement écrire :</p>
+  <pre class="algo">
+  masculin(gabriel).
+  </pre>
+  <p> En Prolog, cela s'appelle un <strong>fait</strong>. Un fait est toujours vrai. </p>
+  <p>Vous pourrez noter que :</p>
+  <ul>
+    <li>On n'a jamais déclaré ce qu'était "masculin" ou "gabriel" ;</li>
+    <li>On n'a surtout pas mis de majuscule à "gabriel" (ni à "masculin" d'ailleurs");</li>
+    <li>La ligne se termine par un point (".").</li>
+  </ul>
+  <p>En prolog, les mots qui ne sont pas des mots du langage (comme "gabriel" ou "masculin" ici) sont appelés des <strong>atomes</strong>. Attention : ce ne sont pas des données de type "chaîne de caractères" ! (les chaînes de caractères existent en Prolog, mais n'ont pas d'intérêt si elles ne doivent pas être manipulées et si on n'est pas dans un contexte d'entrée/sortie). Ils peuvent tout à fait correspondre à des prédicats, comme "masculin" ici. Rappelons qu'un prédicat peut être vu comme une fonction renvoyant vrai ou faux.</p>
+  <p>Ici, en déclarant <code>masculin(gabriel)</code>, je déclare que la valeur du prédicat <em>masculin</em> est <em>vrai</em> pour la valeur gabriel. Mais Prolog utilise l'<strong>hypothèse du monde clos</strong> qui signifie que tout ce qui n'est pas explicitement vrai est faux. Du coup, si ma base de faits et règles se limite à cette seule déclaration, cele signifie aussi que je déclare que Emma n'est pas de sexe masculin, mais aussi que Raphaël n'est pas de sexe masculin. Vérifions tout cela avec <a href="https://swish.swi-prolog.org/" target="_blank">swish</a>.</p>
+  <p>Lorsque vous allez sur le site de swish et que vous cliquez sur "Programme", s'ouvre devant vous l'interface suivante :</p>
+  <p><img src="swish.png" width="60%" alt="Interface de swish"><p>
+  <p>Dans cette interface :</p>
+  <ol>
+    <li>La partie gauche est dédiée à la saisie de la base de faits et règles ;</li>
+    <li>La partie en bas à droite est la partie dédiée à la saisie des buts ;</li>
+    <li>La partie en haut à droite est destinée à l'affichage des résultats ;</li>
+    <li>Le bouton <span style="background-color: #5858FA; color: white">Run!</span> en bas à droite sert à demander à l'interpréteur d'essayer de résoudre le but saisi. Cela signifie que l'interpréteur Prolog va déterminer si le but se déduit des faits et des règles du programme. </li>
+  </ol>
+  <p>Remplissez maintenant la base de fait avec <code>masculin(gabriel).</code> Pour interroger la base, nous allons maintenant saisir un but dans la zone dédiée. Par exemple, pour savoir si gabriel est de sexe masculin, il est possible de saisir le but suivant : <code>masculin(gabriel).</code>. En cliquant sur le bouton <span style="background-color: #5858FA; color: white">Run!</span>, on obtient l'affichage suivant :</p>
+  <p><img src="swish2.png" width="60%" alt="Premier exemple d'utilisation de swish"><p>
+  <p>Comme on peut le voir le résultat est bien évidemment <code><strong>True</strong></code> car le but se déduit bien du programme puisqu'il contient un fait affirmant exactement ce qui figure dans le but. Par ailleurs, il est important de distinguer la différence sémantique entre le <code>masculin(gabriel).</code> saisi à gauche, qui correspond à un <strong>fait</strong> (on sait que gabriel est de sexe masculin) et le <code>masculin(gabriel).</code>, qui correspond à une <strong>question</strong> (est-ce-que je peux déduire de ma base que gabriel est de sexe masculin ?).</p>
+<div class="exo">
+  <p><strong>Exercice 1</strong> : En définissant deux nouveaux buts, vérifiez que emma n'est pas de sexe masculin et que raphael n'est pas de sexe masculin non plus.</p>
+</div>
+
+<h2>III. Notion de variable logique</h2>
+<p>En Prolog, les variables ne sont pas, comme dans les autres langages informatiques, des noms référençant des zones mémoires dont la valeur peut changer :</p>
+<div class="exo">
+Une <strong>variable logique</strong> est proche de la variable en mathématiques : c'est un nom représentant une valeur que je peux connaître (on dit alors que la variable est <strong>liée</strong>) ou ne pas connaître (on dit alors que la variable est <strong>libre</strong>). Une variable est représentée en Prolog par un nom commençant par une majuscule.</p>
+</div>
+<h3>A. Variable utilisée dans un but</h3>
+<p>Quand une variable est utilisée dans un but, cela revient à demander à Prolog de résoudre une équation en trouvant une valeur pour la variable qui permette de satisfaire la question.</p>
+<p>Ainsi, si l'on saisit maintenant le but suivant :</p>
+<pre class="algo">
+masculin(X).
+</pre>
+<p>Prolog trouve une valeur de X permettant de satisfaire ce prédicat et fournit la réponse : <code>X = gabriel</code>. Cela signifie formellement que si X prend la valeur gabriel alors le but se déduit bien du programme puisqu'il existe un fait <code>masculin(gabriel)</code>. </p>
+<p>Mais que se passe-t-il s'il y a maintenant plusieurs solutions ? Étoffons en effet la base en précisant que Raphaël, Léo, Louis et Lucas sont également de sexe masculin :</p>
+<pre class="algo">
+masculin(gabriel).
+masculin(raphael).
+masculin(leo).
+masculin(louis).
+masculin(lucas).
+</pre>
+<p>Que se passe-t-il alors si l'on redemande à Prolog de trouver une valeur de X qui permettent de vérifier <em>masculin(X)</em> ?
+<p>Cette fois-ci, Prolog affiche le résultat suivant :</p>
+  <p><img src="swish3.png" width="'0%" alt="Exemple d'une solution multiple"><p>
+<p>Prolog nous propose donc une valeur pour X (gabriel), mais, via le bouton <span style="background-color: lightgrey; color: black; padding:5px;">Next</span>, il vous propose de chercher s'il n'y aurait pas une autre valeur possible. Chaque clic sur <span style="background-color: lightgrey; color: black; padding:5px;">Next</span> vous propose une nouvelle valeur, jusqu'à ce qu'il n'y ait plus de solution.</p>
+
+<h3>B. Variable utilisée dans la base de faits et règles</h3>
+<p>Lorqu'une variable est utilisée dans un fait, il faut considérer cela comme une variable quantifiée <strong>universellement</strong>. Ainsi, si l'on rajoute le fait suivant à notre base :</p>
+<pre class="algo">
+personne(P).
+</pre>
+<p>Cela revient à écrire : <code>&forall; p.(personne(p))</code>. (ce qui ne correspond pas d'ailleurs à ce que l'on souhaite exprimer pour notre arbre généalogique) </p>
+<p>Complétez votre base de faits et règles avec des faits pour décrire les autres personnes de l'arbre généalogique (en négligeant pour le moment l'aversissement <code>Singleton variables: [P]</code>), et testez les questions suivantes :</p>
+<ul>
+  <li><code>personne(gabriel)</code> ;</li>
+  <li><code>personne(emma)</code> ;</li>
+  <li><code>personne(voiture)</code> ;</li>
+  <li><code>personne(X)</code> ;</li>
+</ul>
+
+<div class="exo">
+  <p><strong>Exercice 2</strong> : Complétez la base de faits et règles pour représenter le genre (masculin ou féminin) de toutes les personnes présentes dans l'arbre généalogique. Vous noterez que Prolog vous demande (pour éviter d'éventuels erreurs) de regrouper les déclarations concernant le même prédicat).
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr2"/></p>
+</div>
+<div class="correction" id="corr2">
+  <pre class="algo">
+<pre class="algo">
+masculin(gabriel).
+masculin(raphael).
+masculin(leo).
+masculin(louis).
+masculin(lucas).
+feminin(emma).
+feminin(alice).
+feminin(jade).
+feminin(louise).
+feminin(chloe).
+feminin(lina).
+feminin(rose).
+</pre>
+  </pre>
+</div>
+
+<h2>III. On continue</h2>
+<h3>A. Prédicats ayant une arité supérieure à 1</h3>
+  <p>Pour représenter que Raphaël est l'enfant d'Emma, on va rajouter un nouveau prédicat, <em>enfant</em>, qui sera un prédicat à 2 paramètres (on parle de prédicat <strong>d'arité</strong> 2) : l'un correspondant à l'enfant (Raphaël), l'autre correspondant au parent (Emma). On représente en général l'arité du prédicat en faisant suivre le nom du prédicat par un "/" suivi de l'arité. Ainsi, donc notre cas, on parlera des prédicats <code>masculin/1</code> et <code>enfant/2</code>. Prolog n'impose rien quant à l'ordre des paramètres, c'est au développeur de fixer cet ordre et d'être cohérent dans tout le programme. Ici on a choisi de mettre l'enfant en premier. On peut donc étoffer notre base de faits en rajoutant le fait suivant :</p>
+<pre class="algo">
+  enfant(raphael, emma).
+</pre>
+<div class="exo">
+<p><strong>Exercice 3</strong> : complétez la base de faits et règles avec les prédicats <code>enfant/2</code> et <code>mari/2</code> pour terminer la représentation de l'arbre généalogique.</p>
+  <p><input type="button" class="correction" value="Correction" idCorrection="corr3"/></p>
+</div>
+<div class="correction" id="corr3">
+  <pre class="algo">
+  enfant(raphael, gabriel).
+  enfant(raphael, emma).
+  enfant(jade, gabriel).
+  enfant(jade, emma).
+  enfant(louise, gabriel).
+  enfant(louise, emma).
+  enfant(louis, alice).
+  enfant(louis, raphael).
+  enfant(lucas, alice).
+  enfant(lucas, raphael).
+  enfant(chloe, alice).
+  enfant(chloe, raphael).
+  enfant(lina, louise).
+  enfant(lina, leo).
+  enfant(rose, louise).
+  enfant(rose, leo).
+  mari(gabriel, emma).
+  mari(raphael, alice).
+  mari(leo, louise).
+  </pre>
+</div>
+<h3>B. Après les faits, les règles</h3>
+<p>Jusqu'à présent, notre base de faits et règles ne contenait que des faits, ce qui limitait beaucoup son utilisation. Nous allons maintenant lui rajouter des <em>règles</em>. Une règle permet de décomposer un but en sous-buts et correspond à une implication logique. </p>
+<p>Nous aimerions par exemple pouvoir savoir qui est le père Raphaël. C'est clairement une information qui n'est pas présente telle quelle dans notre base. Mais c'est une information que nous (humains) pouvons déduire. En effet, nous savons qu'un père, c'est un parent de sexe masculin. Ou encore, pour qu'une personne P soit père d'une personne E, il faut que E soit l'enfant de P <strong>et</strong> que P soit de sexe masculin. C'est même une condition suffisante pour tout couple (P, E). En logique, on noterait cela ainsi :</p>
+<pre class="algo">
+ &forall;(P,E).(masculin(P) &and; enfant(E,P) &rarr; pere(P, E))
+</pre>
+Ceci constitue une <em>règle</em> que nous allons pouvoir rajouter à notre base de faits et règles sous la forme suivante :
+<pre class="algo">
+pere(P,E):- masculin(P), enfant(E, P).
+</pre>
+<p>Par rapport à la notation logique, on observe quelques différences :</p>
+<ul>
+  <li>Le quantificateur universel à disparu;</li>
+  <li>La partie droite de l'implication est en tête de la règle;</li>
+  <li>L'implication, inversée se note <strong>:-</strong></li>
+  <li>Le et logique (&and;) se transforme en "," (et devient séquentiel).</li>
+</ul>
+<p> On appelle également <code>pere(P,E):-masculin(P), enfant(P,E)</code> une <strong>clause</strong>, <code>pere(P,E)</code> est la <strong>tête</strong> de la clause, et <code>masculin(P)</code> et <code>enfant(P,E)</code> sont les <strong>antécédents</strong> de la clause.</p>
+
+<p>Il est alors possible d'utiliser ce nouveau prédicat <code>pere/2</code> de plusieurs façons différentes, en posant à Prolog les différentes questions suivantes ::</p>
+<ul>
+  <li>Est-ce-que Emma est le père de Raphaël ?</li>
+  <pre class="algo">pere(emma, raphael).</pre>
+  <li>Qui est le père de raphael ?</li>
+  <pre class="algo">pere(P, raphael).</pre>
+  <li>De qui Gabriel est-il le père  ?</li>
+  <pre class="algo">pere(gabriel, E).</pre>
+  <li>Qui est père de qui ?</li>
+  <pre class="algo">pere(P, E).</pre>
+</ul>
+<p>Ainsi, comme on peut le voir, un prédicat en Prolog est utilisable de plusieurs façons différentes car dans la plupart des cas, et contrairement aux autres langages de programmation, les paramètres ne sont pas définis en terme d'entrées et sorties comme pour les fonctions.</p>
+<p>Une particularité de prolog est l'existence dans l'interpréteur d'un <strong>moteur d'inférence</strong>, qui est chargé de résoudre chaque but à partir d'un programme. Pour effectuer sa tâche, pour chaque but, il construit <strong>un arbre de résolution</strong> dans lequel il mémorise les faits et les règles utilisés ainsi que les substitutions de variables (ie. le fait de donner une valeur à une variable) faites pour résoudre le but. Voyons sur un exemple comment il se comporte avec la résolution du but <code>pere(gabriel,X)</code> : <a href="Arbres/pere.html"">arbre de résolution</a></p>
+
+<p>Chaque fois qu'une solution est trouvée par l'interpréteur, celle-ci est proposée. Si l'utilisateur demande la suivante, on reprend la résolution au niveau du dernier <strong>point de choix</strong> dans l'arbre de résolution.</p>
+
+<p> Une <strong> règle </strong> est donc un moyen de décomposer un but en sous-buts : pour résoudre le but figurant en partie gauche d'une règle (après d'éventuelles substitutions de variables), l'interpréteur va essayer de résoudre dans l'ordre les sous-buts figurant en partie droite de la règle. </p>
+
+<h3>C. Et la récursivité, dans tout ça ?</h3>
+<p>Bien sûr, Prolog permet la récursivité. C'est d'ailleurs la seule façon d'itérer. Voici par exemple une façon de calculer les termes de la suite de Fibonacci (oui en Prolog :</p>
+<pre class="algo">
+fibo(0,1).
+fibo(1,1).
+fibo(N,U):- N1 is N-1, N2 is N-2, fibo(N1, U1), fibo(N2, U2), U is U1 + U2.
+</pre>
+<p> Et pour connaître <code>U<sub>6</sub></code>, il suffit de soumettre le but <code>fibo(U,6)</code>.</p>
+<p> <strong> NB: </strong>contrairement aux exemples sur le problème de généalogie, on s'aperçoit ici que l'on a aussi bien des faits que dès règles pour le même prédicat. Cela est tout à fait possible et même courant. Cela signifie que l'interpréteur a a priori 3 façons de résoudre un but portant sur le prédicat fibo. Il ne va pas choisir, il va les essayer les unes après les autres jusqu'à obtenir un succès. </p>
+
+<p>Et si on doit gérer des collections de données ? Il y a les listes, bien sûr ! Voici par un exemple un programme permettant de générer la liste des termes de... la suite de Fibonacci jusqu'au n-ième :</p>
+<pre class="algo">
+listeFibo(0, [1]).
+listeFibo(1, [1,1]).    
+listeFibo(N,[Res|LN1]):- N > 1, N1 is N-1, listeFibo(N1,LN1), LN1 = [Prec,PrecPrec|Reste], Res is Prec+PrecPrec.
+</pre>
+<h3>D. Et la cerise sur le gâteau </h3>
+<p>Voici un petit programme qui donne toutes les solutions pour résoudre le <em>problème du compte est bon</em> : il s'agit de la partie "chiffres" du jeu <em>Des chiffres et des lettres</em>, où il faut réussir à obtenir un nombre (compris entre 100 et 999) à partir de 6 autres nombres, en utilisant les 4 opérations de base et en restant dans l'ensemble des naturels.</p>
+<p>La version fournie ici n'est pas optimisée au sens où la même solution est fournie plusieurs fois dans des ordres différents. On peut améliorer mais
+   on peut tout de même remarquer que le code est très concis pour un problème pas si simple.
+</p>
+<p>Vous n'êtes pas obligés de tout comprendre, mais si ça vous intéresse, n'hésitez pas à y jeter un oeil et à poser les questions que vous voulez.
+<pre class="algo" style="width:80%">
+/* 1er paramètre : le total à atteindre
+   2ème paramètre : les valeurs disponibles au départ 
+   3ème paramètre : en résultat, la liste des opérations à faire
+ */
+bonCompte(N, [N | _],[]):-!.
+bonCompte(N, L,[Detail|Details]):- choisir2elements(Op1, Op2, Reste, L),
+		  calcul(Resultat, Op1, Op2, Detail),
+		  bonCompte(N, [Resultat|Reste],Details).
+
+/*
+ Ce prédicat est vrai si on a choisi 2 éléments Operande 1 et Operande 2 
+ dans la liste Liste et que Reste est la Liste initiale sans les 2 éléments 
+*/
+choisir2elements(Operande1, Operande2, Reste, Liste):-
+    select(Operande1, Liste, Reste1),
+    select(Operande2, Reste1, Reste),
+    Operande1 >= Operande2.
+
+/*
+ Ce prédicat permet, pour deux valeurs données Op1 et Op2, de calculer dans Res
+ le résultat de chacune des 4 opérations. La liste en dernier paramètre contient
+ la description de l'opération ainsi effectuée.
+ */
+calcul(Res, Op1, Op2, [Op1, '+', Op2, '=', Res]):- Res is Op1 + Op2.
+calcul(Res, Op1, Op2, [Op1, '*', Op2, '=', Res]):- Op2 > 1, Res is Op1 * Op2.
+calcul(Res, Op1, Op2, [Op1, '-', Op2, '=', Res]):- Res is Op1 - Op2, Res > 0, Res \== Op2.
+calcul(Res, Op1, Op2, [Op1, '/', Op2, '=', Res]):- Op2 > 1, Res is Op1 / Op2, integer(Res), Res \== Op2.
+
+</pre>
+<p>Si vous souhaitez par exemple savoir comment obtenir <code>749</code> à partire des nombres <code>1, 3, 5, 7, 9, 10</code>, il suffit de poser la question suivante :</p>
+<pre class="algo">
+  bonCompte(749, [1, 3, 5, 7, 9, 10], S).
+</pre>
+<p>Et parmi les solutions proposées, vous aurez par exemple la solution suivante, qui vous avait bien évidemment sauté aux yeux :</p>
+<pre class="algo">
+   5 + 3 =   8
+  10 + 1 =  11
+  11 * 9 =  99
+  99 + 8 = 107
+ 107 * 7 = 749
+</pre>
+</div>
+</div>
+</body>
+</html>
