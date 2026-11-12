@@ -1,0 +1,147 @@
+Fichier « exemple.txt » — code et preuves écrits en direct par le formateur (B. Mermet) pendant la
+séance du 1er octobre 2026 (preuve de programme et assertions). Recopié tel quel depuis le Drive du
+stagiaire (seuls les échappements d'export ont été retirés). Une coquille d'origine est conservée :
+« assert x >= O » (lettre O au lieu du chiffre 0) dans augmenter().
+
+def f(a):
+    if a > 2 and a < 10:
+        retour = "a correct"
+    else:
+        retour = "a trop petit"
+    return retour
+
+
+assert f(4) == "a correct"
+assert f(1) == "a trop petit"
+assert f(15) == "a trop petit"
+
+
+def add(x, y):
+    return 0
+
+def test_add_1():
+    assert add(10, -10) == 0
+
+def test_add_2():
+    assert add(0, 0) == 0
+
+####################################################
+
+true and false == false
+
+a: bool and b : bool -> a and b == True
+
+pour tout x, pour tout y, il existe un z tel que x + y == z
+x = 2, y = 3 -> z = 5
+x = -4, y = 100 -> z = 96
+z(x, y) = x + y
+
+==> pour tout x, pour tout y, x + y = z(x, y) avec z(x,y) = x + y
+
+pour tout x , il existe un z tel que pour tout y, (z + x) * y == 0
+
+pour tout x, pour tout y, (z(x) + x) * y == 0
+
+(z(x) + x) * y == 0
+
+####################################################
+def add(x, y):
+    assert x >= 0 and y >= 0 # précondition
+    retour = x + y
+    assert retour >= 0 # post-condition indéterministe et pas suffisante
+    return retour
+
+def minimum(x, y):
+    assert x >= 0 and y >= 0 # précondition
+    if x > y:
+        retour = y
+    else:
+        retour = x
+    assert retour <=x and retour <= y and (retour == x or retour == y) # post-condition déterministe
+    return retour
+
+def augmenter(x):
+    assert x >= O
+    retour = x + 154
+    assert retour > x
+    return retour
+
+def test_augmenter():
+    r = augmenter(4)
+    assert r > 4
+
+
+def maximum(liste):
+    assert len(liste) > 0
+    max = liste[0]
+    for i in range(0, len(liste)):
+        if liste[i] > max:
+            max = liste[i]
+        #Invariant de boucle : max == maximum(liste[0:i+1])
+        # variant de boucle : len(liste)-1 - i
+    assert max == maximum(liste) # et maximum(liste) = maximum(liste[0:len(liste)+1])
+    return max
+
+on cherche à montrer 3 choses :
+ - l'invariant est vrai au départ
+ - si l'invariant est vrai à une itération, il est vrai à la suivante :
+   on doit montrer :
+   max = maximum(liste[0:i+1]) => [i := i + 1 ; if liste[i] > max: max = liste[i]] (max = maximum(liste[0:i+1]))
+   soit :
+   max = maximum(liste[0:i+1]) =>
+     [i := i + 1 ; if liste[i] > max: max = liste[i] else: max = max] (max = maximum(liste[0:i+1]))
+   soit :
+   max = maximum(liste[0:i+1]) =>
+     [if liste[i+1] > max: max = liste[i+1] else: max = max] (max = maximum(liste[0:i+2]))
+   soit:
+   max = maximum(liste[0:i+1]) and liste[i+1] > max => [max := liste[i+1]] (max = maximum(liste[0:i+2]))
+   ET max = maximum(liste[0:i+1]) and liste[i+1] <= max => [max := max] (max = maximum(liste[0:i+2]))
+
+   soit:
+   max = maximum(liste[0:i+1]) and liste[i+1] > max => (liste[i+1] = maximum(liste[0:i+2]))
+   ET max = maximum(liste[0:i+1]) and liste[i+1] <= max => (max = maximum(liste[0:i+2]))
+
+
+- lorsque ma condition de bouclage devient fausse, grâce à mon invariant, je peux prouver la post-condition de ma boucle
+  condition de bouclage : i < len(liste)
+  quand on sort, i = len(liste)
+  invariant : max == maximum(liste[0:i+1])
+  => max == maximum(liste[0:len(liste) + 1)]
+
+Gestion du variant sur la fonction maximum :
+ - correct au départ
+   hypothèse : len(liste) > 0
+   but : variant >= 0 (variant : N)
+   len(liste) - i >= 0 -(avec i = 0)
+   soit :
+   len(liste) > 0 => len(liste) - 0 >= 0
+   soit len(liste) > 0 => len(liste) >= 0
+ - décroissante stricte du variant
+   (v = len(liste) - 1 - i & V = v) => [i := i + 1 & calcul_max](V < v)
+   soit V = len(liste) - i => len(liste) - (i+1) < len(liste) - i
+   soit -1 < 0
+ - variant = borne_inf => condition de sortie
+   len(liste) - i = 0 => i = len(liste)
+
+##############################################################################
+
+Preuve de Horloge :
+
+initialisation :
+----------------
+heures >= 0 and minutes >= 0 => [self.heures := heures || self.minutes := minutes](self.heures >= 0 and self.heures < 24 and self.minutes >= 0 and self.minutes < 60) soit :
+heures >= 0 and minutes >= 0 =>
+  heures >= 0 : Vrai d'après les hypothèses
+  heures < 24 : ????
+  minutes >= 0 : Vrai d'après les hypothèses
+  minutes < 60 : ????
+
+incrémenter (je ne mets pas les "self." à chaque fois pour gagner en visibilité) :
+-----------
+heures >= 0 and heures < 24 and minutes >= 0 and minutes < 60 => [minutes := minutes + 1](heures >= 0 and heures < 24 and minutes >= 0 and minutes < 60)
+
+heures >= 0 and heures < 24 and minutes >= 0 and minutes < 60 => (heures >= 0 and heures < 24 and minutes + 1 >= 0 and minutes + 1 < 60):
+  heures >= 0 : vrai par hypothèse
+  heures < 24 : vrai par hypothèse
+  minutes + 1 >= 0 : se déduit de minutes >= 0
+  minutes + 1 < 60 : ????

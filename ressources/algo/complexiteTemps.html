@@ -1,0 +1,266 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Complexité en temps</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="complexiteEspace.html">Complexité en temps</h1>
+    <div id="contenu">
+      <h2>I. Approche intuitive de la complexité en temps</h2>
+      <p>Une première façon d'estimer la complexité en temps d'un algorithme est
+        de l'exécuter sur des problèmes de tailles différentes et d'étudier la
+        courbe obtenue. Pour chaque taille de problème, il faut faire la moyenne
+        sur plusieurs exécutions, avec des données aléatoires, et en essayant de
+        limiter au maximum la charge de la machine. On obtient alors une idée
+        approximative de la complexité en temps d'un algorithme.
+      </p>
+      <p>Une autre façon consiste à incrémenter un compteur à chaque opération
+        "coûteuse" et à procéder comme précédemment, mais à utiliser la valeur
+        de ce compteur plutôt que le temps mis. On a alors des valeurs qui ne
+        sont plus sujettes aux perturbations extérieures, mais cela reste
+        approximatif et intuitif.</p>
+
+      <p>Ces 2 méthodes présentent en plus l'inconvénient d'être éventuellement
+        lentes, puisqu'elles prennent le temps nécessaire à l'exécution.</p>
+
+      <p>À titre d'exemples, vous pouvez regarder les fichiers
+        <a href="complexiteTemps01fibo.html">complexiteTemps01fibo.py</A> &mdash; en testant jusqu'à fibo(40)
+          &mdash; et <a href="complexiteTemps02recherche.html">complexiteTemps02recherche.py</a> &mdash; en testant
+          jusqu'à un tableau de 1000 cases.
+      <h2>II. Calcul formel de la complexité en temps</h2>
+      <p>Le  meilleur moyen de connaître la complexité en temps d'un algorithme
+        est de la calculer formellement. Pour ce faire, on va en général compter
+        "1" pour les opérations les plus lourdes, et on négligera les autres.</p>
+
+      <ul>
+        <li>Application à fibonacci : cas trivial</li>
+          <pre class="algo">
+cplx(0) = 0
+cplx(1) = 0
+cplx(n) = cplx(n-1) + cplx(n-2) + 1 &equiv; fibo(n)
+</pre>
+
+        <li>Application à la recherche naïve :</li>
+        <ul>
+          <li>Complexité au pire : il faut parcourir toute la liste, soit n étapes</li>
+          <pre class="algo">cplx(n) = O(n)</pre>
+          <li>Complexité en moyenne : il faut effectuer de 1 à n étapes de façon équiprobable, soit (n(n+1)/2)/n ≡ n/2</li>
+          <pre class="algo">cplx(n) = O(n/2)</pre>
+        </ul>
+        <li>Application à la recherche dichotomique</li>
+        <p>Complexité au pire : on ne trouve l'élément qu'une fois arrivée à une liste de taille 1</p>
+          <pre class="algo">
+u(1) = 1
+u(n) = 1 + u(n/2)
+Hypothèse : u(n) ≡ O(log<sub>2</sub>(n))
+u(n) = 1 + u(n/2) ≡ 1 + O(log<sub>2</sub>(n/2)) ≡ log<sub>2</sub>(n)
+</pre>
+    </ul>
+      <h2>III. Exercices</h2>
+      <div class="exo">
+        <p><strong>Exercice 1</strong> : faire une comparaison graphique empirique des
+        complexités en temps des algorithmes de tri suivant :</p>
+        <ul>
+          <li>tri à bulle</li>
+          <li>tri rapide</li>
+          <li>tri fusion</li>
+        </ul>
+        <p>Ci-dessous figurent 2 propositions de correction. La première n'effectue le tri qu'une
+        fois pour chaque taille de liste, la deuxième 1000 fois. Les bibliothèques utilisées
+        sont accessibles en bas de la page.</p>
+        <input type="button" class="correction" value="Correction 1" idCorrection="corr1.1"/>
+        <input type="button" class="correction" value="Correction 2" idCorrection="corr1.2"/>
+      </div>
+<pre class="correction" id="corr1.1">
+<span class="PreProc">import</span> matplotlib.pyplot <span class="Statement">as</span> plt
+<span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+<span class="PreProc">from</span> calcTemps <span class="PreProc">import</span> calcTempsFonction
+
+<span class="PreProc">from</span> triBulle <span class="PreProc">import</span> triBulle
+<span class="PreProc">from</span> triFusion <span class="PreProc">import</span> triFusion
+<span class="PreProc">from</span> triRapide <span class="PreProc">import</span> triRapide
+
+<span class="Statement">def</span> <span class="Identifier">genererListe</span>(n):
+    liste = []
+    <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, n):
+        liste.append(randint(<span class="Constant">1</span>,<span class="Constant">100</span>))
+    <span class="Statement">return</span> liste
+
+tailles = [n <span class="Statement">for</span> n <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">1000</span>)]
+listeListes = <span class="Identifier">list</span>(<span class="Identifier">map</span>(genererListe, tailles))
+
+<span class="Identifier">print</span>(listeListes)
+tempsBulle = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: calcTempsFonction(triBulle, x), listeListes))
+tempsFusion = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: calcTempsFonction(triFusion, x), listeListes))
+tempsRapide = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: calcTempsFonction(triRapide, x), listeListes))
+<span class="Identifier">print</span>(tempsBulle)
+<span class="Identifier">print</span>(tempsFusion)
+<span class="Identifier">print</span>(tempsRapide)
+
+plt.plot(tailles, tempsBulle)
+plt.plot(tailles, tempsFusion)
+plt.plot(tailles, tempsRapide)
+
+plt.show()
+</pre>
+<pre class="correction" id="corr1.2">
+<span class="PreProc">import</span> matplotlib.pyplot <span class="Statement">as</span> plt
+<span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+<span class="PreProc">from</span> calcTemps <span class="PreProc">import</span> calcTempsFonction
+
+<span class="PreProc">from</span> triBulle <span class="PreProc">import</span> triBulle
+<span class="PreProc">from</span> triFusion <span class="PreProc">import</span> triFusion
+<span class="PreProc">from</span> triRapide <span class="PreProc">import</span> triRapide
+
+<span class="Statement">def</span> <span class="Identifier">genererListe</span>(n):
+    liste = []
+    <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, n):
+        liste.append(randint(<span class="Constant">1</span>,<span class="Constant">100</span>))
+    <span class="Statement">return</span> liste
+
+<span class="Statement">def</span> <span class="Identifier">genererNListes</span>(n,t):
+    retour = []
+    <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, n):
+        retour.append(genererListe(t))
+    <span class="Statement">return</span> retour
+
+tailles = [n <span class="Statement">for</span> n <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">50</span>)]
+listeListes = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x:genererNListes(<span class="Constant">1000</span>,x), tailles))
+
+<span class="Identifier">print</span>(listeListes)
+<span class="Comment">#tempsBulle = list(map(lambda x: calcTempsFonction(triBulle, x), listeListes))</span>
+tempsBulle = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: <span class="Identifier">sum</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> y: calcTempsFonction(triBulle, y),x)), listeListes))
+tempsFusion = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: <span class="Identifier">sum</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> y: calcTempsFonction(triFusion, y),x)), listeListes))
+tempsRapide = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: <span class="Identifier">sum</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> y: calcTempsFonction(triRapide, y),x)), listeListes))
+<span class="Comment">#print(tempsBulle)</span>
+<span class="Comment">#print(tempsFusion)</span>
+<span class="Comment">#print(tempsRapide)</span>
+
+plt.plot(tailles, tempsBulle)
+plt.plot(tailles, tempsFusion)
+plt.plot(tailles, tempsRapide)
+
+plt.show()
+</pre>
+      <div class="exo">
+        <p><strong>Exercice 2</strong> : établir formellement la complexité du
+        tri à bulle.</p>
+      </div>
+    <h2>IV. Annexes : bibliothèques utilisées plus haut</h2>
+      <ul>
+        <li><input type="button" class="correction" value="calcTemps.py" idCorrection="calcTemps"/></li>
+<pre class="correction" id="calcTemps">
+  <span class="PreProc">from</span> time <span class="PreProc">import</span> time
+
+  <span class="Statement">def</span> <span class="Identifier">calcTempsFonction</span>(f,param):
+      t1 = time()
+      f(param)
+      t2 = time()
+      <span class="Statement">return</span> t2 - t1
+</pre>
+      <li><input type="button" class="correction" value="Tri à bulle" idCorrection="triBulle"/></li>
+<pre class="correction" id="triBulle">
+  <span class="Statement">def</span> <span class="Identifier">triBulle</span>(liste):
+      inversion = <span class="Identifier">True</span>
+
+      <span class="Statement">while</span> (inversion == <span class="Identifier">True</span>):
+          inversion = <span class="Identifier">False</span>
+          i = <span class="Constant">0</span>
+          <span class="Statement">while</span> (i &lt; <span class="Identifier">len</span>(liste)-<span class="Constant">1</span>):
+              <span class="Statement">if</span> (liste[i] &gt; liste[i+<span class="Constant">1</span>]):
+                  liste[i:i+<span class="Constant">2</span>] = [liste[i+<span class="Constant">1</span>],liste[i]]
+                  inversion = <span class="Identifier">True</span>
+              i = i + <span class="Constant">1</span>
+
+</pre>
+<li><input type="button" class="correction" value="Tri rapide" idCorrection="triRapide"/></li>
+<pre class="correction" id="triRapide">
+  <span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+  <span class="Statement">def</span> <span class="Identifier">triRapide</span>(liste):
+      <span class="Constant">&quot;&quot;&quot;</span>
+  <span class="Constant">    fonction qui initialise la fonction récursive de tri rapide d'une liste.</span>
+  <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+      trier(liste, <span class="Constant">0</span>, <span class="Identifier">len</span>(liste)-<span class="Constant">1</span>)
+
+  <span class="Statement">def</span> <span class="Identifier">trier</span>(liste, indiceDebut, indiceFin):
+      <span class="Constant">&quot;&quot;&quot;</span>
+  <span class="Constant">    fonction récursive qui trie une liste en utilisant la méthode trie rapide.</span>
+  <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+      <span class="Statement">if</span> (indiceFin &lt;= indiceDebut):
+          <span class="Statement">return</span>
+      indicePivot = randint(indiceDebut, indiceFin)
+      pivot = liste[indicePivot]
+      indicePivot = partitionner(liste, pivot, indiceDebut, indicePivot, indiceFin)
+      trier(liste, indiceDebut, indicePivot-<span class="Constant">1</span>)
+      trier(liste, indicePivot+<span class="Constant">1</span>, indiceFin)
+
+  <span class="Statement">def</span> <span class="Identifier">partitionner</span>(liste, pivot, indiceDebut, indicePivot, indiceFin):
+      <span class="Constant">&quot;&quot;&quot;</span>
+  <span class="Constant">    fonction qui partitionne une liste en fonction d'un pivot en mettant à gauche</span>
+  <span class="Constant">    du pivot les éléments plus petits que le pivot et à droite les éléments plus</span>
+  <span class="Constant">    grand. L'indice du pivot est susceptible d'être modifié au cours du traitement ;</span>
+  <span class="Constant">    il est donc renvoyé par cette fonction.</span>
+  <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+      termine = <span class="Identifier">False</span>
+      indiceCourant = indiceDebut
+      <span class="Statement">while</span> indiceCourant &lt;= indiceFin:
+          <span class="Statement">if</span> liste[indiceCourant] &gt; pivot <span class="Statement">and</span> indiceCourant &lt; indicePivot:
+              liste[indicePivot] = liste[indiceCourant]
+              liste[indiceCourant] = liste[indicePivot-<span class="Constant">1</span>]
+              liste[indicePivot-<span class="Constant">1</span>] = pivot
+              indicePivot = indicePivot - <span class="Constant">1</span>
+          <span class="Statement">elif</span> liste[indiceCourant] &lt; pivot <span class="Statement">and</span> indiceCourant &gt; indicePivot:
+              liste[indicePivot] = liste[indiceCourant]
+              liste[indiceCourant] = liste[indicePivot+<span class="Constant">1</span>]
+              liste[indicePivot+<span class="Constant">1</span>] = pivot
+              indicePivot = indicePivot + <span class="Constant">1</span>
+          <span class="Statement">else</span>:
+              indiceCourant = indiceCourant + <span class="Constant">1</span>
+      <span class="Statement">return</span> indicePivot
+</pre>
+    <li><input type="button" class="correction" value="Tri fusion" idCorrection="triFusion"/></li>
+<pre class="correction" id="triFusion">
+  <span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+  <span class="Statement">def</span> <span class="Identifier">triFusion</span>(liste):
+      <span class="Constant">&quot;&quot;&quot;</span>
+  <span class="Constant">    renvoie une version triée d'une liste en utilisant la méthode du tri fusion.</span>
+  <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+      taille = <span class="Identifier">len</span>(liste)
+      <span class="Statement">if</span> taille &lt;= <span class="Constant">1</span>:
+          <span class="Statement">return</span> liste
+      milieu = <span class="Identifier">int</span>(taille/<span class="Constant">2</span>)
+      <span class="Statement">return</span> fusionner(triFusion(liste[:milieu]), triFusion(liste[milieu:]))
+
+  <span class="Statement">def</span> <span class="Identifier">fusionner</span>(listeA, listeB):
+      <span class="Constant">&quot;&quot;&quot;</span>
+  <span class="Constant">    fonction qui fusionne 2 listes triées</span>
+  <span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+      fusion = []
+      teteA = listeA[<span class="Constant">0</span>]
+      teteB = listeB[<span class="Constant">0</span>]
+      <span class="Statement">while</span> (<span class="Identifier">len</span>(listeA) &gt; <span class="Constant">0</span> <span class="Statement">and</span> <span class="Identifier">len</span>(listeB) &gt; <span class="Constant">0</span>):
+          <span class="Statement">if</span> teteA &lt; teteB:
+              fusion.append(teteA)
+              listeA.pop(<span class="Constant">0</span>)
+              <span class="Statement">if</span> <span class="Identifier">len</span>(listeA) &gt; <span class="Constant">0</span>:
+                  teteA = listeA[<span class="Constant">0</span>]
+          <span class="Statement">else</span>:
+              fusion.append(teteB)
+              listeB.pop(<span class="Constant">0</span>)
+              <span class="Statement">if</span> <span class="Identifier">len</span>(listeB) &gt; <span class="Constant">0</span>:
+                  teteB = listeB[<span class="Constant">0</span>]
+      fusion = fusion + listeA + listeB
+      <span class="Statement">return</span> fusion
+</pre>
+    </ul>
+    </div>
+</div>
+</body>
+</html>

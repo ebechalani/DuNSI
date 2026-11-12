@@ -155,6 +155,27 @@ const SESSIONS_ENLIGNE = [
     ],
   },
   {
+    id: 'sql-2026-10-15',
+    iso: '2026-10-15', dateLabel: '15 octobre 2026 (matin)', bloc: 'bloc4',
+    titre: 'SQL : jointures sur plusieurs tables et contraintes d\'intégrité',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'sql.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'La séance du jour', items: [
+        { t: 'Jointures sur plusieurs tables, USING, contraintes en pratique', f: 'SQL — jointures sur plusieurs tables et contraintes d\'intégrité en pratique', u: 'sql.html' },
+        { t: 'Rappel : LMD et LDD (INSERT, UPDATE, DELETE, CREATE TABLE)',     f: 'SQL — manipuler et décrire (LMD/LDD) : INSERT, DELETE, UPDATE, CREATE TABLE',  u: 'sql.html' },
+      ]},
+      { titre: 'Fichiers du TP « ludothèque » (copie locale)', items: [
+        { t: 'Les 4 scripts Python de création et de lecture', u: 'ressources/bdd/Ludotheque/lectureLudotheque.py' },
+        { t: 'Support complet du chapitre (copie locale)',     u: 'ressources/bdd/indexBD.html' },
+      ]},
+    ],
+  },
+  {
     id: 'structures-lineaires-2026-10-15',
     iso: '2026-10-15', dateLabel: '15 octobre 2026 (après-midi)', bloc: 'bloc4',
     titre: 'Structures linéaires — piles, files, listes chaînées',
@@ -162,6 +183,10 @@ const SESSIONS_ENLIGNE = [
     base: '',
     index: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb',
     parties: [
+      { titre: 'Pour commencer : fin de Karatsuba (suite du 8 octobre)', items: [
+        { t: 'Cours : Karatsuba, multiplier de grands nombres', f: 'Karatsuba — multiplier de grands nombres en diviser pour régner' },
+        { t: 'Notebook Karatsuba (Basthon) — TP corrigé dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb' },
+      ]},
       { titre: 'Piles et files (LIFO / FIFO)', items: [
         { t: 'Cours : types abstraits, piles, files, NPI, round-robin', f: 'Piles et files : LIFO, FIFO et applications',
           u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb' },
@@ -210,7 +235,7 @@ const SESSIONS_ENLIGNE = [
         { t: 'Doc Python — module sqlite3',                           u: 'https://docs.python.org/3/library/sqlite3.html' },
         { t: 'Types de données SQLite (datatype3)',                   u: 'https://www.sqlite.org/datatype3.html' },
         { t: 'SQLite Online — exécuter du SQL dans le navigateur',    u: 'https://sqliteonline.com' },
-        { t: 'Chapitre 2 (à venir) : Paradigmes de programmation',    u: 'indexParadigmes.html' },
+        { t: 'Chapitre 2 : Paradigmes de programmation (dès le 22 octobre)', u: 'indexParadigmes.html' },
       ]},
     ],
   },
@@ -245,9 +270,228 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'bdd-2026-09-17',
+    iso: '2026-09-17', dateLabel: '17 septembre 2026 (matin)', bloc: 'bloc4',
+    titre: 'Bases de données : normalisation et conception par diagramme de classes',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'indexBD.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'La séance du jour', items: [
+        { t: 'Erratum du support (2FN), décomposition en 3FN, conception UML et 4FN', f: 'Bases de données — erratum 2FN, limites de la 3FN et conception par diagramme de classes', u: 'bdr.html' },
+        { t: 'Rappel : dépendances fonctionnelles, clés et formes normales',          f: 'Bases de données relationnelles — DF, clés et formes normales',                             u: 'bdr.html' },
+        { t: 'Du diagramme de classes au schéma relationnel',                          f: 'Modèle conceptuel — diagramme de classes et passage au relationnel',                        u: 'modeleConceptuel.html' },
+        { t: 'Contraintes de référence (clés étrangères)',                             f: 'Contraintes de référence (clés étrangères)',                                                u: 'contraintesReference.html' },
+      ]},
+      { titre: 'Support', items: [
+        { t: 'Support complet du chapitre (copie locale, hors ligne)', u: 'ressources/bdd/indexBD.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'algo-2026-09-17',
+    iso: '2026-09-17', dateLabel: '17 septembre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Correction des algorithmes : validation et tests unitaires',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Correction des algorithmes — la séance du jour', items: [
+        { t: 'A. Introduction à la validation : prototypage, test, preuve', f: 'Validation des algorithmes — test, preuve et prototypage',          u: 'validation.html' },
+        { t: 'C. Tests unitaires : méthodologie, TDD, pytest',              f: 'Tests unitaires en Python — méthodologie, couverture et pytest',  u: 'tests.html' },
+        { t: 'Exercice : la calculatrice en notation polonaise inversée',   u: 'calculatrice.html' },
+        { t: 'Exercice : les tests de la calculatrice, pas à pas',          u: 'test_Calculatrice.html' },
+      ]},
+      { titre: 'Support et outils', items: [
+        { t: 'Chapitre complet (copie locale, hors ligne)',            u: 'ressources/algo/index.html' },
+        { t: 'Test logiciel — support PDF complémentaire (B. Mermet)', u: 'https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf' },
+        { t: 'Documentation pytest',                                   u: 'https://docs.pytest.org/en/latest/' },
+      ]},
+    ],
+  },
+  {
+    id: 'sql-2026-09-24',
+    iso: '2026-09-24', dateLabel: '24 septembre 2026 (matin)', bloc: 'bloc4',
+    titre: 'SQL : interroger et manipuler la base « ludothèque »',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'sql.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Langages de données — la séance du jour', items: [
+        { t: 'SQL — interrogation (LID) : projection, restriction, jointure', f: 'SQL — interroger une base (LID) : projection, restriction, jointure',           u: 'sql.html' },
+        { t: 'SQL — manipulation et description (LMD / LDD)',                 f: 'SQL — manipuler et décrire (LMD/LDD) : INSERT, DELETE, UPDATE, CREATE TABLE', u: 'sql.html' },
+        { t: 'Interagir avec la base depuis Python (sqlite3)',                f: 'SQL et Python — le module sqlite3',                                            u: 'sqlEtPython.html' },
+      ]},
+      { titre: 'Fichiers du TP « ludothèque » (copie locale)', items: [
+        { t: 'creationTableIllustrateur.py — crée ludotheque.db + table Illustrateur', u: 'ressources/bdd/Ludotheque/creationTableIllustrateur.py' },
+        { t: 'creationTablesEditeurJeu.py — tables Editeur et Jeu',                   u: 'ressources/bdd/Ludotheque/creationTablesEditeurJeu.py' },
+        { t: 'creationTableEstDessinePar.py — table d\'association N-M',              u: 'ressources/bdd/Ludotheque/creationTableEstDessinePar.py' },
+        { t: 'lectureLudotheque.py — taper une requête et voir le résultat',          u: 'ressources/bdd/Ludotheque/lectureLudotheque.py' },
+        { t: 'SQLite Online — exécuter du SQL dans le navigateur',                    u: 'https://sqliteonline.com' },
+      ]},
+    ],
+  },
+  {
+    id: 'gloutons-2026-09-24',
+    iso: '2026-09-24', dateLabel: '24 septembre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Algorithmes gloutons (TP FDIU)',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons.ipynb',
+    parties: [
+      { titre: 'Cours et TP', items: [
+        { t: 'Cours : principe, limites et alternatives', f: 'Algorithmes gloutons — principe, limites et alternatives' },
+        { t: 'Notebook du TP (Basthon) — TP corrigé pas à pas dans l\'onglet 🧪 TP',     u: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons.ipynb' },
+      ]},
+      { titre: 'Correction (donnée le 1er octobre)', items: [
+        { t: 'Correction officielle du formateur (Basthon)',          u: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
+        { t: 'Télécharger la correction officielle (.ipynb)',        u: 'ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
+        { t: 'Script de vérification (références exhaustives)',      u: 'ressources/glouton/solution_gloutons.py' },
+      ]},
+    ],
+  },
+  {
+    id: 'algo-2026-10-01',
+    iso: '2026-10-01', dateLabel: '1er octobre 2026 (matin)', bloc: 'bloc2',
+    titre: 'Correction des algorithmes : couverture, preuve de programme et assertions',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Correction des algorithmes — la séance du jour', items: [
+        { t: 'Couverture de code : instructions, branches, chemins',  f: 'Tests unitaires en Python — méthodologie, couverture et pytest',     u: 'tests.html' },
+        { t: 'B. Preuve — logique, triplets de Hoare, substitution',  f: 'Preuve de programme — logique, triplets de Hoare et substitution',  u: 'preuve.html' },
+        { t: 'B. Preuve — invariants, correction partielle et totale', f: 'Preuve de programme — invariants, correction partielle et totale', u: 'preuve.html' },
+        { t: 'B. Preuve — assertions Python et exercices corrigés',   f: 'La preuve en pratique — assertions Python et exercices corrigés',   u: 'preuve.html' },
+      ]},
+      { titre: 'Code écrit en séance par le formateur', items: [
+        { t: 'personne.py — invariant de classe et encapsulation',            u: 'ressources/algo/seance-2026-10-01/personne.py' },
+        { t: 'exemple.txt — assertions, skolémisation, preuves de maximum et Horloge', u: 'ressources/algo/seance-2026-10-01/exemple.txt' },
+      ]},
+      { titre: 'Support complet (copie locale, hors ligne)', items: [
+        { t: 'Sommaire du chapitre',                                          u: 'ressources/algo/index.html' },
+        { t: 'Exercices de preuve corrigés (horloge, maximum, tri à bulle)', u: 'ressources/algo/preuve.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'dpr-2026-10-01',
+    iso: '2026-10-01', dateLabel: '1er octobre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Diviser pour régner (1) : occurrences et tri fusion — et correction des gloutons',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py',
+    parties: [
+      { titre: 'Diviser pour régner', items: [
+        { t: 'Cours : principe, exemples et tri fusion', f: 'Diviser pour régner — principe, exemples et tri fusion' },
+        { t: 'Le cours de B. Mermet (diviser.html)',      u: 'ressources/algo/diviser.html' },
+        { t: 'Notebook du TP (Basthon) — TP corrigé pas à pas dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py' },
+        { t: 'Solutions des trois TP diviser pour régner (script Python)', u: 'ressources/dpr/solution_dpr.py' },
+      ]},
+      { titre: 'Algorithmes gloutons : la correction', items: [
+        { t: 'Correction officielle du TP gloutons (Basthon)', u: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
+      ]},
+    ],
+  },
+  {
+    id: 'complexite-2026-10-08',
+    iso: '2026-10-08', dateLabel: '8 octobre 2026 (matin)', bloc: 'bloc2',
+    titre: 'Complexité des algorithmes : en temps, en espace, prolongements',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'complexite.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'III. Complexité — la séance du jour', items: [
+        { t: 'Complexité en temps : compter, notation O, classes usuelles', f: 'Complexité en temps — compter les opérations, notation O et classes usuelles', u: 'complexiteTemps.html' },
+        { t: 'Exemple : Fibonacci naïf contre mémoïsé',                     u: 'complexiteTemps01fibo.html' },
+        { t: 'Exemple : recherche dans une liste',                           u: 'complexiteTemps02recherche.html' },
+        { t: 'Complexité en espace, Ackermann, efficacité énergétique',     f: 'Complexité en espace et prolongements (Ackermann, efficacité énergétique)', u: 'complexiteEspace.html' },
+        { t: 'Prolongements',                                                u: 'prolongementsComplexite.html' },
+      ]},
+      { titre: 'Support complet (copie locale, hors ligne)', items: [
+        { t: 'Complexité — sommaire de la partie III', u: 'ressources/algo/complexite.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'dpr-2026-10-08',
+    iso: '2026-10-08', dateLabel: '8 octobre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Diviser pour régner (2) : multiplication de Karatsuba et rotation d\'image',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'basthon:ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb',
+    parties: [
+      { titre: 'Karatsuba', items: [
+        { t: 'Cours : multiplier de grands nombres en diviser pour régner', f: 'Karatsuba — multiplier de grands nombres en diviser pour régner' },
+        { t: 'Notebook Karatsuba (Basthon) — TP corrigé dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb' },
+      ]},
+      { titre: 'Rotation d\'image', items: [
+        { t: 'Notebook rotation d\'image (Basthon) — TP corrigé dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_rotation_image_dpr.ipynb|ressources/dpr/perroquet_256_cc.jpg' },
+        { t: 'Solutions des trois TP diviser pour régner (script Python)', u: 'ressources/dpr/solution_dpr.py' },
+      ]},
+    ],
+  },
+  {
+    id: 'paradigmes-2026-10-22',
+    iso: '2026-10-22', dateLabel: '22 octobre 2026', bloc: 'bloc4',
+    titre: 'Paradigmes de programmation : la programmation fonctionnelle (Haskell) — et fin de SQL',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 2)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'indexParadigmes.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'Fin du chapitre 1 : SQL et Python', items: [
+        { t: 'Injection SQL, requêtes paramétrées, ALTER TABLE', f: 'SQL et Python — injection SQL, requêtes paramétrées et ALTER TABLE', u: 'sqlEtPython.html' },
+      ]},
+      { titre: 'Chapitre 2 : paradigmes — la séance du jour', items: [
+        { t: 'A. Introduction aux paradigmes',                         f: 'Paradigmes de programmation — introduction',                                            u: 'introductionParadigmes.html' },
+        { t: 'C. Fonctionnel : λ-calcul, immuabilité, inférence de types', f: 'Programmation fonctionnelle — λ-calcul, immuabilité et inférence de types',          u: 'progFonctionnelle.html' },
+        { t: 'C. Fonctionnel : récursivité, listes, map / filter / fold',  f: 'Programmation fonctionnelle — récursivité, listes et fonctions d\'ordre supérieur', u: 'progFonctionnelle.html' },
+        { t: 'Le type abstrait Liste',                                  u: 'listes.html' },
+      ]},
+      { titre: 'Suite du chapitre (prochaines séances)', items: [
+        { t: 'F. Logique : faits, buts et variables logiques (Prolog)', f: 'Programmation logique — faits, buts et variables logiques (Prolog)',     u: 'progLogique.html' },
+        { t: 'F. Logique : règles, récursivité, arbre de résolution',   f: 'Programmation logique — règles, récursivité et arbre de résolution',     u: 'progLogique.html' },
+        { t: 'G. Objet : classes, instances, encapsulation',            f: 'Programmation objet — classes, instances et encapsulation',              u: 'progObjet.html' },
+        { t: 'G. Objet : attributs dynamiques, composition, héritage',  f: 'Programmation objet — attributs dynamiques, composition et héritage',    u: 'progObjet.html' },
+      ]},
+      { titre: 'Support et outils', items: [
+        { t: 'Chapitre 2 complet (copie locale, hors ligne)', u: 'ressources/paradigmes/indexParadigmes.html' },
+        { t: 'SWISH — Prolog dans le navigateur',             u: 'https://swish.swi-prolog.org/' },
+        { t: 'Haskell — installer GHC (ghci)',                u: 'https://www.haskell.org/ghcup/' },
+      ]},
+    ],
+  },
 ]
+// « basthon:ressources/x.ipynb|ressources/module.py|ressources/image.jpg » : ouvre la copie du dépôt dans
+// Basthon, quel que soit l'hébergeur du site (Vercel, GitHub Pages, local), avec ses fichiers annexes.
+function basthonLien(spec) {
+  const [nb, ...annexes] = spec.slice('basthon:'.length).split('|')
+  const abs = p => encodeURIComponent(new URL(p, window.location.href).href)
+  return 'https://notebook.basthon.fr/?from=' + abs(nb) +
+    annexes.map(p => (p.endsWith('.py') ? '&module=' : '&aux=') + abs(p)).join('')
+}
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
-const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
+const resolveUrl = (base, u) => u.startsWith('basthon:') ? basthonLien(u)
+  : (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
 const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
   { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
@@ -258,6 +502,10 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
   { icon: '🧑‍💻', title: 'Créer une appli web en NSI (mdBook complet)', desc: 'Référence Flask/Python : serveur, routes, templates, formulaires, bases de données (SQL, SQLite, injection), authentification (cookies, sessions, tokens), déploiement (SSH, SSL)', url: 'https://2025-formation-web-app-python-26f3cf.forge.apps.education.fr/' },
   { icon: '🗄️', title: 'Bloc 4 — Bases de données (B. Mermet, en ligne)', desc: 'Chapitre 1 complet : BDD relationnelles (DF, formes normales), modèle conceptuel, contraintes de référence, SGBD, SQL (LID/LMD/LDD), sqlite3 en Python, web côté serveur — Jour en ligne 10 septembre', url: 'https://bases-de-donnees-26b46e.gitlab.io/indexBD.html' },
+  { icon: '📐', title: 'Bloc 2 Algorithmique — copie locale du chapitre (B. Mermet)', desc: 'Les 30 pages du chapitre et leurs schémas, consultables hors ligne : gloutons, diviser pour régner, k plus proches voisins, validation, preuve de programme et ses exercices corrigés, tests unitaires, complexité (séances des 17 septembre, 1er et 8 octobre)', url: 'ressources/algo/index.html' },
+  { icon: '🧠', title: 'Bloc 4 — Paradigmes de programmation (B. Mermet) — copie locale', desc: 'Chapitre 2 : introduction, programmation fonctionnelle (λ-calcul, Haskell : types, récursivité, map/filter/fold), programmation logique (Prolog), programmation objet (classes, encapsulation, héritage) — séance du 22 octobre', url: 'ressources/paradigmes/indexParadigmes.html' },
+  { icon: '✂️', title: 'Notebooks « Diviser pour régner » (FDIU)', desc: 'Tri fusion (1er octobre), Karatsuba (8 et 15 octobre), rotation d\'image — copies locales avec leurs modules, s\'ouvrent dans Basthon ; les trois TP corrigés sont dans l\'onglet TP', url: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py' },
+  { icon: '✅', title: 'TP gloutons — correction officielle du formateur (FDIU)', desc: 'Le notebook corrigé donné en séance le 1er octobre : conversion binaire, rendu de monnaie et conditions de Pearson, sac à dos, planning, recherche exhaustive — s\'ouvre dans Basthon', url: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
   { icon: '💾', title: 'Support BDD — copie locale + scripts ludothèque', desc: 'Les 7 pages du chapitre, les schémas et les 4 scripts Python du TP (creationTable…, lectureLudotheque.py), consultables hors ligne', url: 'ressources/bdd/indexBD.html' },
   { icon: '🐍', title: 'Doc Python — module sqlite3', desc: 'Documentation officielle : connect, execute, executemany, commit, curseurs, requêtes paramétrées (utilisée dans le cours BDD du 10 septembre)', url: 'https://docs.python.org/3/library/sqlite3.html' },
   { icon: '🍬', title: 'Notebook « Les algorithmes gloutons » (FDIU)', desc: 'TP complet sur les problèmes d\'optimisation : conversion binaire, rendu de monnaie, sac à dos, planning de conférenciers, recherche exhaustive et programmation dynamique — ouvrable dans Basthon', url: 'https://github.com/LANSIG/NSI' },
@@ -4398,7 +4646,13 @@ function renderTPCard(tp) {
     const res = allRessources.find(r => r.file_name === origName)
     if (res) {
       if (tp.notebook) {
-        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+        // Fichiers dont le notebook a besoin (modules .py importés, images…) : Basthon les charge
+        // dans son système de fichiers via les paramètres module= et aux= de l'URL.
+        const extras = (tp.aux || []).map(p => {
+          const abs = encodeURIComponent(new URL(p, window.location.href).href)
+          return (p.endsWith('.py') ? '&module=' : '&aux=') + abs
+        }).join('')
+        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}${extras}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
       }
       downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${ressourceUrl(res)}" download="${escapeHtml(origName)}" title="Télécharger le document original">⬇ TP original</a>`
     }
@@ -5405,7 +5659,7 @@ function renderAgendaBanner() {
 
 function renderRessources() {
   const makeCard = r => `
-    <a class="resource-card" href="${r.url}" target="_blank" rel="noopener">
+    <a class="resource-card" href="${r.url.startsWith('basthon:') ? basthonLien(r.url) : r.url}" target="_blank" rel="noopener">
       <div class="resource-card-icon">${r.icon}</div>
       <div>
         <div class="resource-card-title">${r.title}</div>

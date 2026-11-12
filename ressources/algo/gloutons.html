@@ -1,0 +1,473 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Algorithmes gloutons</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="diviser.html">Algorithmes gloutons</h1>
+    <div id="contenu">
+      <h2>I. Définition, principes, cas d'utilisation</h2>
+      <h3>A. Définition</h3>
+      <p>Un algorithme glouton est un algorithme d'optimisation qui procède étape par
+      étape en effectuant à chaque étape un choix optimal localement.</p>
+      <h3>B. Cas d'utilisation et particularité</h3>
+      <p>
+        Dans certains cas, un algorithme glouton converge vers un extremum global, mais
+        ce n'est pas toujours le cas. Par contre, ce sont des algorithmes en général
+        assez "rapides". Il est donc important, avant d'utiliser ce type d'algorithme,
+        de se poser les questions suivantes :
+      </p>
+      <ul>
+        <li>Mon problème présente-t-il des extrema locaux ?</li>
+        <li>Ai-je besoin d'un extremum global ?</li>
+        <li>Mon problème est-il "compliqué" ?</li>
+      </ul>
+      <h2>II. Exemple du rendu de monnaie</h2>
+      <h3>A. Énoncé</h3>
+      <p>Écrire un programme implantant un algorithme qui décrit comment rendre
+        la monnaie en utilisant un minimum de pièces et billets.
+      </p>
+      <h3>B. Exemple</h3>
+      <p>On doit rendre 288€, sachant que l'on dispose de pièces et de billets ayant
+        les valeurs suivantes : [1, 2, 5, 10, 20, 50].
+      </p>
+      <h3>C. Optimalité</h3>
+      <p>
+        Avec un tel système de pièces, l'algorithme glouton est optimal. Mais ça n'est
+        pas toujours le cas.
+      </p>
+      <p><em>Exemple :</em> On doit rendre 6€ avec les pièces [1, 3, 4]. L'algorithme
+      glouton donne [4, 1, 1] alors que la solution optimale est [3, 3].</p>
+      <div class="exo">
+        <p><strong>Exercice 1</strong> : fournir une implantation de l'algorithme du rendu de monnaie</p>
+        <input type="button" class="correction" value="Correction 1" idCorrection="corr1.1"/>
+        <input type="button" class="correction" value="Correction 2" idCorrection="corr1.2"/>
+      </div>
+      <pre class="correction" id="corr1.1">
+        <span class="Comment">#données du problème</span>
+        pieces = [<span class="Constant">1</span>, <span class="Constant">2</span>, <span class="Constant">5</span>, <span class="Constant">10</span>, <span class="Constant">20</span>, <span class="Constant">50</span>];
+
+        somme = <span class="Constant">288</span>
+
+        <span class="Comment">#initialisation</span>
+        decomposition = []
+        reste = somme
+
+        <span class="Comment">#fonction utilitaire</span>
+        <span class="Statement">def</span> <span class="Identifier">chercherPieceMax</span>(pieces, valeur):
+            retour = <span class="Constant">1</span>
+            <span class="Statement">for</span> indice <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Identifier">len</span>(pieces)-<span class="Constant">1</span>,-<span class="Constant">1</span>,-<span class="Constant">1</span>):
+                <span class="Statement">if</span> pieces[indice] &lt;= valeur:
+                    retour = pieces[indice]
+                    <span class="Statement">break</span>
+            <span class="Statement">return</span> retour
+
+        <span class="Comment">#algorithme principal</span>
+        <span class="Statement">while</span> (reste &gt; <span class="Constant">0</span>):
+                pieceMax = chercherPieceMax(pieces, reste)
+                decomposition.append(pieceMax)
+                reste = reste - pieceMax
+
+        <span class="Comment">#affichage du résultat</span>
+        <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">Une décomposition possible de </span><span class="Constant">&quot;</span>, somme, <span class="Constant">&quot;</span><span class="Constant"> en pièces est </span><span class="Constant">&quot;</span>, decomposition)
+</pre>
+<pre class="correction" id="corr1.2">
+  <span class="Statement">class</span> <span class="Identifier">Monnaie</span>:
+
+      <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, pieces=[<span class="Constant">1</span>]):
+          self.pieces = pieces
+          self.pieces.sort()
+          self.pieces.reverse()
+
+      <span class="Comment">#fonction utilitaire</span>
+      <span class="Statement">def</span> <span class="Identifier">chercherPieceMax</span>(self, valeur):
+          retour = <span class="Constant">1</span>
+          <span class="Statement">for</span> indice <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>,<span class="Identifier">len</span>(self.pieces)):
+              <span class="Statement">if</span> self.pieces[indice] &lt;= valeur:
+                  retour = self.pieces[indice]
+                  <span class="Statement">break</span>
+          <span class="Statement">return</span> retour
+
+      <span class="Statement">def</span> <span class="Identifier">decomposer</span>(self, somme):
+          <span class="Comment">#initialisation</span>
+          decomposition = []
+          reste = somme
+
+          <span class="Statement">while</span> (reste &gt; <span class="Constant">0</span>):
+              pieceMax = self.chercherPieceMax(reste)
+              decomposition.append(pieceMax)
+              reste = reste - pieceMax
+          <span class="Statement">return</span> decomposition
+
+  <span class="Comment">#test</span>
+  somme = <span class="Constant">288</span>;
+  monnaie = Monnaie([<span class="Constant">1</span>,<span class="Constant">2</span>,<span class="Constant">50</span>,<span class="Constant">10</span>,<span class="Constant">20</span>,<span class="Constant">5</span>])
+  decomposition = monnaie.decomposer(somme)
+  <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">Une décomposition possible de </span><span class="Constant">&quot;</span>, somme, <span class="Constant">&quot;</span><span class="Constant"> en pièces est </span><span class="Constant">&quot;</span>, decomposition)
+</pre>
+    <h3>D. Activités pédagogiques autour du problème du rendu de monnaie</h3>
+  <p>
+    Le problème du rendu de monnaie peut servir de base pour plusieurs points du programme :
+  </p>
+  <ul>
+    <li>L'écriture d'un algorithme</li>
+    <li>La démarche descendante</li>
+    <li>Le passage d'un algorithme à un programme</li>
+    <li>Le typage</li>
+    <li>La terminaison</li>
+    <li>La complexité</li>
+  </ul>
+  <p>Cela est rapidement évoqué <a href="resolutionPieces.html">ici</a>.</p>
+  <h2>III. Le problème du sac à dos</h2>
+      <h3>A. Énoncé</h3>
+      <p>On souhaite remplir "au mieux" un sac à dos. Pour ce faire, on dispose :</p>
+      <ul>
+        <li>D'une liste d'objets que l'on souhaite prendre. Chaque objet est caractérisé
+        par un poids, un volume et une "utilité" ;</li>
+        <li>Du volume du sac à dos ;</li>
+        <li>Du poids maximal que l'on peut porter.</li>
+      </ul>
+      <p>Remplir le sac "au mieux" signifie que la somme des utilités des objets que
+        l'on va mettre dans le sac en respectant les contraintes de poids et de volume
+        doit être maximale.
+      </p>
+      <h3>B. Solution gloutonne</h3>
+      <p>Algorithme : </p>
+      <pre class="algo">
+listeObjets = tousLesObjets
+volumeDisponible = volumeSac
+poidsDisponible = poidsMax
+tant que listeObjets != {}:
+    Si l'objet obj le plus utile restant convient :
+        rajouter Obj au sac
+        mettreAJourContraintes
+    Sinon:
+        "jeter" Obj
+</pre>
+    <div class="exo">
+      <p><strong>Exercice 2</strong> : implanter l'algorithme glouton permettant de résoudre le
+        problème du sac à dos.</p>
+      <p>Tester votre programme avec les données suivantes :</p>
+      <ul>
+        <li>Volume du sac : 200</li>
+        <li>Poids maximal : 4000</li>
+        <li>Liste d'objets (nom, poids, volume, utilité):</li>
+        <ul>
+          <li>("lampe", 250, 15, 4)</li>
+          <li>("couteau", 80, 0.5, 5)</li>
+          <li>("réchaud", 780, 60, 2)</li>
+          <li>("trousse de secours", 380, 70, 5)</li>
+          <li>("saucisson", 500, 20, 4)</li>
+          <li>("gourde", 1050, 110, 5)</li>
+          <li>("poncho", 240, 50, 3)</li>
+          <li>("téléphone", 300, 8, 1)</li>
+          <li>("boussole", 30, 2, 4)</li>
+          <li>("en-cas", 100, 5, 2)</li>
+          <li>("livre", 350, 20, 1)</li>
+        </ul>
+      </ul>
+      <p><input type="button" class="correction" idCorrection="corr2" value="Correction"/></p>
+    </div>
+    <pre class="correction" id="corr2">
+      <span class="Statement">class</span> <span class="Identifier">Ustensile</span>:
+          <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, nom, poids, volume, utilite):
+              self.nom = nom
+              self.poids = poids
+              self.volume = volume
+              self.utilite = utilite
+
+          <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+              <span class="Statement">return</span> self.nom + <span class="Constant">&quot;</span><span class="Constant">(</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.poids) + <span class="Constant">&quot;</span><span class="Constant">,</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.volume) + <span class="Constant">&quot;</span><span class="Constant">,</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.utilite) + <span class="Constant">&quot;</span><span class="Constant">)</span><span class="Constant">&quot;</span>
+
+      <span class="Statement">class</span> <span class="Identifier">SacADos</span>:
+          <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, contenance):
+              self.contenance = contenance
+              self.contenu = []
+
+          <span class="Statement">def</span> <span class="Identifier">ajouterUstensile</span>(self, ustensile):
+              self.contenu.append(ustensile)
+
+          <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+              <span class="Statement">return</span> <span class="Identifier">repr</span>(self.contenu)
+
+          <span class="Statement">def</span> <span class="Identifier">utilite</span>(self):
+              utiliteTotale = <span class="Constant">0</span>
+              <span class="Statement">for</span> ustensile <span class="Statement">in</span> self.contenu:
+                  utiliteTotale += ustensile.utilite
+              <span class="Statement">return</span> utiliteTotale
+
+      <span class="Statement">def</span> <span class="Identifier">copieSac</span>(source):
+              nouveau = SacADos(source.contenance)
+              nouveau.contenu = source.contenu[:]
+              <span class="Statement">return</span> nouveau
+
+      <span class="Statement">class</span> <span class="Identifier">Porteur</span>:
+          <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, nom, portabilite):
+              self.nom = nom
+              self.portabilite = portabilite
+
+      <span class="Comment"># poids en grammes, volume en cl</span>
+      <span class="Comment"># utilite de 1 à 5</span>
+      lampe = Ustensile(<span class="Constant">&quot;</span><span class="Constant">lampe</span><span class="Constant">&quot;</span>, <span class="Constant">250</span>, <span class="Constant">15</span>, <span class="Constant">4</span>)
+      couteau = Ustensile(<span class="Constant">&quot;</span><span class="Constant">couteau</span><span class="Constant">&quot;</span>, <span class="Constant">80</span>, <span class="Constant">0.5</span>, <span class="Constant">5</span>)
+      rechaud = Ustensile(<span class="Constant">&quot;</span><span class="Constant">réchaud</span><span class="Constant">&quot;</span>, <span class="Constant">780</span>, <span class="Constant">60</span>, <span class="Constant">2</span>)
+      trousseSecours = Ustensile(<span class="Constant">&quot;</span><span class="Constant">trousse de secours</span><span class="Constant">&quot;</span>, <span class="Constant">380</span>, <span class="Constant">70</span>, <span class="Constant">5</span>)
+      saucisson = Ustensile(<span class="Constant">&quot;</span><span class="Constant">saucisson</span><span class="Constant">&quot;</span>, <span class="Constant">500</span>, <span class="Constant">20</span>, <span class="Constant">4</span>)
+      gourde = Ustensile(<span class="Constant">&quot;</span><span class="Constant">gourde</span><span class="Constant">&quot;</span>, <span class="Constant">1050</span>, <span class="Constant">110</span>, <span class="Constant">5</span>)
+      poncho = Ustensile(<span class="Constant">&quot;</span><span class="Constant">poncho</span><span class="Constant">&quot;</span>, <span class="Constant">240</span>, <span class="Constant">50</span>, <span class="Constant">3</span>)
+      telephone = Ustensile(<span class="Constant">&quot;</span><span class="Constant">téléphone</span><span class="Constant">&quot;</span>, <span class="Constant">300</span>, <span class="Constant">8</span>, <span class="Constant">1</span>)
+      boussole = Ustensile(<span class="Constant">&quot;</span><span class="Constant">boussole</span><span class="Constant">&quot;</span>, <span class="Constant">30</span>, <span class="Constant">2</span>, <span class="Constant">4</span>)
+      encas = Ustensile(<span class="Constant">&quot;</span><span class="Constant">en-cas</span><span class="Constant">&quot;</span>, <span class="Constant">100</span>, <span class="Constant">5</span>, <span class="Constant">2</span>)
+      livre = Ustensile(<span class="Constant">&quot;</span><span class="Constant">livre</span><span class="Constant">&quot;</span>, <span class="Constant">350</span>, <span class="Constant">20</span>, <span class="Constant">1</span>)
+
+      etagere = [lampe, couteau, rechaud, trousseSecours, saucisson, gourde, poncho, telephone, boussole, encas, livre]
+      <span class="Comment">#on trie par utilité décroissante</span>
+      etagereTriee = <span class="Identifier">sorted</span>(etagere, key = <span class="Statement">lambda</span> ustensile: -ustensile.utilite)
+
+      <span class="Identifier">print</span>(etagereTriee)
+
+      sac = SacADos(<span class="Constant">200</span>)
+      porteur = Porteur(<span class="Constant">&quot;</span><span class="Constant">Bruno</span><span class="Constant">&quot;</span>, <span class="Constant">4000</span>)
+
+      <span class="Statement">def</span> <span class="Identifier">remplirSacGlouton</span>(etagere, sac, porteur):
+          volumeDisponible = sac.contenance
+          poidsDisponible = porteur.portabilite
+
+          <span class="Statement">for</span> ustensile <span class="Statement">in</span> etagere:
+              volumeConvenable = ustensile.volume &lt;= volumeDisponible
+              poidsConvenable = ustensile.poids &lt;= poidsDisponible
+              ustensilePrenable = volumeConvenable <span class="Statement">and</span> poidsConvenable
+              <span class="Statement">if</span> (ustensilePrenable):
+                  sac.ajouterUstensile(ustensile)
+                  volumeDisponible = volumeDisponible - ustensile.volume
+                  poidsDisponible = poidsDisponible - ustensile.poids
+          <span class="Statement">return</span> sac
+
+      remplirSacGlouton(etagereTriee, sac, porteur)
+      <span class="Identifier">print</span>(sac)
+      <span class="Identifier">print</span>(sac.utilite())
+    </pre>
+    <h3>C. Solution récursive naïve optimale</h3>
+    <p>Algorithme :</p>
+    <pre class="algo">
+composerSac(sac, volumeDisponible, poidsDisponible, listeObjets):
+  si premierObjetConvient:
+    (utiliteAvec, sacAvec) = composerSac(sac+premierObjet, nouveauVolumeDispo,
+                                    nouveauPoidsDispo, listeObjets-premierObjet)
+    (utiliteSans, sacSans) = composerSac(sac, volumeDisponible,
+                                    poidsDisponible, listeObjets-premierObjet)
+    si utiliteAvec > utiliteSans:
+      return (utiliteAvec, sacAvec)
+    sinon:
+      return (utiliteSans, sacSans)
+  sinon:
+    return composerSac(sac, volumeDisponible,
+                       poidsDisponible, listeObjets-premierObjet)
+</pre>
+<div class="exo">
+  <p><strong>Exercice 3</strong> : implanter l'algorithme et le tester sur les mêmes données que
+    l'algorithme glouton.</p>
+    <p><input type="button" class="correction" idCorrection="corr3" value="Correction"</p>
+</div>
+<pre class="correction" id="corr3">
+  <span class="Statement">class</span> <span class="Identifier">Ustensile</span>:
+      <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, nom, poids, volume, utilite):
+          self.nom = nom
+          self.poids = poids
+          self.volume = volume
+          self.utilite = utilite
+
+      <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+          <span class="Statement">return</span> self.nom + <span class="Constant">&quot;</span><span class="Constant">(</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.poids) + <span class="Constant">&quot;</span><span class="Constant">,</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.volume) + <span class="Constant">&quot;</span><span class="Constant">,</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.utilite) + <span class="Constant">&quot;</span><span class="Constant">)</span><span class="Constant">&quot;</span>
+
+  <span class="Statement">class</span> <span class="Identifier">SacADos</span>:
+      <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, contenance):
+          self.contenance = contenance
+          self.contenu = []
+
+      <span class="Statement">def</span> <span class="Identifier">ajouterUstensile</span>(self, ustensile):
+          self.contenu.append(ustensile)
+
+      <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+          <span class="Statement">return</span> <span class="Identifier">repr</span>(self.contenu)
+
+      <span class="Statement">def</span> <span class="Identifier">utilite</span>(self):
+          utiliteTotale = <span class="Constant">0</span>
+          <span class="Statement">for</span> ustensile <span class="Statement">in</span> self.contenu:
+              utiliteTotale += ustensile.utilite
+          <span class="Statement">return</span> utiliteTotale
+
+  <span class="Statement">def</span> <span class="Identifier">copieSac</span>(source):
+          nouveau = SacADos(source.contenance)
+          nouveau.contenu = source.contenu[:]
+          <span class="Statement">return</span> nouveau
+
+  <span class="Statement">class</span> <span class="Identifier">Porteur</span>:
+      <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, nom, portabilite):
+          self.nom = nom
+          self.portabilite = portabilite
+
+  <span class="Comment"># poids en grammes, volume en cl</span>
+  <span class="Comment"># utilite de 1 à 5</span>
+  lampe = Ustensile(<span class="Constant">&quot;</span><span class="Constant">lampe</span><span class="Constant">&quot;</span>, <span class="Constant">250</span>, <span class="Constant">15</span>, <span class="Constant">4</span>)
+  couteau = Ustensile(<span class="Constant">&quot;</span><span class="Constant">couteau</span><span class="Constant">&quot;</span>, <span class="Constant">80</span>, <span class="Constant">0.5</span>, <span class="Constant">5</span>)
+  rechaud = Ustensile(<span class="Constant">&quot;</span><span class="Constant">réchaud</span><span class="Constant">&quot;</span>, <span class="Constant">780</span>, <span class="Constant">60</span>, <span class="Constant">2</span>)
+  trousseSecours = Ustensile(<span class="Constant">&quot;</span><span class="Constant">trousse de secours</span><span class="Constant">&quot;</span>, <span class="Constant">380</span>, <span class="Constant">70</span>, <span class="Constant">5</span>)
+  saucisson = Ustensile(<span class="Constant">&quot;</span><span class="Constant">saucisson</span><span class="Constant">&quot;</span>, <span class="Constant">500</span>, <span class="Constant">20</span>, <span class="Constant">4</span>)
+  gourde = Ustensile(<span class="Constant">&quot;</span><span class="Constant">gourde</span><span class="Constant">&quot;</span>, <span class="Constant">1050</span>, <span class="Constant">110</span>, <span class="Constant">5</span>)
+  poncho = Ustensile(<span class="Constant">&quot;</span><span class="Constant">poncho</span><span class="Constant">&quot;</span>, <span class="Constant">240</span>, <span class="Constant">50</span>, <span class="Constant">3</span>)
+  telephone = Ustensile(<span class="Constant">&quot;</span><span class="Constant">téléphone</span><span class="Constant">&quot;</span>, <span class="Constant">300</span>, <span class="Constant">8</span>, <span class="Constant">1</span>)
+  boussole = Ustensile(<span class="Constant">&quot;</span><span class="Constant">boussole</span><span class="Constant">&quot;</span>, <span class="Constant">30</span>, <span class="Constant">2</span>, <span class="Constant">4</span>)
+  encas = Ustensile(<span class="Constant">&quot;</span><span class="Constant">en-cas</span><span class="Constant">&quot;</span>, <span class="Constant">100</span>, <span class="Constant">5</span>, <span class="Constant">2</span>)
+  livre = Ustensile(<span class="Constant">&quot;</span><span class="Constant">livre</span><span class="Constant">&quot;</span>, <span class="Constant">350</span>, <span class="Constant">20</span>, <span class="Constant">1</span>)
+
+  etagere = [lampe, couteau, rechaud, trousseSecours, saucisson, gourde, poncho, telephone, boussole, encas, livre]
+  <span class="Comment">#on trie par utilité décroissante</span>
+  etagereTriee = <span class="Identifier">sorted</span>(etagere, key = <span class="Statement">lambda</span> ustensile: -ustensile.utilite)
+
+  <span class="Identifier">print</span>(etagereTriee)
+
+  <span class="Statement">def</span> <span class="Identifier">remplirSacOptimum</span>(etagereSource, sac, porteur, volumeDisponible, poidsDisponible):
+      etagere = etagereSource[:]
+      <span class="Comment"># Si l'étagère est vide, on a fini</span>
+      <span class="Statement">if</span> <span class="Identifier">len</span>(etagere) == <span class="Constant">0</span>:
+          <span class="Statement">return</span> sac
+      <span class="Comment"># Sinon, on considère le premier élément</span>
+      ustensile = etagere.pop(<span class="Constant">0</span>)
+      <span class="Comment">#Peut-on le prendre ?</span>
+      volumeConvenable = ustensile.volume &lt;= volumeDisponible
+      poidsConvenable = ustensile.poids &lt;= poidsDisponible
+      ustensilePrenable = volumeConvenable <span class="Statement">and</span> poidsConvenable
+      <span class="Comment">#Si oui, on retourne le meilleur des 2 cas</span>
+      <span class="Statement">if</span> ustensilePrenable:
+          sacAvec = copieSac(sac)
+          sacAvec.ajouterUstensile(ustensile)
+          sacAvec = remplirSacOptimum(etagere, sacAvec, porteur, volumeDisponible-ustensile.volume, poidsDisponible-ustensile.poids)
+          sacSans = copieSac(sac)
+          sacSans = remplirSacOptimum(etagere, sacSans, porteur, volumeDisponible, poidsDisponible)
+          <span class="Statement">if</span> sacAvec.utilite() &gt; sacSans.utilite():
+              <span class="Statement">return</span> sacAvec
+          <span class="Statement">else</span>:
+              <span class="Statement">return</span> sacSans
+      <span class="Comment">#Si non, on ne le prend pas et on considère la suite</span>
+      <span class="Statement">else</span>:
+          <span class="Statement">return</span> remplirSacOptimum(etagere, sac, porteur, volumeDisponible, poidsDisponible)
+
+  sac = SacADos(<span class="Constant">200</span>)
+  porteur = Porteur(<span class="Constant">&quot;</span><span class="Constant">Bruno</span><span class="Constant">&quot;</span>, <span class="Constant">4000</span>)
+  sac = remplirSacOptimum(etagereTriee, sac, porteur, sac.contenance, porteur.portabilite)
+  <span class="Identifier">print</span>(sac)
+  <span class="Identifier">print</span>(sac.utilite())
+</pre>
+  <h3>D. Un petit détour par Fibonacci</h3>
+  <h4>1. Rappel sur la suite de Fibonacci</h4>
+  <p>La suite de Fibonacci est une suite définie récursivement ainsi :</p>
+  <ul>
+    <li>U<sub>0</sub> = U<sub>1</sub> = 1</li>
+    <li>U<sub>n</sub> = U<sub>n-1</sub>+U<sub>n-2</sub> &forall; n &ge; 2</li>
+  </ul>
+  <h4>2. Implantation simple</h4>
+  <p>Une implantation simple du calcul d'un terme de la suite de Fibonacci est
+  la suivante :</p>
+  <pre class="algo">
+from sys import argv
+
+def fiboNaif(n):
+  if n < 0:
+    raise "Nombre négatif"
+  elif (n == 0 or n == 1):
+    return 1
+  else:
+    return fiboNaif(n-1)+fiboNaif(n-2)
+
+print(fiboNaif(int(argv[1])))
+</pre>
+<h4>3. Analyse</h4>
+<p>Essayez de calculer les termes de la suite de Fibonacci  pour n = 30, 31, ...,
+  40.</p>
+<div class="exo">
+  <p><strong>Exercice 4</strong> : Faire le schéma de l'évaluation de U<sub>5</sub>.</p>
+  <p><input type="button" value="Correction" class="correction" idCorrection="corr4"/></p>
+</div>
+<pre class="correction" id="corr4">
+  <img src="fibo1.gif" width="60%"  />
+</pre>
+<p>Comme on peut le constater, la méthode de calcul est très peu efficace car elle
+  amène à calculer plusieurs fois la même chose.
+</p>
+<h4>4. Mémoïsation</h4>
+<p>
+  On appelle <strong>mémoïsation</strong> le fait de mémoriser, une valeur calculée
+  lors de l'exécution d'un programme pour pouvoir réutiliser directement ce résultat
+  s'il est nécessaire plus tard durant l'exécution du programme.
+</p>
+<div class="exo">
+  <p><strong>Exercice 5</strong> : Faire le schéma de l'évaluation de U<sub>5</sub> par un algorithme récursif
+  mettant en oeuvre la mémoïsation</p>
+  <p><input type="button" value="Correction" class="correction" idCorrection="corr5"/></p>
+</div>
+<pre class="correction" id="corr5">
+  <img src="fibo2.gif" width="60%"  />
+</pre>
+<div class="exo">
+  <p><strong>Exercice 6</strong> : Donner une implantation d'un algorithme récursif de calcul des termes de
+    la suite de Fibonacci avec mémoïsation</p>
+    <p><input type="button" class="correction" idCorrection="corr6" value="Correction"/></p>
+</div>
+<pre class="correction" id="corr6">
+  listeFibo = [<span class="Constant">1</span>,<span class="Constant">1</span>]
+  <span class="Statement">def</span> <span class="Identifier">fiboEfficace</span>(n):
+      <span class="Statement">if</span> n &lt; <span class="Constant">0</span>:
+          <span class="Statement">raise</span> <span class="Constant">&quot;</span><span class="Constant">Nombre négatif</span><span class="Constant">&quot;</span>
+      <span class="Statement">elif</span> n &gt;= <span class="Identifier">len</span>(listeFibo):
+          listeFibo.append(fiboEfficace(n-<span class="Constant">1</span>)+ fiboEfficace(n-<span class="Constant">2</span>))
+      <span class="Statement">return</span> listeFibo[n]
+
+  <span class="Identifier">print</span>(fiboEfficace(<span class="Identifier">int</span>(argv[<span class="Constant">1</span>])))
+
+</pre>
+<h3>E. Algorithme du sac à dos avec mémoïsation</h3>
+<p>Dans l'algorithme du sac à dos récursif, la fonction récursive va être appelée plusieurs
+  fois avec les mêmes paramètres, c'est à dire avec le même triplet (poids restant,
+  volume restant, objets restant). Pour gagner en efficacité, il suffit, lors d'un
+  appel à la fonction, de vérifier si elle a déjà été appelée avec les mêmes paramètres.
+  Si c'est le cas, on récupère la valeur déjà calculée. Sinon, on calcule la valeur,
+  puis on l'associe, dans une table de hashage (un "dictionnaire") au triplet
+  (poids, volume, objets). Cependant, en Python, les dictionnaires ne sont pas utilisables
+  directement car on ne peut utiliser comme clé des dictionnaires Python des
+  données contenant des listes. Il faut donc calculer un code de hashage pour
+  représenter la liste des objets restant.</p>
+  <div class="exo">
+    <p><strong>Exercice 7</strong> : Donner une implantation de résolution du problème du sac à dos en utilisant
+    la mémoïsation.</p>
+  </div>
+  <h2>IV. Plus court chemin dans un graphe/labyrinthe</h2>
+  <h3>A. Problème</h3>
+  <p>
+    Trouver le plus court chemin d'un point de départ dans un labyrinthe vers la sortie,
+    sachant qu'on dispose du plan du labyrinthe.
+  </p>
+  <h3>B. Principe général de l'algorithme</h3>
+  <p>
+    Lorsqu'on est sur une case, on évalue la distance de chacune des cases voisines à la sortie.
+    Il ne reste plus qu'à se diriger vers la case voisine la plus proche de la sortie.
+  </p>
+  <h3>C. Mise en oeuvre de la mémoïsation</h3>
+  <p>Quand on a évalué une case, on stocke la valeur trouvée dans la case.
+  </p>
+  <h3>D. Différentes variantes</h3>
+  <p>On peut procéder en "profondeur d'abord" ou en "largeur d'abord". La première façon présente
+    2 inconvénients : d'une part, on risque de boucler indéfiniment, d'autre part il faudra
+    éventuellement remettre en cause des calculs déjà effectués si on trouve un chemin plus court.
+  </p>
+  <div class="exo">
+    <p><strong>Exercice 8</strong> : Donner une implantation d'un algorithme permettant de trouver
+      le plus court chemin pour sortir d'un labyrinthe.</p>
+  </div>
+</div>
+</div>
+</body>
+</html>

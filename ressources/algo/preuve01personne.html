@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Preuve/preuve01personne.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">from</span> sys <span class="PreProc">import</span> argv
+
+<span class="Statement">class</span> <span class="Identifier">Personne</span>:
+    <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, nom, prenom, age):
+        self.nom = nom
+        self.prenom = prenom
+        self.age = age
+        self.determinerStatut()
+        self.invariant()                <span class="Comment"># vérification de l'invariant</span>
+
+    <span class="Statement">def</span> <span class="Identifier">anneeSuivante</span>(self):
+        <span class="Statement">assert</span> self.age == <span class="Identifier">int</span>(self.age)          <span class="Comment"># precondition</span>
+        ageAvant = self.age             <span class="Comment"># mémorisation pour la postcondition</span>
+        self.age = self.age + <span class="Constant">1</span>
+        <span class="Statement">assert</span> self.age == ageAvant + <span class="Constant">1</span> <span class="Comment"># postcondition</span>
+        self.invariant()                <span class="Comment"># vérification de l'invariant</span>
+
+    <span class="Statement">def</span> <span class="Identifier">determinerStatut</span>(self):
+        <span class="Statement">assert</span> self.age == <span class="Identifier">int</span>(self.age)          <span class="Comment"># precondition</span>
+        <span class="Statement">if</span> self.age &gt;= <span class="Constant">18</span>:
+            self.statut = <span class="Constant">&quot;</span><span class="Constant">majeur</span><span class="Constant">&quot;</span>
+        <span class="Statement">else</span>:
+            self.statut = <span class="Constant">&quot;</span><span class="Constant">mineur</span><span class="Constant">&quot;</span>
+        <span class="Statement">assert</span> ((self.age &gt;= <span class="Constant">18</span> <span class="Statement">and</span> self.statut == <span class="Constant">&quot;</span><span class="Constant">majeur</span><span class="Constant">&quot;</span>) <span class="Statement">or</span> (self.age &lt; <span class="Constant">18</span> <span class="Statement">and</span> self.statut == <span class="Constant">&quot;</span><span class="Constant">mineur</span><span class="Constant">&quot;</span>))
+                                        <span class="Comment"># postcondition</span>
+        self.invariant()                <span class="Comment"># vérification de l'invariant</span>
+
+    <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+        <span class="Statement">return</span> self.prenom + <span class="Constant">&quot;</span><span class="Constant"> </span><span class="Constant">&quot;</span> + self.nom + <span class="Constant">&quot;</span><span class="Constant">(</span><span class="Constant">&quot;</span> + <span class="Identifier">str</span>(self.age) + <span class="Constant">&quot;</span><span class="Constant">)</span><span class="Constant">&quot;</span>
+
+    <span class="Statement">def</span> <span class="Identifier">invariant</span>(self):
+        <span class="Statement">assert</span> self.nom != <span class="Constant">&quot;&quot;</span>
+        <span class="Statement">assert</span> self.age &gt;= <span class="Constant">0</span>
+        <span class="Statement">assert</span> self.age &gt;= <span class="Constant">18</span> <span class="Statement">or</span> self.statut == <span class="Constant">&quot;</span><span class="Constant">mineur</span><span class="Constant">&quot;</span>
+        <span class="Statement">assert</span> self.age &lt; <span class="Constant">18</span> <span class="Statement">or</span> self.statut == <span class="Constant">&quot;</span><span class="Constant">majeur</span><span class="Constant">&quot;</span>
+
+<span class="Statement">if</span> argv[<span class="Constant">1</span>] == <span class="Constant">&quot;</span><span class="Constant">1</span><span class="Constant">&quot;</span>:
+    personne = Personne(<span class="Constant">&quot;</span><span class="Constant">Mermet</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">Bruno</span><span class="Constant">&quot;</span>, <span class="Constant">16</span>)
+    <span class="Identifier">print</span>(personne)
+    <span class="Identifier">input</span>()
+    personne.anneeSuivante()
+    <span class="Identifier">print</span>(personne)
+    <span class="Identifier">input</span>()
+    personne.anneeSuivante()
+<span class="Statement">elif</span> argv[<span class="Constant">1</span>] == <span class="Constant">&quot;</span><span class="Constant">2</span><span class="Constant">&quot;</span>:
+    personne = Personne(<span class="Constant">&quot;</span><span class="Constant">Mermet</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">Bruno</span><span class="Constant">&quot;</span>, <span class="Constant">20.4</span>)
+<span class="Statement">else</span>:
+    personne = Personne(<span class="Constant">&quot;&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">Bruno</span><span class="Constant">&quot;</span>, <span class="Constant">20</span>)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

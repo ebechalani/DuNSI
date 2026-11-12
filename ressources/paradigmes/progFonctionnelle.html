@@ -1,0 +1,238 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Programmation fonctionnelle</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="progEvenementielle.html">Programmation fonctionnelle</h1>
+<div id="contenu">
+  <h2>I. Présentation</h2>
+  <h3>A. Le &lambda;-calcul</h3>
+  <p>Les langages fonctionnels sont des langages qui reposent sur le &lambda;-calcul, créé par Church en 1925. Le principe du &lambda;-calcul consiste à considérer les fonctions comme des données comme les autres. Par exemple, la fonction qui consiste à ajouter 1 à un autre s'écrit, en &lambda;-calcul :</p>
+  <pre class="algo">&lambda;x.(x + 1)</pre>
+  <p>On appelle cela une <strong>&lambda;-expression</strong>. En mathématiques, on noterait cela <code>x &#x21A6; x+1</code></p>
+  <p>On peut appliquer une telle expression à une valeur ainsi :</p>
+  <pre class="algo">
+(&lambda;x.(x + 1))(3) = (3 + 1)
+                = 4
+</pre>
+  <p>Une fonction additionnant ses 2 paramètres se représente ainsi :</p>
+  <pre class="algo">&lambda;(x,y).(x + y)</pre>
+  <p>Soit en mathématiques : <code>(x, y) &#x21A6; x+y</code></p>
+  <p>Mais souvent, on représente plutôt cela sous la forme <em>curryfiée</em> :</p>
+  <pre class="algo">&lambda;(x)(&lambda;(y).(x + y))</pre>
+  <p>Autrement dit : <code>x &#x21A6; (y &#x21A6; x+y)</code></p>
+  <p>En effet, les fonctions, étant des données comme les autres, une fonction peut très bien renvoyer une autre fonction. C'est le cas ici. On peut en effet passer 1 ou 2 paramètres à cette fonction, avec les résultats suivants :</p>
+  <pre class="algo">
+  (&lambda;(x)(&lambda;(y).(x + y)))(5) = &lambda;(y).(5 + y)
+  
+  (&lambda;(x)(&lambda;(y).(x + y)))(5)(3) = (&lambda;(y).(5 + y))(3)
+                             = 5 + 3
+                             = 8
+  </pre>
+  <p>Les &lambda;-fonctions sont des fonctions anonymes, et ce n'est pas très pratique. Souvent, on préférera les stocker dans des variables, ce qui reviendra à leur donner un nom. Par ailleurs, pour éviter la profusion de parenthèses, on préférera séparer les paramètres du nom de la fonction et entre eux par des espaces. On pourra donc écrire :</p>
+<pre class="algo">
+<scan class="constant">f = &lambda;(x)(&lambda;(y).(x + y))</scan>
+<scan class="constant">f 3 5</scan>
+<scan class="comment">8</scan>
+<scan class="constant">g = f 3</scan>
+<scan class="constant">g 5</scan>
+<scan class="comment">8</scan>
+</pre>
+
+<p>Les langages fonctionnels présentent en général les particularités suivantes :</p>
+<ol>
+  <li>Les données sont immuables : leur valeur n'est jamais modifiée ; les fonctions peuvent créer de nouvelles données, mais pas en modifier. On obtient ainsi un code beaucoup plus sûr ;</li>
+  <li>Les effets de bord (entrées/sorties) sont clairement identifiés et en général séparés du coeur du langage. En effet, ce sont eux qui peuvent entraîner un comportement erratique ;</li>
+  <li>Il est possible de mettre en place un mécanisme d'<em>évaluation paresseuse</em> : les nouvelles données ne sont calculées que lorsque leur valeur devient nécessaire. Cela évite de calculer des données qui, au final, ne serviraient pas ;</li>
+  <li>Un mécanime, appelé <em>inférence de type</em> permet à l'interpréteur du langage de déduire le type des données et fonction sans qu'il soit nécessaire de le spécifier.</li>
+</ol>
+<p>Le fait de pouvoir manipuler les fonctions comme de données, et donc par exemple pouvoir les passer en paramètres à d'autres fonctions, est un aspect très pratique des langages fonctionnels. Aussi, de nombreux langages impératifs intègrent maintenant cet aspect. C'est par exemple le cas de Javascript. Java, qui ne l'intégrait pas au départ, a fini par l'intégrer également depuis sa version 8 (2014).</p>
+  <h3>B. Quelques langages fonctionnels</h3>
+<p>  <table border="1">
+    <tr><th>Langage</th><th>Date de création</th><th>Remarques</th></tr>
+    <tr><td>LISP</td><td>1958</td><td>Premier langage fonctionnel. Il a connu est fort succès, notamment avec beaucoup d'application en intelligence artificielle. Par ailleurs, ce fut un des premiers langages pour lequel fut développée la notion de machine virtuelle. C'est un langage réputé pour le nombre colossale de parenthèses qu'il requiert.</td></tr>
+    <tr><td>ML</td><td>1970</td><td></td></tr>
+    <tr><td>CAML</td><td>1985</td><td>Langage développé par l'INRIA rajoutant quelques aspects impératifs afin de faciliter certaines tâches de programmation. Un peu plus tard est apparu OOCAML, une version orientée objet de CAML.</td></tr>
+    <tr><td>HASKELL</td><td>1990</td><td>Langage fonctionnellement très pur, très efficace à l'exécution, et beaucoup moins lourd à utiliser que LISP. Par ailleurs, une bibliothèque très riche est disponible.</td></tr>   
+  </table></p>
+  <h2>II. Exemples avec Haskell</h2>
+  <p>Nous allons maintenant étudier quelques exemples de programmes écrits dans un langage fonctionnel, Haskell en l'occurrence. Vous pourrez tester ces exemples en utilisant l'interpréteur <strong>ghci</strong> sur votre machine (voir instructions dans discord).
+
+    <!--
+	Si vous n'avez pas installé ghci sur votre machine (c'est dommage), vous pouvez utilier cet <a href="https://repl.it/languages/haskell" target="_blank">interpréteur en ligne</a> mais il faudra vous créer un compte.</p>
+	<p>Si vous utilisez l'interpréteur en ligne, il faut taper les exemples dans l'<strong>interpréteur</strong>, c'est-à-dire la partie droite de la fenêtre (celle sur fond noir).</p>
+   -->
+  <h3>A. Typage et inférence de type</h3>
+  <p>L'interpréteur Haskell propose une commande <code><strong>:t</strong></code> pour connaître le type d'une donnée. Commençons par quelques exemples d'utilisation de cette commande :</p>
+  <pre class='haskell'>
+  <span class='entree'>:t "toto"</span>
+  <span class='type'>"toto" :: [Char]</span>
+  <span class='entree'>:t reverse</span>
+  <span class='type'>reverse :: [a] -> [a]</span>
+  <span class='entree'>:t 2</span>
+  <span class='type'>2 :: Num p => p</span>
+  <span class='entree'>doubler x = x + x</span>
+  <span class='entree'>:t doubler</span>
+  <span class='type'>doubler :: Num a => a -> a</span>
+  <span class='entree'>somme x y = x + y</span>
+  <span class='entree'>:t somme</span>
+  <span class='type'>somme :: Num a => a -> a -> a</span></pre>
+  <p>Tout ceci mérite quelques commentaires :</p>
+  <dl>
+    <dt>ligne 2 : type de <code>"toto"</code></dt>
+    <dd>une chaîne de caractères est une <em>liste</em> de <em>Char</em></dd>
+    <dt>ligne 4 : type de <code>reverse</code></dt>
+    <dd>Cette fonction, qui renverse une liste, produit une liste d'éléments du même type (<em>a</em>) que ceux de la liste qui lui a été passée en paramètre</dd>
+    <dt>ligne 6 : type de <code>2</code></dt>
+    <dd>2 peut être interprété comme un entier, un réel, ... c'est-à-dire comme une donnée de n'importe quel type faisant partie de la <em>classe de type</em> <code>Num</code></dd>
+    <dt> ligne 9 : type de <code>doubler</code></dt>
+    <dd> La fonction <code>doubler</code> prend en paramètre une donnée d'un type numérique et renvoie une valeur du même type </dd>
+    <dt> ligne 12 : type de <code>somme</code></dt>
+    <dd> La fonction <code>somme</code> prend en paramètre deux données du même type numérique et renvoie une valeur du même type. Il s'agit de la forme curryfiée. En fait, il faut interpréter ce type comme <code>(a -> (a -> a))</code> (l'opérateur de typage <code>-></code> est associatif droit).</dd>
+  </dl>
+  <h3>B. Définition et application d'une fonction</h3>
+  <p>On peut maintenant tester l'application d'une fonction :</p>
+  <pre class="haskell">
+  <span class="entree">somme x y = x + y</span>
+  <span class="entree">somme 2 3</span>
+  <span class="sortie">5</span>
+  <span class="entree">s2 = somme 2</span>
+  <span class="entree">:t s2</span>
+  <span class="type">s2 :: Num a => a -> a</span>
+  <span class="entree">s2 3</span>
+  <span class="sortie">5</span></pre>
+  <p><strong>lignes 4 à 6</strong> : il s'agit d'une <em>application partielle</em> de la fonction <code>somme</code> : <code>s2</code> est une fonction qui ajoute 2 au nombre qui lui est passé en paramètre.</p>
+  <p>Il est bien sûr possible de composer les fonctions :</p>
+  <pre class="haskell">
+<span class="entree">somme x y = x + y</span>
+<span class="entree">suivant x = x + 1</span>
+<span class="entree">somme (suivant 3) 4</span>
+<span class="sortie">8</span>
+<span class="entree">myst x y = somme (suivant x) (suivant y)</span>
+<span class="entree">myst 2 4</span>
+<span class="sortie">8</span></pre>
+<p>En cas de composition de fonctions, l'inférence de type d'Haskell réalise la conjonction des différentes contraintes. Prenons le cas de l'opérateur <code>++</code> qui permet de concaténer des listes (on rappelle au passage qu'en Haskell, une chaîne de caractères est une liste de caractères) :</p>
+  <pre class="haskell">
+<span class="entree">[1,2] ++ [3,4]</span>
+<span class="sortie">[1,2,3,4]</span>
+<span class="entree">"bon" ++ "jour"</span>
+<span class="sortie">"bonjour"</span>
+<span class="entree">:t (++)</span>
+<span class="type">[a] -> [a] -> [a]</span>
+<span class="entree">f x = x ++ [1]</span>
+<span class="entree">:t f</span>
+<span class="type">Num a => [a] -> [a]</span></pre>
+  <h3>C. Conditionnel</h3>
+  <p>Dans les langages fonctionnels, tout est fonction. C'est notamment le cas du <code>if ... then ... else ...</code> : c'est en fait une fonction d'arité 3 :
+  <ul>
+    <li>le premier paramètre est la fonction de test</li>
+    <li>le deuxième paramètre la fonction calculant la valeur dans le cas ou le test est vrai,</li>
+    <li>le troisième paramètre la fonction calculant la valeur dans le cas où le test est faux</li>
+  </ul>
+  <p> Ainsi, <code>if t then g else h</code> renvoie une valeur (celle renvoyée par <code>g</code> ou <code>h</code> suivant que <code>t</code> renvoie vrai ou faux). Exemple :
+  <pre class='haskell'>
+<span class="entree">f x = if (mod x 3 == 0) then (div x 3) else 4 * x - 1</span>
+<span class="entree">:t f</span>
+<span class="type">Integral a => a -> a</span>
+<span class="entree">f 7</span>
+<span class="sortie">27</span>
+<span class="entree">f 6</span>
+<span class="sortie">2</span></pre>
+  <p><em>N.B.</em> : <code>Integral</code> est la classe des types numériques entiers.</p>
+  <h3>D. Récursivité</h3>
+  <p>Comme les langages fonctionnels ne connaissent que la composition de fonctions, il n'y a pas de boucle, et la répétition s'effectue donc par récursivité. Voici par exemple une définition de la suite de Fibonacci en Haskell :</p>
+  <pre class='haskell'>
+<span class="entree">fibo n = if (n < 2) then 1 else fibo(n-1) + fibo(n-2)</span>
+<span class="entree">:t fibo</span>
+<span class="type">fibo :: (Ord a, Num a, Num p) => a -> p</span>
+<span class="entree">fibo 6</span>
+<span class="sortie">13</span></pre>
+  <p>On peut également calculer ainsi la somme des éléments d'une liste :
+    <pre class='haskell'>
+<span class="entree">head [1,2,3]</span>
+<span class="sortie">1</span>
+<span class="entree">:t head</span>
+<span class="type">head :: [a] -> a</span>
+<span class="entree">tail [1,2,3]</span>
+<span class="sortie">[2,3]</span>
+<span class="entree">:t tail</span>
+<span class="type">tail :: [a] -> [a]</span>
+<span class="entree">somme liste = if (length liste == 0) then 0 else head liste + somme (tail liste)</span>
+<span class="entree">:t somme</span>
+<span class="type">somme :: Num p => [p] -> p</span>
+<span class="entree">somme [1,2,3]</span>
+<span class="sortie">6</span></pre>
+  <p> Les fonctions sur les listes peuvent également être définies par motif :</p>
+  <pre class='haskell'>
+<span class="entree">{somme [] = 0; somme (tete:queue) = tete + somme queue}</span></pre>
+  
+  <h3>E. Listes</h3>
+  <p>Les <a href="listes.html">Listes</a> sont un élément essentiel des langages fonctionnels. Elles ressemblent aux listes que vous connaissez en Python. Voici un exemple de fonction construisants les termes de la suite de Fibonacci jusqu'à un indice donné :</p>
+  <pre class='haskell'>
+<span class="entree">fibo n = if (n < 2) then 1 else fibo(n-1) + fibo(n-2)</span>
+<span class="entree">termesFibo n = if n == 0 then [1] else termesFibo (n-1) ++ [fibo n]</span>
+<span class="entree">:t termesFibo</span>
+<span class="type">termesFibo :: (Num t, Num a, Ord t) => t -> [a]</span>
+<span class="entree">termesFibo 6</span>
+<span class="sortie">[1,1,2,3,5,8,13]</span></pre>
+
+<p>Pour accéder à l'élément d'une liste à un indice donné, on utilise l'opérateur <code>!!</code>. Exemple :</p>
+  <pre class='haskell'>
+<span class="entree">[2,4,6]!!1</span>
+<span class="sortie">4</span></pre>
+
+<p>Il est possible, comme en Python, de définir des listes en compréhension. On peut également définir des listes sous la forme d'un intervalle :
+  <pre class='haskell'>
+<span class="entree">[2..10]</span>
+<span class="sortie">[2,3,4,5,6,7,8,9,10]</span></pre>
+
+  <p>Les langages fonctionnels proposent également fréquemment des fonctions de <em>mapping</em>, de filtrage et de réduction. Ces fonctions sont des fonctions qui prennent des fonctions en paramètre, comme vous allez pouvoir le voir dans les sections suivantes.</p>
+  <h4>1. Mapping</h4>
+  <p>Ce type d'opération consiste à appliquer une fonction à tous les éléments d'une liste, et à renvoyer la liste des résultats. Exemple :</p>
+  <pre class='haskell'>
+<span class="entree">doubler x = x + x</span>
+<span class="entree">map doubler [1,2,3]</span>
+<span class="sortie">[2,4,6]</span>
+<span class="entree">:t map</span>
+<span class="type">map :: (a -> b) -> [a] -> [b]</span></pre>
+
+<h4>2. Filtrage</h4>
+  <p>Ce type d'opération consiste à renvoyer une liste constituée des éléments de la liste passée en paramètre qui vérifient un certain critère. Exemple :</p>
+  <pre class='haskell'>
+<span class="entree">pair x = (mod x 2) == 0</span>
+<span class="entree">filter pair [1,2,3,4,5,6]</span>
+<span class="sortie">[2,4,6]</span>
+<span class="entree">:t map</span>
+<span class="type">map :: (a -> b) -> [a] -> [b]</span></pre>
+
+<h4>3. Pliage ou réduction</h4>
+<p>Le pliage, ou réduction, consiste à appliquer itérativement une fonction sur les termes de la liste, comme dans le cas de la somme des termes d'une liste : on réduit la liste à un entier grâce à l'addition. la fonction <code>foldl</code> d'Haskell permet de faire cela :</p>
+  <pre class='haskell'>
+<span class="entree">foldl (+) 0 [1,2,3]</span>
+<span class="sortie">6</span>
+<span class="entree">:t foldl</span>
+<span class="type">foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b</span></pre>
+<h3>F. Données infinies et évaluation paresseuse</h3>
+<p>En Haskell, il est possible de définir des structures infinies. Exemple :</p>
+  <pre class='haskell'>
+<span class="entree">e = [2..]</span>
+<span class="entree">e!!0</span>
+<span class="sortie">2</span>
+<span class="entree">e!!100</span>
+<span class="sortie">102</span></pre>
+<p>Cela est possible grâce au mécanisme appelé <em>évaluation paresseuse</em> : une donnée n'est calculée que lorsque c'est nécessaire. Ainsi tant que je ne demande pas la centième valeur de la liste e, celle-ci n'est pas calculée. Bien sûr, vous aurez par contre un problème si vous essayez d'afficher la valeur de la variable <code>e</code>...</p>
+<p>Cela permet par exemple une définition élégante et efficace de la suite de Fibonacci :</p>
+  <pre class='haskell'>
+<span class="entree">fibonacci = [1,1] ++ [ fibonacci!!(n-1)  + fibonacci!!(n-2)| n <- [2..]]</span>
+<span class="entree">fibonacci!!6</span>
+<span class="sortie">13</span></pre>
+
+</div>
+</div>
+</body>
+</html>

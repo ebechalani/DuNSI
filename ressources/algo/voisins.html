@@ -1,0 +1,259 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" type="text/css" href="stylePython.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Algorithme des K plus proches voisins</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="validation.html" class="fin">Algorithme des K plus proches voisins</h1>
+    <div id="contenu">
+      <h2>I. Introduction à l’apprentissage, notamment l’apprentissage supervisé</h2>
+        <h3>1. Définitions</h3>
+          <h4>a. Apprentissage</h4>
+            <p>L'apprentissage (automatique) est un des nombreux domaines d'études
+              de l'Intelligence Artificielle.  Il consiste, à partir de données
+              réelles, à établir des "règles" qui permettront de "classer"
+              automatiquement de futures données.
+              On distingue 2 types d'apprentissage :
+            </p>
+            <ul>
+              <li>l'apprentissage supervisé</li>
+              <li>l'apprentissage non supervisé</li>
+            </ul>
+
+            <p>Dans un processus d'apprentissage, on distingue 2 phases :</p>
+            <ul>
+              <li>une phase d'apprentissage à proprement parler, pendant
+                laquelle le système exploite des données pré-existantes pour
+                se configurer ;</li>
+              <li>une phase d'utilisation, où le système, figé à l'issue de
+                l'étape précédente, est utilisé sur de nouvelles données.</li>
+            </ul>
+          <h4>b. Apprentissage supervisé (ou classification)</h4>
+            <p>Dans un processus d'apprentissage supervisé, le but consiste à
+              associer une "classe" à une donnée. Les classes possibles sont
+              connues d'avance. Les données utilisées dans la phase
+              d'apprentissage sont des données déjà étiquetées par leur classe.
+            </p>
+          <h4>c. Apprentissage non supervisé (ou clustering)</h4>
+            <p>Dans un processus d'apprentissage non supervisé, le but consiste
+              à regrouper les données d'apprentissage en groupes (ou cluster)
+              de données "proches", puis lors de la phase d'utilisation, à
+              identifier de quel groupe une donnée est la plus proche.
+            </p>
+            <p>L'apprentissage profond (ou deep learning) rentre dans cette
+              catégorie. Il ne s'agit que d'une toute petite partie du vaste
+              domaine de l'Intelligence Artificielle.
+            </p>
+            <h3>2. Base d’apprentissage : connaître les risques</h3>
+            <p>
+              Un algorithme d'apprentissage de peut apprendre qu'à partir des
+              données qui lui sont fournies lors de la phase d'apprentissage.
+              Si ces données sont fausses, il est évident qu'il apprendra des
+              choses fausses. Mais cela sera aussi le cas si la base
+              d'apprentissage n'est pas représentative de la population
+              potentielle des données. Par ailleurs, un étiquetage erroné des données
+              de la base d'apprentissage produira un apprentissage erroné.
+            </p>
+            <p>Exemples :</p>
+            <ul>
+              <li><a href="https://www.presse-citron.net/reconnaissance-faciale-google-confond-des-afro-americains-avec-des-gorilles/">Un algorithme google confond des noirs et des gorilles</a> ;</li>
+              <li><a href="https://www.lepoint.fr/high-tech-internet/meme-les-robots-peuvent-devenir-racistes-et-antisemites-25-03-2016-2027867_47.php">Un algorithme de Microsoft devient raciste.</a></li>
+            </ul>
+            <p>
+              Mise en garde : Python est riche de bibliothèques fournissant
+              toute sorte d'algorithmes, dont des algorithmes d'apprentissage,
+              et notamment des algorithmes de Deep Learning. Tout un chacun
+              pense donc pouvoir utiliser ces algorithmes pour mettre en place
+              de l'apprentissage, mais les risques sont alors énormes d'arriver
+              à des apprentissages erronés. Par ailleurs, les données
+              nécessitent souvent un pré-traitement pour que l'algorithme
+              fonctionne bien (par exemple, travailler directement sur les pixels d'une
+              image ne donne rien).
+            </p>
+      <h2>II. L’algorithme des K plus proches voisins (KNN) et son paramétrage (choix de k avec validation croisée)</h2>
+        <h3>A. Présentation générale</h3>
+          <p>L'algorithme des K plus proches voisins est un algorithme
+            d'apprentissage supervisé. La phase d'apprentissage est réduit à
+            une simple collecte des données. Le principe de cet algorithme est
+            le suivant :</p>
+
+            <pre class="algo">
+déterminerClasse(d, E):
+  Soient d la donnée à étiqueter et E l'ensemble des données d'apprentissage.
+  On détermine P = ensemble P des k données les plus proches de d.
+  On calcule c = classe majoritaire parmi les données de P.
+  return c
+</pre>
+
+      <h3>B. Paramétrage</h3>
+      <p>L'algorithme KNN est fonction de deux paramètres :</p>
+      <ul>
+        <li>la valeur de k ;</li>
+        <li>La distance utilisée.</li>
+      </ul>
+
+      <p>En général, la distance utilisée est la distance Euclidienne.
+        C'est donc uniquement la valeur de k qui est à déterminer. Pour ce
+        faire, on peut utiliser la validation croisée, dont le principe de base
+        est le suivant :
+      </p>
+
+      <p>On sépare la base d'apprentissage en 2 tas : 80% des cas sont utilisés
+        pour l'apprentissage, 20% pour la validation. Pour chaque valeur de k,
+        on applique l'algorithme sur les données de l'ensemble de validation et
+        on mesure le taux d'erreurs obtenues. On retient pour k la valeur ayant
+        donné le taux d'erreur le plus faible.</p>
+
+      <p>Ce principe de base peut être amélioré pour procéder ainsi : </p>
+
+      <p>On sépare la base d'apprentissage en 5 tas "semblables". On procède
+        comme précédemment 5 fois, en utilisant à chaque fois un tas différent
+        comme tas de validation (et en utilisant les 4 autres tas pour
+        l'apprentissage). On garder la valeur de k ayant donné les meilleurs
+        résultats sur l'ensemble.
+      </p>
+      <h3>C. Illustration</h3>
+      <p>Sur le schéma suivant, on représente la classe des points par une couleur. Voici à quoi ressemble la base connue :</p>
+      <img src="baseConnue.png" alt="base de points dont la classe est connue" width="25%"/>
+      <p>On a également un certain nombre de points dont on veut déterminer la classe (étoiles en noir sur l'image suivante) :</p>
+      <img src="pointsConnusEtAClasser.png" alt="points connus et inconnus" width="25%"/>
+      <p>L'algorithme des k plus proches voisins donne les résultats suivants :</p>
+      <img src="resultatkNN.png" alt="resultat de l'algorithme" width="25%"/>
+      
+    <h2>III. À vous de jouer !</h2>
+    <p>On génère des données (étiquetées et non étiquetées) grâce au code suivant :</p>
+    <pre class="algo">
+      <span class="PreProc">from</span> random <span class="PreProc">import</span> random, seed
+
+      <span class="Statement">class</span> <span class="Identifier">Point</span>:
+          <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, abscisse, ordonnee, classe=<span class="Constant">&quot;</span><span class="Constant">Inconnu</span><span class="Constant">&quot;</span>):
+              self.abscisse = abscisse
+              self.ordonnee = ordonnee
+              self.classe = classe
+
+          <span class="Statement">def</span> <span class="Identifier">distanceCarree</span>(self, autre):
+              <span class="Statement">return</span> (self.abscisse-autre.abscisse) ** <span class="Constant">2</span> +
+                      (self.ordonnee-autre.ordonnee) ** <span class="Constant">2</span>
+
+          <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+              <span class="Statement">return</span> <span class="Constant">&quot;</span><span class="Constant">(</span><span class="Constant">&quot;</span> + <span class="Identifier">repr</span>(self.abscisse) + <span class="Constant">&quot;</span><span class="Constant">,</span><span class="Constant">&quot;</span> +
+                  <span class="Identifier">repr</span>(self.ordonnee) + <span class="Constant">&quot;</span><span class="Constant">)[</span><span class="Constant">&quot;</span> + self.classe + <span class="Constant">&quot;</span><span class="Constant">]</span><span class="Constant">&quot;</span>
+
+      <span class="Statement">def</span> <span class="Identifier">genererPointClasse</span>():
+          abscisse = random()*<span class="Constant">10</span>
+          ordonnee = random()*<span class="Constant">10</span>
+          <span class="Statement">if</span> (abscisse &lt; <span class="Constant">8</span> <span class="Statement">and</span> ordonnee &lt; <span class="Constant">2</span>) <span class="Statement">or</span> (abscisse &gt;= <span class="Constant">8</span>):
+              classe = <span class="Constant">&quot;</span><span class="Constant">red</span><span class="Constant">&quot;</span>
+          <span class="Statement">elif</span> ordonnee - <span class="Constant">2</span> &lt;= abscisse:
+              classe = <span class="Constant">&quot;</span><span class="Constant">orange</span><span class="Constant">&quot;</span>
+          <span class="Statement">else</span>:
+              classe = <span class="Constant">&quot;</span><span class="Constant">green</span><span class="Constant">&quot;</span>
+          point = Point(abscisse, ordonnee, classe)
+          <span class="Statement">return</span> point
+
+      <span class="Statement">def</span> <span class="Identifier">genererPointNonClasse</span>():
+          abscisse = random()*<span class="Constant">10</span>
+          ordonnee = random()*<span class="Constant">10</span>
+          point = Point(abscisse, ordonnee)
+          <span class="Statement">return</span> point
+
+      <span class="Statement">def</span> <span class="Identifier">genererBaseConnue</span>(nb):
+          base = []
+          <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>,nb):
+              base.append(genererPointClasse())
+          <span class="Statement">return</span> base
+
+      <span class="Comment">#rajouter la ligne suivante pour des cas reproductibles</span>
+      <span class="Comment">#seed(0)</span>
+      baseConnue = genererBaseConnue(<span class="Constant">100</span>)
+      baseVerif = genererBaseConnue(<span class="Constant">20</span>)
+      classes = [<span class="Constant">&quot;</span><span class="Constant">green</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">orange</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Constant">red</span><span class="Constant">&quot;</span>]
+    </pre>
+
+    <div class="exo">
+      <p><strong>Exercice 1</strong> : Écrire un programme implantant l'algorithme
+        des k plus proches voisins.</p>
+        <p><input type="button" class="correction" value="Correction" idCorrection="corr1"/></p>
+    </div>
+    <pre class="correction" id="corr1">
+      <span class="Comment">#Version peu efficace, mais claire</span>
+      <span class="Statement">def</span> <span class="Identifier">associerClasse</span>(baseConnue, classes, pointAClasser, k):
+          <span class="Comment">#Pour chaque point connu, on créé un couple (classe, distance)</span>
+          listeDistances = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: (x.classe,x.distanceCarree(pointAClasser)), baseConnue))
+          <span class="Comment">#print(listeDistances)</span>
+          <span class="Comment">#On classe par distance croissante</span>
+          listeDistances.sort(key=<span class="Statement">lambda</span> x: x[<span class="Constant">1</span>])
+          <span class="Comment">#print(listeDistances)</span>
+          <span class="Comment">#On ne garde que les k premiers</span>
+          listeDistances = listeDistances[:k]
+          <span class="Comment">#print(listeDistances)</span>
+          <span class="Comment">#on associe à chaque classe le nombre d'occurrences parmi les k plus proches voisins</span>
+          occurrences = {classe:<span class="Identifier">len</span>(<span class="Identifier">list</span>(<span class="Identifier">filter</span>(<span class="Statement">lambda</span> p: p[<span class="Constant">0</span>] == classe, listeDistances))) <span class="Statement">for</span> classe <span class="Statement">in</span> classes}
+          <span class="Comment">#print(occurrences)</span>
+          <span class="Comment">#On remet ça sous la forme d'une liste de couples pour pouvoir rechercher le max</span>
+          listeOccurrences = [(classe,occurrences[classe]) <span class="Statement">for</span> classe <span class="Statement">in</span> classes]
+          <span class="Comment">#Pour trouver le max, on trie et on prend le dernier</span>
+          listeOccurrences.sort(key=<span class="Statement">lambda</span> x: x[<span class="Constant">1</span>])
+          classePoint = listeOccurrences.pop()[<span class="Constant">0</span>]
+          <span class="Statement">return</span> classePoint
+
+      <span class="Comment">#point = Point(0.5, 2.3)</span>
+      <span class="Comment">#classe = associerClasse(baseConnue, classes, point, 5)</span>
+      <span class="Comment">#print(classe)</span>
+    </pre>
+
+    <div class="exo">
+      <p><strong>Exercice 2</strong> : Complétez l'algorithme précédent avec
+        une détermination simple de k.</p>
+        <p><input type="button" class="correction" value="Correction" idCorrection="corr2"/></p>
+    </div>
+    <pre class="correction" id="corr2">
+      <span class="Statement">def</span> <span class="Identifier">evaluerK</span>(classes, baseConnue, baseVerif, k):
+          nbCas = <span class="Identifier">len</span>(baseVerif)
+          nbErreurs = <span class="Constant">0</span>
+          <span class="Statement">for</span> point <span class="Statement">in</span> baseVerif:
+              classeCalculee = associerClasse(baseConnue, classes, point, k)
+              <span class="Statement">if</span> classeCalculee != point.classe:
+                  nbErreurs = nbErreurs + <span class="Constant">1</span>
+          <span class="Statement">return</span> (nbCas-nbErreurs) / <span class="Identifier">len</span>(baseVerif)
+
+      evaluations = [(k, evaluerK(classes, baseConnue, baseVerif, k)) <span class="Statement">for</span> k <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">2</span>,<span class="Constant">50</span>)]
+      evaluations.sort(key=<span class="Statement">lambda</span> x:x[<span class="Constant">1</span>])
+      <span class="Identifier">print</span>(evaluations)
+      kChoisi = evaluations.pop()[<span class="Constant">0</span>]
+      <span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">On prend k =</span><span class="Constant">&quot;</span>,kChoisi)
+    </pre>
+    <h2>IV. Pour la visualisation graphique</h2>
+      <p>Pour produire les visualisations illustrant l'algorithme affichées plus haut, vous pouvez utiliser le module <code>matplotlib</code> (à installer éventuellement ; pour une installation pip : <code>python -m pip install -U matplotlib</code>.</p>
+      <p>Ensuite, vous pouvez utiliser <code>matplotlib</code> ainsi :</p>
+      <pre class="python">
+<span class="k">def</span> <span class="nf">genererDonneesInconnues</span><span class="p">(</span><span class="n">nb</span><span class="p">):</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nb</span><span class="p">):</span>
+        <span class="n">base</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">genererPointNonClasse</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">base</span>
+      </pre>
+      <pre class="python">
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">baseConnue</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">abscisse</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">ordonnee</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">classe</span><span class="p">)</span>
+
+<span class="n">pointsAClasser</span> <span class="o">=</span> <span class="n">genererDonneesInconnues</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">pointsAClasser</span><span class="p">:</span>
+    <span class="n">classe_calculee</span> <span class="o">=</span> <span class="n">associerClasse</span><span class="p">(</span><span class="n">baseConnue</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">kChoisi</span><span class="p">)</span>
+    <span class="n">point</span><span class="o">.</span><span class="n">classe</span> <span class="o">=</span> <span class="n">classe_calculee</span>
+
+<span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">pointsAClasser</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">point</span><span class="o">.</span><span class="n">abscisse</span><span class="p">,</span> <span class="n">point</span><span class="o">.</span><span class="n">ordonnee</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">point</span><span class="o">.</span><span class="n">classe</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre>	
+</div>
+</div>
+</body>
+</html>
