@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Complexité en espace</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="prolongementsComplexite.html">Complexité en espace</h1>
+    <div id="contenu">
+      <h2>I. Problème de l'approche empirique</h2>
+      <p>La complexité en espace est difficile à évaluer empiriquement pour plusieurs raisons :</>
+      <ul>
+        <li>Les données sont réparties dans 2 zones différentes : le tas et la pile.
+          Le tas est notamment utilisé pour les allocations d'objets, et la pile
+          est notamment utilisée pour les variables locales des fonctions.
+          Ainsi, chaque appel de fonction fait augmenter la taille de la pile,
+          ce qui peut s'avérer catastrophique dans le cas de certaines fonctions
+          récursives ;</li>
+        <li>Il existe des outils permettant de connaître la taille allouée à un
+          processus, mais le système alloue en général une taille de base assez
+          importante, qui masque donc les différences d'espace mémoire utilisé
+          pour les faibles tailles.</li>
+        <li>Il est important de savoir quand de nouveaux objets sont créés, et
+          ce n'est pas toujours évident. Comparer par exemple les 2 programmes
+          suivants :
+          <pre class="algo">
+liste = [1, 2, 3]
+liste2 = liste
+</pre>
+<pre class="algo">
+liste = [1, 2, 3]
+liste2 = liste[:]
+</pre>
+          <p><em>Indice</em> : <a href="http://pythontutor.com">Python tutor</a>
+          peut aider à comprendre la différence.</p>
+        </ul>
+      <p>Pour vérifier les risques en cas de récursivité, vous pouvez tester le
+        programme <a href="complexiteEspace01factorielle.html">complexiteEspace01factorielle.py</a>.</p>
+      <h2>II. Déterminer une complexité en espace</h2>
+      <p>2 implantations du même algorithme peuvent avoir des complexités en
+        espace fort différentes. C'est le cas par exemple des 2 versions de
+        l'algorithme de tri rapide données dans le fichier
+        <a href="complexiteEspace02triRapide.html">complexiteEspace02triRapide.py</a>.</p>
+
+        <div class="exo">
+          <p><strong>Exercice</strong> : à partir du programme ci-dessus :</p>
+          <ol>
+            <li>Déterminez où chacun de ces 2 algorithmes crée des données, et
+              en déduire la complexité en espace de chacun</li>
+            <li>Modifiez ces 2 algorithmes pour qu'ils renvoient l'espace utilisé,
+              puis tracez les courbes permettant de les comparer</li>
+            <li>Rajoutez à cette comparaison l'algorithme de tri à bulle donné
+              dans le fichier <a href="complexiteEspace03triBulle.html">complexiteEspace03triBulle.py</a>.
+          </ol>
+    </div>
+</div>
+</body>
+</html>

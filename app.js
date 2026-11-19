@@ -155,6 +155,27 @@ const SESSIONS_ENLIGNE = [
     ],
   },
   {
+    id: 'sql-2026-10-15',
+    iso: '2026-10-15', dateLabel: '15 octobre 2026 (matin)', bloc: 'bloc4',
+    titre: 'SQL : jointures sur plusieurs tables et contraintes d\'intégrité',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'sql.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'La séance du jour', items: [
+        { t: 'Jointures sur plusieurs tables, USING, contraintes en pratique', f: 'SQL — jointures sur plusieurs tables et contraintes d\'intégrité en pratique', u: 'sql.html' },
+        { t: 'Rappel : LMD et LDD (INSERT, UPDATE, DELETE, CREATE TABLE)',     f: 'SQL — manipuler et décrire (LMD/LDD) : INSERT, DELETE, UPDATE, CREATE TABLE',  u: 'sql.html' },
+      ]},
+      { titre: 'Fichiers du TP « ludothèque » (copie locale)', items: [
+        { t: 'Les 4 scripts Python de création et de lecture', u: 'ressources/bdd/Ludotheque/lectureLudotheque.py' },
+        { t: 'Support complet du chapitre (copie locale)',     u: 'ressources/bdd/indexBD.html' },
+      ]},
+    ],
+  },
+  {
     id: 'structures-lineaires-2026-10-15',
     iso: '2026-10-15', dateLabel: '15 octobre 2026 (après-midi)', bloc: 'bloc4',
     titre: 'Structures linéaires — piles, files, listes chaînées',
@@ -162,6 +183,10 @@ const SESSIONS_ENLIGNE = [
     base: '',
     index: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb',
     parties: [
+      { titre: 'Pour commencer : fin de Karatsuba (suite du 8 octobre)', items: [
+        { t: 'Cours : Karatsuba, multiplier de grands nombres', f: 'Karatsuba — multiplier de grands nombres en diviser pour régner' },
+        { t: 'Notebook Karatsuba (Basthon) — TP corrigé dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb' },
+      ]},
       { titre: 'Piles et files (LIFO / FIFO)', items: [
         { t: 'Cours : types abstraits, piles, files, NPI, round-robin', f: 'Piles et files : LIFO, FIFO et applications',
           u: 'https://notebook.basthon.fr/?from=https%3A%2F%2Febechalani.github.io%2FDuNSI%2Fressources%2Fpython%2FFDIU-Piles-Files-2026.ipynb' },
@@ -210,7 +235,7 @@ const SESSIONS_ENLIGNE = [
         { t: 'Doc Python — module sqlite3',                           u: 'https://docs.python.org/3/library/sqlite3.html' },
         { t: 'Types de données SQLite (datatype3)',                   u: 'https://www.sqlite.org/datatype3.html' },
         { t: 'SQLite Online — exécuter du SQL dans le navigateur',    u: 'https://sqliteonline.com' },
-        { t: 'Chapitre 2 (à venir) : Paradigmes de programmation',    u: 'indexParadigmes.html' },
+        { t: 'Chapitre 2 : Paradigmes de programmation (dès le 22 octobre)', u: 'indexParadigmes.html' },
       ]},
     ],
   },
@@ -245,9 +270,253 @@ const SESSIONS_ENLIGNE = [
       ]},
     ],
   },
+  {
+    id: 'bdd-2026-09-17',
+    iso: '2026-09-17', dateLabel: '17 septembre 2026 (matin)', bloc: 'bloc4',
+    titre: 'Bases de données : normalisation et conception par diagramme de classes',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'indexBD.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'La séance du jour', items: [
+        { t: 'Erratum du support (2FN), décomposition en 3FN, conception UML et 4FN', f: 'Bases de données — erratum 2FN, limites de la 3FN et conception par diagramme de classes', u: 'bdr.html' },
+        { t: 'Rappel : dépendances fonctionnelles, clés et formes normales',          f: 'Bases de données relationnelles — DF, clés et formes normales',                             u: 'bdr.html' },
+        { t: 'Du diagramme de classes au schéma relationnel',                          f: 'Modèle conceptuel — diagramme de classes et passage au relationnel',                        u: 'modeleConceptuel.html' },
+        { t: 'Contraintes de référence (clés étrangères)',                             f: 'Contraintes de référence (clés étrangères)',                                                u: 'contraintesReference.html' },
+      ]},
+      { titre: 'Support', items: [
+        { t: 'Support complet du chapitre (copie locale, hors ligne)', u: 'ressources/bdd/indexBD.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'algo-2026-09-17',
+    iso: '2026-09-17', dateLabel: '17 septembre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Correction des algorithmes : validation et tests unitaires',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Correction des algorithmes — la séance du jour', items: [
+        { t: 'A. Introduction à la validation : prototypage, test, preuve', f: 'Validation des algorithmes — test, preuve et prototypage',          u: 'validation.html' },
+        { t: 'C. Tests unitaires : méthodologie, TDD, pytest',              f: 'Tests unitaires en Python — méthodologie, couverture et pytest',  u: 'tests.html' },
+        { t: 'Exercice : la calculatrice en notation polonaise inversée',   u: 'calculatrice.html' },
+        { t: 'Exercice : les tests de la calculatrice, pas à pas',          u: 'test_Calculatrice.html' },
+      ]},
+      { titre: 'Support et outils', items: [
+        { t: 'Chapitre complet (copie locale, hors ligne)',            u: 'ressources/algo/index.html' },
+        { t: 'Test logiciel — support PDF complémentaire (B. Mermet)', u: 'https://mermet.users.greyc.fr/Enseignement/CoursPDF/testLogiciel.pdf' },
+        { t: 'Documentation pytest',                                   u: 'https://docs.pytest.org/en/latest/' },
+      ]},
+    ],
+  },
+  {
+    id: 'sql-2026-09-24',
+    iso: '2026-09-24', dateLabel: '24 septembre 2026 (matin)', bloc: 'bloc4',
+    titre: 'SQL : interroger et manipuler la base « ludothèque »',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 1)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'sql.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Langages de données — la séance du jour', items: [
+        { t: 'SQL — interrogation (LID) : projection, restriction, jointure', f: 'SQL — interroger une base (LID) : projection, restriction, jointure',           u: 'sql.html' },
+        { t: 'SQL — manipulation et description (LMD / LDD)',                 f: 'SQL — manipuler et décrire (LMD/LDD) : INSERT, DELETE, UPDATE, CREATE TABLE', u: 'sql.html' },
+        { t: 'Interagir avec la base depuis Python (sqlite3)',                f: 'SQL et Python — le module sqlite3',                                            u: 'sqlEtPython.html' },
+      ]},
+      { titre: 'Fichiers du TP « ludothèque » (copie locale)', items: [
+        { t: 'creationTableIllustrateur.py — crée ludotheque.db + table Illustrateur', u: 'ressources/bdd/Ludotheque/creationTableIllustrateur.py' },
+        { t: 'creationTablesEditeurJeu.py — tables Editeur et Jeu',                   u: 'ressources/bdd/Ludotheque/creationTablesEditeurJeu.py' },
+        { t: 'creationTableEstDessinePar.py — table d\'association N-M',              u: 'ressources/bdd/Ludotheque/creationTableEstDessinePar.py' },
+        { t: 'lectureLudotheque.py — taper une requête et voir le résultat',          u: 'ressources/bdd/Ludotheque/lectureLudotheque.py' },
+        { t: 'SQLite Online — exécuter du SQL dans le navigateur',                    u: 'https://sqliteonline.com' },
+      ]},
+    ],
+  },
+  {
+    id: 'gloutons-2026-09-24',
+    iso: '2026-09-24', dateLabel: '24 septembre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Algorithmes gloutons (TP FDIU)',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons.ipynb',
+    parties: [
+      { titre: 'Cours et TP', items: [
+        { t: 'Cours : principe, limites et alternatives', f: 'Algorithmes gloutons — principe, limites et alternatives' },
+        { t: 'Notebook du TP (Basthon) — TP corrigé pas à pas dans l\'onglet 🧪 TP',     u: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons.ipynb' },
+      ]},
+      { titre: 'Correction (donnée le 1er octobre)', items: [
+        { t: 'Correction officielle du formateur (Basthon)',          u: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
+        { t: 'Télécharger la correction officielle (.ipynb)',        u: 'ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
+        { t: 'Script de vérification (références exhaustives)',      u: 'ressources/glouton/solution_gloutons.py' },
+      ]},
+    ],
+  },
+  {
+    id: 'algo-2026-10-01',
+    iso: '2026-10-01', dateLabel: '1er octobre 2026 (matin)', bloc: 'bloc2',
+    titre: 'Correction des algorithmes : couverture, preuve de programme et assertions',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'index.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'II. Correction des algorithmes — la séance du jour', items: [
+        { t: 'Couverture de code : instructions, branches, chemins',  f: 'Tests unitaires en Python — méthodologie, couverture et pytest',     u: 'tests.html' },
+        { t: 'B. Preuve — logique, triplets de Hoare, substitution',  f: 'Preuve de programme — logique, triplets de Hoare et substitution',  u: 'preuve.html' },
+        { t: 'B. Preuve — invariants, correction partielle et totale', f: 'Preuve de programme — invariants, correction partielle et totale', u: 'preuve.html' },
+        { t: 'B. Preuve — assertions Python et exercices corrigés',   f: 'La preuve en pratique — assertions Python et exercices corrigés',   u: 'preuve.html' },
+      ]},
+      { titre: 'Code écrit en séance par le formateur', items: [
+        { t: 'personne.py — invariant de classe et encapsulation',            u: 'ressources/algo/seance-2026-10-01/personne.py' },
+        { t: 'exemple.txt — assertions, skolémisation, preuves de maximum et Horloge', u: 'ressources/algo/seance-2026-10-01/exemple.txt' },
+      ]},
+      { titre: 'Support complet (copie locale, hors ligne)', items: [
+        { t: 'Sommaire du chapitre',                                          u: 'ressources/algo/index.html' },
+        { t: 'Exercices de preuve corrigés (horloge, maximum, tri à bulle)', u: 'ressources/algo/preuve.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'dpr-2026-10-01',
+    iso: '2026-10-01', dateLabel: '1er octobre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Diviser pour régner (1) : occurrences et tri fusion — et correction des gloutons',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py',
+    parties: [
+      { titre: 'Diviser pour régner', items: [
+        { t: 'Cours : principe, exemples et tri fusion', f: 'Diviser pour régner — principe, exemples et tri fusion' },
+        { t: 'Le cours de B. Mermet (diviser.html)',      u: 'ressources/algo/diviser.html' },
+        { t: 'Notebook du TP (Basthon) — TP corrigé pas à pas dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py' },
+        { t: 'Solutions des trois TP diviser pour régner (script Python)', u: 'ressources/dpr/solution_dpr.py' },
+      ]},
+      { titre: 'Algorithmes gloutons : la correction', items: [
+        { t: 'Correction officielle du TP gloutons (Basthon)', u: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
+      ]},
+    ],
+  },
+  {
+    id: 'complexite-2026-10-08',
+    iso: '2026-10-08', dateLabel: '8 octobre 2026 (matin)', bloc: 'bloc2',
+    titre: 'Complexité des algorithmes : en temps, en espace, prolongements',
+    formateur: 'Bruno Mermet (Bloc 2 — Algorithmique)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Algorithmique/',
+    index: 'complexite.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'III. Complexité — la séance du jour', items: [
+        { t: 'Complexité en temps : compter, notation O, classes usuelles', f: 'Complexité en temps — compter les opérations, notation O et classes usuelles', u: 'complexiteTemps.html' },
+        { t: 'Exemple : Fibonacci naïf contre mémoïsé',                     u: 'complexiteTemps01fibo.html' },
+        { t: 'Exemple : recherche dans une liste',                           u: 'complexiteTemps02recherche.html' },
+        { t: 'Complexité en espace, Ackermann, efficacité énergétique',     f: 'Complexité en espace et prolongements (Ackermann, efficacité énergétique)', u: 'complexiteEspace.html' },
+        { t: 'Prolongements',                                                u: 'prolongementsComplexite.html' },
+      ]},
+      { titre: 'Support complet (copie locale, hors ligne)', items: [
+        { t: 'Complexité — sommaire de la partie III', u: 'ressources/algo/complexite.html' },
+      ]},
+    ],
+  },
+  {
+    id: 'dpr-2026-10-08',
+    iso: '2026-10-08', dateLabel: '8 octobre 2026 (après-midi)', bloc: 'bloc2',
+    titre: 'Diviser pour régner (2) : multiplication de Karatsuba et rotation d\'image',
+    formateur: 'FDIU (DU Normandie)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'basthon:ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb',
+    parties: [
+      { titre: 'Karatsuba', items: [
+        { t: 'Cours : multiplier de grands nombres en diviser pour régner', f: 'Karatsuba — multiplier de grands nombres en diviser pour régner' },
+        { t: 'Notebook Karatsuba (Basthon) — TP corrigé dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb' },
+      ]},
+      { titre: 'Rotation d\'image', items: [
+        { t: 'Notebook rotation d\'image (Basthon) — TP corrigé dans l\'onglet 🧪 TP', u: 'basthon:ressources/dpr/FDIU_rotation_image_dpr.ipynb|ressources/dpr/perroquet_256_cc.jpg' },
+        { t: 'Solutions des trois TP diviser pour régner (script Python)', u: 'ressources/dpr/solution_dpr.py' },
+      ]},
+    ],
+  },
+  {
+    id: 'arbres-2026-11-19',
+    iso: '2026-11-19', dateLabel: '19 novembre 2026', bloc: 'bloc5',
+    titre: 'Algorithmique avancée : les arbres binaires',
+    formateur: 'Université de Caen Normandie (Bloc 5)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'ressources/arbres/Arbres.pdf',
+    parties: [
+      { titre: 'Introduction : autour de l\'algorithmique', items: [
+        { t: 'Algorithmes, complexité, exécution d\'un programme Python, timeit', f: 'Autour de l\'algorithmique — algorithmes, complexité et exécution d\'un programme Python' },
+        { t: 'Diaporama « Autour de l\'algorithmique » (G. Richard, PDF)',       u: 'ressources/arbres/Intro-Algo.pdf' },
+      ]},
+      { titre: 'CM 5 : structures arborescentes', items: [
+        { t: 'Définitions inductives et vocabulaire',                 f: 'Arbres — définitions inductives et vocabulaire' },
+        { t: 'Propriétés inductives et représentation en Python',     f: 'Arbres binaires — propriétés inductives et représentation en Python' },
+        { t: 'Parcours : largeur, préfixe, infixe, suffixe',          f: 'Parcours d\'arbres binaires — largeur, profondeur, préfixe, infixe, suffixe' },
+        { t: 'Diaporama du cours (PDF)',                              u: 'ressources/arbres/Arbres.pdf' },
+        { t: 'Arbre.py — la classe Noeud donnée en séance',           u: 'ressources/arbres/Arbre.py' },
+      ]},
+      { titre: 'TD : arbres binaires', items: [
+        { t: 'Énoncé du TD (PDF) — TP corrigé pas à pas dans l\'onglet 🧪 TP', u: 'ressources/arbres/TD-Arbres.pdf' },
+        { t: 'Toutes les solutions, autovérifiées (script Python)',             u: 'ressources/arbres/solution_td_arbres.py' },
+      ]},
+    ],
+  },
+  {
+    id: 'paradigmes-2026-10-22',
+    iso: '2026-10-22', dateLabel: '22 octobre 2026', bloc: 'bloc4',
+    titre: 'Paradigmes de programmation : la programmation fonctionnelle (Haskell) — et fin de SQL',
+    formateur: 'Bruno Mermet (Bloc 4, chapitre 2)', mode: 'distanciel', duree: '~3 h',
+    base: 'https://bases-de-donnees-26b46e.gitlab.io/',
+    index: 'indexParadigmes.html',
+    parties: [
+      { titre: 'Séance en direct', items: [
+        { t: 'Rejoindre la visio', u: 'https://visio.numerique.gouv.fr/diu-2026-eil' },
+      ]},
+      { titre: 'Fin du chapitre 1 : SQL et Python', items: [
+        { t: 'Injection SQL, requêtes paramétrées, ALTER TABLE', f: 'SQL et Python — injection SQL, requêtes paramétrées et ALTER TABLE', u: 'sqlEtPython.html' },
+      ]},
+      { titre: 'Chapitre 2 : paradigmes — la séance du jour', items: [
+        { t: 'A. Introduction aux paradigmes',                         f: 'Paradigmes de programmation — introduction',                                            u: 'introductionParadigmes.html' },
+        { t: 'C. Fonctionnel : λ-calcul, immuabilité, inférence de types', f: 'Programmation fonctionnelle — λ-calcul, immuabilité et inférence de types',          u: 'progFonctionnelle.html' },
+        { t: 'C. Fonctionnel : récursivité, listes, map / filter / fold',  f: 'Programmation fonctionnelle — récursivité, listes et fonctions d\'ordre supérieur', u: 'progFonctionnelle.html' },
+        { t: 'Le type abstrait Liste',                                  u: 'listes.html' },
+      ]},
+      { titre: 'Suite du chapitre (prochaines séances)', items: [
+        { t: 'F. Logique : faits, buts et variables logiques (Prolog)', f: 'Programmation logique — faits, buts et variables logiques (Prolog)',     u: 'progLogique.html' },
+        { t: 'F. Logique : règles, récursivité, arbre de résolution',   f: 'Programmation logique — règles, récursivité et arbre de résolution',     u: 'progLogique.html' },
+        { t: 'G. Objet : classes, instances, encapsulation',            f: 'Programmation objet — classes, instances et encapsulation',              u: 'progObjet.html' },
+        { t: 'G. Objet : attributs dynamiques, composition, héritage',  f: 'Programmation objet — attributs dynamiques, composition et héritage',    u: 'progObjet.html' },
+      ]},
+      { titre: 'Support et outils', items: [
+        { t: 'Chapitre 2 complet (copie locale, hors ligne)', u: 'ressources/paradigmes/indexParadigmes.html' },
+        { t: 'SWISH — Prolog dans le navigateur',             u: 'https://swish.swi-prolog.org/' },
+        { t: 'Haskell — installer GHC (ghci)',                u: 'https://www.haskell.org/ghcup/' },
+      ]},
+    ],
+  },
 ]
+// « basthon:ressources/x.ipynb|ressources/module.py|ressources/image.jpg » : ouvre la copie du dépôt dans
+// Basthon, quel que soit l'hébergeur du site (Vercel, GitHub Pages, local), avec ses fichiers annexes.
+function basthonLien(spec) {
+  const [nb, ...annexes] = spec.slice('basthon:'.length).split('|')
+  const abs = p => encodeURIComponent(new URL(p, window.location.href).href)
+  return 'https://notebook.basthon.fr/?from=' + abs(nb) +
+    annexes.map(p => (p.endsWith('.py') ? '&module=' : '&aux=') + abs(p)).join('')
+}
 // URL absolue ou fichier local du dépôt (ressources/…, /…) : gardé tel quel ; sinon résolu contre la base du formateur
-const resolveUrl = (base, u) => (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
+const resolveUrl = (base, u) => u.startsWith('basthon:') ? basthonLien(u)
+  : (/^https?:/i.test(u) || /^(ressources\/|\/)/.test(u)) ? u : base + u
 const RESSOURCES_OFFICIEL = [
   { icon: '🐧', title: 'Linux : répertoires & fichiers (L. Mouchard)', desc: 'Notes HackMD — navigation, ls, cd, mkdir, cp, mv, rm (Bloc 3 / shell)', url: 'https://hackmd.io/@LaurentMouchard/r1A2T-7lze#R%C3%A9pertoires-amp-Fichiers' },
   { icon: '🐳', title: 'Docker et les conteneurs (Univ. Rouen)', desc: 'cgroups, namespaces, seccomp, prise en main Docker (Bloc 3 — pour aller plus loin)', url: 'https://codimd.univ-rouen.fr/s/sNesfpTmN' },
@@ -258,6 +527,11 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🌍', title: 'Web : HTML, CSS, client/serveur (support DIU)', desc: 'Cours complet : HTML & DOM, CSS (sélecteurs, boîte, Flexbox), HTTP/DNS/REST — Jour en ligne 23 juin (3 livres PDF)', url: 'https://diu-htmlcss-1858e2.forge.apps.education.fr/index.html' },
   { icon: '🧑‍💻', title: 'Créer une appli web en NSI (mdBook complet)', desc: 'Référence Flask/Python : serveur, routes, templates, formulaires, bases de données (SQL, SQLite, injection), authentification (cookies, sessions, tokens), déploiement (SSH, SSL)', url: 'https://2025-formation-web-app-python-26f3cf.forge.apps.education.fr/' },
   { icon: '🗄️', title: 'Bloc 4 — Bases de données (B. Mermet, en ligne)', desc: 'Chapitre 1 complet : BDD relationnelles (DF, formes normales), modèle conceptuel, contraintes de référence, SGBD, SQL (LID/LMD/LDD), sqlite3 en Python, web côté serveur — Jour en ligne 10 septembre', url: 'https://bases-de-donnees-26b46e.gitlab.io/indexBD.html' },
+  { icon: '📐', title: 'Bloc 2 Algorithmique — copie locale du chapitre (B. Mermet)', desc: 'Les 30 pages du chapitre et leurs schémas, consultables hors ligne : gloutons, diviser pour régner, k plus proches voisins, validation, preuve de programme et ses exercices corrigés, tests unitaires, complexité (séances des 17 septembre, 1er et 8 octobre)', url: 'ressources/algo/index.html' },
+  { icon: '🧠', title: 'Bloc 4 — Paradigmes de programmation (B. Mermet) — copie locale', desc: 'Chapitre 2 : introduction, programmation fonctionnelle (λ-calcul, Haskell : types, récursivité, map/filter/fold), programmation logique (Prolog), programmation objet (classes, encapsulation, héritage) — séance du 22 octobre', url: 'ressources/paradigmes/indexParadigmes.html' },
+  { icon: '🌳', title: 'Arbres binaires — cours, TD et solutions (Unicaen)', desc: 'Séance du 19 novembre (Bloc 5) : CM « structures arborescentes », TD « arbres binaires » corrigé dans l\'onglet TP, script de solutions autovérifié, classe Noeud — copies locales', url: 'ressources/arbres/Arbres.pdf' },
+  { icon: '✂️', title: 'Notebooks « Diviser pour régner » (FDIU)', desc: 'Tri fusion (1er octobre), Karatsuba (8 et 15 octobre), rotation d\'image — copies locales avec leurs modules, s\'ouvrent dans Basthon ; les trois TP corrigés sont dans l\'onglet TP', url: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py' },
+  { icon: '✅', title: 'TP gloutons — correction officielle du formateur (FDIU)', desc: 'Le notebook corrigé donné en séance le 1er octobre : conversion binaire, rendu de monnaie et conditions de Pearson, sac à dos, planning, recherche exhaustive — s\'ouvre dans Basthon', url: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
   { icon: '💾', title: 'Support BDD — copie locale + scripts ludothèque', desc: 'Les 7 pages du chapitre, les schémas et les 4 scripts Python du TP (creationTable…, lectureLudotheque.py), consultables hors ligne', url: 'ressources/bdd/indexBD.html' },
   { icon: '🐍', title: 'Doc Python — module sqlite3', desc: 'Documentation officielle : connect, execute, executemany, commit, curseurs, requêtes paramétrées (utilisée dans le cours BDD du 10 septembre)', url: 'https://docs.python.org/3/library/sqlite3.html' },
   { icon: '🍬', title: 'Notebook « Les algorithmes gloutons » (FDIU)', desc: 'TP complet sur les problèmes d\'optimisation : conversion binaire, rendu de monnaie, sac à dos, planning de conférenciers, recherche exhaustive et programmation dynamique — ouvrable dans Basthon', url: 'https://github.com/LANSIG/NSI' },
@@ -978,17 +1252,1365 @@ function projetCategorie(f) { return (f.topic || '').replace(/^Projet ·\s*/, ''
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
-  // ── TP algorithmes gloutons (FDIU) — Bloc 2 ──
+  // ── TP — Arbres binaires : parcours, feuilles, profondeurs, expressions ──
   {
-    id: "tp-gloutons", bloc: "bloc2", jour: "Bloc 2 — Algorithmique",
+    id: "tp-arbres-binaires", bloc: "bloc5", jour: "En ligne — 19 novembre 2026",
+    theme: "Algorithmique avancée — arbres binaires",
+    title: "TP — Arbres binaires : parcours, feuilles, profondeurs, expressions",
+    type: 'tp',
+    original: "TD-Arbres.pdf",
+    intro: "TD « Arbres binaires » du cours de L2 « Algorithmique et structures de données » (Université de Caen Normandie), adapté pour la formation NSI et traité lors de la séance DIU du 19 novembre 2026, avec le CM 5 « Structures arborescentes ». Toutes les questions sont corrigées en Python avec la classe Noeud donnée en séance (fichier Arbre.py : valeur, gauche, droite ; l'arbre vide est None). L'étape x.y correspond à l'exercice x, question y : exercice 1, parcours de l'arbre A, nombre de feuilles, copie et parcours préfixe itératif avec une pile ; exercice 2, profondeurs, niveaux et longueurs de cheminement (LC, LCE) ; exercice 3, arbres d'expressions arithmétiques. Conventions du cours : la racine est de profondeur 0, l'arbre vide a pour hauteur −1. Chaque étape donne un squelette (signature, docstring, doctests) : complète-le, lance doctest.testmod(), puis déplie la correction. Les corrections s'exécutent dans l'ordre, chacune s'appuyant sur les précédentes ; le script solution_td_arbres.py les réunit toutes et vérifie chaque résultat. Pour la mise en œuvre en classe, voir aussi les fiches « Piles et files : LIFO, FIFO et applications » et « Les listes chaînées » (bloc 4), le « Parcours guidé — Pile, File et Arbre » et le « Projet — Arbre binaire de recherche » (bloc 0).",
+    steps: [
+      {
+        num: "1.1", title: "L'arbre A et ses quatre parcours, à la main",
+        intro: "Exercice 1, question 1. Voici l'arbre A de la figure 1 du TD, recopié nœud par nœud ; ∅ désigne un sous-arbre vide. Avant de programmer quoi que ce soit, on donne à la main l'ordre de visite des nœuds pour chacun des parcours vus en cours (CM 5, diapositives 20 à 25).",
+        code: `#                        a
+#                /               \\
+#               b                 c
+#             /   \\             /   \\
+#            d     ∅           ∅     e
+#          /   \\                   /    \\
+#         ∅     f                 g      h
+#              / \\              /   \\   / \\
+#             ∅   ∅            i     j ∅   ∅
+#                             / \\   / \\
+#                            ∅   ∅ ∅   ∅
+#
+# Donnez, à la main, l'ordre de visite des nœuds de A :
+prefixe  = "..."   # 1. parcours préfixe
+postfixe = "..."   # 2. parcours postfixe (ou suffixe)
+largeur  = "..."   # 3. parcours en largeur
+infixe   = "..."   # 4. parcours infixe : le quatrième parcours du cours, oublié par l'énoncé`,
+        note: "Coquille de l'énoncé : la question 1 annonce « les quatre parcours suivants » mais n'en énumère que trois (préfixe, postfixe, largeur). Le quatrième parcours du cours est le parcours infixe ; on le traite partout, et la question 3 (« chacun des quatre ordres ») confirme qu'il était prévu.",
+        questions: [
+          "Donnez l'ordre de visite des nœuds de A pour le parcours préfixe, le parcours postfixe (ou suffixe) et le parcours en largeur.",
+          "L'énoncé annonce « quatre parcours » mais n'en liste que trois : quel est le quatrième ? Donnez aussi son ordre de visite.",
+          "Combien A a-t-il de nœuds, de nœuds internes et de feuilles ?"
+        ],
+        correction: [
+          { text: "Méthode du cours (diapositive 22) : dans un parcours en profondeur, on part de la racine, on descend le plus à gauche possible puis on remonte ; chaque nœud est visité trois fois : à la première visite (en arrivant), à la deuxième (après son sous-arbre gauche) et à la troisième (après son sous-arbre droit). Pour A, la suite complète des visites est : a b d d f f f d b b a c c e g i i i g j j j g e h h h e c a. Le parcours préfixe garde la première occurrence de chaque nœud, l'infixe la deuxième, le postfixe la troisième." },
+          { code: `# Réponses de la question 1 (vérifiées par programme à l'étape 1.3)
+prefixe  = "a b d f c e g i j h"   # racine, puis sous-arbre gauche, puis sous-arbre droit
+infixe   = "d f b a c i g j e h"   # sous-arbre gauche, puis racine, puis sous-arbre droit
+postfixe = "f d b i j g h e c a"   # sous-arbre gauche, puis sous-arbre droit, puis racine
+largeur  = "a b c d e f g h i j"   # niveau 0, puis niveau 1, ... chaque niveau de gauche à droite` },
+          { text: "Le quatrième parcours est le parcours infixe (ou symétrique), présenté en cours à la diapositive 24 : la liste de l'énoncé s'arrête à trois, c'est une coquille. On traite donc les quatre ordres dans tout le TP." },
+          { text: "Deux pièges classiques en préfixe et en postfixe : d n'a pas de fils gauche, donc f vient juste après d en préfixe et juste avant d en postfixe ; c n'a pas de fils gauche, donc en infixe c est affiché tout de suite après a, avant tout son sous-arbre droit." },
+          { text: "A compte N(A) = 10 nœuds : 6 nœuds internes (a, b, c, d, e, g) et 4 feuilles (f, h, i, j). On retrouve bien N(A) = Ni(A) + Nf(A) = 6 + 4 (cours, diapositive 10). Ces trois nombres serviront aux questions 4 à 6." }
+        ]
+      },
+      {
+        num: "1.2", title: "Représentation chaînée de A en Python",
+        intro: "Exercice 1, question 2. En Python, la « structure nœud » du TD devient la classe Noeud donnée en séance (fichier Arbre.py). Le « pointeur sur nœud » est une référence vers un objet Noeud, et le pointeur nul est None : un arbre binaire est donc représenté par (une référence vers) sa racine, et l'arbre vide par None.",
+        code: `class Noeud:
+    def __init__(self, valeur, gauche=None, droite=None):
+        self.valeur = valeur      # Contenu du nœud
+        self.gauche = gauche      # Sous-arbre gauche
+        self.droite = droite      # Sous-arbre droit
+
+
+def parenthese(B):
+    """Notation parenthésée de l'arbre B (∅ pour l'arbre vide).
+
+    >>> parenthese(Noeud('x', None, Noeud('y')))
+    'x(∅,y)'
+    >>> parenthese(None)
+    '∅'
+    """
+    ...
+
+
+A = ...   # à compléter : construire l'arbre A de la figure 1`,
+        note: "Le TD note le fils droit « droit » ; la classe Noeud d'Arbre.py l'appelle « droite ». On garde ici la classe telle quelle : A->gauche s'écrit A.gauche et A->droit s'écrit A.droite.",
+        questions: [
+          "Dessinez la représentation chaînée de A : chaque nœud est une case à trois champs (gauche, valeur, droit).",
+          "Construisez A en Python avec la classe Noeud. Combien d'objets Noeud faut-il créer ? Combien de champs valent None ?",
+          "Écrivez parenthese(B), qui renvoie la notation parenthésée d'un arbre, pour contrôler la construction."
+        ],
+        correction: [
+          { text: "Dessin de la représentation chaînée : chaque case [gauche|valeur|droit] est un objet Noeud, * est une référence vers un autre nœud, ∅ est None. La variable A n'est qu'une référence vers la case de la racine." },
+          { code: `#  A
+#  |
+#  v
+# [*|a|*]-----------------------+
+#  |                            |
+#  v                            v
+# [*|b|∅]                      [∅|c|*]
+#  |                                |
+#  v                                v
+# [∅|d|*]                          [*|e|*]-----------+
+#      |                            |                |
+#      v                            v                v
+#     [∅|f|∅]                      [*|g|*]-----+    [∅|h|∅]
+#                                   |          |
+#                                   v          v
+#                                  [∅|i|∅]    [∅|j|∅]` },
+          { text: "On crée exactement 10 objets Noeud, un par nœud. On peut construire l'arbre de bas en haut (les feuilles d'abord) ou d'un seul coup par des appels imbriqués : les deux écritures donnent le même arbre." },
+          { code: `class Noeud:
+    def __init__(self, valeur, gauche=None, droite=None):
+        self.valeur = valeur      # Contenu du nœud
+        self.gauche = gauche      # Sous-arbre gauche
+        self.droite = droite      # Sous-arbre droit
+
+
+# Construction de bas en haut : chaque nœud est créé après ses fils.
+f = Noeud('f')
+d = Noeud('d', None, f)
+b = Noeud('b', d, None)
+i = Noeud('i')
+j = Noeud('j')
+g = Noeud('g', i, j)
+h = Noeud('h')
+e = Noeud('e', g, h)
+c = Noeud('c', None, e)
+A = Noeud('a', b, c)
+
+# La même chose en une seule expression (l'indentation suit la forme de l'arbre) :
+A = Noeud('a',
+          Noeud('b',
+                Noeud('d', None, Noeud('f')),
+                None),
+          Noeud('c',
+                None,
+                Noeud('e',
+                      Noeud('g', Noeud('i'), Noeud('j')),
+                      Noeud('h'))))
+
+
+def parenthese(B):
+    """Notation parenthésée de l'arbre B (∅ pour l'arbre vide).
+
+    >>> parenthese(Noeud('x', None, Noeud('y')))
+    'x(∅,y)'
+    >>> parenthese(None)
+    '∅'
+    """
+    if B is None:
+        return '∅'
+    if B.gauche is None and B.droite is None:      # une feuille : sa valeur seule
+        return str(B.valeur)
+    return f"{B.valeur}({parenthese(B.gauche)},{parenthese(B.droite)})"
+
+
+print(parenthese(A))      # a(b(d(∅,f),∅),c(∅,e(g(i,j),h)))
+assert parenthese(A) == "a(b(d(∅,f),∅),c(∅,e(g(i,j),h)))"
+assert A.droite.droite.gauche.droite.valeur == 'j'    # A->droit->droit->gauche->droit` },
+          { text: "Champs à None : chaque feuille en a 2 (4 feuilles, donc 8), et b, c, d en ont 1 chacun, soit 11 en tout. C'est un cas particulier d'un fait général : un arbre binaire à N nœuds a 2N champs de fils, dont N − 1 sont occupés (chaque nœud sauf la racine a exactement un parent) ; il reste donc N + 1 = 11 champs à None. Ce décompte resservira à la question 6." }
+        ]
+      },
+      {
+        num: "1.3", title: "Une procédure par parcours",
+        intro: "Exercice 1, question 3. Une procédure par ordre : préfixe, infixe, postfixe (récursives, calquées sur la définition inductive des arbres binaires) et largeur (itérative, avec une file). Chaque procédure affiche les valeurs sur une même ligne, séparées par des espaces.",
+        code: `from collections import deque
+
+
+def affichePrefixe(A):
+    """Affiche les nœuds de A dans l'ordre préfixe (racine, gauche, droite).
+
+    >>> affichePrefixe(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixe(None)            # arbre vide : rien à afficher
+    """
+    ...
+
+
+def afficheInfixe(A):
+    """Affiche les nœuds de A dans l'ordre infixe (gauche, racine, droite).
+
+    >>> afficheInfixe(A)                # doctest: +NORMALIZE_WHITESPACE
+    d f b a c i g j e h
+    """
+    ...
+
+
+def affichePostfixe(A):
+    """Affiche les nœuds de A dans l'ordre postfixe (gauche, droite, racine).
+
+    >>> affichePostfixe(A)              # doctest: +NORMALIZE_WHITESPACE
+    f d b i j g h e c a
+    """
+    ...
+
+
+def afficheLargeur(A):
+    """Affiche les nœuds de A niveau par niveau, chaque niveau de gauche à droite.
+
+    >>> afficheLargeur(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b c d e f g h i j
+    """
+    ...
+
+
+import doctest
+doctest.testmod()`,
+        note: "Les procédures affichent avec print(..., end=\" \") : la ligne se termine par un espace et sans retour à la ligne. La directive # doctest: +NORMALIZE_WHITESPACE demande à doctest d'ignorer ces différences d'espaces. Pour lancer les tests d'un notebook ou d'un script : import doctest puis doctest.testmod().",
+        questions: [
+          "Écrivez les trois procédures récursives affichePrefixe, afficheInfixe et affichePostfixe. Qu'est-ce qui change de l'une à l'autre ?",
+          "Écrivez afficheLargeur avec une file. Pourquoi une file, et pas une pile ?",
+          "Vérifiez par programme les réponses données à la main à l'étape 1.1."
+        ],
+        correction: [
+          { text: "Les trois parcours en profondeur ont exactement le même squelette : cas de base l'arbre vide (on ne fait rien), sinon deux appels récursifs sur les sous-arbres. Seule la place de l'affichage change : avant les deux appels (première visite, préfixe), entre eux (deuxième visite, infixe) ou après (troisième visite, postfixe)." },
+          { code: `from collections import deque
+
+
+def affichePrefixe(A):
+    """Affiche les nœuds de A dans l'ordre préfixe (racine, gauche, droite).
+
+    >>> affichePrefixe(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixe(None)            # arbre vide : rien à afficher
+    """
+    if A is not None:
+        print(A.valeur, end=" ")        # 1re visite
+        affichePrefixe(A.gauche)
+        affichePrefixe(A.droite)
+
+
+def afficheInfixe(A):
+    """Affiche les nœuds de A dans l'ordre infixe (gauche, racine, droite).
+
+    >>> afficheInfixe(A)                # doctest: +NORMALIZE_WHITESPACE
+    d f b a c i g j e h
+    """
+    if A is not None:
+        afficheInfixe(A.gauche)
+        print(A.valeur, end=" ")        # 2e visite
+        afficheInfixe(A.droite)
+
+
+def affichePostfixe(A):
+    """Affiche les nœuds de A dans l'ordre postfixe (gauche, droite, racine).
+
+    >>> affichePostfixe(A)              # doctest: +NORMALIZE_WHITESPACE
+    f d b i j g h e c a
+    """
+    if A is not None:
+        affichePostfixe(A.gauche)
+        affichePostfixe(A.droite)
+        print(A.valeur, end=" ")        # 3e visite
+
+
+def afficheLargeur(A):
+    """Affiche les nœuds de A niveau par niveau, chaque niveau de gauche à droite.
+
+    >>> afficheLargeur(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b c d e f g h i j
+    """
+    if A is None:
+        return
+    file = deque([A])                   # file des nœuds en attente
+    while file:
+        n = file.popleft()              # on défile le plus ancien
+        print(n.valeur, end=" ")
+        if n.gauche is not None:
+            file.append(n.gauche)       # on enfile ses fils, le gauche d'abord
+        if n.droite is not None:
+            file.append(n.droite)` },
+          { text: "Le parcours en largeur ne se prête pas à une écriture récursive directe : il faut mémoriser les nœuds découverts mais pas encore traités, et les traiter dans l'ordre où on les a découverts (premier entré, premier sorti). C'est exactement une file. Avec une pile, on obtiendrait un parcours en profondeur (voir l'étape 1.8). La deque du module collections fournit append et popleft en temps constant ; list.pop(0) marcherait aussi mais coûte un décalage de toute la liste." },
+          { text: "Pour comparer un affichage à une chaîne attendue, on capture ce qui est affiché. La petite fonction sortie ci-dessous resservira dans tout le TP." },
+          { code: `import contextlib
+import io
+
+
+def sortie(procedure, *args):
+    """Exécute procedure(*args) et renvoie ce qu'elle a affiché, espaces normalisés."""
+    tampon = io.StringIO()
+    with contextlib.redirect_stdout(tampon):
+        procedure(*args)
+    return " ".join(tampon.getvalue().split())
+
+
+for nom, procedure, attendu in [("préfixe", affichePrefixe, prefixe),
+                                ("infixe", afficheInfixe, infixe),
+                                ("postfixe", affichePostfixe, postfixe),
+                                ("largeur", afficheLargeur, largeur)]:
+    obtenu = sortie(procedure, A)
+    print(f"{nom:9} {obtenu}")
+    assert obtenu == attendu          # les réponses de l'étape 1.1 sont justes
+# préfixe   a b d f c e g i j h
+# infixe    d f b a c i g j e h
+# postfixe  f d b i j g h e c a
+# largeur   a b c d e f g h i j` },
+          { text: "Complément : la suite des trois visites de la diapositive 22 s'obtient en affichant à chacune des trois places à la fois. C'est un bon exercice pour les élèves, qui y voient les trois parcours d'un coup." },
+          { code: `def afficheTroisVisites(A):
+    if A is not None:
+        print(A.valeur, end=" ")        # 1re visite
+        afficheTroisVisites(A.gauche)
+        print(A.valeur, end=" ")        # 2e visite
+        afficheTroisVisites(A.droite)
+        print(A.valeur, end=" ")        # 3e visite
+
+
+print(sortie(afficheTroisVisites, A))
+# a b d d f f f d b b a c c e g i i i g j j j g e h h h e c a
+assert sortie(afficheTroisVisites, A) == "a b d d f f f d b b a c c e g i i i g j j j g e h h h e c a"` }
+        ]
+      },
+      {
+        num: "1.4", title: "nombreFeuilles1 : combien d’appels récursifs ?",
+        intro: "Exercice 1, question 4. La procédure de l'énoncé, traduite en Python. On cherche le nombre d'appels récursifs en fonction du nombre Ni de nœuds internes, on le démontre, puis on le vérifie avec un compteur.",
+        code: `def nombreFeuilles1(A):
+    """Nombre de feuilles de l'arbre binaire A (traduction directe de l'énoncé).
+
+    >>> nombreFeuilles1(A)
+    4
+    >>> nombreFeuilles1(None)
+    0
+    """
+    if A is None:
+        return 0
+    else:
+        if A.gauche is None and A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles1(A.gauche) + nombreFeuilles1(A.droite)
+
+
+# À compléter : la même procédure, qui incrémente un compteur à chaque appel.
+compteur = {"appels": 0}
+
+
+def nombreFeuilles1Compte(A):
+    """Comme nombreFeuilles1, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles1Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    12
+    """
+    ...`,
+        questions: [
+          "Combien d'appels récursifs nombreFeuilles1(A) déclenche-t-il, en fonction du nombre Ni de nœuds internes ? Démontrez-le.",
+          "Combien de ces appels portent sur un arbre vide ?",
+          "Vérifiez la formule avec un compteur, sur A puis sur d'autres arbres."
+        ],
+        correction: [
+          { text: "Réponse : nombreFeuilles1(A) déclenche exactement 2 × Ni(A) appels récursifs (2 × Ni + 1 appels en comptant l'appel initial). Pour A, Ni = 6 : 12 appels récursifs, 13 appels en tout." },
+          { text: "Démonstration. Regardons qui lance chaque appel récursif. Un appel sur l'arbre vide ou sur une feuille n'en lance aucun : il renvoie 0 ou 1 directement. Un appel sur un nœud interne en lance exactement deux, un par sous-arbre, même si l'un des deux est vide. Enfin, chaque nœud n'est le sujet que d'un seul appel (celui que lance son parent, ou l'appel initial pour la racine). Le nombre d'appels récursifs est donc 2 fois le nombre de nœuds internes. Par récurrence structurelle, si R(A) désigne ce nombre : R(∅) = 0 et R(feuille) = 0 = 2 × 0 ; pour un nœud interne, R(A) = 2 + R(Ag) + R(Ad) = 2 + 2 Ni(Ag) + 2 Ni(Ad) = 2 Ni(A), puisque Ni(A) = 1 + Ni(Ag) + Ni(Ad)." },
+          { text: "Appels sur l'arbre vide : les sous-arbres vides pendants d'un nœud interne. On a vu à l'étape 1.2 qu'il y a N + 1 champs à None en tout ; les feuilles en possèdent 2 × Nf, il en reste N + 1 − 2 Nf = Ni − Nf + 1 accrochés aux nœuds internes. Pour A : 6 − 4 + 1 = 3 appels inutiles (fils droit de b, fils gauche de c, fils gauche de d). Ce sont eux que nombreFeuilles2 va supprimer." },
+          { code: `def nombreFeuilles1(A):
+    """Nombre de feuilles de l'arbre binaire A (traduction directe de l'énoncé).
+
+    >>> nombreFeuilles1(A)
+    4
+    >>> nombreFeuilles1(None)
+    0
+    """
+    if A is None:
+        return 0
+    else:
+        if A.gauche is None and A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles1(A.gauche) + nombreFeuilles1(A.droite)
+
+
+compteur = {"appels": 0, "vides": 0}
+
+
+def nombreFeuilles1Compte(A):
+    """Comme nombreFeuilles1, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles1Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    12
+    """
+    compteur["appels"] += 1
+    if A is None:
+        compteur["vides"] += 1
+        return 0
+    else:
+        if A.gauche is None and A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles1Compte(A.gauche) + nombreFeuilles1Compte(A.droite)
+
+
+def appelsRecursifs(procedure, B):
+    """Nombre d'appels récursifs déclenchés par procedure(B), appel initial exclu."""
+    compteur["appels"] = 0
+    compteur["vides"] = 0
+    procedure(B)
+    return compteur["appels"] - 1
+
+
+# Taille et nombre de nœuds internes, sur le modèle des définitions inductives de N et Nf (cours, diapositive 16)
+def taille(B):
+    if B is None:
+        return 0
+    return 1 + taille(B.gauche) + taille(B.droite)
+
+
+def nbInternes(B):
+    if B is None or (B.gauche is None and B.droite is None):
+        return 0
+    return 1 + nbInternes(B.gauche) + nbInternes(B.droite)
+
+
+print(taille(A), nbInternes(A), nombreFeuilles1(A))     # 10 6 4
+print(appelsRecursifs(nombreFeuilles1Compte, A), compteur["vides"])   # 12 3
+assert appelsRecursifs(nombreFeuilles1Compte, A) == 2 * nbInternes(A) == 12
+assert compteur["vides"] == nbInternes(A) - nombreFeuilles1(A) + 1 == 3` },
+          { text: "Pour tester sur d'autres arbres, trois familles d'arbres de taille quelconque : le peigne (arbre filiforme, chaque nœud n'a qu'un fils gauche), l'arbre parfait de hauteur h (tous les niveaux pleins) et un arbre aléatoire à n nœuds (taille du sous-arbre gauche tirée au hasard). Elles resserviront aux étapes 1.6, 2.4 et 2.6." },
+          { code: `import random
+
+
+def peigne(n):
+    """Arbre filiforme à n nœuds : chaque nœud n'a qu'un fils, à gauche."""
+    B = None
+    for k in range(n, 0, -1):
+        B = Noeud(k, B, None)
+    return B
+
+
+def parfait(h, valeur=1):
+    """Arbre parfait de hauteur h (2**(h+1) - 1 nœuds) ; parfait(-1) est l'arbre vide."""
+    if h < 0:
+        return None
+    return Noeud(valeur, parfait(h - 1, 2 * valeur), parfait(h - 1, 2 * valeur + 1))
+
+
+def aleatoire(n, rng):
+    """Arbre binaire aléatoire à n nœuds."""
+    if n == 0:
+        return None
+    k = rng.randrange(n)                 # taille du sous-arbre gauche, entre 0 et n - 1
+    return Noeud(n, aleatoire(k, rng), aleatoire(n - 1 - k, rng))
+
+
+rng = random.Random(2026)
+for B in [peigne(1), peigne(10), parfait(3), aleatoire(20, rng), aleatoire(200, rng)]:
+    assert appelsRecursifs(nombreFeuilles1Compte, B) == 2 * nbInternes(B)
+print("2 × Ni vérifié sur tous les arbres testés")` }
+        ]
+      },
+      {
+        num: "1.5", title: "nombreFeuilles2 : quatre cas, le moins de tests possible",
+        intro: "Exercice 1, question 5. Cette fois, l'arbre est supposé non vide, et on ne s'appelle jamais sur un sous-arbre vide. On distingue les quatre cas de l'indication : a) feuille ; b) gauche vide, droit non vide ; c) droit vide, gauche non vide ; d) deux sous-arbres non vides.",
+        code: `def nombreFeuilles2(A):
+    """Nombre de feuilles de l'arbre binaire A, supposé NON VIDE.
+
+    >>> nombreFeuilles2(A)
+    4
+    >>> nombreFeuilles2(Noeud('x'))
+    1
+    """
+    ...`,
+        questions: [
+          "Écrivez nombreFeuilles2 en distinguant les quatre cas a), b), c), d).",
+          "Quel est le nombre minimal de tests ? Justifiez qu'on ne peut pas faire mieux.",
+          "Que se passe-t-il si on appelle nombreFeuilles2(None) ? Comment obtenir une fonction utilisable sur tout arbre ?"
+        ],
+        correction: [
+          { text: "On teste d'abord le fils gauche, puis, dans chacune des deux branches, le fils droit. Chaque combinaison des deux réponses correspond à exactement un des quatre cas." },
+          { code: `def nombreFeuilles2(A):
+    """Nombre de feuilles de l'arbre binaire A, supposé NON VIDE.
+
+    >>> nombreFeuilles2(A)
+    4
+    >>> nombreFeuilles2(Noeud('x'))
+    1
+    """
+    if A.gauche is None:
+        if A.droite is None:
+            return 1                                    # a) une feuille
+        else:
+            return nombreFeuilles2(A.droite)            # b) seul le droit est non vide
+    else:
+        if A.droite is None:
+            return nombreFeuilles2(A.gauche)            # c) seul le gauche est non vide
+        else:
+            return nombreFeuilles2(A.gauche) + nombreFeuilles2(A.droite)   # d)
+
+
+def nombreFeuilles(A):
+    """Version utilisable sur tout arbre, y compris l'arbre vide."""
+    return 0 if A is None else nombreFeuilles2(A)
+
+
+assert nombreFeuilles2(A) == nombreFeuilles1(A) == 4
+assert nombreFeuilles(None) == 0` },
+          { text: "Nombre minimal de tests : 2 tests à chaque appel (et 3 tests écrits dans le code). On ne peut pas faire moins : il y a quatre cas à distinguer et un test n'a que deux issues ; un seul test ne sépare que deux situations, il en faut donc au moins deux (log₂ 4 = 2). La version ci-dessus les atteint : quel que soit le cas, exactement deux tests sont évalués." },
+          { text: "Comparaison : nombreFeuilles1 fait 1 test sur un arbre vide, 3 tests sur une feuille (A vide ? gauche vide ? droit vide ?) et 2 ou 3 sur un nœud interne selon que le « et » court-circuite ou non ; en plus, elle fait des appels sur des arbres vides. nombreFeuilles2 ne teste jamais si A est vide : c'est la précondition « A non vide » qui le permet, et chaque appel récursif la respecte puisqu'on ne descend que dans un sous-arbre non vide." },
+          { text: "Appelée sur None, nombreFeuilles2 lève AttributeError ('NoneType' object has no attribute 'gauche') : c'est la précondition violée. L'enveloppe nombreFeuilles traite l'arbre vide une fois pour toutes, à l'extérieur de la récursion." }
+        ]
+      },
+      {
+        num: "1.6", title: "Nombre d’appels de nombreFeuilles2 et comparaison",
+        intro: "Exercice 1, question 6. On compte les appels récursifs de nombreFeuilles2 en fonction du nombre N de nœuds, puis on compare les deux procédures sur plusieurs arbres.",
+        code: `def nombreFeuilles2Compte(A):
+    """Comme nombreFeuilles2, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles2Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    9
+    """
+    ...
+
+
+# À compléter : un tableau N, Ni, Nf, appels de nombreFeuilles1, appels de nombreFeuilles2
+# pour A, un peigne, un arbre parfait et quelques arbres aléatoires
+# (fonctions taille, nbInternes, appelsRecursifs, peigne, parfait et aleatoire de la correction 1.4).`,
+        questions: [
+          "Combien d'appels récursifs nombreFeuilles2(A) déclenche-t-il, en fonction du nombre N de nœuds ?",
+          "Comparez sur plusieurs arbres le nombre d'appels des deux procédures. Quand sont-ils égaux ? Quand l'écart est-il maximal ?"
+        ],
+        correction: [
+          { text: "Réponse : N − 1 appels récursifs (N appels en tout). nombreFeuilles2 est appelée une fois et une seule sur chaque nœud de l'arbre, jamais sur un arbre vide : la racine par l'appel initial, chacun des N − 1 autres nœuds par son parent. Pour A : 9 appels récursifs, contre 12 pour nombreFeuilles1." },
+          { code: `def nombreFeuilles2Compte(A):
+    """Comme nombreFeuilles2, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles2Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    9
+    """
+    compteur["appels"] += 1
+    if A.gauche is None:
+        if A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles2Compte(A.droite)
+    else:
+        if A.droite is None:
+            return nombreFeuilles2Compte(A.gauche)
+        else:
+            return nombreFeuilles2Compte(A.gauche) + nombreFeuilles2Compte(A.droite)
+
+
+rng = random.Random(19)
+arbres = [("arbre A", A), ("peigne(10)", peigne(10)), ("parfait(3)", parfait(3)),
+          ("aléatoire(20)", aleatoire(20, rng)), ("aléatoire(100)", aleatoire(100, rng)),
+          ("aléatoire(1000)", aleatoire(1000, rng))]
+
+print(f"{'arbre':16}{'N':>6}{'Ni':>6}{'Nf':>6}{'nf1':>7}{'nf2':>7}")
+for nom, B in arbres:
+    N, Ni = taille(B), nbInternes(B)
+    Nf = N - Ni
+    a1 = appelsRecursifs(nombreFeuilles1Compte, B)
+    a2 = appelsRecursifs(nombreFeuilles2Compte, B)
+    print(f"{nom:16}{N:>6}{Ni:>6}{Nf:>6}{a1:>7}{a2:>7}")
+    assert a1 == 2 * Ni and a2 == N - 1
+    assert a1 - a2 == Ni - Nf + 1 >= 0` },
+          { code: `# Sortie obtenue :
+# arbre                N    Ni    Nf    nf1    nf2
+# arbre A             10     6     4     12      9
+# peigne(10)          10     9     1     18      9
+# parfait(3)          15     7     8     14     14
+# aléatoire(20)       20    11     9     22     19
+# aléatoire(100)     100    67    33    134     99
+# aléatoire(1000)   1000   661   339   1322    999` },
+          { text: "Écart : nombreFeuilles1 fait 2 Ni appels, nombreFeuilles2 en fait N − 1 = Ni + Nf − 1. La différence vaut Ni − Nf + 1 : c'est exactement le nombre d'appels de nombreFeuilles1 sur un sous-arbre vide (étape 1.4). Elle n'est jamais négative, car dans tout arbre binaire non vide Nf ≤ Ni + 1." },
+          { text: "Égalité lorsque Nf = Ni + 1, c'est-à-dire lorsque chaque nœud interne a deux fils : l'arbre est localement complet (la notion de l'exercice 3), comme l'arbre parfait du tableau. Écart maximal pour un arbre filiforme, comme le peigne : une seule feuille, Ni = N − 1, donc nombreFeuilles1 fait 2(N − 1) appels, deux fois plus que nombreFeuilles2. Dans tous les cas les deux procédures restent linéaires en N : on gagne au mieux un facteur 2, pas un ordre de grandeur." }
+        ]
+      },
+      {
+        num: "1.7", title: "copieArbre : une copie sans nœud commun",
+        intro: "Exercice 1, question 7. Copier un arbre, c'est créer un nouveau nœud pour chaque nœud de A. Une simple affectation B = A ne copie rien : elle crée un second nom pour le même arbre. On vérifie avec l'opérateur is qu'aucun nœud n'est partagé.",
+        code: `def copieArbre(A):
+    """Renvoie une copie de A : même forme, mêmes valeurs, aucun nœud commun.
+
+    >>> B = copieArbre(A)
+    >>> parenthese(B) == parenthese(A)
+    True
+    >>> B is A
+    False
+    >>> copieArbre(None) is None
+    True
+    """
+    ...
+
+
+def noeuds(A):
+    """Liste des nœuds (des objets Noeud) de A, en ordre préfixe."""
+    ...
+
+
+def aucunNoeudCommun(A, B):
+    """True si aucun objet Noeud n'appartient à la fois à A et à B (test avec is)."""
+    ...`,
+        questions: [
+          "Écrivez copieArbre(A), récursive.",
+          "Écrivez noeuds(A) et aucunNoeudCommun(A, B), qui compare les nœuds avec is, et vérifiez la copie.",
+          "Pourquoi B = A et Noeud(A.valeur, A.gauche, A.droite) ne sont-ils pas des copies ?"
+        ],
+        correction: [
+          { text: "Même schéma que les parcours : l'arbre vide se copie en l'arbre vide ; sinon on crée un nouveau nœud dont les fils sont les copies des sous-arbres. C'est un parcours postfixe : les fils sont copiés avant que leur parent soit créé." },
+          { code: `def copieArbre(A):
+    """Renvoie une copie de A : même forme, mêmes valeurs, aucun nœud commun.
+
+    >>> B = copieArbre(A)
+    >>> parenthese(B) == parenthese(A)
+    True
+    >>> B is A
+    False
+    >>> copieArbre(None) is None
+    True
+    """
+    if A is None:
+        return None
+    return Noeud(A.valeur, copieArbre(A.gauche), copieArbre(A.droite))
+
+
+def noeuds(A):
+    """Liste des nœuds (des objets Noeud) de A, en ordre préfixe."""
+    if A is None:
+        return []
+    return [A] + noeuds(A.gauche) + noeuds(A.droite)
+
+
+def aucunNoeudCommun(A, B):
+    """True si aucun objet Noeud n'appartient à la fois à A et à B (test avec is)."""
+    for x in noeuds(A):
+        for y in noeuds(B):
+            if x is y:
+                return False
+    return True
+
+
+B = copieArbre(A)
+assert parenthese(B) == parenthese(A)             # même arbre...
+assert aucunNoeudCommun(A, B)                     # ... mais aucun nœud partagé
+assert len(noeuds(B)) == 10
+
+alias = A                                         # pas une copie : un second nom
+assert alias is A and not aucunNoeudCommun(A, alias)
+
+fausse = Noeud(A.valeur, A.gauche, A.droite)      # copie de la racine seulement
+assert fausse is not A                            # la racine est neuve...
+assert fausse.gauche is A.gauche                  # ... mais les sous-arbres sont partagés
+assert not aucunNoeudCommun(A, fausse)
+
+B.gauche.valeur = 'B'                             # modifier la copie...
+assert A.gauche.valeur == 'b'                     # ... ne modifie pas A
+fausse.gauche.valeur = 'X'                        # modifier la fausse copie...
+print(A.gauche.valeur)                            # X : A a été modifié !
+A.gauche.valeur = 'b'                             # on remet A en état
+assert parenthese(A) == "a(b(d(∅,f),∅),c(∅,e(g(i,j),h)))"` },
+          { text: "Pourquoi is et pas == ? Pour la classe Noeud, qui ne définit pas __eq__, == compare aussi les identités ; mais is dit explicitement ce qu'on veut tester : « est-ce le même objet en mémoire ? ». C'est le lien avec la fiche « Valeur vs Référence & gestion de la mémoire » (bloc0)." },
+          { text: "aucunNoeudCommun compare chaque nœud de A à chaque nœud de B : N² comparaisons, sans importance ici. Complément pour aller plus vite : comparer les ensembles {id(x) for x in noeuds(A)} et {id(y) for y in noeuds(B)}, qui sont disjoints exactement quand aucun nœud n'est partagé (tant que les deux arbres existent, deux objets distincts ont des id distincts)." },
+          { text: "La copie est « profonde » pour la structure, pas pour les valeurs : les valeurs sont partagées. Avec des chaînes ou des entiers, non modifiables, cela ne pose aucun problème ; avec des valeurs modifiables (des listes), il faudrait aussi les copier." }
+        ]
+      },
+      {
+        num: "1.8", title: "affichePrefixeIteratif : le parcours préfixe avec une pile",
+        intro: "Exercice 1, question 8. On remplace la récursivité par une pile explicite, qui mémorise les nœuds en attente de traitement. On initialise la pile avec la racine, puis, tant qu'elle n'est pas vide, on dépile le sommet, on l'affiche et on empile ses fils non vides. Avant d'écrire la procédure, on exécute l'algorithme à la main sur le sous-arbre de racine e.",
+        code: `def affichePrefixeIteratif(A, trace=False):
+    """Affiche les nœuds de A dans l'ordre préfixe, sans récursivité, avec une pile.
+    Si trace vaut True, affiche aussi le contenu de la pile à chaque tour.
+
+    >>> affichePrefixeIteratif(A)        # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixeIteratif(None)
+    """
+    ...`,
+        questions: [
+          "Exécutez l'algorithme à la main sur le sous-arbre de racine e (5 nœuds) : contenu de la pile à chaque tour.",
+          "Dans quel ordre faut-il empiler les deux fils ? Que se passe-t-il dans l'autre ordre ?",
+          "Écrivez affichePrefixeIteratif et vérifiez qu'il donne le même affichage qu'affichePrefixe."
+        ],
+        correction: [
+          { text: "Le dernier nœud empilé est le premier dépilé. Pour que le sous-arbre gauche soit traité avant le droit, il faut donc empiler le fils droit d'abord, puis le fils gauche : le gauche se retrouve au sommet." },
+          { code: `# Exécution à la main sur le sous-arbre de racine e (sommet de la pile à droite) :
+#
+#            e
+#          /   \\
+#         g     h
+#        / \\
+#       i   j
+#
+# tour  pile avant      on dépile   on affiche   on empile (droit puis gauche)
+#  1    [e]             e           e            h, g
+#  2    [h, g]          g           g            j, i
+#  3    [h, j, i]       i           i            -
+#  4    [h, j]          j           j            -
+#  5    [h]             h           h            -
+#       []              fin                      affichage : e g i j h` },
+          { code: `def affichePrefixeIteratif(A, trace=False):
+    """Affiche les nœuds de A dans l'ordre préfixe, sans récursivité, avec une pile.
+    Si trace vaut True, affiche aussi le contenu de la pile à chaque tour.
+
+    >>> affichePrefixeIteratif(A)        # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixeIteratif(None)
+    """
+    if A is None:
+        return
+    pile = [A]                            # sommet = fin de la liste
+    while pile:
+        if trace:
+            print("pile :", [n.valeur for n in pile], end=" -> ")
+        n = pile.pop()                    # on dépile le sommet
+        print(n.valeur, end=" ")
+        if trace:
+            print()
+        if n.droite is not None:          # le droit d'abord...
+            pile.append(n.droite)
+        if n.gauche is not None:          # ... pour que le gauche soit au sommet
+            pile.append(n.gauche)
+
+
+affichePrefixeIteratif(A.droite.droite, trace=True)     # le sous-arbre de racine e
+# pile : ['e'] -> e
+# pile : ['h', 'g'] -> g
+# pile : ['h', 'j', 'i'] -> i
+# pile : ['h', 'j'] -> j
+# pile : ['h'] -> h
+assert sortie(affichePrefixeIteratif, A) == sortie(affichePrefixe, A) == prefixe
+rng = random.Random(8)
+for _ in range(20):
+    B = aleatoire(rng.randrange(60), rng)
+    assert sortie(affichePrefixeIteratif, B) == sortie(affichePrefixe, B)
+
+
+def affichePrefixeMauvaisOrdre(A):        # le gauche empilé en premier : l'erreur classique
+    pile = [A] if A is not None else []
+    while pile:
+        n = pile.pop()
+        print(n.valeur, end=" ")
+        for fils in (n.gauche, n.droite):
+            if fils is not None:
+                pile.append(fils)
+
+
+print(sortie(affichePrefixeMauvaisOrdre, A))     # a c e h g j i b d f
+assert sortie(affichePrefixeMauvaisOrdre, A) == "a c e h g j i b d f"` },
+          { text: "Dans l'autre ordre (gauche empilé d'abord), le fils droit est traité avant le gauche : on obtient le parcours « racine, droite, gauche », c'est-à-dire le préfixe de l'arbre miroir. Sur A, cela donnerait a c e h g j i b d f." },
+          { text: "La pile explicite joue le rôle de la pile des appels de la version récursive : chaque nœud empilé est un appel « en attente ». Remplacer la pile par une file (on retire le plus ancien) et empiler le gauche d'abord donne exactement le parcours en largeur de l'étape 1.3 : les deux parcours ne diffèrent que par la structure d'attente. C'est le lien avec la fiche « Piles et files : LIFO, FIFO et applications » (bloc4)." }
+        ]
+      },
+      {
+        num: "2.1", title: "Profondeur et niveaux des nœuds de A",
+        intro: "Exercice 2, question 1. Rappel du cours (diapositive 12) : la profondeur p(x) d'un nœud x est la longueur du chemin allant de la racine jusqu'à x, c'est-à-dire le nombre d'arêtes à descendre. Définition inductive : la racine est de profondeur 0, et si x est le parent de y alors p(y) = p(x) + 1. Le niveau i est formé de tous les nœuds de profondeur i.",
+        code: `#                        a
+#                /               \\
+#               b                 c
+#             /   \\             /   \\
+#            d     ∅           ∅     e
+#          /   \\                   /    \\
+#         ∅     f                 g      h
+#              / \\              /   \\   / \\
+#             ∅   ∅            i     j ∅   ∅
+#                             / \\   / \\
+#                            ∅   ∅ ∅   ∅
+#
+# Nœuds de chaque niveau de A (à compléter) :
+niveaux = {0: "...", 1: "...", 2: "...", 3: "...", 4: "...", 5: "..."}`,
+        questions: [
+          "Quelle est la profondeur de la racine ?",
+          "Donnez les nœuds de A de niveau 0, 1, 2, 3, 4 et 5.",
+          "Quelle est la hauteur de A ? Que dire du niveau 5 ?"
+        ],
+        correction: [
+          { text: "La racine est de profondeur 0 : le chemin qui va de la racine à elle-même est (a), qui a un seul nœud, donc une longueur 1 − 1 = 0 (un chemin de k nœuds a pour longueur k − 1, diapositive 11)." },
+          { code: `niveaux = {0: "a",
+           1: "b c",
+           2: "d e",
+           3: "f g h",
+           4: "i j",
+           5: ""}          # aucun nœud de profondeur 5
+
+
+def hauteur(B):
+    """Hauteur de B, avec la convention du cours : l'arbre vide a pour hauteur -1.
+
+    >>> hauteur(A)
+    4
+    >>> hauteur(Noeud('x')), hauteur(None)
+    (0, -1)
+    """
+    if B is None:
+        return -1
+    return 1 + max(hauteur(B.gauche), hauteur(B.droite))` },
+          { text: "La hauteur de A est la plus grande profondeur d'un nœud : h(A) = 4, atteinte par i et j. Le niveau 5 est donc vide. La question est un petit piège volontaire : il faut savoir répondre « aucun nœud », et le programme de l'étape 2.2 doit, lui aussi, ne rien afficher pour k = 5 sans provoquer d'erreur." }
+        ]
+      },
+      {
+        num: "2.2", title: "afficheNiveau(A, k) : les nœuds d’un niveau donné",
+        intro: "Exercice 2, question 2. Indication du TD : k est la longueur du chemin qu'il reste à parcourir pour atteindre un nœud de profondeur k. Quand k vaut 0, on est sur un nœud du niveau cherché. Quand on descend dans un sous-arbre, il reste un pas de moins à faire.",
+        code: `def afficheNiveau(A, k):
+    """Affiche, de gauche à droite, les nœuds de profondeur k de l'arbre A.
+
+    >>> afficheNiveau(A, 3)              # doctest: +NORMALIZE_WHITESPACE
+    f g h
+    >>> afficheNiveau(A, 5)              # niveau vide : rien n'est affiché
+    """
+    ...`,
+        questions: [
+          "Écrivez afficheNiveau(A, k), récursive. Quels sont les cas de base ?",
+          "Affichez tous les niveaux de A, de 0 à 5, et comparez avec l'étape 2.1.",
+          "Combien d'appels coûte afficheNiveau(A, k) ? En déduire le coût d'un parcours en largeur obtenu en appelant afficheNiveau pour k = 0, 1, …, h(A)."
+        ],
+        correction: [
+          { text: "Deux cas de base : l'arbre vide (rien à afficher, quel que soit k) et k = 0 (on est sur le niveau cherché : on affiche la racine et on ne descend pas plus bas). Sinon, on cherche le niveau k − 1 dans chacun des deux sous-arbres, d'abord le gauche pour respecter l'ordre de gauche à droite." },
+          { code: `def afficheNiveau(A, k):
+    """Affiche, de gauche à droite, les nœuds de profondeur k de l'arbre A.
+
+    >>> afficheNiveau(A, 3)              # doctest: +NORMALIZE_WHITESPACE
+    f g h
+    >>> afficheNiveau(A, 5)              # niveau vide : rien n'est affiché
+    """
+    if A is None:
+        return
+    if k == 0:
+        print(A.valeur, end=" ")
+    else:
+        afficheNiveau(A.gauche, k - 1)       # un pas de moins à faire
+        afficheNiveau(A.droite, k - 1)
+
+
+for k in range(6):
+    print(f"niveau {k} :", sortie(afficheNiveau, A, k))
+    assert sortie(afficheNiveau, A, k) == niveaux[k]
+# niveau 0 : a
+# niveau 1 : b c
+# niveau 2 : d e
+# niveau 3 : f g h
+# niveau 4 : i j
+# niveau 5 :` },
+          { text: "Coût : afficheNiveau(A, k) visite tous les nœuds de profondeur inférieure ou égale à k (plus quelques arbres vides), et pas les autres. Enchaîner les niveaux 0 à h(A) donne bien le parcours en largeur, mais en revisitant les premiers niveaux à chaque fois : sur un peigne de N nœuds, cela fait de l'ordre de N²/2 visites, contre N pour la version avec une file de l'étape 1.3. C'est un bon argument à donner aux élèves pour justifier la file." },
+          { code: `def largeurParNiveaux(A):
+    for k in range(hauteur(A) + 1):
+        afficheNiveau(A, k)
+
+
+assert sortie(largeurParNiveaux, A) == sortie(afficheLargeur, A) == largeur` }
+        ]
+      },
+      {
+        num: "2.3", title: "Longueur de cheminement de A, à la main",
+        intro: "Exercice 2, question 3. La longueur de cheminement LC(A) est la somme des profondeurs de tous les nœuds de A (cours, diapositive 13). À la main, le plus sûr est de regrouper les nœuds par niveau : chaque nœud du niveau k apporte k.",
+        code: `# LC(A) = somme, sur tous les nœuds x de A, de p(x)
+# Niveau par niveau (étape 2.1) : à compléter
+LC_A = ...`,
+        questions: [
+          "Calculez LC(A) à la main.",
+          "Recalculez-la par programme, sans encore écrire LC : en comptant les nœuds de chaque niveau."
+        ],
+        correction: [
+          { text: "Regroupement par niveaux : 0 × 1 (a) + 1 × 2 (b, c) + 2 × 2 (d, e) + 3 × 3 (f, g, h) + 4 × 2 (i, j) = 0 + 2 + 4 + 9 + 8 = 23." },
+          { code: `#  niveau k   nœuds      nombre   contribution k × nombre
+#     0       a            1         0
+#     1       b c          2         2
+#     2       d e          2         4
+#     3       f g h        3         9
+#     4       i j          2         8
+#                                  ----
+#                          LC(A) =  23
+LC_A = 0 * 1 + 1 * 2 + 2 * 2 + 3 * 3 + 4 * 2
+assert LC_A == 23` },
+          { text: "Vérification par programme : on adapte afficheNiveau pour qu'elle compte au lieu d'afficher, puis on fait la somme des k × (nombre de nœuds au niveau k). C'est une méthode différente de celle de l'étape 2.4, ce qui en fait un bon contrôle croisé." },
+          { code: `def compteNiveau(A, k):
+    """Nombre de nœuds de profondeur k dans A."""
+    if A is None:
+        return 0
+    if k == 0:
+        return 1
+    return compteNiveau(A.gauche, k - 1) + compteNiveau(A.droite, k - 1)
+
+
+def LCparNiveaux(A):
+    return sum(k * compteNiveau(A, k) for k in range(hauteur(A) + 1))
+
+
+print([compteNiveau(A, k) for k in range(6)], LCparNiveaux(A))    # [1, 2, 2, 3, 2, 0] 23
+assert LCparNiveaux(A) == LC_A == 23` }
+        ]
+      },
+      {
+        num: "2.4", title: "LC(A) avec la procédure auxiliaire LCaux",
+        intro: "Exercice 2, question 4. LCaux(B, p) calcule, pour un sous-arbre B de A dont la racine est à la profondeur p dans A, la somme des profondeurs (dans A) des nœuds de B. La racine de B apporte p, et ses deux sous-arbres ont leur racine à la profondeur p + 1.",
+        code: `def LCaux(B, p):
+    """Somme des profondeurs des nœuds de B, sachant que la racine de B
+    est à la profondeur p.
+
+    >>> LCaux(A.droite, 1)               # c, e, g, h, i, j : 1+2+3+3+4+4
+    17
+    """
+    ...
+
+
+def LC(A):
+    """Longueur de cheminement de A : somme des profondeurs de tous ses nœuds.
+
+    >>> LC(A)
+    23
+    >>> LC(None), LC(Noeud('x'))
+    (0, 0)
+    """
+    ...`,
+        questions: [
+          "Écrivez LCaux(B, p) puis LC(A).",
+          "Pourquoi a-t-on besoin d'un paramètre supplémentaire p ?",
+          "Complément : démontrez que LC(A) = LC(Ag) + LC(Ad) + N(A) − 1 et déduisez-en une version sans paramètre auxiliaire."
+        ],
+        correction: [
+          { code: `def LCaux(B, p):
+    """Somme des profondeurs des nœuds de B, sachant que la racine de B
+    est à la profondeur p.
+
+    >>> LCaux(A.droite, 1)               # c, e, g, h, i, j : 1+2+3+3+4+4
+    17
+    """
+    if B is None:
+        return 0
+    return p + LCaux(B.gauche, p + 1) + LCaux(B.droite, p + 1)
+
+
+def LC(A):
+    """Longueur de cheminement de A : somme des profondeurs de tous ses nœuds.
+
+    >>> LC(A)
+    23
+    >>> LC(None), LC(Noeud('x'))
+    (0, 0)
+    """
+    return LCaux(A, 0)                    # la racine de A est à la profondeur 0
+
+
+assert LC(A) == LC_A == 23` },
+          { text: "Le paramètre p transporte une information qui vient d'en haut : la profondeur d'un nœud dépend du chemin depuis la racine de A, pas seulement du sous-arbre B. Un appel récursif sur B seul ne peut pas la deviner : on la lui transmet. C'est le schéma classique de la fonction auxiliaire avec un accumulateur descendant ; LC se contente de lancer LCaux avec p = 0, la profondeur de la racine." },
+          { text: "Complément. Dans A, chaque nœud de Ag est un cran plus profond que dans Ag pris seul ; même chose pour Ad. Donc LC(A) = 0 (la racine) + (LC(Ag) + N(Ag)) + (LC(Ad) + N(Ad)) = LC(Ag) + LC(Ad) + N(A) − 1, puisque N(Ag) + N(Ad) = N(A) − 1. Pour A : LC(Ag) = 0 + 1 + 2 = 3 (b, d, f), LC(Ad) = 0 + 1 + 2 + 2 + 3 + 3 = 11 (c, e, g, h, i, j), et 3 + 11 + 10 − 1 = 23. Cette version recalcule les tailles ; on peut renvoyer le couple (LC, N) pour rester linéaire." },
+          { code: `def LCetTaille(A):
+    """Renvoie le couple (LC(A), N(A)), en un seul parcours."""
+    if A is None:
+        return 0, 0
+    lg, ng = LCetTaille(A.gauche)
+    ld, nd = LCetTaille(A.droite)
+    n = ng + nd + 1
+    return lg + ld + n - 1, n
+
+
+assert LCetTaille(A) == (23, 10)
+rng = random.Random(4)
+for _ in range(30):
+    B = aleatoire(rng.randrange(80), rng)
+    assert LC(B) == LCparNiveaux(B) == LCetTaille(B)[0]` }
+        ]
+      },
+      {
+        num: "2.5", title: "Longueur de cheminement externe de A, à la main",
+        intro: "Exercice 2, question 5. La longueur de cheminement externe LCE(A) est la somme des profondeurs des feuilles de A seulement ; autrement dit, la somme des longueurs de toutes les branches (chemins de la racine à une feuille).",
+        code: `# LCE(A) = somme, sur toutes les feuilles x de A, de p(x)
+# Feuilles de A et leurs profondeurs : à compléter
+LCE_A = ...`,
+        questions: [
+          "Listez les feuilles de A et leur profondeur, puis calculez LCE(A).",
+          "Retrouvez le résultat en listant les branches de A."
+        ],
+        correction: [
+          { text: "Les feuilles de A sont f, h, i et j. Leurs profondeurs : f et h au niveau 3, i et j au niveau 4. LCE(A) = 3 + 3 + 4 + 4 = 14." },
+          { code: `#  branche (racine -> feuille)   longueur = profondeur de la feuille
+#  a b d f                          3
+#  a c e g i                        4
+#  a c e g j                        4
+#  a c e h                          3
+#                                  ---
+#                       LCE(A) =   14
+LCE_A = 3 + 4 + 4 + 3
+assert LCE_A == 14` },
+          { text: "Attention aux nœuds qui n'ont qu'un fils (b, c, d) : ce ne sont pas des feuilles, ils ne comptent pas, même si l'un de leurs sous-arbres est vide. C'est l'erreur la plus fréquente, et elle reviendra dans le code de l'étape 2.6 (le cas « arbre vide » ne doit pas être confondu avec le cas « feuille »)." }
+        ]
+      },
+      {
+        num: "2.6", title: "LCE(A) récursive avec LCEaux ; sommes et appels",
+        intro: "Exercice 2, question 6. Même schéma qu'à l'étape 2.4, mais seules les feuilles apportent leur profondeur. On compte ensuite le nombre de sommes et d'appels récursifs en fonction du nombre Ni de nœuds internes.",
+        code: `def LCEaux(B, p):
+    """Somme des profondeurs des feuilles de B, la racine de B étant à la profondeur p.
+
+    >>> LCEaux(A.droite, 1)              # feuilles i, j, h : 4 + 4 + 3
+    11
+    """
+    ...
+
+
+def LCE(A):
+    """Longueur de cheminement externe de A : somme des profondeurs de ses feuilles.
+
+    >>> LCE(A)
+    14
+    >>> LCE(None), LCE(Noeud('x'))
+    (0, 0)
+    """
+    ...`,
+        questions: [
+          "Écrivez LCEaux(B, p) puis LCE(A).",
+          "Combien de sommes et combien d'appels récursifs le calcul de LCE(A) effectue-t-il, en fonction du nombre Ni de nœuds internes ? Vérifiez avec des compteurs."
+        ],
+        correction: [
+          { text: "Trois cas : arbre vide (0), feuille (elle apporte sa profondeur p), nœud interne (somme des contributions de ses deux sous-arbres, dont la racine est à la profondeur p + 1)." },
+          { code: `def LCEaux(B, p):
+    """Somme des profondeurs des feuilles de B, la racine de B étant à la profondeur p.
+
+    >>> LCEaux(A.droite, 1)              # feuilles i, j, h : 4 + 4 + 3
+    11
+    """
+    if B is None:
+        return 0
+    if B.gauche is None and B.droite is None:      # une feuille
+        return p
+    return LCEaux(B.gauche, p + 1) + LCEaux(B.droite, p + 1)
+
+
+def LCE(A):
+    """Longueur de cheminement externe de A : somme des profondeurs de ses feuilles.
+
+    >>> LCE(A)
+    14
+    >>> LCE(None), LCE(Noeud('x'))
+    (0, 0)
+    """
+    return LCEaux(A, 0)
+
+
+assert LCE(A) == LCE_A == 14` },
+          { text: "Décompte. Les appels sur un arbre vide ou une feuille ne font ni somme ni appel. Chaque appel sur un nœud interne fait exactement 2 appels récursifs et 1 somme (le + entre les deux résultats). Au total : Ni sommes et 2 Ni appels récursifs de LCEaux, sans compter l'appel LCEaux(A, 0) lancé par LCE ; ces 2 Ni appels portent sur chacun des N − 1 nœuds autres que la racine, plus Ni − Nf + 1 sous-arbres vides. Pour A, Ni = 6 : 12 appels récursifs et 6 sommes. Si l'on compte aussi les incréments p + 1 comme des additions, il faut en ajouter 2 Ni (1 seule par nœud interne si on calcule p + 1 une fois dans une variable)." },
+          { code: `compteLCE = {"appels": 0, "sommes": 0}
+
+
+def LCEauxCompte(B, p):
+    compteLCE["appels"] += 1
+    if B is None:
+        return 0
+    if B.gauche is None and B.droite is None:
+        return p
+    compteLCE["sommes"] += 1
+    return LCEauxCompte(B.gauche, p + 1) + LCEauxCompte(B.droite, p + 1)
+
+
+def mesureLCE(B):
+    compteLCE["appels"] = compteLCE["sommes"] = 0
+    resultat = LCEauxCompte(B, 0)
+    return resultat, compteLCE["appels"] - 1, compteLCE["sommes"]   # appels récursifs
+
+
+print(mesureLCE(A))          # (14, 12, 6) : LCE, appels récursifs, sommes
+rng = random.Random(6)
+for B in [A, peigne(15), parfait(4)] + [aleatoire(rng.randrange(1, 90), rng) for _ in range(20)]:
+    valeur, appels, sommes = mesureLCE(B)
+    Ni = nbInternes(B)
+    assert valeur == LCE(B) and appels == 2 * Ni and sommes == Ni` },
+          { text: "Comme pour nombreFeuilles1, une partie de ces appels porte sur des arbres vides (Ni − Nf + 1 d'entre eux, 3 pour A). On peut les éviter avec la technique de nombreFeuilles2 (ne descendre que dans les sous-arbres non vides) : on tombe alors à N − 1 appels récursifs, et à Nf − 1 sommes : une par nœud à deux fils, et un arbre binaire non vide a toujours exactement Nf − 1 nœuds à deux fils (pour A : a, e, g)." }
+        ]
+      },
+      {
+        num: "2.7", title: "LCEIt : version itérative avec une file de couples",
+        intro: "Exercice 2, question 7. On fait un parcours en largeur de A avec une file, mais on enfile des couples (nœud, profondeur). Un compteur, initialisé à 0, reçoit la profondeur de chaque feuille rencontrée.",
+        code: `from collections import deque
+
+
+def LCEIt(A):
+    """Longueur de cheminement externe de A, sans récursivité :
+    parcours en largeur avec une file de couples (nœud, profondeur).
+
+    >>> LCEIt(A)
+    14
+    >>> LCEIt(None)
+    0
+    """
+    ...`,
+        questions: [
+          "Écrivez LCEIt(A) avec une file (collections.deque) de couples (nœud, profondeur).",
+          "Faites tourner la file à la main sur A : dans quel ordre les feuilles sont-elles rencontrées ?",
+          "Pourquoi faut-il stocker la profondeur avec le nœud ?"
+        ],
+        correction: [
+          { code: `from collections import deque
+
+
+def LCEIt(A):
+    """Longueur de cheminement externe de A, sans récursivité :
+    parcours en largeur avec une file de couples (nœud, profondeur).
+
+    >>> LCEIt(A)
+    14
+    >>> LCEIt(None)
+    0
+    """
+    if A is None:
+        return 0
+    total = 0
+    file = deque([(A, 0)])                # la racine, à la profondeur 0
+    while file:
+        n, p = file.popleft()
+        if n.gauche is None and n.droite is None:
+            total += p                    # une feuille : on ajoute sa profondeur
+        else:
+            if n.gauche is not None:
+                file.append((n.gauche, p + 1))
+            if n.droite is not None:
+                file.append((n.droite, p + 1))
+    return total
+
+
+assert LCEIt(A) == LCE(A) == 14
+rng = random.Random(7)
+for _ in range(30):
+    B = aleatoire(rng.randrange(120), rng)
+    assert LCEIt(B) == LCE(B)` },
+          { text: "Déroulé sur A (tête de la file à gauche) : (a,0) ; (b,1) (c,1) ; (c,1) (d,2) ; (d,2) (e,2) ; (e,2) (f,3) ; (f,3) (g,3) (h,3) ; f est une feuille, total = 3 ; (g,3) (h,3) ; (h,3) (i,4) (j,4) ; h feuille, total = 6 ; (i,4) (j,4) ; i feuille, total = 10 ; j feuille, total = 14 ; la file est vide. Les feuilles sont rencontrées dans l'ordre du parcours en largeur : f, h, i, j." },
+          { text: "La profondeur d'un nœud n'est pas stockée dans le nœud (la classe Noeud n'a que valeur, gauche et droite) et ne se déduit pas du nœud seul. On la calcule au moment où on découvre le nœud, à partir de celle de son parent (p + 1, la définition inductive du cours), et on la range avec lui dans la file : c'est le rôle que jouait le paramètre p dans LCEaux. Le même couple (nœud, profondeur) dans une pile au lieu d'une file marcherait aussi : pour une somme, l'ordre de visite est indifférent." }
+        ]
+      },
+      {
+        num: "3.1", title: "L’arbre de l’expression (((a ∗ c) + (d ∗ b)) ∗ (b + a))",
+        intro: "Exercice 3, question 1. Une expression arithmétique est une lettre, ou (E1 + E2), ou (E1 ∗ E2). Son arbre a une lettre à chaque feuille et un opérateur à chaque nœud interne, qui a toujours deux fils : c'est un arbre binaire localement complet. En Python, on note l'opérateur ∗ avec le caractère ordinaire *.",
+        code: `# Dessinez l'arbre de (((a * c) + (d * b)) * (b + a)), puis construisez-le :
+E = ...
+
+
+def estLocalementComplet(B):
+    """True si chaque nœud de B qui n'est pas une feuille a deux fils.
+
+    >>> estLocalementComplet(E)
+    True
+    >>> estLocalementComplet(A)
+    False
+    """
+    ...`,
+        questions: [
+          "Dessinez l'arbre de l'expression (((a ∗ c) + (d ∗ b)) ∗ (b + a)). Quelle est sa racine ?",
+          "Construisez-le en Python et vérifiez qu'il est localement complet.",
+          "Que donnent les parcours préfixe, infixe et postfixe de cet arbre ?"
+        ],
+        correction: [
+          { text: "La racine est l'opérateur « principal », celui qui est entouré par les parenthèses les plus extérieures seulement : le ∗ du milieu. Son fils gauche est l'arbre de ((a ∗ c) + (d ∗ b)), son fils droit celui de (b + a). On recommence dans chaque sous-expression." },
+          { code: `#                  *
+#              /       \\
+#            +           +
+#          /   \\        / \\
+#         *     *      b   a
+#        / \\   / \\
+#       a   c d   b
+E = Noeud('*',
+          Noeud('+',
+                Noeud('*', Noeud('a'), Noeud('c')),
+                Noeud('*', Noeud('d'), Noeud('b'))),
+          Noeud('+', Noeud('b'), Noeud('a')))
+
+
+def estLocalementComplet(B):
+    """True si chaque nœud de B qui n'est pas une feuille a deux fils.
+
+    >>> estLocalementComplet(E)
+    True
+    >>> estLocalementComplet(A)
+    False
+    """
+    if B is None:
+        return True
+    if (B.gauche is None) != (B.droite is None):    # exactement un fils vide
+        return False
+    return estLocalementComplet(B.gauche) and estLocalementComplet(B.droite)
+
+
+print(sortie(affichePrefixe, E))     # * + * a c * d b + b a     (notation polonaise)
+print(sortie(afficheInfixe, E))      # a * c + d * b * b + a     (parenthèses perdues !)
+print(sortie(affichePostfixe, E))    # a c * d b * + b a + *     (notation polonaise inverse)
+assert sortie(affichePostfixe, E) == "a c * d b * + b a + *"
+assert taille(E) == 11 and nbInternes(E) == 5 and nombreFeuilles2(E) == 6
+assert appelsRecursifs(nombreFeuilles1Compte, E) == appelsRecursifs(nombreFeuilles2Compte, E) == 10` },
+          { text: "L'arbre a 11 nœuds : 5 opérateurs (nœuds internes) et 6 lettres (feuilles). Dans un arbre localement complet non vide on a toujours Nf = Ni + 1, et c'est exactement le cas où nombreFeuilles1 et nombreFeuilles2 font le même nombre d'appels (étape 1.6) : 10 ici." },
+          { text: "Les trois parcours donnent trois notations de la même expression. Le préfixe donne la notation polonaise (opérateur avant ses opérandes), le postfixe la notation polonaise inverse, celle des calculatrices à pile : on l'évalue de gauche à droite avec une pile, sans aucune parenthèse. L'infixe redonne l'écriture usuelle, mais sans les parenthèses, et a ∗ c + d ∗ b ∗ b + a ne se lit pas comme l'expression de départ : pour la retrouver, il faut ajouter une parenthèse ouvrante à la première visite de chaque nœud interne et une fermante à la troisième (fonction chaineExp de l'étape 3.3)." }
+        ]
+      },
+      {
+        num: "3.2", title: "valeurExp(E, V) : évaluer l’expression",
+        intro: "Exercice 3, question 2. Une valuation V associe un entier naturel à chaque lettre. La valeur V(E) se définit en suivant le schéma d'induction : V(lettre) est donnée, V((E1 + E2)) = V(E1) + V(E2) et V((E1 ∗ E2)) = V(E1) × V(E2). En Python, V peut être un dictionnaire ou une fonction ; on accepte les deux.",
+        code: `def valeurExp(E, V):
+    """Valeur de l'expression d'arbre E pour la valuation V.
+    V est un dictionnaire {lettre: entier} ou une fonction lettre -> entier.
+
+    >>> valeurExp(E, {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> valeurExp(E, lambda lettre: 2)
+    32
+    """
+    ...`,
+        questions: [
+          "Écrivez valeurExp(E, V), récursive, pour V dictionnaire ou fonction.",
+          "Calculez à la main la valeur de E pour a = 1, b = 2, c = 3, d = 4, puis pour la valuation constante égale à 2.",
+          "Quel parcours valeurExp effectue-t-elle ?"
+        ],
+        correction: [
+          { code: `def valeurExp(E, V):
+    """Valeur de l'expression d'arbre E pour la valuation V.
+    V est un dictionnaire {lettre: entier} ou une fonction lettre -> entier.
+
+    >>> valeurExp(E, {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> valeurExp(E, lambda lettre: 2)
+    32
+    """
+    if E.gauche is None and E.droite is None:      # une feuille : une lettre
+        return V(E.valeur) if callable(V) else V[E.valeur]
+    g = valeurExp(E.gauche, V)                     # arbre localement complet :
+    d = valeurExp(E.droite, V)                     # les deux fils existent
+    if E.valeur == '+':
+        return g + d
+    if E.valeur == '*':
+        return g * d
+    raise ValueError(f"opérateur inconnu : {E.valeur!r}")
+
+
+V = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+assert valeurExp(E, V) == ((1 * 3) + (4 * 2)) * (2 + 1) == 33
+assert valeurExp(E, lambda lettre: ord(lettre) - ord('a') + 1) == 33   # a=1, b=2, c=3, d=4
+assert valeurExp(E, lambda lettre: 2) == 32
+assert valeurExp(Noeud('z'), {'z': 7}) == 7` },
+          { text: "À la main avec a = 1, b = 2, c = 3, d = 4 : (a ∗ c) = 3, (d ∗ b) = 8, leur somme vaut 11, (b + a) = 3, et 11 × 3 = 33. Avec la valuation constante 2 : 4 + 4 = 8, puis 8 × 4 = 32." },
+          { text: "valeurExp est un parcours postfixe : on ne peut appliquer l'opérateur d'un nœud qu'après avoir évalué ses deux sous-arbres (troisième visite). L'arbre étant localement complet et non vide, on n'a pas de cas « arbre vide » : un nœud est soit une feuille, soit un opérateur avec deux fils." },
+          { text: "Le test callable(V) permet d'accepter les deux formes. Le TD parle d'une fonction V : A → ℕ ; le dictionnaire est la façon la plus naturelle de donner une fonction sur un ensemble fini en Python, et les élèves de Première le connaissent bien. Avec un dictionnaire incomplet, une lettre absente lève KeyError." }
+        ]
+      },
+      {
+        num: "3.3", title: "arbreExp : construire l’arbre en lisant l’expression caractère par caractère",
+        intro: "Exercice 3, question 3. La procédure lit l'expression un caractère à la fois et construit l'arbre en suivant le schéma d'induction : si le caractère lu est une lettre, c'est une feuille ; si c'est une parenthèse ouvrante, on lit récursivement E1, puis l'opérateur, puis récursivement E2, puis la parenthèse fermante. Ici, au lieu du clavier, la procédure lit dans un itérateur de caractères (par exemple iter(\"(a+b)\")), ce qui la rend testable.",
+        code: `LETTRES = "abcdefghijklmnopqrstuvwxyz"
+
+
+def lireCar(source):
+    """Prochain caractère de l'itérateur source, en sautant les espaces ;
+    renvoie '' quand il n'y a plus rien à lire."""
+    ...
+
+
+def arbreExp(source):
+    """Lit une expression arithmétique dans l'itérateur de caractères source
+    et renvoie son arbre. Lève ValueError si l'expression est incorrecte.
+
+    >>> parenthese(arbreExp(iter("((a*c)+b)")))
+    '+(*(a,c),b)'
+    """
+    ...
+
+
+def arbreExpChaine(texte):
+    """Arbre de l'expression contenue dans la chaîne texte (rien ne doit rester après).
+
+    >>> valeurExp(arbreExpChaine("(((a*c)+(d*b))*(b+a))"), {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> arbreExpChaine("(a+b))")
+    Traceback (most recent call last):
+    ...
+    ValueError: caractères en trop après l'expression : ')'
+    """
+    ...`,
+        note: "Adaptation de l'énoncé : le TD demande une lecture « au clavier, caractère par caractère ». Pour que la procédure soit testable (doctests, notebook, correction automatique), elle lit ici dans un itérateur de caractères passé en paramètre, par exemple iter(\"(a+b)\"). Le principe est identique ; la dernière réponse de la correction montre comment la brancher sur le clavier. On tolère aussi les espaces, que l'énoncé écrit pour la lisibilité. On a choisi l'option « avec contrôle d'erreur » : toute expression incorrecte lève ValueError avec un message précis.",
+        questions: [
+          "Écrivez lireCar puis arbreExp, récursive, qui lit l'expression caractère par caractère.",
+          "Ajoutez un contrôle d'erreur : quelles expressions incorrectes faut-il détecter, et où ?",
+          "Écrivez chaineExp(E), la fonction réciproque, et vérifiez que chaineExp(arbreExpChaine(s)) redonne s.",
+          "Comment revenir à une vraie lecture au clavier ?"
+        ],
+        correction: [
+          { text: "Le programme suit la grammaire : chaque appel de arbreExp lit exactement une expression, ni plus ni moins, et laisse l'itérateur juste après elle. C'est ce qui permet à l'appel qui lit (E1 op E2) d'enchaîner naturellement la lecture de E1, de l'opérateur, de E2 et de la parenthèse fermante. Le contrôle d'erreur se fait à chaque caractère attendu : une lettre ou « ( » au début d'une expression, « + » ou « * » après E1, « ) » après E2, et rien après l'expression complète." },
+          { code: `LETTRES = "abcdefghijklmnopqrstuvwxyz"
+
+
+def lireCar(source):
+    """Prochain caractère de l'itérateur source, en sautant les espaces ;
+    renvoie '' quand il n'y a plus rien à lire."""
+    for car in source:
+        if car != ' ':
+            return car
+    return ''
+
+
+def arbreExp(source):
+    """Lit une expression arithmétique dans l'itérateur de caractères source
+    et renvoie son arbre. Lève ValueError si l'expression est incorrecte.
+
+    >>> parenthese(arbreExp(iter("((a*c)+b)")))
+    '+(*(a,c),b)'
+    """
+    car = lireCar(source)
+    if car != '' and car in LETTRES:          # cas (a) : une lettre, c'est une feuille
+        return Noeud(car)
+    if car == '(':                            # cas (b) : (E1 op E2)
+        gauche = arbreExp(source)
+        op = lireCar(source)
+        if op not in ('+', '*'):
+            raise ValueError(f"opérateur + ou * attendu, lu : {op!r}")
+        droite = arbreExp(source)
+        fin = lireCar(source)
+        if fin != ')':
+            raise ValueError(f"parenthèse fermante attendue, lu : {fin!r}")
+        return Noeud(op, gauche, droite)
+    raise ValueError(f"lettre ou parenthèse ouvrante attendue, lu : {car!r}")
+
+
+def arbreExpChaine(texte):
+    """Arbre de l'expression contenue dans la chaîne texte (rien ne doit rester après).
+
+    >>> valeurExp(arbreExpChaine("(((a*c)+(d*b))*(b+a))"), {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> arbreExpChaine("(a+b))")
+    Traceback (most recent call last):
+    ...
+    ValueError: caractères en trop après l'expression : ')'
+    """
+    source = iter(texte)
+    arbre = arbreExp(source)
+    reste = lireCar(source)
+    if reste != '':
+        raise ValueError(f"caractères en trop après l'expression : {reste!r}")
+    return arbre
+
+
+def chaineExp(E):
+    """Réciproque : l'expression complètement parenthésée de l'arbre E."""
+    if E.gauche is None and E.droite is None:
+        return E.valeur
+    return "(" + chaineExp(E.gauche) + E.valeur + chaineExp(E.droite) + ")"
+
+
+s = "(((a*c)+(d*b))*(b+a))"
+F = arbreExpChaine(s)
+assert parenthese(F) == parenthese(E) == "*(+(*(a,c),*(d,b)),+(b,a))"
+assert chaineExp(F) == s
+assert valeurExp(arbreExpChaine("(((a * c) + (d * b)) * (b + a))"), V) == 33   # espaces tolérés
+assert parenthese(arbreExpChaine("x")) == "x"
+
+for mauvaise in ["", "a+b", "(a+b", "(a-b)", "(a+b))", "(A+b)", "((a+b)", "(a+)", "()"]:
+    try:
+        arbreExpChaine(mauvaise)
+    except ValueError as erreur:
+        print(f"{mauvaise!r:10} refusée : {erreur}")
+    else:
+        raise AssertionError(f"{mauvaise!r} aurait dû être refusée")
+# ''         refusée : lettre ou parenthèse ouvrante attendue, lu : ''
+# 'a+b'      refusée : caractères en trop après l'expression : '+'
+# '(a+b'     refusée : parenthèse fermante attendue, lu : ''
+# '(a-b)'    refusée : opérateur + ou * attendu, lu : '-'
+# '(a+b))'   refusée : caractères en trop après l'expression : ')'
+# '(A+b)'    refusée : lettre ou parenthèse ouvrante attendue, lu : 'A'
+# '((a+b)'   refusée : opérateur + ou * attendu, lu : ''
+# '(a+)'     refusée : lettre ou parenthèse ouvrante attendue, lu : ')'
+# '()'       refusée : lettre ou parenthèse ouvrante attendue, lu : ')'` },
+          { text: "Piège Python à signaler aux élèves : en fin de lecture, lireCar renvoie la chaîne vide, et '' in LETTRES vaut True (la chaîne vide est sous-chaîne de toute chaîne). Sans le test car != '', une expression tronquée créerait une feuille vide au lieu de lever une erreur. Pour l'opérateur, le problème ne se pose pas : on le compare au tuple ('+', '*'), dont la chaîne vide ne fait pas partie." },
+          { text: "Retour au clavier, comme dans l'énoncé : iter(lambda: sys.stdin.read(1), '') est un itérateur qui lit l'entrée standard un caractère à la fois, jusqu'à la fin. On peut donc écrire def arbreExpClavier(): return arbreExp(iter(lambda: sys.stdin.read(1), '')) après import sys. La logique de lecture est inchangée : seule la source des caractères diffère. Plus simple pour une classe : arbreExpChaine(input(\"Expression : \")), qui lit une ligne puis la parcourt caractère par caractère." },
+          { text: "Complément : arbreExp est un analyseur « par descente récursive », la technique utilisée par les compilateurs et interpréteurs pour construire l'arbre syntaxique d'un programme (cours, diapositive 5). Elle est possible ici parce que l'expression est complètement parenthésée : le premier caractère suffit toujours à savoir quel cas de la définition inductive s'applique." }
+        ]
+      }
+    ]
+  },
+  // ── TP — Les algorithmes gloutons ──
+  {
+    id: "tp-gloutons", bloc: "bloc2", jour: "En ligne — 24 septembre 2026 (FDIU)",
     theme: "Algorithmes gloutons",
     title: "TP — Les algorithmes gloutons",
     type: 'tp',
-    // notebook : Basthon ouvre la copie du dépôt (et le bouton ⬇ la propose au téléchargement).
-    // basthonUrl ne sert que de secours, si la ressource n'est pas encore chargée.
-    notebook: "FDIU_algorithmes_gloutons.ipynb",
     basthonUrl: "https://notebook.basthon.fr/?from=https://raw.githubusercontent.com/LANSIG/NSI/refs/heads/main/FDIU%20-%20Les%20algorithmes%20gloutons.ipynb",
-    intro: "Un algorithme glouton résout un problème d'optimisation en appliquant toujours la même règle locale, sans jamais revenir en arrière. Simple à écrire, rapide — mais sans garantie d'optimalité. Ce TP le met à l'épreuve sur quatre problèmes : conversion en binaire, rendu de monnaie, sac à dos et planning de conférenciers, puis le compare à la recherche exhaustive. Ouvre le notebook dans Basthon pour travailler, cherche par toi-même, puis déplie la correction.",
+    notebook: "FDIU_algorithmes_gloutons.ipynb",
+    intro: "Un algorithme glouton résout un problème d'optimisation en appliquant toujours la même règle locale, sans jamais revenir en arrière. Simple à écrire, rapide — mais sans garantie d'optimalité. Ce TP le met à l'épreuve sur quatre problèmes : conversion en binaire, rendu de monnaie, sac à dos et planning de conférenciers, puis le compare à la recherche exhaustive. Les corrections sont désormais celles du formateur (FDIU), données lors de la séance du 1er octobre : son code est reproduit tel quel, aux retouches signalées près (print ajoutés autour des expressions nues, lignes propres à Basthon retirées, docstrings répétées omises), et il a été exécuté. Quand une cellule de réponse est restée vide dans sa correction, notre réponse est donnée et signalée comme telle ; les éléments qui commencent par « Complément : » viennent de notre première correction ; les erreurs repérées dans le code ou les encadrés officiels sont signalées et corrigées. Ouvre le notebook dans Basthon pour travailler, cherche par toi-même, puis déplie la correction.",
     steps: [
       {
         num: "1", title: "Décimal vers binaire sur 16 bits",
@@ -1001,26 +2623,31 @@ const TPS = [
     ...
 
 print(dec_vers_bin_16b(42))     # attendu : 0000000000101010`,
-        note: "L'énoncé du notebook écrit « si n >= i² » : c'est une coquille. Le poids du rang i vaut 2 puissance i (2**i), pas i au carré. Avec i², la conversion serait fausse dès le rang 3.",
+        note: "L'énoncé du notebook écrit « si n >= i² » : c'est une coquille. Le poids du rang i vaut 2 puissance i (2**i), pas i au carré. Avec i², la conversion serait fausse dès le rang 3. La correction du formateur le confirme : son énoncé corrigé écrit « si n >= 2 ** i : ajouter \"1\" au résultat, retirer 2 ** i de n ».",
         questions: [
           "Écrire la fonction dec_vers_bin_16b.",
           "En quoi cet algorithme est-il glouton ? Quelle est la règle locale, et pourquoi ne revient-on jamais en arrière ?",
           "Pourquoi le résultat est-il ici toujours optimal, contrairement aux problèmes suivants ?"
         ],
         correction: [
-          { text: "On parcourt les poids du plus fort au plus faible. À chaque rang, la question est simplement : ce poids tient-il dans ce qu'il reste ? Si oui on le prend, et on le retranche." },
+          { text: "Correction du formateur. Il suit exactement l'algorithme de l'énoncé, en ajoutant une précondition : l'assert refuse tout n hors de l'intervalle 0 à 65535, qui ne tiendrait pas sur 16 bits. Il teste sur 65535 et 10 (les appels du notebook sont ici entourés de print ; le test sur 42 est celui de l'énoncé du site)." },
           { code: `def dec_vers_bin_16b(n):
-    resultat = ""
-    for i in range(15, -1, -1):          # du poids fort (2**15) au poids faible (2**0)
-        poids = 2 ** i
-        if n >= poids:
-            resultat += "1"
-            n -= poids
+    assert 0 <= n <= 65535
+    res = ''
+
+    for i in range(15, -1 , -1):
+        if n >= 2 ** i:
+            res += '1'
+            n -= 2 ** i
         else:
-            resultat += "0"
-    return resultat` },
-          { text: "La règle locale est « prendre le plus grand poids disponible qui tient ». Elle est appliquée seize fois de suite, et une fois qu'un bit est écrit il n'est jamais remis en cause : c'est exactement la définition d'un algorithme glouton." },
-          { text: "Ici le glouton est optimal, et ce n'est pas un hasard : chaque poids vaut plus que la somme de tous les poids inférieurs (2**i > 2**(i-1) + ... + 2 + 1). Ne pas prendre un poids qui tient serait donc irrattrapable. C'est cette propriété qui manquera au système monétaire non canonique de l'étape 4." }
+            res += '0'
+    return res
+
+print(dec_vers_bin_16b(65535))   # 1111111111111111
+print(dec_vers_bin_16b(10))      # 0000000000001010
+print(dec_vers_bin_16b(42))      # 0000000000101010` },
+          { text: "Notre correction (le formateur n'a pas rédigé de réponse aux deux questions de réflexion) : la règle locale est « prendre le plus grand poids disponible qui tient ». Elle est appliquée seize fois de suite, et une fois qu'un bit est écrit il n'est jamais remis en cause : c'est exactement la définition d'un algorithme glouton." },
+          { text: "Notre correction, suite : ici le glouton est optimal, et ce n'est pas un hasard. Chaque poids vaut plus que la somme de tous les poids inférieurs (2**i > 2**(i-1) + ... + 2 + 1). Ne pas prendre un poids qui tient serait donc irrattrapable. C'est cette propriété qui manquera au système monétaire non canonique de l'étape 4." }
         ]
       },
       {
@@ -1031,18 +2658,64 @@ print(dec_vers_bin_16b(42))     # attendu : 0000000000101010`,
     ...
 
 def dec_vers_bin_while(n):
-    # TODO : la version par divisions successives, avec une boucle while
+    # TODO : une version avec une boucle while (cellule « Avec un while ? » du notebook)
+    #        au choix : chercher a chaque tour la plus grande puissance de 2 qui tient,
+    #        ou proceder par divisions successives par 2
     ...
 
 for n in (0, 5, 42, 1000):
     print(n, dec_vers_bin(n), dec_vers_bin_while(n))`,
         questions: [
           "Écrire dec_vers_bin, qui n'a plus de borne supérieure.",
-          "Écrire la version avec un while, par divisions successives par 2.",
+          "Écrire une version avec un while (le formateur cherche la plus grande puissance de 2 qui tient ; les divisions successives par 2 sont une autre possibilité).",
           "Quel cas particulier faut-il traiter à part dans les deux versions ?"
         ],
         correction: [
-          { text: "Sans borne connue, il faut d'abord trouver le plus grand poids utile : on double tant qu'on ne dépasse pas n. Ensuite, la boucle est identique à celle de l'étape 1." },
+          { text: "Correction du formateur. Sa cellule dec_vers_bin « stratégie gloutonne, sans limite » est restée vide (voir notre correction plus bas). Pour « Avec un while ? », il écrit une fonction auxiliaire qui donne l'exposant de la plus grande puissance de 2 inférieure ou égale à n, puis place directement les \"1\" dans une liste de caractères. Il réutilise le nom dec_vers_bin." },
+          { code: `from math import log2, floor
+
+def plus_grande_puissance_de_2(n):
+    assert n > 0, 'n doit être positif'
+    return floor(log2(n))
+
+print(plus_grande_puissance_de_2(1))   # 0
+
+
+def dec_vers_bin(n):
+    if n == 0:
+        return '0'
+
+    res = ['0'] * (plus_grande_puissance_de_2(n) + 1)
+
+    while n > 0:
+        i = plus_grande_puissance_de_2(n)
+        res[-1 - i] = '1'
+        n -= 2 ** i
+
+    return ''.join(res)
+
+print(dec_vers_bin(256))   # 100000000` },
+          { text: "Fonctionnement : res est une liste de '0' de la bonne longueur (nombre de bits du résultat). À chaque tour, i est l'exposant du plus grand poids qui tient encore ; le bit correspondant est en position i en partant de la droite, d'où l'indice négatif -1 - i. On retranche 2 ** i et on recommence. join recolle enfin les caractères. Le formateur montre au passage le fonctionnement de join :" },
+          { code: `a = tuple('bonjour')
+print(a)                   # ('b', 'o', 'n', 'j', 'o', 'u', 'r')
+print('535524'.join(a))    # b535524o535524n535524j535524o535524u535524r` },
+          { text: "Réponse à la question 3, d'après le code du formateur : le cas particulier est n = 0, traité en tête de fonction. Sans ce test, plus_grande_puissance_de_2(0) échouerait sur son assert (et log2(0) lèverait de toute façon une erreur de domaine)." },
+          { text: "Erreur dans la correction officielle : log2 calcule en nombres flottants. Pour un grand n juste en dessous d'une puissance de 2, l'arrondi donne l'exposant supérieur. Avec n = 2**49 - 1, log2(n) vaut 49.0 au lieu d'un nombre légèrement inférieur à 49 : la fonction place un \"1\" au rang 49, retranche 2**49, n devient négatif et la boucle s'arrête. Résultat : \"1\" suivi de 49 zéros, soit 2**49, au lieu de 49 fois \"1\". Mesuré sur les nombres de la forme 2**k - 1 : le résultat est juste jusqu'à k = 48, faux dès k = 49. Les entiers usuels passent, mais l'énoncé annonce « pas de limite supérieure »." },
+          { code: `n = 2 ** 49 - 1
+print(log2(n))                             # 49.0 : arrondi flottant
+print(dec_vers_bin(n) == format(n, 'b'))   # False` },
+          { text: "Version corrigée : il suffit de calculer l'exposant en nombres entiers. Comme dec_vers_bin appelle plus_grande_puissance_de_2 au moment de son exécution, redéfinir la fonction auxiliaire suffit. (En Python, n.bit_length() - 1 donne aussi cet exposant, exactement.)" },
+          { code: `def plus_grande_puissance_de_2(n):
+    """Exposant de la plus grande puissance de 2 inferieure ou egale a n, en calcul entier."""
+    assert n > 0, 'n doit être positif'
+    i = 0
+    while 2 ** (i + 1) <= n:
+        i += 1
+    return i
+
+print(dec_vers_bin(2 ** 49 - 1) == format(2 ** 49 - 1, 'b'))   # True
+print(dec_vers_bin(2 ** 200 - 1) == format(2 ** 200 - 1, 'b')) # True` },
+          { text: "Notre correction pour la cellule laissée vide (dec_vers_bin avec la même boucle que l'étape 1) : sans borne connue, il faut d'abord trouver le plus grand poids utile, en doublant tant qu'on ne dépasse pas n. Ensuite, la boucle est identique à celle de l'étape 1. Tout est en entiers : pas de problème d'arrondi." },
           { code: `def dec_vers_bin(n):
     if n == 0:
         return "0"
@@ -1058,7 +2731,7 @@ for n in (0, 5, 42, 1000):
             resultat += "0"
         poids //= 2
     return resultat` },
-          { text: "La version par divisions successives lit les bits dans l'autre sens — du poids faible vers le poids fort — d'où la concaténation à gauche." },
+          { text: "Complément : la version par divisions successives lit les bits dans l'autre sens, du poids faible vers le poids fort, d'où la concaténation à gauche. Ce n'est plus une stratégie gloutonne, mais c'est la méthode que les élèves rencontrent le plus souvent." },
           { code: `def dec_vers_bin_while(n):
     if n == 0:
         return "0"
@@ -1066,8 +2739,11 @@ for n in (0, 5, 42, 1000):
     while n > 0:
         resultat = str(n % 2) + resultat
         n = n // 2
-    return resultat` },
-          { text: "Le cas n = 0 : la boucle while ne s'exécute jamais et on renverrait la chaîne vide. Il faut renvoyer \"0\" explicitement. Sur 16 bits le problème ne se posait pas, puisque la boucle for tournait de toute façon seize fois." }
+    return resultat
+
+for n in (0, 5, 42, 1000):
+    print(n, dec_vers_bin(n), dec_vers_bin_while(n))` },
+          { text: "Complément : dans ces deux versions aussi, n = 0 doit être traité à part. La boucle while ne s'exécuterait jamais et on renverrait la chaîne vide. Sur 16 bits le problème ne se posait pas, puisque la boucle for tournait de toute façon seize fois." }
         ]
       },
       {
@@ -1090,20 +2766,63 @@ rd = rendu_glouton(52, euro);  print(rd, rd == [50, 2])`,
           "Que fait l'indice i, et pourquoi ne le remet-on jamais à zéro ?"
         ],
         correction: [
-          { text: "Deux cas seulement dans la boucle : soit la pièce courante tient dans ce qu'il reste et on la prend (sans changer d'indice, car on peut la reprendre), soit elle est trop grosse et on passe définitivement à la suivante." },
+          { text: "Correction du formateur, d'abord sous forme de script, dans la cellule de l'énoncé (rst = 548). Il importe aussi tutor et appelle tutor() en fin de cellule pour visualiser l'exécution pas à pas : ces deux lignes sont omises ici, car le module tutor n'existe que dans Basthon." },
+          { code: `rst = 548
+
+lst_piece = [200, 100, 50, 20, 10, 5, 2, 1]
+lst_rendu = []
+i = 0
+
+while rst > 0 and i < len(lst_piece):
+    if lst_piece[i] <= rst:
+        lst_rendu.append(lst_piece[i])
+        rst -= lst_piece[i]
+    else:
+        i += 1
+
+print(lst_rendu)   # [200, 200, 100, 20, 20, 5, 2, 1]` },
+          { text: "Puis la même chose en fonction. Version 1 du formateur, avec les tests du notebook :" },
           { code: `def rendu_glouton(rst, lst_piece):
     lst_rendu = []
     i = 0
+
     while rst > 0 and i < len(lst_piece):
         if lst_piece[i] <= rst:
             lst_rendu.append(lst_piece[i])
             rst -= lst_piece[i]
         else:
             i += 1
-    return lst_rendu` },
-          { text: "Les trois tests passent : 11 donne [10, 1], 48 donne [20, 20, 5, 2, 1], 52 donne [50, 2]." },
-          { text: "Le tri décroissant EST la stratégie gloutonne : « la plus grosse pièce d'abord ». Avec une liste croissante, le même code rendrait 11 centimes avec onze pièces de 1 centime." },
-          { text: "i désigne la pièce qu'on essaie en ce moment. On ne le remet jamais à zéro parce qu'une pièce déclarée trop grosse le restera : le reste à rendre ne fait que diminuer. C'est le « on ne revient jamais en arrière » des algorithmes gloutons, et c'est aussi ce qui rend l'algorithme linéaire." }
+
+    return lst_rendu
+
+
+print(rendu_glouton(548, [200, 100, 50, 20, 10, 5, 2, 1]))   # [200, 200, 100, 20, 20, 5, 2, 1]
+
+rd = rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2, 1])
+print(rd, rd == [10, 1])
+rd = rendu_glouton(48, [200, 100, 50, 20, 10, 5, 2, 1])
+print(rd, rd == [20, 20, 5, 2, 1])
+rd = rendu_glouton(52, [200, 100, 50, 20, 10, 5, 2, 1])
+print(rd, rd == [50, 2])` },
+          { text: "Les trois tests affichent True. Le formateur donne ensuite une version 2, qui retire le test i < len(lst_piece) de la condition de boucle et force à la place l'usage de la dernière pièce (la plus petite) quand on y est arrivé :" },
+          { code: `def rendu_glouton(rst, lst_piece):
+    lst_rendu = []
+    i = 0
+
+    while rst > 0:
+        if lst_piece[i] <= rst or i == len(lst_piece) - 1:
+            lst_rendu.append(lst_piece[i])
+            rst -= lst_piece[i]
+        else:
+            i += 1
+
+    return lst_rendu
+
+
+print(rendu_glouton(548, [200, 100, 50, 20, 10, 5, 2, 1]))   # [200, 200, 100, 20, 20, 5, 2, 1]` },
+          { text: "Avec l'euro, qui contient la pièce de 1, les deux versions donnent toujours le même résultat (vérifié pour toutes les sommes de 0 à 999) : arrivé à la pièce de 1, elle tient forcément. Elles diffèrent quand la plus petite pièce n'est pas 1 : c'est l'objet de l'étape 4. Attention aussi : la version 2 lève une IndexError si la liste de pièces est vide, la version 1 renvoie []." },
+          { text: "Notre correction (le formateur n'a pas rédigé de réponse aux questions 2 et 3) : le tri décroissant EST la stratégie gloutonne, « la plus grosse pièce d'abord ». Avec une liste croissante, le même code rendrait 11 centimes avec onze pièces de 1 centime." },
+          { text: "Notre correction, suite : i désigne la pièce qu'on essaie en ce moment. On ne le remet jamais à zéro parce qu'une pièce déclarée trop grosse le restera : le reste à rendre ne fait que diminuer. C'est le « on ne revient jamais en arrière » des algorithmes gloutons, et c'est aussi ce qui rend l'algorithme linéaire." }
         ]
       },
       {
@@ -1125,11 +2844,81 @@ print(rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2]))
           "Quelle solution correcte existe pourtant pour ces 11 centimes ?"
         ],
         correction: [
-          { text: "Pour 48 pence, le glouton rend [30, 12, 6], soit 3 pièces. Mais [24, 24] suffit : 2 pièces. Le glouton a pris la pièce de 30 parce qu'elle était la plus grosse, et ce choix l'a écarté de la solution optimale." },
-          { text: "Pour 52 pence, le glouton rend [30, 12, 6, 3, 1], soit 5 pièces, alors que [24, 24, 3, 1] n'en demande que 4." },
-          { text: "Sans pièce de 1 centime, rendre 11 donne [10] : le programme ne plante pas et ne boucle pas à l'infini — il s'arrête simplement en ayant rendu 10 centimes sur 11. C'est pire qu'une erreur visible : le résultat est faux mais silencieux. Le test « i < len(lst_piece) » de la boucle est ce qui évite la boucle infinie." },
-          { text: "Avec les pièces restantes, 11 = 5 + 2 + 2 + 2, soit 4 pièces. Le glouton a commencé par prendre 10, ce qui laissait 1 centime impossible à rendre. Il aurait fallu renoncer à la plus grosse pièce — exactement ce qu'un algorithme glouton ne sait pas faire." },
-          { text: "Pour vérifier ces affirmations, on peut écrire une référence exhaustive par programmation dynamique, qui calcule le vrai minimum :" },
+          { text: "Correction du formateur. Sur le système britannique, le glouton rend [30, 12, 6] pour 48 pence et [30, 12, 6, 3, 1] pour 52 pence. La cellule « Réponse » sur l'optimalité est restée vide, mais le formateur répond par le code, en fin de notebook : une recherche exhaustive récursive, rendre_ex, qui trouve [24, 24] pour 48 pence." },
+          { code: `# hypothèse : on a des pièces de 1cte
+
+
+def rendre_ex(lst_piece, rst, i=0):
+    # plus de pièce
+    if i >= len(lst_piece):
+        # hypothese : toujours des pièces de 1
+        return [1] * rst
+
+    # plus rien a rendre
+    if rst == 0:
+        return []
+
+    # la piece i est trop grande
+    if lst_piece[i] > rst:
+        return rendre_ex(lst_piece, rst, i + 1)
+
+    # les solutions
+    sol_1 = [lst_piece[i]] + rendre_ex(lst_piece, rst - lst_piece[i], i)
+    sol_2 = rendre_ex(lst_piece, rst, i + 1)
+
+    if len(sol_1) < len(sol_2):
+        return sol_1
+    return sol_2
+
+
+print(rendre_ex([30, 24, 12, 6, 3, 1], 48))   # [24, 24]
+print(rendre_ex([30, 24, 12, 6, 3, 1], 52))   # [24, 24, 3, 1]` },
+          { text: "Le schéma est celui de la recherche exhaustive de l'étape 8 : pour la pièce i, soit on la prend (et on reste sur i, car on peut la reprendre), soit on passe définitivement à la suivante, et on garde la solution qui utilise le moins de pièces. Pour 52 pence, elle trouve 4 pièces là où le glouton en rendait 5. Le formateur s'en sert aussi (module rcviz, dans Basthon) pour dessiner l'arbre des appels de rendre_ex([200, 100, 50, 20, 10, 5, 2, 1], 6)." },
+          { text: "Attention à l'hypothèse écrite en tête : quand il n'y a plus de pièce à essayer, rendre_ex complète avec des pièces de 1. Sans pièce de 1, elle en invente donc : rendre_ex([200, 100, 50, 20, 10, 5, 2], 11) renvoie [10, 1]. Elle ne peut pas servir pour la question 3." },
+          { text: "Sans pièce de 1 centime : ce qu'affiche le programme dépend de la version de rendu_glouton. Dans le notebook du formateur, la dernière définie est la version 2 (étape 3), qui force la plus petite pièce : elle affiche [10, 2], soit 12 centimes rendus pour 11 dus. C'est aussi la sortie imprimée dans le notebook élève. Avec la version 1, la boucle s'arrête quand i dépasse la fin de la liste et on obtient [10] : 10 centimes rendus sur 11. Dans les deux cas : pas de plantage, pas de boucle infinie, mais un résultat faux, sans aucun message." },
+          { code: `# avec la version 2 du formateur (la derniere definie a l'etape 3)
+print(rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2]))   # [10, 2] : 12 centimes rendus` },
+          { text: "Réponse du formateur à « Proposez une solution à la main » : [5, 2, 2, 2]. Sa conclusion de l'exercice : une fois qu'une « décision » a été prise, on ne revient pas en arrière ; on a choisi la pièce de 10 cts, même si cela conduit dans une impasse." },
+          { text: "Le formateur ajoute un encadré « Système canonique : utilisation des conditions de Pearson (1994) ». Il y écrit : « Pearson a démontré que pour un système monétaire strictement décroissant c1 > c2 > … > cn = 1, le système est canonique si et seulement si c(k+1) ≤ c(k) / 2 pour tout k = 1, …, n − 1. Autrement dit, chaque pièce doit être au plus la moitié de la pièce précédente. D'où la suite 10, 5, 2, 1 que l'on retrouve dans la plupart des systèmes monétaires. »" },
+          { text: "Erreur dans cet encadré : cette « condition de la moitié » n'est ni nécessaire ni suffisante, et ce n'est pas le résultat de Pearson. Le système (3, 2, 1) la viole (2 > 3 / 2) et il est pourtant canonique. Le système (12, 5, 1) la respecte (5 ≤ 6 et 1 ≤ 2,5) et il n'est pas canonique : pour 15, le glouton rend 12 + 1 + 1 + 1, soit 4 pièces, alors que 5 + 5 + 5 n'en demande que 3. Ce que Pearson a réellement établi (rapport de 1994, publié en 2005), c'est un algorithme en temps polynomial pour décider si un système est canonique : il n'existe pas de critère qui se lit à l'œil sur les valeurs. La condition se trouve vraie pour l'euro et fausse pour le système britannique (24 > 30 / 2), ce qui explique qu'elle semble fonctionner sur les exemples du TP. Vérification par le calcul :" },
+          { code: `def nb_glouton(rst, lst_piece):
+    """Nombre de pieces rendues par le glouton (lst_piece triee, decroissante)."""
+    nb = 0
+    for p in lst_piece:
+        nb += rst // p
+        rst = rst % p
+    return nb
+
+def nb_min(rst, lst_piece):
+    """Nombre minimal de pieces, par programmation dynamique."""
+    mini = [0] + [float("inf")] * rst
+    for s in range(1, rst + 1):
+        for p in lst_piece:
+            if p <= s and mini[s - p] + 1 < mini[s]:
+                mini[s] = mini[s - p] + 1
+    return mini[rst]
+
+def est_canonique(lst_piece):
+    # Un plus petit contre-exemple, s'il existe, est inferieur a la somme
+    # des deux plus grosses pieces (Kozen et Zaks, 1994) : on teste jusque-la.
+    borne = lst_piece[0] + lst_piece[1]
+    return all(nb_glouton(s, lst_piece) == nb_min(s, lst_piece) for s in range(1, borne))
+
+def condition_moitie(lst_piece):
+    return all(2 * lst_piece[k + 1] <= lst_piece[k] for k in range(len(lst_piece) - 1))
+
+for systeme in ([200, 100, 50, 20, 10, 5, 2, 1], [30, 24, 12, 6, 3, 1],
+                [4, 3, 1], [3, 2, 1], [12, 5, 1]):
+    print(systeme, "canonique :", est_canonique(systeme),
+          "| condition de la moitie :", condition_moitie(systeme))
+
+# [200, 100, 50, 20, 10, 5, 2, 1] canonique : True | condition de la moitie : True
+# [30, 24, 12, 6, 3, 1] canonique : False | condition de la moitie : False
+# [4, 3, 1] canonique : False | condition de la moitie : False
+# [3, 2, 1] canonique : True | condition de la moitie : False
+# [12, 5, 1] canonique : False | condition de la moitie : True` },
+          { text: "Complément : sur tous les systèmes de 2 à 4 pièces de valeurs inférieures à 30 (avec la pièce de 1), on trouve 176 systèmes canoniques qui violent la condition et 182 systèmes qui la respectent sans être canoniques. En classe, on retiendra seulement que l'euro est canonique, que ce n'est pas le cas de tous les systèmes, et que cela se vérifie par le calcul." },
+          { text: "Complément : une référence exhaustive par programmation dynamique, qui calcule le vrai minimum sans supposer qu'il existe une pièce de 1. Elle trouve [24, 24] pour 48, [24, 24, 3, 1] pour 52 et [5, 2, 2, 2] pour 11 centimes sans pièce de 1 ; elle renvoie None si la somme est impossible à rendre." },
           { code: `def rendu_optimal(rst, lst_piece):
     INF = float("inf")
     mini = [0] + [INF] * rst
@@ -1145,7 +2934,12 @@ print(rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2]))
     while rst > 0:
         pieces.append(choix[rst])
         rst -= choix[rst]
-    return sorted(pieces, reverse=True)` }
+    return sorted(pieces, reverse=True)
+
+print(rendu_optimal(48, [30, 24, 12, 6, 3, 1]))          # [24, 24]
+print(rendu_optimal(52, [30, 24, 12, 6, 3, 1]))          # [24, 24, 3, 1]
+print(rendu_optimal(11, [200, 100, 50, 20, 10, 5, 2]))   # [5, 2, 2, 2]
+print(rendu_optimal(3, [200, 100, 50, 20, 10, 5]))       # None` }
         ]
       },
       {
@@ -1169,36 +2963,102 @@ sad = sac_a_dos_1(15, valeur_masse_objets); print(sad, sad == [(7, 12)])
 sad = sac_a_dos_1(21, valeur_masse_objets); print(sad, sad == [(7, 12), (4, 8)])
 sad = sac_a_dos_1(30, valeur_masse_objets); print(sad, sad == [(7, 12), (5, 13)])`,
         questions: [
+          "Quel est le critère global à satisfaire dans le problème du sac à dos ?",
+          "Quels critères locaux peut-on appliquer à chaque étape ? En donner au moins deux.",
           "Écrire masse, valeur et sac_a_dos_1, puis vérifier les trois tests.",
           "À la main : avec un sac de 30 kg, quels objets faudrait-il vraiment prendre ?",
           "Pourquoi sorted(liste, reverse=True) suffit-il ici, sans préciser de clé de tri ?"
         ],
         correction: [
-          { text: "Les objets sont des tuples (valeur, masse) : l'indice 0 est la valeur, l'indice 1 la masse." },
-          { code: `def masse(liste_objet):
-    total = 0
-    for objet in liste_objet:
-        total += objet[1]
-    return total
+          { text: "Réponses du formateur. Critère global : « la valeur des objets du sac ». Critères locaux possibles : « choisir les objets les plus chers », « choisir les plus légers », « choisir le plus grand rapport prix / masse (€/kg) »." },
+          { text: "Réponse du formateur à la question « à la main » : « 30 kg, 14 €, avec les objets 1, 3 et 4 ». Dans la numérotation du tableau du notebook, l'objet 1 est (7, 12), l'objet 3 est (4, 8) et l'objet 4 est (3, 10)." },
+          { text: "masse et valeur, par le formateur : il décompose chaque tuple directement dans la boucle for." },
+          { code: `valeur_masse_objets = [(5, 13), (4, 8), (3, 10), (7, 12)]
 
+def masse(liste_objet):
+    s = 0
+    for v, m in liste_objet:
+        s += m
+    return s
 
 def valeur(liste_objet):
-    total = 0
-    for objet in liste_objet:
-        total += objet[0]
-    return total
+    s = 0
+    for v, m in liste_objet:
+        s += v
+    return s
 
+print(masse(valeur_masse_objets))    # 43
+print(valeur(valeur_masse_objets))   # 19` },
+          { text: "Pour sac_a_dos_1, le formateur donne deux versions. La première parcourt la liste triée avec un while et un indice, en diminuant la capacité restante masse_max à chaque objet pris ; elle affiche au passage la liste triée (print de mise au point)." },
+          { code: `def sac_a_dos_1(masse_max, liste_objet):
+    """Choisi les objets a mettre dans le sac a dos.
 
-def sac_a_dos_1(masse_max, liste_objet):
-    tries = sorted(liste_objet, reverse=True)      # tri sur le 1er element : la valeur
+    parametres
+    ----------
+    masse_max : int
+        la masse maxi du sac a dos
+    liste_objets : list [(prix, masse)]
+        La liste des caractéristiques des objets (prix, masse)
+
+    return
+    ------
+    list
+        une liste d'objets sélectionnés parmi liste_objets, sous forme de tuple (prix, masse).
+    """
+    #ici, on maximise la valeur des objets
+    liste_objet_2 = sorted(liste_objet, reverse=True)
+    print(liste_objet_2)
+
     sac = []
-    for objet in tries:
-        if masse(sac) + objet[1] <= masse_max:
-            sac.append(objet)
-    return sac` },
-          { text: "Les trois tests passent. Avec 30 kg, le glouton prend (7, 12) puis (5, 13) : 25 kg pour 12 €. Il ne peut plus rien ajouter, (4, 8) ferait 33 kg." },
-          { text: "Pourtant la meilleure solution à 30 kg est (7, 12) + (4, 8) + (3, 10), soit 30 kg tout juste pour 14 €. En prenant l'objet à 5 €, le glouton a consommé 13 kg pour pas grand-chose et s'est fermé deux possibilités. Le critère « le plus cher d'abord » ignore complètement le prix à payer en place occupée." },
-          { text: "Python compare les tuples élément par élément : sorted trie donc d'abord sur la valeur, et ne départage sur la masse qu'en cas d'égalité de valeur. C'est exactement le critère voulu ici — mais dès qu'on voudra trier sur autre chose que le premier élément, il faudra passer une clé." }
+    i = 0
+
+    while masse_max > 0 and i < len(liste_objet_2):
+        if liste_objet_2[i][1] <= masse_max:
+            sac.append(liste_objet_2[i])
+            masse_max -= liste_objet_2[i][1]
+        i += 1
+
+    return sac
+
+
+sad = sac_a_dos_1(30, valeur_masse_objets)
+print(sad)
+print(masse(sad), 'kg')
+print(valeur(sad), '€')
+# [(7, 12), (5, 13), (4, 8), (3, 10)]
+# [(7, 12), (5, 13)]
+# 25 kg
+# 12 €` },
+          { text: "La seconde remplace le while par un for, plus direct (la docstring, identique, est omise ici) :" },
+          { code: `def sac_a_dos_1(masse_max, liste_objet):
+    #ici, on maximise la valeur des objets
+    liste_objet_2 = sorted(liste_objet, reverse=True)
+    # print(liste_objet_2)
+
+    sac = []
+
+    for obj in liste_objet_2:
+        if obj[1] <= masse_max:
+            sac.append(obj)
+            masse_max -= obj[1]
+
+    return sac
+
+
+sad = sac_a_dos_1(15, valeur_masse_objets)
+print(sad, masse(sad), valeur(sad), sad == ([(7, 12)]))
+sad = sac_a_dos_1(21, valeur_masse_objets)
+print(sad, masse(sad), valeur(sad), sad == ([(7, 12), (4, 8)]))
+sad = sac_a_dos_1(30, valeur_masse_objets)
+print(sad, masse(sad), valeur(sad), sad == ([(7, 12), (5, 13)]))
+# [(7, 12)] 12 7 True
+# [(7, 12), (4, 8)] 20 11 True
+# [(7, 12), (5, 13)] 25 12 True` },
+          { text: "À noter : l'énoncé du notebook demande que sac_a_dos_1 renvoie un tuple (liste des objets, valeur totale, masse du sac). Le formateur, comme les tests, renvoie seulement la liste des objets ; la valeur et la masse s'obtiennent ensuite avec valeur(sad) et masse(sad)." },
+          { text: "Pourquoi sorted suffit sans clé : la réponse est dans l'encadré « Les secrets de sorted » du notebook. Si la liste contient des itérables, le tri se fait sur leur premier élément, ici la valeur. Pour trier sur un autre élément, il faut passer une fonction key, en général une lambda. Petite coquille dans l'exemple de cet encadré : la ligne commentée « tri sur le premier élément » écrit sorted(lst1) ; il faut lire sorted(list4) pour obtenir [(20, 462, 60), (139, 71, 343), (999, 90, 585)]." },
+          { text: "Notre correction (la cellule « Réponse » sur l'optimalité des trois tests est restée vide chez le formateur) : à 15 kg, (7, 12) pour 7 € est optimal ; à 21 kg, (7, 12) + (4, 8) pour 11 € est optimal ; à 30 kg, le glouton prend (7, 12) puis (5, 13), soit 25 kg pour 12 €, et ne peut plus rien ajouter. Ce n'est pas optimal : (7, 12) + (4, 8) + (3, 10) remplit exactement les 30 kg pour 14 €, la réponse « à la main » du formateur. En prenant l'objet à 5 €, le glouton a consommé 13 kg pour pas grand-chose. Le critère « le plus cher d'abord » ignore la place occupée : d'où le critère 2, à l'étape suivante." },
+          { text: "Complément : Python compare les tuples élément par élément ; sorted trie donc d'abord sur la valeur, et ne départage sur la masse qu'en cas d'égalité de valeur. Remarque aussi que la version du formateur diminue la capacité restante au fur et à mesure, ce qui évite de recalculer la masse du sac à chaque objet (notre première correction appelait masse(sac) dans la boucle)." },
+          { text: "Complément : le critère « les plus légers d'abord », cité par le formateur, ne garantit rien non plus. Sur les quatre objets, il donne 4 € à 15 kg (au lieu de 7 €) et 7 € à 21 kg (au lieu de 11 €) ; il tombe sur l'optimum à 30 kg, par chance." }
         ]
       },
       {
@@ -1223,24 +3083,62 @@ for max_sac in (205, 420):
     print(max_sac, "kg :", valeur(s1), "EUR contre", valeur(s2), "EUR")`,
         questions: [
           "Écrire sac_a_dos_2.",
+          "L'ordre des objets a-t-il changé par rapport au critère 1 ?",
           "Sur les quatre objets avec un sac de 30 kg, ce critère fait-il mieux que le premier ?",
           "Sur la grande liste, lequel des deux critères donne le meilleur résultat à 205 kg ? Et à 420 kg ?",
           "Peut-on conclure qu'un critère est meilleur que l'autre ?"
         ],
         correction: [
-          { text: "Le tri ne peut plus se faire sur le premier élément : il faut une clé qui désigne le rapport." },
+          { text: "Correction du formateur. Il montre deux façons de trier sur le rapport : en construisant les triplets (valeur, masse, valeur/masse) et en triant sur x[2], comme l'énoncé le propose, ou directement sur les couples, avec une clé qui calcule le rapport." },
+          { code: `valeur_masse_2 = sorted([(v, m, v / m) for v, m in valeur_masse_objets], key=lambda x: x[2], reverse=True)
+print(valeur_masse_2)
+# [(7, 12, 0.5833333333333334), (4, 8, 0.5), (5, 13, 0.38461538461538464), (3, 10, 0.3)]
+
+valeur_masse_2 = sorted(valeur_masse_objets, key=lambda x: x[0] / x[1], reverse=True)
+print(valeur_masse_2)
+# [(7, 12), (4, 8), (5, 13), (3, 10)]` },
+          { text: "Notre correction (la cellule « l'ordre a-t-il changé ? » est restée vide chez le formateur) : oui. (4, 8) rapporte 0,5 €/kg et passe devant (5, 13), qui ne rapporte que 0,38 €/kg ; (7, 12), à 0,58 €/kg, reste en tête." },
+          { text: "Sa fonction sac_a_dos_2 utilise la seconde forme, sans triplets (docstring omise) :" },
           { code: `def sac_a_dos_2(masse_max, liste_objet):
-    avec_ratio = [(v, m, v / m) for (v, m) in liste_objet]
-    tries = sorted(avec_ratio, key=lambda x: x[2], reverse=True)
+    # créer une novelle liste d'objet, rangé sur le critère prix / masse
+    valeur_masse_2 = sorted(liste_objet, key=lambda x: x[0] / x[1], reverse=True)
+    # print(valeur_masse_2)
+    #ici, on maximise le rapport valeur/masse des objets
     sac = []
-    for (v, m, _) in tries:
-        if masse(sac) + m <= masse_max:
-            sac.append((v, m))
-    return sac` },
-          { text: "Sur les quatre objets avec 30 kg, oui : le critère du rapport trouve 14 €, soit exactement l'optimum, là où le critère de la valeur plafonnait à 12 €. L'ordre des objets a changé — (4, 8) rapporte 0,5 €/kg contre 0,58 pour (7, 12) et 0,38 pour (5, 13)." },
-          { text: "Sur la grande liste, les résultats mesurés sont les suivants. À 205 kg : le critère 1 donne 99 €, le critère 2 donne 151 € — le rapport écrase la valeur seule. À 420 kg en revanche : le critère 1 donne 215 € et le critère 2 seulement 210 €. Le classement s'inverse." },
-          { text: "Non, et c'est la vraie leçon du TP. Le critère du rapport est meilleur en général, mais « en général » n'est pas « toujours » : à 420 kg le critère naïf atteint 215 €, ce qui se trouve être l'optimum exact, pendant que le critère réputé plus fin s'arrête à 210 €. Un algorithme glouton n'a pas de garantie, seulement des tendances — et la seule façon de savoir est de mesurer." },
-          { text: "Pour trancher, il faut une référence exhaustive. Celle-ci parcourt les masses atteignables et garde le meilleur sac pour chacune :" },
+    for obj in valeur_masse_2:
+        if obj[1] <= masse_max:
+            sac.append(obj)
+            masse_max -= obj[1]
+    return sac
+
+
+sad = sac_a_dos_2(30, valeur_masse_objets)
+print(sad)
+print(masse(sad), 'kg')
+print(valeur(sad), '€')
+# [(7, 12), (4, 8), (3, 10)]
+# 30 kg
+# 14 €` },
+          { text: "Réponse du formateur sur l'optimalité à 30 kg : « cette fois ci oui, c'est la solution optimale » (14 € pour 30 kg, contre 12 € avec le critère 1)." },
+          { text: "Le formateur teste ensuite les deux fonctions sur la grande liste :" },
+          { code: `valeur_masse = [(35, 120), (30, 30), (26, 50), (21, 20), (18, 40), (17, 60), (15, 30),
+                (14, 10), (13, 14), (11, 36), (10, 72), (9, 86), (8, 5), (7, 3), (6, 7),
+                (5, 23), (4, 49), (3, 57), (2, 69), (1, 12)]
+print(valeur(valeur_masse), '€', masse(valeur_masse), 'kg')   # 255 € 793 kg
+
+for max_sac in (205, 420):          # deux cellules dans le notebook, une par capacite
+    print(max_sac, 'kg')
+    print('version 1')
+    sad = sac_a_dos_1(max_sac, valeur_masse)
+    print(sad)
+    print(valeur(sad), '€', masse(sad), 'kg')
+    print('version 2')
+    sad = sac_a_dos_2(max_sac, valeur_masse)
+    print(sad)
+    print(valeur(sad), '€', masse(sad), 'kg')` },
+          { text: "Sorties obtenues : à 205 kg, la version 1 donne 99 € pour 205 kg et la version 2 donne 151 € pour 205 kg. À 420 kg, la version 1 donne 215 € pour 418 kg et la version 2 donne 210 € pour 400 kg." },
+          { text: "Notre correction (la cellule « Réponse » est restée vide chez le formateur) : à 205 kg, le rapport écrase la valeur seule ; à 420 kg, le classement s'inverse. On ne peut donc pas conclure qu'un critère est toujours meilleur. Le rapport est meilleur en général, mais « en général » n'est pas « toujours » : un algorithme glouton n'a pas de garantie, seulement des tendances, et la seule façon de savoir est de mesurer." },
+          { text: "Complément : pour trancher, une référence exhaustive. Celle-ci parcourt les masses atteignables et garde le meilleur sac pour chacune." },
           { code: `def sac_a_dos_optimal(masse_max, liste_objet):
     meilleurs = {0: []}                    # masse -> meilleur sac de cette masse
     for (v, m) in liste_objet:
@@ -1251,8 +3149,13 @@ for max_sac in (205, 420):
                 if valeur(cand) > valeur(nouveaux.get(mm + m, [])):
                     nouveaux[mm + m] = cand
         meilleurs = nouveaux
-    return max(meilleurs.values(), key=valeur)` },
-          { text: "Elle donne 152 € à 205 kg (le critère 2 en trouvait 151, il s'en approche de très près) et 215 € à 420 kg (le critère 1 atteint donc bien l'optimum, par chance)." }
+    return max(meilleurs.values(), key=valeur)
+
+for max_sac in (205, 420):
+    print(max_sac, 'kg : optimum', valeur(sac_a_dos_optimal(max_sac, valeur_masse)), '€')
+# 205 kg : optimum 152 €
+# 420 kg : optimum 215 €` },
+          { text: "Complément : l'optimum vaut 152 € à 205 kg (le critère 2 s'en approche à 1 € près) et 215 € à 420 kg : le critère 1, réputé naïf, atteint donc l'optimum exact à 420 kg, par chance, pendant que le critère réputé plus fin s'arrête à 210 €." }
         ]
       },
       {
@@ -1277,24 +3180,58 @@ print(planning1(tab_conf_4))`,
           "Combien de conférenciers le cas 4 permet-il de caser ?"
         ],
         correction: [
-          { text: "Trois critères viennent naturellement à l'esprit : commencer par le conférencier qui débute le plus tôt, par celui dont l'exposé est le plus court, ou par celui qui TERMINE le plus tôt. Les deux premiers semblent raisonnables et sont pourtant mauvais : celui qui débute le plus tôt peut occuper toute la journée (le cas 3 en est l'illustration), et le plus court peut tomber à cheval sur deux créneaux qu'il bloque tous les deux." },
-          { text: "Le bon critère est le troisième : finir le plus tôt possible, c'est libérer la salle au plus tôt et laisser le maximum de place à la suite. C'est le seul des trois qui soit démontrablement optimal." },
-          { text: "D'après les schémas : au cas 2, C2 occupe [0, 1], C4 occupe [0, 2], C3 occupe [1, 3] et C1 occupe [2, 4]. Au cas 3, C1 occupe [0, 3], C2 occupe [1, 2] et C3 occupe [2, 3]." },
-          { code: `tab_conf_2 = [(2, 4, 'C1'), (0, 1, 'C2'), (1, 3, 'C3'), (0, 2, 'C4')]
-tab_conf_3 = [(0, 3, 'C1'), (1, 2, 'C2'), (2, 3, 'C3')]
+          { text: "Réponse du formateur sur les critères locaux : « celui qui parle le moins longtemps », « celui qui commence en premier », « celui qui interfère le moins avec les autres », « celui qui finit le plus tôt — ce choix paraît le plus pertinent »." },
+          { text: "Sa représentation des cas 2 et 3, et sa fonction planning1, qui trie sur l'heure de fin et renvoie les noms des conférenciers retenus. La variable debut contient l'heure à partir de laquelle la salle est libre, c'est-à-dire la fin du dernier exposé retenu." },
+          { code: `# donnes par l'enonce
+tab_conf_1 = [(3, 4, 'C1'), (0, 1, 'C2'), (2, 3, 'C3'), (1, 2, 'C4')]
+tab_conf_4 = [(0, 7, 'C1'), (2, 5, 'C2'), (6, 8, 'C3'), (1, 2, 'C4'), (5, 6, 'C5'), 
+            (0, 2, 'C6'), (4, 7, 'C7'), (0, 1, 'C8'), (3, 6, 'C9'), (1, 3, 'C10'), 
+            (4, 5, 'C11'), (6, 8, 'C12'), (0, 2, 'C13'), (5, 7, 'C14'), (1, 4, 'C15')]
+
+# reponse du formateur
+tab_conf_2 = [(2, 4, 'C1'), (0, 1,'C2'), (1, 3,'C3'), (0, 2,'C4')]
+tab_conf_3 = [(0, 3, 'C1'), (1, 2,'C2'), (2, 3,'C3')]
 
 
 def planning1(tab_inter):
-    tries = sorted(tab_inter, key=lambda c: c[1])    # tri sur l'heure de FIN
+    tab_inter = sorted(tab_inter, key=lambda x: x[1])
+    # print(tab_inter)
     planning = []
-    fin_courante = 0
-    for conf in tries:
-        if conf[0] >= fin_courante:                  # la salle est libre
-            planning.append(conf)
-            fin_courante = conf[1]
-    return planning` },
-          { text: "Résultats : le cas 1 case les 4 conférenciers (C2, C4, C3, C1 — ils s'enchaînent parfaitement) ; le cas 2 en case 2 (C2 puis C3) ; le cas 3 en case 2 (C2 puis C3, C1 étant écarté malgré son heure de début la plus précoce) ; le cas 4 en case 5 (C8, C4, C2, C5, C3)." },
-          { text: "Le cas 3 mérite un arrêt : C1 commence le premier, à 0, mais occupe la salle jusqu'à 3. Le retenir interdirait tout le reste. Le critère de l'heure de fin l'écarte et permet d'en caser deux. C'est la démonstration par l'exemple que « commencer le plus tôt » est un mauvais critère." }
+
+    debut = 0
+    for c in tab_inter:
+        if c[0] >= debut:
+            planning.append(c[2])
+            debut = c[1]
+
+    return planning
+
+
+print(planning1(tab_conf_1))   # ['C2', 'C4', 'C3', 'C1']
+print(planning1(tab_conf_2))   # ['C2', 'C3']
+print(planning1(tab_conf_3))   # ['C2', 'C3']
+print(planning1(tab_conf_4))   # ['C8', 'C4', 'C2', 'C5', 'C3']` },
+          { text: "Le cas 4 permet donc de caser 5 conférenciers : C8, C4, C2, C5 et C3." },
+          { text: "Complément : pourquoi les autres critères échouent. Celui qui commence en premier peut occuper toute la matinée : au cas 3, C1 commence à 0 mais garde la salle jusqu'à 3, et le retenir interdirait tout le reste ; le critère de l'heure de fin l'écarte et en case deux. Le plus court peut tomber à cheval sur deux créneaux qu'il bloque tous les deux. Finir le plus tôt, c'est libérer la salle au plus vite et laisser le maximum de place à la suite : c'est le seul de ces critères qui soit démontrablement optimal." },
+          { text: "Complément : « celui qui interfère le moins », le troisième critère du formateur, semble prometteur mais échoue lui aussi. Dans l'exemple ci-dessous, X ne chevauche que deux créneaux (B et C) : c'est lui que ce critère choisit en premier, et il en écarte deux à lui seul. On case 3 conférenciers au lieu de 4." },
+          { code: `def chevauche(a, b):
+    return a[0] < b[1] and b[0] < a[1]
+
+def planning_moins_genant(tab_inter):
+    """Glouton : d'abord les creneaux qui chevauchent le moins d'autres creneaux."""
+    def nb_conflits(c):
+        return sum(1 for d in tab_inter if d is not c and chevauche(c, d))
+    planning = []
+    for c in sorted(tab_inter, key=nb_conflits):
+        if all(not chevauche(c, d) for d in planning):
+            planning.append(c)
+    return sorted(planning)
+
+tab = [(0, 3, 'A'), (4, 7, 'B'), (8, 11, 'C'), (12, 15, 'D'), (6, 9, 'X'),
+       (2, 5, 'G1'), (2, 5, 'G2'), (2, 5, 'G3'),
+       (10, 13, 'H1'), (10, 13, 'H2'), (10, 13, 'H3')]
+print([c[2] for c in planning_moins_genant(tab)])   # ['A', 'X', 'D']
+print(planning1(tab))                               # ['A', 'B', 'C', 'D']` }
         ]
       },
       {
@@ -1317,33 +3254,78 @@ for tab in (tab_conf_1, tab_conf_2, tab_conf_3, tab_conf_4):
           "Quelle est la complexité de planning2, et à quelle limite se heurte-t-elle ?"
         ],
         correction: [
-          { text: "Le cœur de la récursivité : pour chaque conférence compatible, on calcule le meilleur planning en la prenant, puis le meilleur en ne la prenant pas, et on garde le plus long." },
+          { text: "Correction du formateur. Elle suit l'algorithme de l'énoncé et renvoie des listes de noms. La ligne print(debut, i) est une trace de mise au point : elle affiche une ligne par appel, 706 lignes pour le cas 4." },
+          { code: `def planning2(tab_inter, debut=0, i=0):
+    print(debut, i)
+    if i >= len(tab_inter):
+        return []
+
+    if tab_inter[i][0] < debut:
+        return planning2(tab_inter, debut, i + 1)
+
+    sol_1 = [tab_inter[i][2]] + planning2(tab_inter, tab_inter[i][1], i + 1)
+    sol_2 = planning2(tab_inter, debut, i + 1)
+
+    if len(sol_1) >= len(sol_2):
+        return sol_1
+    return sol_2
+
+
+print(planning2(sorted(tab_conf_4)))   # 706 lignes de trace, puis ['C8', 'C4', 'C2', 'C5', 'C12']` },
+          { text: "Pour les quatre cas, la même fonction sans la ligne de trace :" },
           { code: `def planning2(tab_inter, debut=0, i=0):
     if i >= len(tab_inter):
         return []
-    if tab_inter[i][0] < debut:                   # conference deja commencee
+    if tab_inter[i][0] < debut:
         return planning2(tab_inter, debut, i + 1)
-    avec = [tab_inter[i]] + planning2(tab_inter, tab_inter[i][1], i + 1)
-    sans = planning2(tab_inter, debut, i + 1)
-    return avec if len(avec) >= len(sans) else sans` },
-          { text: "Oui — et c'est le résultat le plus intéressant du TP. Sur les quatre cas, le glouton case exactement autant de conférenciers que la recherche exhaustive : 4, 2, 2 et 5. Contrairement au sac à dos, le critère « terminer le plus tôt » est ici démontrablement optimal. Ce problème s'appelle l'ordonnancement d'intervalles, et c'est l'un des rares où un glouton bien choisi donne la garantie de l'optimum." },
-          { text: "Pour départager deux plannings de même taille, on compare la durée totale réellement occupée : plus elle est grande, moins il y a de trous." },
-          { code: `def duree_occupee(planning):
-    return sum(fin - deb for (deb, fin, _) in planning)
+    sol_1 = [tab_inter[i][2]] + planning2(tab_inter, tab_inter[i][1], i + 1)
+    sol_2 = planning2(tab_inter, debut, i + 1)
+    if len(sol_1) >= len(sol_2):
+        return sol_1
+    return sol_2
 
 
-def planning3(tab_inter, debut=0, i=0):
+print(planning2(sorted(tab_conf_1)))   # ['C2', 'C4', 'C3', 'C1']
+print(planning2(sorted(tab_conf_2)))   # ['C2', 'C3']
+print(planning2(sorted(tab_conf_3)))   # ['C2', 'C3']
+print(planning2(sorted(tab_conf_4)))   # ['C8', 'C4', 'C2', 'C5', 'C12']` },
+          { text: "La recherche exhaustive case 4, 2, 2 et 5 conférenciers : exactement autant que le glouton. Au cas 4, elle retient C12 là où le glouton retenait C3 ; ce sont deux créneaux identiques, de 6 h à 8 h." },
+          { text: "Complément : ce n'est pas une coïncidence. Contrairement au sac à dos, le critère « finir le plus tôt » est démontrablement optimal. Ce problème s'appelle l'ordonnancement d'intervalles, et c'est l'un des rares où un glouton bien choisi garantit l'optimum." },
+          { text: "Pour départager deux plannings de même taille, le formateur compare le cumul des temps de parole : à nombre égal, il garde sol_1 seulement si elle occupe strictement plus la salle, sinon sol_2." },
+          { code: `def planning3(tab_inter, debut=0, i=0):
     if i >= len(tab_inter):
         return []
+
     if tab_inter[i][0] < debut:
         return planning3(tab_inter, debut, i + 1)
-    avec = [tab_inter[i]] + planning3(tab_inter, tab_inter[i][1], i + 1)
-    sans = planning3(tab_inter, debut, i + 1)
-    if len(avec) != len(sans):
-        return avec if len(avec) > len(sans) else sans
-    return avec if duree_occupee(avec) >= duree_occupee(sans) else sans` },
-          { text: "Au cas 2, la différence se voit : planning2 retient C2 [0,1] puis C3 [1,3], soit 3 heures occupées, tandis que planning3 retient C4 [0,2] puis C1 [2,4], soit 4 heures — deux conférenciers dans les deux cas, mais une salle mieux remplie." },
-          { text: "Chaque appel en déclenche deux : la complexité est exponentielle, en O(2 puissance n). Avec 15 conférenciers cela reste instantané, mais le temps double à chaque conférencier ajouté — quelques dizaines suffisent à rendre le calcul impossible. C'est le prix de la garantie d'optimalité, et c'est exactement le défaut que la programmation dynamique cherche à corriger." }
+
+    sol_1 = [tab_inter[i][2]] + planning3(tab_inter, tab_inter[i][1], i + 1)
+    sol_2 = planning3(tab_inter, debut, i + 1)
+
+    if len(sol_1) > len(sol_2):
+        return sol_1
+    if len(sol_1) == len(sol_2):
+        if cumul_temps(tab_inter, sol_1) > cumul_temps(tab_inter, sol_2):
+            return sol_1
+    return sol_2
+
+def cumul_temps(tab_inter, sol):
+    """Renvoi le cumul des temps de parole des intervenents de sol
+    """
+    s = 0
+    for inter in tab_inter:
+        if inter[2] in sol:
+            s += inter[1] - inter[0]
+    return s
+
+
+print(planning3(sorted(tab_conf_1)))   # ['C2', 'C4', 'C3', 'C1']
+print(planning3(sorted(tab_conf_2)))   # ['C4', 'C1']
+print(planning3(sorted(tab_conf_3)))   # ['C2', 'C3']
+print(planning3(sorted(tab_conf_4)))   # ['C8', 'C15', 'C11', 'C5', 'C3']` },
+          { text: "Au cas 2, la différence se voit : planning2 retenait C2 [0, 1] puis C3 [1, 3], soit 3 heures occupées ; planning3 retient C4 [0, 2] puis C1 [2, 4], soit 4 heures. Deux conférenciers dans les deux cas, mais une salle mieux remplie. Au cas 4, les deux plannings occupent la salle sans trou de 0 h à 8 h." },
+          { text: "Complément : notre première correction départageait avec >= au lieu de > ; elle garde alors sol_1 en cas d'égalité parfaite et renvoie au cas 4 ['C8', 'C4', 'C2', 'C5', 'C12'], qui occupe aussi 8 heures. Les deux réponses sont également bonnes : seul le choix entre ex aequo change." },
+          { text: "Notre correction pour la complexité (la cellule est restée vide chez le formateur) : chaque appel en déclenche deux, la complexité est exponentielle, en O(2 puissance n) dans le pire cas. Mesuré : planning2 fait 31, 19 et 11 appels pour les cas 1 à 3, et déjà 706 pour les 15 conférenciers du cas 4. Dans le pire cas, le nombre d'appels double à chaque conférencier ajouté : quelques dizaines suffisent à rendre le calcul impossible. C'est le prix de la garantie d'optimalité, et c'est le défaut que la programmation dynamique cherche à corriger." }
         ]
       },
       {
@@ -1370,20 +3352,1628 @@ print(fiboD(60))`,
           "Que vaut fiboD(60) ? Pourquoi la version récursive ne peut-elle pas le calculer ?"
         ],
         correction: [
+          { text: "Correction du formateur, version récursive :" },
           { code: `def fiboR(n):
-    if n < 2:
+    if n <= 1:
         return n
-    return fiboR(n - 1) + fiboR(n - 2)` },
-          { text: "Elle est lente parce qu'elle recalcule sans cesse les mêmes valeurs. fiboR(6) appelle fiboR(5) et fiboR(4) ; fiboR(5) rappelle fiboR(4)… qui a déjà été calculé. L'arbre des appels compte 25 appels pour n = 6, et sa taille double presque à chaque incrément de n : la complexité est exponentielle." },
-          { text: "La version dynamique garde un dictionnaire des résultats connus. Il contient au départ les deux valeurs de base, et la recherche dans le dictionnaire sert de condition d'arrêt." },
-          { code: `dicFibo = {0: 0, 1: 1}
 
+    return fiboR(n - 1) + fiboR(n - 2)
+
+print(fiboR(15))   # 610` },
+          { text: "Le formateur visualise ensuite l'arbre des appels de fiboR(6) avec le module rcviz : from rcviz import viz, puis fiboR = viz(fiboR), fiboR(6) et fiboR.callgraph(). Ce module n'est pas disponible partout ; le dessin n'est pas reproduit ici." },
+          { text: "Notre correction (pas de réponse écrite du formateur) : la version récursive est lente parce qu'elle recalcule sans cesse les mêmes valeurs. fiboR(6) appelle fiboR(5) et fiboR(4) ; fiboR(5) rappelle fiboR(4), qui a déjà été calculé. L'arbre compte 25 appels pour n = 6, et sa taille est multipliée par environ 1,6 à chaque incrément de n (le rapport tend vers le nombre d'or, 1,618…) : la complexité est exponentielle." },
+          { text: "Version dynamique du formateur : le dictionnaire contient au départ les deux valeurs de base, et la recherche dans le dictionnaire sert de condition d'arrêt. Il trace aussi son arbre des appels avec rcviz, beaucoup plus petit." },
+          { code: `dicFibo = {0: 0, 1: 1}
 
 def fiboD(n):
     if n not in dicFibo:
         dicFibo[n] = fiboD(n - 1) + fiboD(n - 2)
-    return dicFibo[n]` },
-          { text: "fiboD(60) vaut 1 548 008 755 920, calculé instantanément : chaque terme n'est calculé qu'une fois, la complexité est devenue linéaire. La version récursive naïve, elle, demanderait environ cinq mille milliards d'appels pour le même résultat : mesuré sur une machine courante qui enchaîne près de 18 millions d'appels par seconde, cela représente un peu plus de trois jours de calcul. Le passage de l'un à l'autre tient en trois lignes." }
+    return dicFibo[n]
+
+print(fiboD(60))   # 1548008755920` },
+          { text: "Notre correction (pas de réponse écrite du formateur) : fiboD(60) vaut 1 548 008 755 920, calculé instantanément, car chaque terme n'est calculé qu'une fois : la complexité est devenue linéaire. La version récursive naïve demanderait environ cinq mille milliards d'appels pour le même résultat ; mesuré sur une machine courante qui enchaîne près de 18 millions d'appels par seconde, cela représente un peu plus de trois jours de calcul. Le passage de l'un à l'autre tient en trois lignes." }
+        ]
+      }
+    ]
+  },
+  // ── TP — Diviser pour régner (1) : occurrences et tri fusion ──
+  {
+    id: "tp-dpr-fusion", bloc: "bloc2", jour: "En ligne — 1er octobre 2026 (FDIU)",
+    theme: "Algorithmique — diviser pour régner",
+    title: "TP — Diviser pour régner (1) : occurrences et tri fusion",
+    type: 'tp',
+    notebook: "FDIU_diviser_pour_regner.ipynb",
+    aux: ["ressources/dpr/_fusion.py","ressources/dpr/triClassique_V2.py"],
+    intro: "TP du cours en ligne du 1er octobre 2026 (FDIU, DU Normandie). Le paradigme diviser pour régner tient en trois temps. DIVISER : découper le problème en sous-problèmes plus petits. RÉGNER : résoudre ces sous-problèmes, le plus souvent récursivement, jusqu'à un cas trivial. COMBINER : assembler les solutions des sous-problèmes en une solution du problème de départ. On l'applique d'abord à un problème où la méthode n'apporte rien (compter les occurrences d'un caractère), puis au tri fusion, où elle fait passer de O(n²) à O(n log n). Le notebook s'appuie sur deux modules fournis, _fusion.py et triClassique_V2.py, à placer à côté du notebook : le bouton Basthon du site les charge automatiquement avec le notebook. Les cellules rcviz (graphe des appels) et tutor ne fonctionnent que dans Basthon. Ouvre le notebook dans Basthon, cherche par toi-même, puis déplie la correction.",
+    steps: [
+      {
+        num: "1", title: "Compter les occurrences d'un caractère, en diviser pour régner",
+        intro: "Premier exemple, volontairement simple : réécrire str.count en récursif. nb_occurence(chaine, x) renvoie le nombre d'occurrences du caractère x dans chaine, en respectant la casse et les accents (à ≠ a, A ≠ a). Interdit d'utiliser count() : on est justement en train de le réécrire.",
+        code: `def nb_occurence(chaine, x):
+    ...
+
+nb_occurence('abracadabra', 'a')
+
+# Graphe des appels récursifs (Basthon uniquement)
+from rcviz import viz
+nb_occurence = viz(nb_occurence)
+nb_occurence('abracadabra', 'a')
+nb_occurence.callgraph()`,
+        note: "Les modules rcviz (graphe des appels récursifs) et tutor (exécution pas à pas) sont propres à Basthon : ailleurs, l'import échoue avec ModuleNotFoundError. On garde ces cellules, mais elles ne servent qu'à visualiser. Après la cellule rcviz, nb_occurence est remplacée par sa version « enveloppée » : il faut ré-exécuter la cellule de définition avant de chronométrer (étape 2).",
+        questions: [
+          "Écrire nb_occurence en coupant la chaîne en deux moitiés.",
+          "Repérer dans le code les trois phases : diviser, régner, combiner.",
+          "Combien d'appels pour 'abracadabra' (11 caractères) ? Et pour une chaîne de n caractères ?",
+          "Quelle différence avec une version qui traite un seul caractère puis se rappelle sur le reste ?"
+        ],
+        correction: [
+          { text: "Régner : une chaîne vide ou d'un seul caractère donne directement 0 ou 1. Diviser : sinon, on coupe la chaîne au milieu. Combiner : on additionne les deux comptes." },
+          { code: `def nb_occurence(chaine, x):
+    # RÉGNER : cas trivial, chaîne vide ou d'un caractère
+    if len(chaine) <= 1:
+        if chaine == x:
+            return 1
+        return 0
+    # DIVISER : deux moitiés
+    k = len(chaine) // 2
+    # COMBINER : somme des deux sous-résultats
+    return nb_occurence(chaine[:k], x) + nb_occurence(chaine[k:], x)
+
+print(nb_occurence('abracadabra', 'a'))                # 5
+print(nb_occurence('abracadabra', 'A'))                # 0 : la casse compte
+print(nb_occurence('à la mer, à la plage', 'à'))       # 2 : les accents aussi` },
+          { text: "Le test len(chaine) <= 1 traite aussi la chaîne vide. Avec un test == 1, l'appel nb_occurence('', 'a') ne s'arrêterait jamais, car ''[:0] et ''[0:] valent encore ''." },
+          { text: "Nombre d'appels : chaque appel sur une chaîne d'au moins 2 caractères en déclenche exactement deux, et les feuilles de l'arbre sont les n caractères. Un arbre binaire à n feuilles a n − 1 nœuds internes, soit 2n − 1 appels : 21 pour 'abracadabra', ce qu'on vérifie avec un compteur. La profondeur est d'environ log2(n) : 5 niveaux ici." },
+          { text: "La variante « réduire » proposée dans le corrigé du formateur traite le dernier caractère puis se rappelle sur les n − 1 autres. Elle est correcte, mais ce n'est plus diviser pour régner au sens strict : il n'y a qu'un sous-problème, à peine plus petit. Elle fait n + 1 appels sur une profondeur n, et lève RecursionError dès 1 000 caractères (limite par défaut de Python). La version qui coupe en deux ne descend qu'à une profondeur d'environ 17 pour 100 000 caractères." },
+          { code: `def nb_occurence_2(chaine, x):
+    if not chaine:
+        return 0
+    c = 1 if chaine[-1] == x else 0
+    return c + nb_occurence_2(chaine[:-1], x)
+
+print(nb_occurence_2('abracadabra', 'a'))     # 5
+print(nb_occurence('a' * 100000, 'a'))        # 100000, sans dépasser la pile` }
+        ]
+      },
+      {
+        num: "2", title: "Version itérative et course contre la montre (timeit)",
+        intro: "Le notebook propose de mesurer les deux versions avec timeit, sur 100 000 appels chacune.",
+        code: `from timeit import timeit
+
+# version itérative
+def nb_occurence_i(chaine, x):
+    ...
+
+assert not hasattr(nb_occurence, 'callgraph'), 'Recharger cette fonction sans viz'
+# (notebook : f-strings réécrites sans f-string, voir la note)
+print('Version récursive :', timeit("nb_occurence('abracadabra', 'a')", number=100000, globals=globals()), 's')
+print('Version itérative :', timeit("nb_occurence_i('abracadabra', 'a')", number=100000, globals=globals()), 's')`,
+        note: "Deux pièges dans cette cellule. 1) L'assert vérifie que nb_occurence n'est plus la version enveloppée par rcviz : ré-exécuter d'abord la cellule de définition. 2) Le notebook écrit ces deux affichages sous la forme print(f'Version récursive : {timeit(\"nb_occurence('abracadabra', 'a')\", number=100000, globals=globals())}s') : des apostrophes à l'intérieur d'une f-string elle-même délimitée par des apostrophes. Python l'accepte depuis la version 3.12, celle qu'utilise Basthon aujourd'hui. Avec Python 3.11 ou une version antérieure, c'est une SyntaxError (« f-string: unterminated string »). On les a donc réécrits ci-dessus sans f-string, et la correction calcule les temps à part : les deux marchent avec toutes les versions.",
+        questions: [
+          "Compléter nb_occurence_i avec une boucle et un compteur.",
+          "Comparer les temps des deux versions. Laquelle est la plus rapide, et pourquoi ?",
+          "Quelle est la complexité de chacune ?"
+        ],
+        correction: [
+          { code: `from timeit import timeit
+
+def nb_occurence_i(chaine, x):
+    c = 0
+    for u in chaine:
+        if u == x:
+            c += 1
+    return c
+
+assert not hasattr(nb_occurence, 'callgraph'), 'Recharger cette fonction sans viz'
+t_rec = timeit("nb_occurence('abracadabra', 'a')", number=100000, globals=globals())
+t_ite = timeit("nb_occurence_i('abracadabra', 'a')", number=100000, globals=globals())
+print(f"Version récursive : {t_rec}s")
+print(f"Version itérative : {t_ite}s")` },
+          { text: "Sur notre machine (Python 3.11), on obtient environ 0,15 s pour la version récursive et 0,02 s pour l'itérative, soit un facteur 7. Le notebook affiche 0,34 s et 0,055 s dans Basthon, soit un facteur 6. Les valeurs dépendent de la machine, mais le rapport reste du même ordre." },
+          { text: "Explication : le problème est déjà linéaire, un simple parcours suffit. La version diviser pour régner fait le même nombre de comparaisons (n), mais elle y ajoute 2n − 1 appels de fonction et la copie des tranches chaine[:k] et chaine[k:]. Chaque niveau de l'arbre recopie toute la chaîne, donc O(n log n) caractères sont copiés au total, contre O(n) opérations pour la boucle." },
+          { text: "C'est la conclusion du notebook : ici, diviser pour régner n'a pas de sens. En général, l'efficacité d'un algorithme diviser pour régner dépend surtout du coût de la recombinaison et de ce que la division fait gagner. En classe, c'est un bon contre-exemple à montrer avant le tri fusion : récursif ne veut pas dire plus rapide." }
+        ]
+      },
+      {
+        num: "3", title: "Tester la fonction _fusion fournie",
+        intro: "Le tri fusion, inventé par John von Neumann en 1945, repose sur deux fonctions. fusion réunit deux listes triées en une seule liste triée : ce sont les phases régner et combiner. tri_fusion coupe la liste en deux, se rappelle sur chaque moitié et fusionne les résultats : c'est la phase diviser. Le module _fusion.py fournit une fonction _fusion déjà corrigée, que l'on commence par tester.",
+        code: `# pour les tests et les essais (tutor et rcviz : Basthon uniquement)
+from doctest import run_docstring_examples
+from tutor import tutor
+from rcviz import viz
+
+from _fusion import _fusion
+
+# deux listes triées indépendamment
+a = [1, 4, 8]
+b = [2, 3, 12]
+_fusion(a, b)
+
+# À vous de jouer : proposez quelques tests supplémentaires
+`,
+        note: "Le bouton Basthon du site charge _fusion.py avec le notebook. Sinon, hors Capytale, il faut télécharger _fusion.py (lien dans le notebook, dépôt LANSIG/NSI) et le placer à côté du notebook. Dans Basthon : Fichier → Ouvrir..., puis le déclarer comme module. Une curiosité du module : ses doctests appellent fusion(...) et non _fusion(...). La commande python3 -m doctest _fusion.py signale donc 5 échecs (NameError), alors que la fonction est juste.",
+        questions: [
+          "Que renvoie _fusion([1, 4, 8], [2, 3, 12]) ?",
+          "Proposer des tests supplémentaires : le notebook laisse trois cellules vides.",
+          "Quels cas limites faut-il absolument tester ?"
+        ],
+        correction: [
+          { text: "La cellule affiche [1, 2, 3, 4, 8, 12]." },
+          { code: `from _fusion import _fusion
+
+assert _fusion([1, 4, 8], [2, 3, 12]) == [1, 2, 3, 4, 8, 12]
+# listes vides
+assert _fusion([], []) == []
+assert _fusion([], [1, 2]) == [1, 2]
+assert _fusion([3], []) == [3]
+# une liste entièrement avant l'autre, dans les deux sens
+assert _fusion([1, 2], [5, 6, 7]) == [1, 2, 5, 6, 7]
+assert _fusion([5, 6, 7], [1, 2]) == [1, 2, 5, 6, 7]
+# doublons, y compris d'une liste à l'autre
+assert _fusion([1, 1, 2], [1, 2, 2]) == [1, 1, 1, 2, 2, 2]
+# négatifs et longueurs différentes
+assert _fusion([-5, 0], [-7, 10, 11]) == [-7, -5, 0, 10, 11]
+# les listes de départ ne sont pas modifiées
+a, b = [1, 3], [2, 4]
+_fusion(a, b)
+assert a == [1, 3] and b == [2, 4]
+# comparaison avec sorted sur des listes aléatoires
+from random import randint
+for _ in range(100):
+    x = sorted(randint(-20, 20) for _ in range(randint(0, 15)))
+    y = sorted(randint(-20, 20) for _ in range(randint(0, 15)))
+    assert _fusion(x, y) == sorted(x + y)
+print("tous les tests passent")` },
+          { text: "Cas limites à couvrir : une ou deux listes vides, une liste épuisée avant l'autre (dans les deux sens), des doublons, des longueurs différentes, et le fait que les listes passées en argument ne sont pas modifiées. Comparer avec sorted(x + y) sur des listes aléatoires est une bonne habitude." },
+          { text: "Remarque : à égalité, _fusion prend l'élément de b, car le test a[i] < b[j] est strict. Le résultat est juste, mais le tri obtenu n'est pas stable : deux éléments égaux peuvent échanger leur ordre. Avec a[i] <= b[j], la fusion devient stable. C'est le choix fait à l'étape 6." }
+        ]
+      },
+      {
+        num: "4", title: "La fonction récursive tri_fusion",
+        intro: "_fusion étant fournie, on écrit le tri : diviser la liste en deux jusqu'à obtenir des listes d'un seul élément, déjà triées, puis fusionner à la remontée.",
+        code: `def tri_fusion (lst):
+    """ Tri une liste suivant un algorithme de tri-fusion
+    Ne modifie pas la liste de départ
+
+    Tests automatiques :
+    >>> tri_fusion([39, 19, 13, 25, 29, 37, 18, 23, 17, 28, 14, 15, 6, 16, 10, 20, 3, 35, 1, 24, 5, 32, 33, 30, 21, 4, 38, 0, 11, 36, 8, 7, 34, 9, 27, 22, 26, 31, 2, 12])
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+    >>> tri_fusion([-2, -12, 4, 78])
+    [-12, -2, 4, 78]
+    >>> tri_fusion([-2, -12, 4, 78, -15])
+    [-15, -12, -2, 4, 78]
+    >>> tri_fusion([])
+    []
+    """
+    ...
+
+run_docstring_examples(tri_fusion, globals())
+
+tri_fusion([45, 6, 78, 45, 33, 1, 0])
+
+# Graphe des appels (Basthon uniquement)
+from rcviz import viz
+tri_fusion = viz(tri_fusion)
+tri_fusion([45, 6, 78, 45, 33, 1, 0])
+tri_fusion.callgraph()`,
+        questions: [
+          "Écrire tri_fusion(lst), récursive, en s'appuyant sur _fusion. Elle renvoie une nouvelle liste triée sans modifier lst.",
+          "Pourquoi le cas de base doit-il être len(lst) <= 1, et pas len(lst) == 1 ?",
+          "Que renvoie tri_fusion([45, 6, 78, 45, 33, 1, 0]) ? Combien d'appels pour ces 7 éléments ?"
+        ],
+        correction: [
+          { code: `from doctest import run_docstring_examples
+from _fusion import _fusion
+
+def tri_fusion(lst):
+    """ Tri une liste suivant un algorithme de tri-fusion
+    Ne modifie pas la liste de départ
+
+    Tests automatiques :
+    >>> tri_fusion([39, 19, 13, 25, 29, 37, 18, 23, 17, 28, 14, 15, 6, 16, 10, 20, 3, 35, 1, 24, 5, 32, 33, 30, 21, 4, 38, 0, 11, 36, 8, 7, 34, 9, 27, 22, 26, 31, 2, 12])
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+    >>> tri_fusion([-2, -12, 4, 78])
+    [-12, -2, 4, 78]
+    >>> tri_fusion([-2, -12, 4, 78, -15])
+    [-15, -12, -2, 4, 78]
+    >>> tri_fusion([])
+    []
+    """
+    # RÉGNER : une liste de 0 ou 1 élément est déjà triée
+    if len(lst) <= 1:
+        return lst[:]
+    # DIVISER
+    milieu = len(lst) // 2
+    gauche = tri_fusion(lst[:milieu])
+    droite = tri_fusion(lst[milieu:])
+    # COMBINER
+    return _fusion(gauche, droite)
+
+run_docstring_examples(tri_fusion, globals())    # n'affiche rien : tout passe
+print(tri_fusion([45, 6, 78, 45, 33, 1, 0]))      # [0, 1, 6, 33, 45, 45, 78]` },
+          { text: "run_docstring_examples n'affiche rien quand tous les tests passent : le silence est ici une bonne nouvelle." },
+          { text: "Le doctest tri_fusion([]) piège le cas de base. Avec if len(lst) == 1, la liste vide est coupée en deux listes vides, indéfiniment, jusqu'à RecursionError. C'est précisément le défaut du corrigé public de 2021 (triFusion avec taille == 1), que la version 2026 du notebook détecte grâce à ce test." },
+          { text: "La liste de départ n'est jamais modifiée : les tranches lst[:milieu] et lst[milieu:] sont des copies, et _fusion construit une nouvelle liste. Dans le cas de base, on renvoie lst[:] plutôt que lst, pour ne jamais rendre l'argument lui-même. Renvoyer lst passe aussi les tests, mais pour une liste de 0 ou 1 élément le « résultat » serait alors la même liste que l'argument." },
+          { text: "Pour 7 éléments, on compte 13 appels (2n − 1, comme à l'étape 1) sur 4 niveaux. Le graphe rcviz de Basthon montre la division à la descente et la fusion à la remontée." }
+        ]
+      },
+      {
+        num: "5", title: "Complexité : tris lents contre tri fusion",
+        intro: "Le module triClassique_V2.py fournit triSelection, triInsertion et triBulle, trois tris en place vus en Première. On compare les temps.",
+        code: `from triClassique_V2 import *
+
+from random import shuffle
+from timeit import timeit
+
+assert not hasattr(tri_fusion, 'callgraph'), 'Recharger cette fonction sans viz'
+
+for n in [100, 1000, 10000]:
+    a = [x for x in range(n)]
+    shuffle(a)
+
+    a1 = a.copy()
+    print(F"{n} éléments triés par sélection en {timeit('triSelection(a1)', number = 1, globals = globals())}s")
+    a1 = a.copy()
+    print(F"{n} éléments triés par insertion en {timeit('triInsertion(a1)', number = 1, globals = globals())}s")
+    a1 = a.copy()
+    print(F"{n} éléments triés par fusion en {timeit('tri_fusion(a1)', number = 1, globals = globals())}s")
+
+for n in [100, 1000, 10000, 100000, 1000000]:
+    a = [x for x in range(n)]
+    shuffle(a)
+
+    print(F"{n} éléments triés par fusion en {timeit('a2 = tri_fusion(a)', number = 1, globals = globals())}s")
+
+for n in [100, 1000, 10000, 100000, 1000000]:
+    a = [x for x in range(n)]
+    shuffle(a)
+
+    print(F"{n} éléments triés par sorted en {timeit('a2 = sorted(a)', number = 1, globals = globals())}s")`,
+        note: "Le bouton Basthon du site charge aussi triClassique_V2.py ; sinon, hors Capytale, il faut le télécharger. Ses tris travaillent en place, d'où a1 = a.copy() avant chaque mesure : sinon le deuxième tri recevrait une liste déjà triée. Si tri_fusion est encore enveloppée par rcviz, l'assert bloque. Sans l'assert, on obtient une KeyError venue de rcviz, comme dans le corrigé du formateur : il faut ré-exécuter la définition de tri_fusion. Le bloc de test de triClassique_V2.py contient d'ailleurs ce piège : b = a ne copie pas la liste, si bien que les deuxième et troisième tris y reçoivent une liste déjà triée.",
+        questions: [
+          "Lancer les trois cellules de mesure et relever les temps.",
+          "Indiquer la complexité temporelle des deux tris lents au programme de Première.",
+          "Pourquoi qualifie-t-on le tri fusion de tri rapide ?"
+        ],
+        correction: [
+          { text: "Mesures sur notre machine (Python 3.11), en secondes. Dans Basthon, tout est environ 20 fois plus lent (le corrigé 2021 donne 0,19 s pour 1 000 éléments triés par sélection), mais les rapports sont les mêmes." },
+          { code: `n          sélection   insertion   tri_fusion   sorted
+100        0,0001      0,0001      0,0001       0,00001
+1 000      0,009       0,013       0,001        0,0001
+10 000     0,92        1,45        0,013        0,001
+100 000    —           —           0,17         0,020
+1 000 000  —           —           2,9          0,29` },
+          { text: "Lecture du tableau : quand n est multiplié par 10, le temps des tris par sélection et par insertion est multiplié par environ 100, signe d'un comportement quadratique. Celui du tri fusion est multiplié par un peu plus de 10 : un facteur 10 pour n, et un facteur log n qui grandit lentement." },
+          { text: "Tri par sélection : O(n²) dans tous les cas. Il fait n(n − 1)/2 comparaisons, même sur une liste déjà triée. Tri par insertion : O(n²) dans le pire cas (liste triée à l'envers) et en moyenne, mais O(n) dans le meilleur cas (liste déjà triée)." },
+          { text: "Tri fusion : O(n log n) dans tous les cas. Il y a environ log2(n) niveaux de découpage (20 pour un million d'éléments) et, à chaque niveau, les fusions traitent n éléments en tout, en temps linéaire. La relation de récurrence T(n) = 2T(n/2) + O(n) donne O(n log n). C'est en ce sens qu'il est « rapide » : pour n = 1 000 000, n² vaut 10¹², alors que n·log2(n) vaut environ 2 × 10⁷." },
+          { text: "sorted (Timsort, écrit en C, hybride du tri fusion et du tri par insertion) est encore 10 fois plus rapide : même complexité O(n log n), mais une constante bien plus petite. Attention au vocabulaire en classe : « tri rapide » désigne aussi le quicksort, un autre algorithme diviser pour régner. Contrepartie du tri fusion : il n'est pas en place. Il utilise O(n) mémoire supplémentaire pour les listes intermédiaires." }
+        ]
+      },
+      {
+        num: "6", title: "La fonction fusion, version 1 (append, extend, slicing)",
+        intro: "On n'utilise plus _fusion : on écrit sa propre fonction itérative fusion(lst_a, lst_b), qui reçoit deux listes triées et renvoie leur fusion triée. Version 1 : la plus simple, avec les méthodes des listes Python (append, extend, slicing).",
+        code: `def fusion(lst_a, lst_b):
+    """ réalise la fusion de deux listes triées
+    en une grande liste trieé.
+
+    Tests automatiques :
+    >>> fusion([], [])
+    []
+    >>> fusion([1, 2], [])
+    [1, 2]
+    >>> fusion([], [1, 2])
+    [1, 2]
+    >>> fusion([1, 3, 4, 5], [6, 7, 8, 9])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion([6, 7, 8, 9], [1, 3, 4, 5])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion(list(range(0, 20, 2)), list(range(1, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> fusion(list(range(1, 20, 2)), list(range(0, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]
+    >>> fusion(a, b)
+    [1, 1, 2, 2, 3, 3, 4, 4]
+    >>> a
+    [1, 2, 3, 4]
+    >>> b
+    [1, 2, 3, 4]
+    """
+    ...
+
+a = [1, 1, 4, 8, 15, 101, 103]
+b = [1, 2, 3, 12, 15, 46, 48, 78, 85]
+fusion(a, b)
+
+run_docstring_examples(fusion, globals())`,
+        note: "Dans le notebook distribué, run_docstring_examples(fusion, globals()) a produit une NameError : la cellule d'imports (from doctest import run_docstring_examples) n'avait pas été exécutée. Après un redémarrage du noyau, il faut toujours ré-exécuter les cellules d'import.",
+        questions: [
+          "Écrire fusion en utilisant append, extend et le slicing.",
+          "Quelle est sa complexité ?",
+          "Dans tri_fusion, remplacer _fusion par fusion : le tri reste-t-il juste ?"
+        ],
+        correction: [
+          { code: `def fusion(lst_a, lst_b):
+    """ réalise la fusion de deux listes triées
+    en une grande liste trieé.
+
+    Tests automatiques :
+    >>> fusion([], [])
+    []
+    >>> fusion([1, 2], [])
+    [1, 2]
+    >>> fusion([], [1, 2])
+    [1, 2]
+    >>> fusion([1, 3, 4, 5], [6, 7, 8, 9])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion([6, 7, 8, 9], [1, 3, 4, 5])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion(list(range(0, 20, 2)), list(range(1, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> fusion(list(range(1, 20, 2)), list(range(0, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]
+    >>> fusion(a, b)
+    [1, 1, 2, 2, 3, 3, 4, 4]
+    >>> a
+    [1, 2, 3, 4]
+    >>> b
+    [1, 2, 3, 4]
+    """
+    resultat = []
+    i, j = 0, 0                      # i parcourt lst_a, j parcourt lst_b
+    while i < len(lst_a) and j < len(lst_b):
+        if lst_a[i] <= lst_b[j]:     # <= : à égalité, on prend dans lst_a (tri stable)
+            resultat.append(lst_a[i])
+            i += 1
+        else:
+            resultat.append(lst_b[j])
+            j += 1
+    # l'une des deux listes est épuisée : on recopie la fin de l'autre
+    resultat.extend(lst_a[i:])
+    resultat.extend(lst_b[j:])
+    return resultat
+
+a = [1, 1, 4, 8, 15, 101, 103]
+b = [1, 2, 3, 12, 15, 46, 48, 78, 85]
+print(fusion(a, b))
+run_docstring_examples(fusion, globals())    # rien à signaler` },
+          { text: "fusion(a, b) renvoie [1, 1, 1, 2, 3, 4, 8, 12, 15, 15, 46, 48, 78, 85, 101, 103] et les 11 exemples du docstring passent." },
+          { text: "Principe : deux indices avancent chacun dans sa liste. À chaque tour, on recopie le plus petit des deux éléments pointés. Quand une liste est épuisée, extend recopie d'un coup la fin de l'autre ; l'une des deux tranches est alors vide. Complexité : O(len(lst_a) + len(lst_b)), car chaque élément est recopié une seule fois. C'est cette fusion en temps linéaire qui fait l'efficacité du tri fusion." },
+          { text: "Le test lst_a[i] <= lst_b[j], plutôt que <, rend la fusion stable : à égalité, l'élément de la liste de gauche passe en premier. Le tri fusion conserve alors l'ordre initial des éléments égaux, ce qui compte quand on trie des enregistrements selon une clé. Le corrigé du formateur teste lst_a[ia] >= lst_b[ib] et prend donc dans lst_b à égalité : le résultat est juste, mais le tri n'est pas stable." },
+          { code: `def tri_fusion(lst):
+    if len(lst) <= 1:
+        return lst[:]
+    milieu = len(lst) // 2
+    return fusion(tri_fusion(lst[:milieu]), tri_fusion(lst[milieu:]))   # fusion au lieu de _fusion
+
+from random import randint
+for _ in range(200):
+    lst = [randint(-50, 50) for _ in range(randint(0, 40))]
+    assert tri_fusion(lst) == sorted(lst)
+print(tri_fusion([45, 6, 78, 45, 33, 1, 0]))   # [0, 1, 6, 33, 45, 45, 78]` }
+        ]
+      },
+      {
+        num: "7", title: "La fonction fusion_2, sans append, extend ni slicing",
+        intro: "Version 2, « moins pythonesque » : la même fusion, mais sans append, sans extend et sans tranches.",
+        code: `# version moins python
+# sans : append, extend, slicing
+
+def fusion_2(lst_a, lst_b):
+    """ réalise la fusion de deux listes triées
+    en une grande liste trieé.
+
+    Tests automatiques :
+    >>> fusion_2([], [])
+    []
+    >>> fusion_2([1, 2], [])
+    [1, 2]
+    >>> fusion_2([], [1, 2])
+    [1, 2]
+    >>> fusion_2([1, 3, 4, 5], [6, 7, 8, 9])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion_2([6, 7, 8, 9], [1, 3, 4, 5])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion_2(list(range(0, 20, 2)), list(range(1, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> fusion_2(list(range(1, 20, 2)), list(range(0, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]
+    >>> fusion_2(a, b)
+    [1, 1, 2, 2, 3, 3, 4, 4]
+    >>> a
+    [1, 2, 3, 4]
+    >>> b
+    [1, 2, 3, 4]
+    """
+    ...
+
+a = [-1, 1, 1, 4, 8, 15, 142, 143]
+b = [1, 2, 3, 12, 15, 46, 48, 78, 125]
+fusion2(a, b)
+
+run_docstring_examples(fusion_2, globals())`,
+        note: "Coquille du notebook : la cellule de test appelle fusion2(a, b), ce qui provoque une NameError. La fonction s'appelle fusion_2.",
+        questions: [
+          "Écrire fusion_2 sans append, extend ni slicing.",
+          "Comparer les temps de fusion et de fusion_2 sur de grandes listes.",
+          "Laquelle des deux se transpose le plus directement dans un autre langage ?"
+        ],
+        correction: [
+          { text: "Sans append, on réserve d'emblée une liste résultat de la bonne taille, [0] * (na + nb), puis on la remplit case par case. Une seule boucle suffit : on prend dans lst_a si lst_b est épuisée, ou si l'élément courant de lst_a est le plus petit. Sinon, on prend dans lst_b." },
+          { code: `def fusion_2(lst_a, lst_b):
+    """ réalise la fusion de deux listes triées
+    en une grande liste trieé.
+
+    Tests automatiques :
+    >>> fusion_2([], [])
+    []
+    >>> fusion_2([1, 2], [])
+    [1, 2]
+    >>> fusion_2([], [1, 2])
+    [1, 2]
+    >>> fusion_2([1, 3, 4, 5], [6, 7, 8, 9])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion_2([6, 7, 8, 9], [1, 3, 4, 5])
+    [1, 3, 4, 5, 6, 7, 8, 9]
+    >>> fusion_2(list(range(0, 20, 2)), list(range(1, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> fusion_2(list(range(1, 20, 2)), list(range(0, 20, 2)))
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]
+    >>> fusion_2(a, b)
+    [1, 1, 2, 2, 3, 3, 4, 4]
+    >>> a
+    [1, 2, 3, 4]
+    >>> b
+    [1, 2, 3, 4]
+    """
+    na, nb = len(lst_a), len(lst_b)
+    resultat = [0] * (na + nb)       # réservée d'avance, remplie case par case
+    i, j = 0, 0
+    for k in range(na + nb):
+        # on prend dans lst_a si lst_b est épuisée, ou si lst_a[i] est le plus petit
+        if j >= nb or (i < na and lst_a[i] <= lst_b[j]):
+            resultat[k] = lst_a[i]
+            i += 1
+        else:
+            resultat[k] = lst_b[j]
+            j += 1
+    return resultat
+
+a = [-1, 1, 1, 4, 8, 15, 142, 143]
+b = [1, 2, 3, 12, 15, 46, 48, 78, 125]
+print(fusion_2(a, b))
+run_docstring_examples(fusion_2, globals())` },
+          { text: "Résultat : [-1, 1, 1, 1, 2, 3, 4, 8, 12, 15, 15, 46, 48, 78, 125, 142, 143], et les doctests passent. Le corrigé du formateur écrit trois boucles while : une boucle principale tant que les deux listes ont des éléments, puis une boucle pour vider le reste de chaque liste. Les deux écritures sont équivalentes." },
+          { code: `from timeit import timeit
+a = list(range(1_000_000))
+t1 = timeit('fusion(a, a)', number=1, globals=globals())
+t2 = timeit('fusion_2(a, a)', number=1, globals=globals())
+print(f"fusion   : {t1:.3f} s")
+print(f"fusion_2 : {t2:.3f} s")` },
+          { text: "Les deux fonctions sont en O(n) : seule la constante diffère, et elle dépend surtout de l'écriture de la boucle (nombre de tests et d'appels à len par tour) et de la version de Python. Le formateur, dans Basthon, sur deux listes de 10 millions d'éléments, trouve fusion plus rapide (3,28 s contre 3,88 s pour sa version à trois while). Chez nous, sur deux listes d'un million d'éléments, la fusion_2 ci-dessus est plutôt plus rapide avec Python 3.11 (environ 0,1 s, contre 0,13 à 0,3 s pour fusion selon les essais), et l'écart est faible avec Python 3.13 (0,16 à 0,18 s pour fusion_2, 0,18 à 0,23 s pour fusion). Leçon pour la classe : on ne départage deux écritures de même complexité qu'en mesurant." },
+          { text: "fusion_2 se traduit telle quelle en C ou en Java, où un tableau a une taille fixe et où append, extend et les tranches n'existent pas." }
+        ]
+      }
+    ]
+  },
+  // ── TP — Diviser pour régner (2) : la multiplication de Karatsuba ──
+  {
+    id: "tp-dpr-karatsuba", bloc: "bloc2", jour: "En ligne — 8 et 15 octobre 2026 (FDIU)",
+    theme: "Algorithmique — diviser pour régner",
+    title: "TP — Diviser pour régner (2) : la multiplication de Karatsuba",
+    type: 'tp',
+    notebook: "FDIU_diviser_pour_regner_2_karatsuba.ipynb",
+    intro: "TP du cours en ligne des 8 et 15 octobre 2026 (FDIU, DU Normandie), terminé en séance le 15 octobre. Multiplier deux nombres de n chiffres comme à l'école demande n² multiplications de deux chiffres. Anatoli Karatsuba a montré en 1960 (publication en 1962) qu'on peut faire mieux : on coupe chaque nombre en deux moitiés, M = a·10^k + b et N = c·10^k + d, et trois produits de moitiés suffisent au lieu de quatre. Appliquée récursivement, l'idée donne une complexité en O(n^1,585). Les nombres sont représentés par des listes de chiffres, poids faible en tête. On construit d'abord les outils (conversions, mise en forme, addition, comparaison, soustraction), puis mul_Kara, et on compte les multiplications élémentaires. Ouvre le notebook dans Basthon, cherche par toi-même, puis déplie la correction.",
+    steps: [
+      {
+        num: "1", title: "conv : d'un entier à la liste de ses chiffres (récursif)",
+        intro: "On représente un nombre par la liste de ses chiffres, poids faible en tête : 123456 s'écrit [6, 5, 4, 3, 2, 1]. Avec cette convention, l'indice d'un chiffre est exactement sa puissance de 10, et ajouter des zéros en fin de liste ne change pas la valeur du nombre.",
+        code: `from doctest import run_docstring_examples
+
+def conv(x) :
+    """
+    Conversion d'un entier x de n chiffre en décimal
+    vers une liste de n élément. Chaque élément étant un chiffre de 0 à 9.
+    La liste est remplie Poids faible en tête
+
+    Tests automatiques:
+    >>> conv(12345)
+    [5, 4, 3, 2, 1]
+    >>> conv(0)
+    [0]
+    >>> conv(1000)
+    [0, 0, 0, 1]
+    """
+    ...
+
+conv(12345)
+
+run_docstring_examples(conv, globals())`,
+        questions: [
+          "Écrire conv(x), obligatoirement de façon récursive.",
+          "Quel est le cas de base ? Pourquoi conv(0) doit-il renvoyer [0] et pas une liste vide ?"
+        ],
+        correction: [
+          { code: `from doctest import run_docstring_examples
+
+def conv(x) :
+    """
+    Conversion d'un entier x de n chiffre en décimal
+    vers une liste de n élément. Chaque élément étant un chiffre de 0 à 9.
+    La liste est remplie Poids faible en tête
+
+    Tests automatiques:
+    >>> conv(12345)
+    [5, 4, 3, 2, 1]
+    >>> conv(0)
+    [0]
+    >>> conv(1000)
+    [0, 0, 0, 1]
+    """
+    if x < 10:                       # un seul chiffre : cas de base
+        return [x]
+    return [x % 10] + conv(x // 10)  # le chiffre des unités, puis les autres
+
+print(conv(12345))                   # [5, 4, 3, 2, 1]
+run_docstring_examples(conv, globals())` },
+          { text: "x % 10 donne le chiffre des unités et x // 10 le nombre privé de ce chiffre. Le cas de base est x < 10, c'est-à-dire un nombre d'un seul chiffre. Avec un cas de base « x == 0 renvoie [] », conv(0) renverrait une liste vide, qui ne représente aucun nombre, et toutes les fonctions suivantes devraient traiter ce cas à part. La convention retenue : un nombre a toujours au moins un chiffre." },
+          { text: "Profondeur de récursion : un appel par chiffre. Pour les nombres de 94 chiffres de l'étape 9, on reste très loin de la limite de 1 000 appels." }
+        ]
+      },
+      {
+        num: "2", title: "conv_inv : de la liste de chiffres à l'entier (récursif)",
+        code: `def conv_inv(lst):
+    """
+    Conversion d'une liste de n élément. Chaque élément étant un chiffre de 0 à 9.
+    vers un entier x de n chiffre en décimal.
+    La liste est remplie Poids faible en tête
+
+    Tests automatiques:
+    >>> conv_inv([5, 4, 3, 2, 1])
+    12345
+    >>> conv_inv([0])
+    0
+    >>> conv_inv([0, 0, 0, 1])
+    1000
+    """
+    ...
+
+conv_inv([5, 4, 3, 2, 1])
+
+run_docstring_examples(conv_inv, globals())`,
+        note: "En 2026, la consigne impose la récursivité pour les deux conversions. Le corrigé public de 2021 écrivait conv_inv (alors convInv) avec une boucle, ce qu'autorisait l'ancienne consigne.",
+        questions: [
+          "Écrire conv_inv(lst), elle aussi de façon récursive."
+        ],
+        correction: [
+          { code: `def conv_inv(lst):
+    """
+    Conversion d'une liste de n élément. Chaque élément étant un chiffre de 0 à 9.
+    vers un entier x de n chiffre en décimal.
+    La liste est remplie Poids faible en tête
+
+    Tests automatiques:
+    >>> conv_inv([5, 4, 3, 2, 1])
+    12345
+    >>> conv_inv([0])
+    0
+    >>> conv_inv([0, 0, 0, 1])
+    1000
+    """
+    if len(lst) == 1:                # un seul chiffre : cas de base
+        return lst[0]
+    return lst[0] + 10 * conv_inv(lst[1:])
+
+print(conv_inv([5, 4, 3, 2, 1]))     # 12345
+run_docstring_examples(conv_inv, globals())` },
+          { text: "Idée : [5, 4, 3, 2, 1] vaut 5 + 10 × (valeur de [4, 3, 2, 1]). C'est le schéma de Horner, lu du poids faible vers le poids fort. Les deux fonctions sont réciproques : conv_inv(conv(x)) == x pour tout entier naturel x." }
+        ]
+      },
+      {
+        num: "3", title: "meme_len : égaliser les longueurs",
+        intro: "Pour additionner ou couper deux nombres chiffre à chiffre, il est pratique que leurs listes aient la même longueur. Ajouter des zéros en poids fort, c'est-à-dire en fin de liste, ne change pas la valeur : 000322 = 322.",
+        code: `def meme_len(l1, l2):
+    """
+    Compare la longueur des deux listes l1 et l2.
+    Ajoute des zéros (en poids fort donc sans changer la valeur du nombre global
+    a l'une ou l'autre des listes pour que les deux aient la même longueur.
+
+    tests automatiques
+    >>> a = [5, 4, 3, 2, 1]
+    >>> b = [1]
+    >>> meme_len(a, b)
+    >>> a
+    [5, 4, 3, 2, 1]
+    >>> b
+    [1, 0, 0, 0, 0]
+    >>> b = [0, 0, 0, 0, 0, 0, 0, 1]
+    >>> meme_len(a,b)
+    >>> a
+    [5, 4, 3, 2, 1, 0, 0, 0]
+    >>> b
+    [0, 0, 0, 0, 0, 0, 0, 1]
+    """
+    ...
+
+a = [5, 4, 3, 2, 1]
+b = [1]
+meme_len(a, b)
+b
+
+run_docstring_examples(meme_len, globals())`,
+        questions: [
+          "Écrire meme_len(l1, l2).",
+          "Que renvoie cette fonction ? Comment le voit-on dans les doctests ?"
+        ],
+        correction: [
+          { code: `def meme_len(l1, l2):
+    """
+    Compare la longueur des deux listes l1 et l2.
+    Ajoute des zéros (en poids fort donc sans changer la valeur du nombre global
+    a l'une ou l'autre des listes pour que les deux aient la même longueur.
+
+    tests automatiques
+    >>> a = [5, 4, 3, 2, 1]
+    >>> b = [1]
+    >>> meme_len(a, b)
+    >>> a
+    [5, 4, 3, 2, 1]
+    >>> b
+    [1, 0, 0, 0, 0]
+    >>> b = [0, 0, 0, 0, 0, 0, 0, 1]
+    >>> meme_len(a,b)
+    >>> a
+    [5, 4, 3, 2, 1, 0, 0, 0]
+    >>> b
+    [0, 0, 0, 0, 0, 0, 0, 1]
+    """
+    while len(l1) < len(l2):
+        l1.append(0)
+    while len(l2) < len(l1):
+        l2.append(0)
+
+a = [5, 4, 3, 2, 1]
+b = [1]
+meme_len(a, b)
+print(b)                             # [1, 0, 0, 0, 0]
+run_docstring_examples(meme_len, globals())` },
+          { text: "meme_len ne renvoie rien (None) : elle modifie en place la plus courte des deux listes. Dans les doctests, la ligne >>> meme_len(a, b) n'est suivie d'aucune sortie, et c'est en affichant a et b ensuite qu'on constate l'effet. Une seule des deux boucles while s'exécute effectivement. C'est pour cette raison que add, sub et mul_Kara travaillent sur des copies : sans elles, les listes de l'utilisateur seraient allongées." }
+        ]
+      },
+      {
+        num: "4", title: "supp_zero : retirer les zéros inutiles",
+        code: `def supp_zero(lst):
+    """
+    Suppression des 0 en poids fort
+    dans la liste lst qui est modifiée par cette fonction
+    tests automatiques
+    >>> a = [5, 4, 3, 2, 1, 0, 0, 0]
+    >>> supp_zero(a)
+    >>> a
+    [5, 4, 3, 2, 1]
+    >>> b = [1, 0, 0, 0, 0]
+    >>> supp_zero(b)
+    >>> b
+    [1]
+    >>> c = [0, 0, 0, 0, 0]
+    >>> supp_zero(c)
+    >>> c
+    [0]
+    """
+    ...
+
+b = [1, 2, 0, 0, 0]
+supp_zero(b)
+b
+
+run_docstring_examples(supp_zero, globals())`,
+        questions: [
+          "Écrire supp_zero(lst), qui retire en place les zéros de poids fort.",
+          "Quel cas particulier le dernier doctest vérifie-t-il ?"
+        ],
+        correction: [
+          { code: `def supp_zero(lst):
+    """
+    Suppression des 0 en poids fort
+    dans la liste lst qui est modifiée par cette fonction
+    tests automatiques
+    >>> a = [5, 4, 3, 2, 1, 0, 0, 0]
+    >>> supp_zero(a)
+    >>> a
+    [5, 4, 3, 2, 1]
+    >>> b = [1, 0, 0, 0, 0]
+    >>> supp_zero(b)
+    >>> b
+    [1]
+    >>> c = [0, 0, 0, 0, 0]
+    >>> supp_zero(c)
+    >>> c
+    [0]
+    """
+    while len(lst) > 1 and lst[-1] == 0:   # on garde toujours au moins un chiffre
+        lst.pop()
+
+b = [1, 2, 0, 0, 0]
+supp_zero(b)
+print(b)                                   # [1, 2]
+run_docstring_examples(supp_zero, globals())` },
+          { text: "Les zéros de poids fort sont en fin de liste : pop() les retire un par un, en temps constant. Le dernier doctest, ajouté en 2026, vérifie que le nombre 0 garde un chiffre : [0, 0, 0, 0, 0] doit devenir [0] et non []. D'où la condition len(lst) > 1, testée en premier : si la liste ne contient plus qu'un élément, on s'arrête avant de regarder lst[-1]." }
+        ]
+      },
+      {
+        num: "5", title: "add : l'addition posée",
+        intro: "Exemple : [9, 9, 9, 9] + [1] = [0, 0, 0, 0, 1], c'est-à-dire 9999 + 1 = 10000.",
+        code: `def add(lst1, lst2):
+    """
+    Addition des deux nombres lstA et lstB sous forme de liste de chiffre, poids faible en tête.
+    lstA et lstB ne sont pas modifiées par la fonction
+    retourne le résultat sous forme d'une liste
+
+    Tests automatiques
+    >>> a = [2, 5]
+    >>> b = [9, 2]
+    >>> add(a,b)
+    [1, 8]
+    >>> a = [8, 9, 9, 9]
+    >>> b = [1]
+    >>> add(a,b)
+    [9, 9, 9, 9]
+    >>> a
+    [8, 9, 9, 9]
+    >>> b
+    [1]
+    >>> a = [9, 9, 9, 9]
+    >>> b = [1]
+    >>> add(a,b)
+    [0, 0, 0, 0, 1]
+    >>> a
+    [9, 9, 9, 9]
+    >>> b
+    [1]
+    >>> a = [5, 4, 3, 2, 1]
+    >>> b = [5, 6, 7, 8, 9]
+    >>> add(a,b)
+    [0, 1, 1, 1, 1, 1]
+    >>> a
+    [5, 4, 3, 2, 1]
+    >>> b
+    [5, 6, 7, 8, 9]
+    """
+    ...
+
+a = [8, 9, 9, 9]
+b = [1]
+add(a,b)
+
+a = [9, 9, 9, 9]
+b = [1]
+add(a,b)
+
+run_docstring_examples(add, globals())`,
+        questions: [
+          "Écrire add(lst1, lst2) sans modifier les listes passées en argument.",
+          "Quel test échoue si l'on oublie la retenue finale ?"
+        ],
+        correction: [
+          { code: `def add(lst1, lst2):
+    """
+    Addition des deux nombres lstA et lstB sous forme de liste de chiffre, poids faible en tête.
+    lstA et lstB ne sont pas modifiées par la fonction
+    retourne le résultat sous forme d'une liste
+
+    Tests automatiques
+    >>> a = [2, 5]
+    >>> b = [9, 2]
+    >>> add(a,b)
+    [1, 8]
+    >>> a = [8, 9, 9, 9]
+    >>> b = [1]
+    >>> add(a,b)
+    [9, 9, 9, 9]
+    >>> a
+    [8, 9, 9, 9]
+    >>> b
+    [1]
+    >>> a = [9, 9, 9, 9]
+    >>> b = [1]
+    >>> add(a,b)
+    [0, 0, 0, 0, 1]
+    >>> a
+    [9, 9, 9, 9]
+    >>> b
+    [1]
+    >>> a = [5, 4, 3, 2, 1]
+    >>> b = [5, 6, 7, 8, 9]
+    >>> add(a,b)
+    [0, 1, 1, 1, 1, 1]
+    >>> a
+    [5, 4, 3, 2, 1]
+    >>> b
+    [5, 6, 7, 8, 9]
+    """
+    l1 = lst1[:]                     # copies : lst1 et lst2 restent intactes
+    l2 = lst2[:]
+    meme_len(l1, l2)
+    retenue = 0
+    result = []
+    for i in range(len(l1)):
+        s = l1[i] + l2[i] + retenue
+        result.append(s % 10)        # le chiffre des unités va au résultat
+        retenue = s // 10            # celui des dizaines part en retenue
+    if retenue != 0:                 # retenue finale : un chiffre de plus
+        result.append(retenue)
+    return result
+
+print(add([8, 9, 9, 9], [1]))        # [9, 9, 9, 9]
+print(add([9, 9, 9, 9], [1]))        # [0, 0, 0, 0, 1]
+run_docstring_examples(add, globals())` },
+          { text: "C'est l'addition posée de l'école primaire, de droite à gauche dans l'écriture usuelle, donc de gauche à droite dans la liste. Sans les deux dernières lignes, 9999 + 1 donnerait [0, 0, 0, 0], soit 0, et les doctests [0, 0, 0, 0, 1] et [0, 1, 1, 1, 1, 1] échoueraient. En 2021, le notebook donnait cette fonction avec précisément cette omission, à retrouver par les tests. En 2026, on l'écrit entièrement." }
+        ]
+      },
+      {
+        num: "6", title: "plus_grand : comparer deux nombres",
+        code: `def plus_grand(lst1, lst2):
+    """
+    Compare les valeurs de lst1 et lst2
+    si lst1 >= lst2 retourne True
+    sinon, retourne False
+
+    Tests automatiques
+    >>> a = [1, 2, 3, 4, 5]
+    >>> b = [1, 2, 3, 4, 5]
+    >>> plus_grand(a, b)
+    True
+    >>> b = [2, 2, 3, 4, 5]
+    >>> plus_grand(a, b)
+    False
+    >>> plus_grand(b, a)
+    True
+    >>> a = [7, 7, 3, 1, 3]
+    >>> b = [3, 0, 4, 3, 9]
+    >>> plus_grand(b, a)
+    True
+    """
+    ...
+
+a = [1, 7, 3, 1, 3]
+b = [2, 7, 3, 1, 3]
+plus_grand(b, a)
+
+b = [5, 4]
+a = [0]
+plus_grand(b, a)
+
+run_docstring_examples(plus_grand, globals())`,
+        questions: [
+          "Écrire plus_grand(lst1, lst2), qui renvoie True si lst1 ≥ lst2.",
+          "Dans quel sens faut-il parcourir les listes ?",
+          "Que se passe-t-il si une liste porte des zéros inutiles en poids fort ?"
+        ],
+        correction: [
+          { code: `def plus_grand(lst1, lst2):
+    """
+    Compare les valeurs de lst1 et lst2
+    si lst1 >= lst2 retourne True
+    sinon, retourne False
+
+    Tests automatiques
+    >>> a = [1, 2, 3, 4, 5]
+    >>> b = [1, 2, 3, 4, 5]
+    >>> plus_grand(a, b)
+    True
+    >>> b = [2, 2, 3, 4, 5]
+    >>> plus_grand(a, b)
+    False
+    >>> plus_grand(b, a)
+    True
+    >>> a = [7, 7, 3, 1, 3]
+    >>> b = [3, 0, 4, 3, 9]
+    >>> plus_grand(b, a)
+    True
+    """
+    l1 = lst1[:]
+    l2 = lst2[:]
+    meme_len(l1, l2)                         # mêmes longueurs
+    for i in range(len(l1) - 1, -1, -1):     # du poids fort vers le poids faible
+        if l1[i] > l2[i]:
+            return True
+        if l1[i] < l2[i]:
+            return False
+    return True                              # tous les chiffres sont égaux
+
+print(plus_grand([2, 7, 3, 1, 3], [1, 7, 3, 1, 3]))   # True  : 31372 >= 31371
+print(plus_grand([5, 4], [0]))                         # True  : 45 >= 0
+print(plus_grand([5, 0, 0], [9]))                      # False : 5 < 9
+run_docstring_examples(plus_grand, globals())` },
+          { text: "On compare comme dans un dictionnaire, mais à partir du poids fort, donc en partant de la fin de la liste. Le premier chiffre différent décide. Si tous les chiffres sont égaux, les nombres sont égaux et la réponse est True (≥)." },
+          { text: "Le piège est de comparer d'abord les longueurs, comme le faisait le corrigé de 2021. Ce raccourci est faux dès qu'une liste porte des zéros de poids fort : [5, 0, 0] (qui vaut 5) serait déclaré plus grand que [9]. Égaliser les longueurs avec meme_len sur des copies règle le problème." }
+        ]
+      },
+      {
+        num: "7", title: "sub : la soustraction posée",
+        intro: "sub(lst1, lst2) renvoie lst1 − lst2, avec la précondition lst1 ≥ lst2. Le notebook fournit le début de la fonction.",
+        code: `def sub(lst1, lst2):
+    """Renvoie lst1 - lst2 sans modifier lst1 et lst2.
+    La méthode utilisée est celle des soustractions posées comme a l'école primaire
+
+    Tests automatiques
+    >>> a = [2, 2, 3, 4, 5]
+    >>> b = [1, 2, 3, 4, 5]
+    >>> sub(a, b)
+    [1]
+    >>> b = [1]
+    >>> a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    >>> sub(a, b)
+    [9, 9, 9, 9, 9, 9, 9, 9, 9]
+    """
+    l1 = lst1[:]
+    l2 = lst2[:]
+    meme_len(l1, l2)
+    retenue = 0
+    result = []
+
+    ...
+
+b = [1]
+a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+sub(a, b)
+
+b = [1]
+a = [1]
+sub(a, b)
+
+b = [2]
+a = [1]
+sub(a, b)
+
+run_docstring_examples(sub, globals())`,
+        questions: [
+          "Compléter sub.",
+          "Que renvoient les trois cellules de test ? Commenter la dernière.",
+          "Pourquoi appeler supp_zero à la fin ?"
+        ],
+        correction: [
+          { code: `def sub(lst1, lst2):
+    """Renvoie lst1 - lst2 sans modifier lst1 et lst2.
+    La méthode utilisée est celle des soustractions posées comme a l'école primaire
+
+    Tests automatiques
+    >>> a = [2, 2, 3, 4, 5]
+    >>> b = [1, 2, 3, 4, 5]
+    >>> sub(a, b)
+    [1]
+    >>> b = [1]
+    >>> a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+    >>> sub(a, b)
+    [9, 9, 9, 9, 9, 9, 9, 9, 9]
+    """
+    l1 = lst1[:]
+    l2 = lst2[:]
+    meme_len(l1, l2)
+    retenue = 0
+    result = []
+
+    for i in range(len(l1)):
+        chiffre = l1[i] - l2[i] - retenue
+        if chiffre < 0:              # on emprunte une dizaine au rang suivant
+            chiffre += 10
+            retenue = 1
+        else:
+            retenue = 0
+        result.append(chiffre)
+    supp_zero(result)
+    return result
+
+print(sub([0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1]))   # [9, 9, 9, 9, 9, 9, 9, 9, 9]
+print(sub([1], [1]))                               # [0]
+print(sub([1], [2]))                               # [9] : faux, précondition violée
+run_docstring_examples(sub, globals())` },
+          { text: "Résultats : 1000000000 − 1 = 999999999, soit neuf 9 ; 1 − 1 = 0, soit [0] grâce à supp_zero qui garde un chiffre." },
+          { text: "sub([1], [2]) renvoie [9] : c'est faux, parce que la précondition lst1 ≥ lst2 n'est pas respectée. La retenue qui reste à 1 à la fin de la boucle signale qu'on a « emprunté » au-delà du dernier chiffre : on obtient le complément à 10 de −1, comme en complément à deux pour les entiers machine. C'est pour cette raison que mul_Kara doit comparer avant de soustraire (avec plus_grand) et gérer le signe à part. Pour une version défensive, on peut ajouter assert retenue == 0 avant le return." },
+          { text: "supp_zero est nécessaire parce que la différence a souvent moins de chiffres que lst1 : 22345 − 12345 donne [1, 0, 0, 0, 0] avant nettoyage, et [1] après. Sans ce nettoyage, les zéros inutiles s'accumuleraient au fil des appels récursifs de mul_Kara et fausseraient les longueurs." }
+        ]
+      },
+      {
+        num: "8", title: "mul_Kara : la multiplication de Karatsuba",
+        intro: "Avec M = a·10^k + b et N = c·10^k + d, on calcule t1 = a·c, t2 = b·d et t3 = (a − b)·(c − d), puis M·N = t1·10^(2k) + (t1 + t2 − t3)·10^k + t2. Trois produits de moitiés au lieu de quatre, appliqués récursivement jusqu'à des nombres d'un chiffre. Voici la version à trous proposée dans l'aide du notebook.",
+        code: `def mul_Kara(lst1, lst2):
+    """Multiplication des deux listes lst1 et lst2 avec la méthode de KARATSUBA
+    Fonctions récursive qui ne modifie pas lst1 et lst2.
+    """
+    global compt_mul
+    # copie les listes pour ne pas les modifier
+    l1 = lst1[:]
+    l2 = lst2[:]
+    # ajuste les longueurs des listes éventuellement
+    meme_len(l1, l2)
+
+    # condition d'arrêt
+    # les listes ont un seul éléments
+    ...
+
+    # les listes ont plus que 1 élément
+    # on les coupe en deux
+    ...
+
+    # on applique ensuite Karatsuba sur les 4 parties
+    t1 = ...
+    t2 = ...
+
+    # t3 = (a - b) * (c - d) = t31 * t32
+    # attention au signe, le résultat peut être négatif
+    sign = 1 # on démarre avec un signe +
+    ...
+
+    t3 = ...
+
+    # t = t1 + t2 - t3
+    # selon signe de t3
+    if sign > 0:
+        t = ...
+    else:
+        t = ...
+    # on a tout pour calculer le résultat
+    # t1 * 10^2k + (t1 + t2 - t3) * 10^k + t2
+    # t1 * 10^2k = [0] * 2 * k + ac on ajoute 2k 0 en poids faible
+    # t = (t1 + t2 - t3)
+    # donc t * 10^k = [0] * k + t on ajoute k 0 en poids faible
+    # reste plus qu'à ajouter t2 et on peut retourner le résultat
+    res = ...
+
+    supp_zero(res)
+
+    return res`,
+        questions: [
+          "Compléter mul_Kara.",
+          "Montrer que a·c + b·d − (a − b)·(c − d) = a·d + b·c, et en déduire la formule de Karatsuba.",
+          "Lors du découpage, quelle moitié de la liste correspond à a, et laquelle à b ?",
+          "Pourquoi faut-il gérer un signe pour t3, et comment ?",
+          "Quel est le rôle de [0] * k et de [0] * 2 * k ?"
+        ],
+        correction: [
+          { code: `compt_mul = 0
+
+def mul_Kara(lst1, lst2):
+    """Multiplication des deux listes lst1 et lst2 avec la méthode de KARATSUBA
+    Fonctions récursive qui ne modifie pas lst1 et lst2.
+    """
+    global compt_mul
+    # copie les listes pour ne pas les modifier
+    l1 = lst1[:]
+    l2 = lst2[:]
+    # ajuste les longueurs des listes éventuellement
+    meme_len(l1, l2)
+
+    # condition d'arrêt : les listes ont un seul élément
+    if len(l1) == 1:
+        compt_mul += 1                       # une multiplication élémentaire
+        return conv(l1[0] * l2[0])           # 0 à 81 : un ou deux chiffres
+
+    # on coupe en deux : poids faibles en tête de liste
+    k = len(l1) // 2
+    b, a = l1[:k], l1[k:]                    # M = a * 10^k + b
+    d, c = l2[:k], l2[k:]                    # N = c * 10^k + d
+    for part in (a, b, c, d):
+        supp_zero(part)
+
+    # on applique ensuite Karatsuba sur les 4 parties
+    t1 = mul_Kara(a, c)
+    t2 = mul_Kara(b, d)
+
+    # t3 = (a - b) * (c - d) = t31 * t32, en valeur absolue
+    sign = 1 # on démarre avec un signe +
+    if plus_grand(a, b):
+        t31 = sub(a, b)
+    else:
+        t31 = sub(b, a)
+        sign = -sign
+    if plus_grand(c, d):
+        t32 = sub(c, d)
+    else:
+        t32 = sub(d, c)
+        sign = -sign
+
+    t3 = mul_Kara(t31, t32)
+
+    # t = t1 + t2 - t3, selon le signe de t3
+    if sign > 0:
+        t = sub(add(t1, t2), t3)
+    else:
+        t = add(add(t1, t2), t3)
+    # t1 * 10^2k + t * 10^k + t2
+    res = add(add([0] * (2 * k) + t1, [0] * k + t), t2)
+
+    supp_zero(res)
+
+    return res
+
+print(conv_inv(mul_Kara(conv(1234), conv(5678))), 1234 * 5678)   # 7006652 7006652` },
+          { text: "La formule : (a − b)(c − d) = ac − ad − bc + bd, donc ac + bd − (a − b)(c − d) = ad + bc. Or (a·10^k + b)(c·10^k + d) = ac·10^(2k) + (ad + bc)·10^k + bd. Le coefficient du milieu, qui demandait deux produits (ad et bc), s'obtient avec un seul produit nouveau, t3, en réutilisant t1 = ac et t2 = bd déjà calculés." },
+          { text: "Découpage : les poids faibles sont en tête de liste, donc b = l1[:k] (les k chiffres de poids faible) et a = l1[k:] (les poids forts). C'est l'inverse de l'écriture usuelle : 1234 = 12·10² + 34 donne a = 12 et b = 34, mais la liste [4, 3, 2, 1] se coupe en [4, 3] → b et [2, 1] → a. On applique ensuite supp_zero à chaque moitié : une moitié comme [0, 5] (soit 50) devient [0, 5], mais [3, 0] (soit 3) devient [3], ce qui raccourcit les appels suivants." },
+          { text: "Signe : sub ne sait calculer que x − y avec x ≥ y (étape 7). On calcule donc les valeurs absolues t31 = abs(a − b) et t32 = abs(c − d) en comparant d'abord avec plus_grand. Chaque inversion change le signe : sign vaut +1 si le produit (a − b)(c − d) est positif, −1 sinon. Ensuite, t1 + t2 − t3 devient sub(add(t1, t2), t3) si le signe est positif, et add(add(t1, t2), t3) s'il est négatif. Comme t1 + t2 − t3 = ad + bc ≥ 0, la soustraction ne viole jamais sa précondition." },
+          { text: "Décalages : multiplier par 10^k revient à ajouter k zéros en poids faible, donc en tête de liste. [0] * k + t vaut t·10^k, et [0] * (2 * k) + t1 vaut t1·10^(2k). C'est une simple concaténation, sans aucune multiplication. Les notes de séance du 15 octobre le soulignent : « ajouter k zéros en tête de liste, opération très rapide »." },
+          { text: "Les notes du 15 octobre écrivent T3 = (A + B) × (C + D) − T1 − T2. C'est une autre variante de Karatsuba, elle aussi juste, puisque (a + b)(c + d) − ac − bd = ad + bc. Mais ce n'est pas celle du notebook, et ce n'est pas celle qui a produit les chiffres annoncés en séance (voir l'étape 9). Le support fait foi : t3 = (a − b)(c − d) et recombinaison t1 + t2 − t3. La variante additive évite la gestion du signe, mais a + b peut avoir un chiffre de plus que a, ce qui déséquilibre le découpage." }
+        ]
+      },
+      {
+        num: "9", title: "Compter les multiplications : Karatsuba contre la méthode naïve",
+        intro: "On ajoute un compteur global compt_mul, incrémenté à chaque multiplication de deux chiffres, et on compare les deux algorithmes sur deux nombres de 94 chiffres. mul_naive est fournie par le notebook.",
+        code: `a = 1234567890123456789012345678909999999912659845589961469813613131313131361368874655441588556585
+b = 9876543210987654321098765432100000000000002256622541258562555855654555215254438542435435435435
+res = a * b
+
+print('n vaut', max((len(str(a)), len(str(b)))))
+
+res
+
+global compt_mul
+compt_mul = 0
+
+res1 = mul_Kara(conv(a), conv(b))
+assert conv_inv(res1) == res, "Résultat faux"
+
+print(compt_mul, "multiplications élémentaires")
+
+# ── cellule : mul_naive, fournie ──
+def mul_naive(lA, lB):
+    """Multiplication naive (comme a l'école primaire) entre les deux listes lA et lB.
+    Renvoi le résultat et ne modifie pas les les listes lA et lB
+
+    """
+    l1 = lA[:]
+    l2 = lB[:]
+    #pour compter le nombre de multiplication élémentaire
+    global compt_mul
+
+    res = []   # matrice des multiplications chiffre par chiffre
+    for i in range(len(l1)):
+        # pour chaque chiffre de l1 : l1[i]
+        # que l'on multiplie par l2
+        # le résultat est une liste qu'on ajoute dans res
+        r = 0   # retenue nulle au début
+        res.append([0] * i)    # on décale d'un cran a chaque chiffre de l1, comme on met des points à l'école ...
+        for j in range(len(l2)):
+            compt_mul += 1
+            result = l1[i] * l2[j] + r
+            res[i].append(result % 10)    # le chiffre des unité va au résultat
+            r = result // 10    # celui des dizaine part en retenue
+        if r != 0:
+            # si il reste une reteune a la fin, on l'ajoute. ça fera un chiffre de plus en poids fort
+            res[i].append(r)
+
+    result = []    # resultat final
+    for i in range(len(res)):
+        result = add(result, res[i])
+
+    return result
+
+# ── cellule de comparaison (le notebook y répète « global compt_mul », inutile hors d'une fonction) ──
+compt_mul = 0
+
+res2 = mul_naive(conv(a), conv(b))
+assert conv_inv(res2) == res, "Résultat faux"
+
+print(compt_mul, "multiplications élémentaires")`,
+        note: "Le notebook demande de « modifier » mul_naive pour compter les multiplications, mais la version distribuée contient déjà global compt_mul et compt_mul += 1 : il n'y a rien à ajouter. Pour mul_Kara, le seul endroit où l'on multiplie deux chiffres est le cas de base, et c'est donc là qu'il faut incrémenter le compteur.",
+        questions: [
+          "Où placer compt_mul += 1 dans mul_Kara ?",
+          "Combien de multiplications élémentaires pour chaque algorithme sur ces deux nombres de 94 chiffres ?",
+          "Retrouve-t-on les chiffres annoncés en séance le 15 octobre (8 836 en naïf, 1 631 avec Karatsuba) ?",
+          "Justifier la complexité O(n^1,585) annoncée par le notebook."
+        ],
+        correction: [
+          { code: `# mul_naive est fournie complète par le notebook (compteur compris) : on l'exécute telle quelle
+def mul_naive(lA, lB):
+    """Multiplication naive (comme a l'école primaire) entre les deux listes lA et lB.
+    Renvoi le résultat et ne modifie pas les les listes lA et lB
+    """
+    l1 = lA[:]
+    l2 = lB[:]
+    global compt_mul
+    res = []                         # une ligne de l'opération posée par chiffre de l1
+    for i in range(len(l1)):
+        r = 0
+        res.append([0] * i)          # décalage d'un cran par chiffre, comme les points à l'école
+        for j in range(len(l2)):
+            compt_mul += 1
+            result = l1[i] * l2[j] + r
+            res[i].append(result % 10)
+            r = result // 10
+        if r != 0:
+            res[i].append(r)
+    result = []
+    for i in range(len(res)):
+        result = add(result, res[i])
+    return result
+
+a = 1234567890123456789012345678909999999912659845589961469813613131313131361368874655441588556585
+b = 9876543210987654321098765432100000000000002256622541258562555855654555215254438542435435435435
+res = a * b
+print('n vaut', max((len(str(a)), len(str(b)))))       # n vaut 94
+
+compt_mul = 0
+res1 = mul_Kara(conv(a), conv(b))
+assert conv_inv(res1) == res, "Résultat faux"
+print(compt_mul, "multiplications élémentaires")        # 1631
+
+compt_mul = 0
+res2 = mul_naive(conv(a), conv(b))
+assert conv_inv(res2) == res, "Résultat faux"
+print(compt_mul, "multiplications élémentaires")        # 8836` },
+          { text: "Le produit exact, que les deux assert vérifient, vaut 12193263113702179522618503273461057764471006900190764091568644761816761846721929774232466032890349854526993364608631765217879873131435397995180712503649251954354772524515604414702611589475 (188 chiffres)." },
+          { text: "On retrouve exactement les chiffres de la séance : 1 631 multiplications élémentaires avec Karatsuba et 8 836 avec la méthode naïve, soit 5,4 fois moins. Le chiffre naïf s'explique sans calcul : 94 × 94 = 8 836, un produit par couple de chiffres." },
+          { text: "Le chiffre de Karatsuba, lui, dépend des détails de l'implémentation. On obtient 1 631 avec le compteur dans le cas de base et supp_zero appliqué aux quatre moitiés a, b, c et d, comme ci-dessus. Sans ces supp_zero, on en compte 1 641. Avec la variante (a + b)(c + d) mentionnée dans les notes, on en compte 2 731. C'est donc bien la variante du notebook, avec (a − b)(c − d), qui a été exécutée en séance. Le corrigé public de 2021 annonçait 1 653 et 6 862 : son second opérande ne comptait que 73 chiffres (94 × 73 = 6 862), et notre fonction redonne bien 1 653 sur ces nombres-là." },
+          { text: "Complexité : multiplier deux nombres de n chiffres demande 3 multiplications de nombres de n/2 chiffres, plus des additions, soustractions et décalages en O(n). La relation T(n) = 3T(n/2) + O(n) donne log2(n) niveaux et 3^log2(n) = n^log2(3) ≈ n^1,585 multiplications élémentaires. Exemple du notebook : 1234 × 5678 demande 9 multiplications au lieu de 16, ce que notre compteur confirme. Sur deux nombres aléatoires de n chiffres (tirage fixé par Random(2026) dans solution_dpr.py ; un autre tirage donne des valeurs voisines), on mesure :" },
+          { code: `n chiffres   Karatsuba   naïve    n^1,585
+4            9           16       9
+16           79          256      81
+64           725         4 096    729
+256          6 475       65 536   6 562` },
+          { text: "Mise en garde pour le choix des exemples : avec deux nombres formés uniquement de 9, a − b vaut 0 à chaque niveau. Karatsuba ne fait alors que 2n − 1 multiplications (127 pour n = 64), ce qui donne une image trop flatteuse de l'algorithme. Pour la culture : CPython multiplie lui-même ses grands entiers avec Karatsuba dès qu'ils dépassent 70 « chiffres » internes de 30 bits (environ 630 chiffres décimaux), et des algorithmes encore plus rapides existent pour des nombres bien plus grands (Toom-Cook, FFT)." }
+        ]
+      },
+      {
+        num: "10", title: "Lancer tous les tests automatiques",
+        code: `import doctest
+doctest.testmod()`,
+        questions: [
+          "Que doit afficher doctest.testmod() quand toutes les fonctions sont justes ?"
+        ],
+        correction: [
+          { code: `import doctest
+print(doctest.testmod())` },
+          { text: "Dans le notebook, testmod() parcourt toutes les fonctions définies dans les cellules et exécute leurs exemples. Avec les fonctions corrigées, on obtient TestResults(failed=0, attempted=57) : 3 exemples pour conv, 3 pour conv_inv, 9 pour meme_len, 9 pour supp_zero, 18 pour add, 9 pour plus_grand et 6 pour sub. mul_Kara et mul_naive n'ont pas de doctest. Un échec indique la fonction, l'exemple, la sortie attendue et la sortie obtenue." }
+        ]
+      }
+    ]
+  },
+  // ── TP — Diviser pour régner (3) : rotation d'une image ──
+  {
+    id: "tp-dpr-rotation", bloc: "bloc2", jour: "En ligne — 8 octobre 2026 (FDIU)",
+    theme: "Algorithmique — diviser pour régner",
+    title: "TP — Diviser pour régner (3) : rotation d'une image",
+    type: 'tp',
+    notebook: "FDIU_rotation_image_dpr.ipynb",
+    aux: ["ressources/dpr/perroquet_256_cc.jpg"],
+    intro: "TP du cours en ligne du 8 octobre 2026 (FDIU, DU Normandie). Faire tourner une image carrée d'un quart de tour dans le sens horaire : d'abord pixel par pixel, puis par diviser pour régner. On coupe l'image en quatre carrés, on fait tourner chaque carré récursivement, puis on replace les quatre carrés par permutation circulaire. On travaille avec le module PIL (Pillow), disponible dans Basthon, et avec l'image perroquet_256_cc.jpg (256 × 256 pixels), fournie avec le TP et chargée par le bouton Basthon du site. Le corrigé public de 2021 utilisait d'autres noms (rotationNaive, rotationDpR, rotationDpR2) : on respecte ici ceux du notebook 2026. Ouvre le notebook dans Basthon, cherche par toi-même, puis déplie la correction.",
+    steps: [
+      {
+        num: "1", title: "Prise en main du module PIL",
+        intro: "Quelques commandes du module PIL (Pillow) qui serviront ensuite : ouvrir ou créer une image, lire et écrire un pixel, découper, coller. Attention au repère : l'origine (0, 0) est le coin en haut à gauche, x va vers la droite et y vers le bas.",
+        code: `from PIL import Image
+
+# création d'une image dans PIL à partir d'un fichier png, jpg, bmp
+im = Image.open("perroquet_256_cc.jpg")
+# Pour afficher l'image dans le notebook, il suffit de l'appeler en dernière ligne de la cellule :
+im.show()
+
+# création d'une image vierge de 64px * 32px
+imNew = Image.new('RGB', (64, 32))
+# Cette image est vierge donc totalement noire
+imNew.show()
+
+# on peut également lui spécifier une couleur par un argument supplémentaire : un tuple (R, V, B)
+imNew2 = Image.new('RGB', (64, 32), (127, 255, 127))
+imNew2.show()
+
+# on peut afficher la taille d'une image de la manière suivante :
+largeur, hauteur = imNew.size
+print(largeur, hauteur)
+
+# lire la couleur d'un pixel : notez bien les doubles parenthèses
+im.getpixel((130, 25))
+
+# changer la couleur d'un pixel : tuple (R, V, B), chaque composante sur 8 bits (0 à 255)
+imNew.putpixel((32, 16), (255, 0, 0))
+imNew.putpixel((34, 16), (0, 255, 0))
+imNew.putpixel((36, 16), (0, 0, 255))
+imNew
+
+# découper : crop((x1, y1, x2, y2)), coin haut gauche et coin bas droite
+imC = im.crop((100, 0, 150, 50))
+imC
+
+# coller : paste(image_a_coller, position du coin haut gauche), (0, 0) par défaut
+im.paste(imC)
+im.paste(imC, (0, 100))
+im.paste(imC, (25, 125))
+im`,
+        note: "Le notebook ouvre r2d2_256.png ici, puis smiley_256.jpg aux étapes suivantes. Ces deux fichiers ne sont pas fournis avec le site : on utilise partout perroquet_256_cc.jpg (256 × 256 pixels, RVB), c'est le seul changement. Dans le notebook ouvert depuis le site, il faut donc remplacer ces deux noms de fichier par perroquet_256_cc.jpg, sinon Image.open lève FileNotFoundError. Avec r2d2_256.png, le notebook affiche (50, 91, 170) pour getpixel((130, 25)) ; avec le perroquet, la valeur est différente. Dans Basthon, im.show() ou le nom de l'image en dernière ligne de cellule l'affiche. Dans un script Python ordinaire, show() ouvre une visionneuse externe, et im.save('resultat.png') permet de garder le résultat.",
+        questions: [
+          "Que renvoie getpixel ? Pourquoi faut-il des doubles parenthèses ?",
+          "Quelle est la taille de imC ? Le pixel (150, 50) en fait-il partie ?",
+          "paste crée-t-il une nouvelle image, ou modifie-t-il im ?"
+        ],
+        correction: [
+          { code: `from PIL import Image
+
+im = Image.open("perroquet_256_cc.jpg")
+print(im.size, im.mode)              # (256, 256) RGB
+
+imNew = Image.new('RGB', (64, 32))
+print(imNew.size, imNew.getpixel((0, 0)))     # (64, 32) (0, 0, 0) : noir
+
+print(im.getpixel((130, 25)))        # un tuple (R, V, B)
+
+imNew.putpixel((32, 16), (255, 0, 0))
+print(imNew.getpixel((32, 16)))      # (255, 0, 0)
+
+imC = im.crop((100, 0, 150, 50))
+print(imC.size)                      # (50, 50)
+
+im.paste(imC, (0, 100))
+print(im.getpixel((0, 100)) == imC.getpixel((0, 0)))   # True : im a été modifiée` },
+          { text: "getpixel renvoie un tuple (R, V, B) de trois entiers entre 0 et 255. Chez nous, le pixel (130, 25) du perroquet vaut (139, 148, 81), mais la valeur exacte d'un pixel de JPEG peut varier d'une unité selon le décodeur. getpixel attend un seul argument, le couple (x, y) : d'où les doubles parenthèses, getpixel((x, y))." },
+          { text: "crop((100, 0, 150, 50)) donne une image de 50 × 50 pixels. Le coin (x2, y2) est exclu, comme la borne de fin de range ou d'une tranche : les colonnes vont de 100 à 149 et les lignes de 0 à 49. crop renvoie une nouvelle image et ne touche pas à im." },
+          { text: "paste, au contraire, modifie l'image sur laquelle on l'appelle, et renvoie None. Après la cellule de collage, im n'est plus l'image d'origine : pour la suite, on rouvre le fichier." }
+        ]
+      },
+      {
+        num: "2", title: "Rotation naïve, pixel par pixel",
+        intro: "Lors d'une rotation de 90° dans le sens horaire d'une image carrée de côté n pixels, le pixel (xi, yi) arrive en (xr, yr) = (n − 1 − yi, xi). Sur une image de 8 pixels de côté, le pixel (1, 1) va en (6, 1), le pixel (7, 4) en (3, 7) et le pixel (4, 7) en (0, 4).",
+        code: `# une autre image pour les tests
+im2 = Image.open("perroquet_256_cc.jpg")
+im2
+
+def rotation_naive(img):
+    largeur, hauteur = img.size
+    assert largeur == hauteur, "Cette fonction ne traite que les images carrées"
+
+    imNew = ...
+
+    ...
+
+    return ...
+
+rotationn_naive(im2)
+
+# chronométrer la fonction sur une image de 256 px de côté
+from timeit import timeit
+
+print(timeit("rotation_naive(im2)", number = 1, globals = globals()))`,
+        note: "Coquille du notebook : la cellule appelle rotationn_naive(im2), avec deux n, ce qui provoque une NameError. La fonction s'appelle rotation_naive.",
+        questions: [
+          "Écrire rotation_naive(img), purement itérative.",
+          "Vérifier la formule sur les trois pixels d'exemple.",
+          "Chronométrer la fonction sur l'image de 256 × 256 pixels."
+        ],
+        correction: [
+          { code: `from PIL import Image
+from timeit import timeit
+
+def rotation_naive(img):
+    largeur, hauteur = img.size
+    assert largeur == hauteur, "Cette fonction ne traite que les images carrées"
+    n = largeur
+
+    imNew = Image.new('RGB', (n, n))
+
+    for x in range(n):
+        for y in range(n):
+            # le pixel (x, y) part en (n - 1 - y, x)
+            imNew.putpixel((n - 1 - y, x), img.getpixel((x, y)))
+
+    return imNew
+
+im2 = Image.open("perroquet_256_cc.jpg")
+tournee = rotation_naive(im2)
+# contrôle avec la rotation intégrée de PIL (ROTATE_270 = 90° dans le sens horaire)
+print(tournee.tobytes() == im2.transpose(Image.Transpose.ROTATE_270).tobytes())   # True
+print(timeit("rotation_naive(im2)", number = 1, globals = globals()))` },
+          { text: "On parcourt les n² pixels de l'image de départ, et chacun est écrit une seule fois dans la nouvelle image : la complexité est O(n²), linéaire en nombre de pixels. Avec n = 8 : (1, 1) donne (8 − 1 − 1, 1) = (6, 1), (7, 4) donne (8 − 1 − 4, 7) = (3, 7), et (4, 7) donne (8 − 1 − 7, 4) = (0, 4)." },
+          { text: "Pourquoi n − 1 − y ? La première ligne de l'image (y = 0) devient la dernière colonne (x = n − 1). Ici, y parcourt 0 à n − 1, donc n − 1 − y reste bien dans l'image. On peut le faire vérifier aux élèves sur un quadrillage 4 × 4 avant de coder." },
+          { text: "Temps mesuré chez nous (Python 3.13, Pillow 12) : environ 0,07 s pour 256 × 256 pixels. Le corrigé de 2021 donnait 0,58 s dans Basthon. Pour comparer, im2.transpose(Image.Transpose.ROTATE_270), écrit en C, prend environ 0,1 ms." }
+        ]
+      },
+      {
+        num: "3", title: "Un seul niveau : découper en quatre et permuter les carrés",
+        intro: "Algorithme diviser pour régner : découper l'image en quatre carrés de même taille A (haut gauche), B (haut droite), C (bas gauche) et D (bas droite), créer une image vierge de même taille, puis y recoller les quatre carrés en les faisant tourner d'un cran dans le sens horaire. Hypothèse : les images sont carrées et leur côté est une puissance de 2.",
+        code: `im2 = Image.open("perroquet_256_cc.jpg")
+
+n, hauteur = im2.size
+
+m = n // 2
+
+#Découpe en quatre carrés
+carreA = ...
+carreB = ...
+carreC = ...
+carreD = ...
+
+#recombine l'image en faisant tourner les carrés
+imNew = Image.new('RGB', (n, n))
+
+imNew.paste(...)
+...
+...
+...
+
+imNew`,
+        questions: [
+          "Compléter les quatre crop et les quatre paste.",
+          "L'image obtenue est-elle tournée d'un quart de tour ?"
+        ],
+        correction: [
+          { code: `from PIL import Image
+
+im2 = Image.open("perroquet_256_cc.jpg")
+
+n, hauteur = im2.size
+
+m = n // 2
+
+#Découpe en quatre carrés
+carreA = im2.crop((0, 0, m, m))      # haut gauche
+carreB = im2.crop((m, 0, n, m))      # haut droite
+carreC = im2.crop((0, m, m, n))      # bas gauche
+carreD = im2.crop((m, m, n, n))      # bas droite
+
+#recombine l'image en faisant tourner les carrés
+imNew = Image.new('RGB', (n, n))
+
+imNew.paste(carreA, (m, 0))          # A : haut gauche -> haut droite
+imNew.paste(carreB, (m, m))          # B : haut droite -> bas droite
+imNew.paste(carreD, (0, m))          # D : bas droite  -> bas gauche
+imNew.paste(carreC, (0, 0))          # C : bas gauche  -> haut gauche
+
+print(imNew.crop((m, 0, n, m)).tobytes() == carreA.tobytes())   # True` },
+          { text: "Les quatre carrés font une permutation circulaire dans le sens horaire : A → haut droite, B → bas droite, D → bas gauche, C → haut gauche. Chaque coin est une image de m × m pixels, avec m = n // 2." },
+          { text: "L'image n'est pas encore tournée : les quatre quarts ont changé de place, mais chacun garde son orientation d'origine. On voit un perroquet découpé en quatre morceaux droits. Pour obtenir la vraie rotation, il faut aussi faire tourner chaque quart, et c'est exactement le même problème en plus petit : d'où la récursivité de l'étape suivante." }
+        ]
+      },
+      {
+        num: "4", title: "rotation_dpr : la version récursive",
+        intro: "Pour obtenir une rotation complète, on réapplique la même opération récursivement à chaque carré, jusqu'à des carrés de 1 pixel sur 1. rotation_dpr(img) prend une image PIL et renvoie une nouvelle image tournée de 90° dans le sens horaire.",
+        code: `def rotation_dpr(img):
+
+    n, hauteur = img.size
+    assert n == hauteur, "Cette fonction ne traite que les images carrées"
+
+    m = n // 2
+
+    # Découpe en quatre carrés
+    carre_A = ...
+    carre_B = ...
+    ...
+
+    # On relance la fonction sur les 4 morceaux
+
+
+    # Recombine l'image en faisant tourner les carrés
+
+
+    return im_new
+
+
+rotation_dpr(im2)`,
+        questions: [
+          "Compléter rotation_dpr. Quel est le cas de base ?",
+          "Identifier les phases diviser, régner et combiner.",
+          "Pourquoi l'hypothèse « côté puissance de 2 » est-elle nécessaire ?"
+        ],
+        correction: [
+          { code: `from PIL import Image
+
+def rotation_dpr(img):
+
+    n, hauteur = img.size
+    assert n == hauteur, "Cette fonction ne traite que les images carrées"
+
+    # RÉGNER : un carré de 1 pixel est sa propre rotation
+    if n == 1:
+        return img.copy()
+
+    m = n // 2
+
+    # DIVISER : découpe en quatre carrés
+    carre_A = img.crop((0, 0, m, m))
+    carre_B = img.crop((m, 0, n, m))
+    carre_C = img.crop((0, m, m, n))
+    carre_D = img.crop((m, m, n, n))
+
+    # On relance la fonction sur les 4 morceaux
+    carre_A = rotation_dpr(carre_A)
+    carre_B = rotation_dpr(carre_B)
+    carre_C = rotation_dpr(carre_C)
+    carre_D = rotation_dpr(carre_D)
+
+    # COMBINER : recombine l'image en faisant tourner les carrés
+    im_new = Image.new('RGB', (n, n))
+    im_new.paste(carre_A, (m, 0))
+    im_new.paste(carre_B, (m, m))
+    im_new.paste(carre_D, (0, m))
+    im_new.paste(carre_C, (0, 0))
+
+    return im_new
+
+
+im2 = Image.open("perroquet_256_cc.jpg")
+r = rotation_dpr(im2)
+print(r.tobytes() == im2.transpose(Image.Transpose.ROTATE_270).tobytes())   # True` },
+          { text: "Diviser : les quatre crop. Régner : les quatre appels récursifs, jusqu'au cas de base, une image de 1 pixel, qui est sa propre rotation. Combiner : les quatre paste en permutation circulaire. Pourquoi ça marche : si chaque quart est correctement tourné (hypothèse de récurrence) et que les quarts sont replacés par rotation d'un cran, alors toute l'image est tournée. Le résultat est identique pixel pour pixel à celui de rotation_naive et de transpose(ROTATE_270)." },
+          { text: "Le corrigé de 2021 (rotationDpR) s'arrête un cran plus tôt, avec un test if m > 1 avant les appels récursifs : à n = 2, les quatre carrés de 1 pixel sont recollés directement. C'est équivalent. Le test n == 1 présente le cas de base de façon plus lisible pour des élèves, et il traite aussi une image de 1 pixel passée directement." },
+          { text: "Puissance de 2 : à chaque niveau, n est divisé par 2 avec m = n // 2. Si n est impair, par exemple 3, les carrés n'ont plus tous la même taille, et crop((m, 0, n, m)) n'est plus carré : l'assert échoue dès l'appel récursif suivant. 256 = 2⁸ donne 8 niveaux de découpage." }
+        ]
+      },
+      {
+        num: "5", title: "Critiquer l'efficacité de la méthode",
+        code: `from timeit import timeit
+
+print(timeit("rotation_dpr(im2)", number = 1, globals = globals()))`,
+        questions: [
+          "Chronométrer rotation_dpr sur l'image de 256 × 256 pixels et comparer avec rotation_naive.",
+          "Critiquer l'efficacité de la méthode dans ce cas."
+        ],
+        correction: [
+          { code: `from timeit import timeit
+
+t_naive = timeit("rotation_naive(im2)", number = 1, globals = globals())
+t_dpr = timeit("rotation_dpr(im2)", number = 1, globals = globals())
+print(f"naïve : {t_naive:.3f} s   diviser pour régner : {t_dpr:.3f} s")` },
+          { text: "Mesures chez nous (Python 3.13, Pillow 12) : environ 0,07 s pour la version naïve et 0,3 à 0,5 s pour la version diviser pour régner, soit 4 à 7 fois plus lent. Le corrigé de 2021 donnait 0,58 s contre 3,08 s dans Basthon, le même ordre de rapport." },
+          { text: "Explication : la version récursive fait 1 + 4 + 16 + ... + 4⁸ = 87 381 appels. Chacun crée une nouvelle image et quatre découpes, soit environ 175 000 objets images pour 65 536 pixels. De plus, à chaque niveau, les paste recopient l'image entière : T(n) = 4T(n/2) + O(n²) donne O(n² log n) pixels copiés (9 niveaux pour 256 pixels de côté), contre O(n²) pour la version naïve qui déplace chaque pixel une seule fois." },
+          { text: "Conclusion : ici, diviser pour régner n'apporte aucun gain. Le problème est déjà linéaire en nombre de pixels, et la recombinaison coûte autant que le problème lui-même. C'est le même constat qu'avec les occurrences du TP 1. L'intérêt est ailleurs : c'est un bel exemple visuel de récursivité, et les quatre sous-problèmes, indépendants, pourraient être traités en parallèle. Sur une matrice qu'on a le droit de modifier, il existe aussi une version en place qui n'utilise aucune image intermédiaire." }
+        ]
+      },
+      {
+        num: "6", title: "Dans les deux sens : l'argument reverse",
+        intro: "Nouvelle fonction rotation_dpr_2(img, reverse=False) : avec reverse=True, la rotation se fait dans le sens anti-horaire.",
+        code: `def rotation_dpr_2(img, reverse=False):
+
+    n, hauteur = img.size
+    assert n == hauteur, "Cette fonction ne traite que les images carrées"
+
+    m = n // 2
+
+    ...
+
+im2 = Image.open("perroquet_256_cc.jpg")
+rotation_dpr_2(im2, reverse=True)`,
+        questions: [
+          "Écrire rotation_dpr_2. Qu'est-ce qui change par rapport à rotation_dpr ?",
+          "Comment vérifier le résultat sans regarder l'image ?"
+        ],
+        correction: [
+          { code: `from PIL import Image
+
+def rotation_dpr_2(img, reverse=False):
+
+    n, hauteur = img.size
+    assert n == hauteur, "Cette fonction ne traite que les images carrées"
+
+    if n == 1:
+        return img.copy()
+
+    m = n // 2
+
+    # on transmet reverse aux appels récursifs
+    carre_A = rotation_dpr_2(img.crop((0, 0, m, m)), reverse)
+    carre_B = rotation_dpr_2(img.crop((m, 0, n, m)), reverse)
+    carre_C = rotation_dpr_2(img.crop((0, m, m, n)), reverse)
+    carre_D = rotation_dpr_2(img.crop((m, m, n, n)), reverse)
+
+    im_new = Image.new('RGB', (n, n))
+    if not reverse:                  # sens horaire : A -> B -> D -> C -> A
+        im_new.paste(carre_A, (m, 0))
+        im_new.paste(carre_B, (m, m))
+        im_new.paste(carre_D, (0, m))
+        im_new.paste(carre_C, (0, 0))
+    else:                            # sens anti-horaire : A -> C -> D -> B -> A
+        im_new.paste(carre_A, (0, m))
+        im_new.paste(carre_C, (m, m))
+        im_new.paste(carre_D, (m, 0))
+        im_new.paste(carre_B, (0, 0))
+    return im_new
+
+im2 = Image.open("perroquet_256_cc.jpg")
+gauche = rotation_dpr_2(im2, reverse=True)
+print(gauche.tobytes() == im2.transpose(Image.Transpose.ROTATE_90).tobytes())   # True
+print(rotation_dpr_2(gauche).tobytes() == im2.tobytes())                       # True : retour au départ` },
+          { text: "Deux changements : la permutation des quatre carrés se fait dans l'autre sens (A va en bas à gauche, C en bas à droite, D en haut à droite, B en haut à gauche), et reverse doit être transmis aux quatre appels récursifs. Si on l'oublie, les quarts tournent dans le sens horaire alors que leur placement est anti-horaire, et l'image est fausse." },
+          { text: "Vérifications sans regarder l'image : comparer avec transpose(Image.Transpose.ROTATE_90), qui est la rotation anti-horaire de PIL. On peut aussi vérifier qu'un quart de tour dans un sens suivi d'un quart de tour dans l'autre redonne l'image de départ, et que quatre quarts de tour dans le même sens aussi. Ce sont de bons tests à faire écrire aux élèves, car ils ne demandent aucune valeur de pixel calculée à la main." }
         ]
       }
     ]
@@ -4398,7 +7988,13 @@ function renderTPCard(tp) {
     const res = allRessources.find(r => r.file_name === origName)
     if (res) {
       if (tp.notebook) {
-        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
+        // Fichiers dont le notebook a besoin (modules .py importés, images…) : Basthon les charge
+        // dans son système de fichiers via les paramètres module= et aux= de l'URL.
+        const extras = (tp.aux || []).map(p => {
+          const abs = encodeURIComponent(new URL(p, window.location.href).href)
+          return (p.endsWith('.py') ? '&module=' : '&aux=') + abs
+        }).join('')
+        basthonBtn = `<a class="tp-print-btn tp-basthon-btn" href="https://notebook.basthon.fr/?from=${encodeURIComponent(ressourceAbsUrl(res))}${extras}" target="_blank" rel="noopener" title="Exécuter le notebook dans le navigateur (Python en ligne)">⚡ Ouvrir dans Basthon</a>`
       }
       downloadBtn = `<a class="tp-print-btn tp-download-btn" href="${ressourceUrl(res)}" download="${escapeHtml(origName)}" title="Télécharger le document original">⬇ TP original</a>`
     }
@@ -5405,7 +9001,7 @@ function renderAgendaBanner() {
 
 function renderRessources() {
   const makeCard = r => `
-    <a class="resource-card" href="${r.url}" target="_blank" rel="noopener">
+    <a class="resource-card" href="${r.url.startsWith('basthon:') ? basthonLien(r.url) : r.url}" target="_blank" rel="noopener">
       <div class="resource-card-icon">${r.icon}</div>
       <div>
         <div class="resource-card-title">${r.title}</div>

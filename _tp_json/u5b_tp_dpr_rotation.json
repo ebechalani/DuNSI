@@ -1,0 +1,157 @@
+{
+  "id": "tp-dpr-rotation",
+  "bloc": "bloc2",
+  "jour": "En ligne — 8 octobre 2026 (FDIU)",
+  "theme": "Algorithmique — diviser pour régner",
+  "title": "TP — Diviser pour régner (3) : rotation d'une image",
+  "type": "tp",
+  "notebook": "FDIU_rotation_image_dpr.ipynb",
+  "aux": [
+    "ressources/dpr/perroquet_256_cc.jpg"
+  ],
+  "intro": "TP du cours en ligne du 8 octobre 2026 (FDIU, DU Normandie). Faire tourner une image carrée d'un quart de tour dans le sens horaire : d'abord pixel par pixel, puis par diviser pour régner. On coupe l'image en quatre carrés, on fait tourner chaque carré récursivement, puis on replace les quatre carrés par permutation circulaire. On travaille avec le module PIL (Pillow), disponible dans Basthon, et avec l'image perroquet_256_cc.jpg (256 × 256 pixels), fournie avec le TP et chargée par le bouton Basthon du site. Le corrigé public de 2021 utilisait d'autres noms (rotationNaive, rotationDpR, rotationDpR2) : on respecte ici ceux du notebook 2026. Ouvre le notebook dans Basthon, cherche par toi-même, puis déplie la correction.",
+  "steps": [
+    {
+      "num": "1",
+      "title": "Prise en main du module PIL",
+      "intro": "Quelques commandes du module PIL (Pillow) qui serviront ensuite : ouvrir ou créer une image, lire et écrire un pixel, découper, coller. Attention au repère : l'origine (0, 0) est le coin en haut à gauche, x va vers la droite et y vers le bas.",
+      "code": "from PIL import Image\n\n# création d'une image dans PIL à partir d'un fichier png, jpg, bmp\nim = Image.open(\"perroquet_256_cc.jpg\")\n# Pour afficher l'image dans le notebook, il suffit de l'appeler en dernière ligne de la cellule :\nim.show()\n\n# création d'une image vierge de 64px * 32px\nimNew = Image.new('RGB', (64, 32))\n# Cette image est vierge donc totalement noire\nimNew.show()\n\n# on peut également lui spécifier une couleur par un argument supplémentaire : un tuple (R, V, B)\nimNew2 = Image.new('RGB', (64, 32), (127, 255, 127))\nimNew2.show()\n\n# on peut afficher la taille d'une image de la manière suivante :\nlargeur, hauteur = imNew.size\nprint(largeur, hauteur)\n\n# lire la couleur d'un pixel : notez bien les doubles parenthèses\nim.getpixel((130, 25))\n\n# changer la couleur d'un pixel : tuple (R, V, B), chaque composante sur 8 bits (0 à 255)\nimNew.putpixel((32, 16), (255, 0, 0))\nimNew.putpixel((34, 16), (0, 255, 0))\nimNew.putpixel((36, 16), (0, 0, 255))\nimNew\n\n# découper : crop((x1, y1, x2, y2)), coin haut gauche et coin bas droite\nimC = im.crop((100, 0, 150, 50))\nimC\n\n# coller : paste(image_a_coller, position du coin haut gauche), (0, 0) par défaut\nim.paste(imC)\nim.paste(imC, (0, 100))\nim.paste(imC, (25, 125))\nim",
+      "note": "Le notebook ouvre r2d2_256.png ici, puis smiley_256.jpg aux étapes suivantes. Ces deux fichiers ne sont pas fournis avec le site : on utilise partout perroquet_256_cc.jpg (256 × 256 pixels, RVB), c'est le seul changement. Dans le notebook ouvert depuis le site, il faut donc remplacer ces deux noms de fichier par perroquet_256_cc.jpg, sinon Image.open lève FileNotFoundError. Avec r2d2_256.png, le notebook affiche (50, 91, 170) pour getpixel((130, 25)) ; avec le perroquet, la valeur est différente. Dans Basthon, im.show() ou le nom de l'image en dernière ligne de cellule l'affiche. Dans un script Python ordinaire, show() ouvre une visionneuse externe, et im.save('resultat.png') permet de garder le résultat.",
+      "questions": [
+        "Que renvoie getpixel ? Pourquoi faut-il des doubles parenthèses ?",
+        "Quelle est la taille de imC ? Le pixel (150, 50) en fait-il partie ?",
+        "paste crée-t-il une nouvelle image, ou modifie-t-il im ?"
+      ],
+      "correction": [
+        {
+          "code": "from PIL import Image\n\nim = Image.open(\"perroquet_256_cc.jpg\")\nprint(im.size, im.mode)              # (256, 256) RGB\n\nimNew = Image.new('RGB', (64, 32))\nprint(imNew.size, imNew.getpixel((0, 0)))     # (64, 32) (0, 0, 0) : noir\n\nprint(im.getpixel((130, 25)))        # un tuple (R, V, B)\n\nimNew.putpixel((32, 16), (255, 0, 0))\nprint(imNew.getpixel((32, 16)))      # (255, 0, 0)\n\nimC = im.crop((100, 0, 150, 50))\nprint(imC.size)                      # (50, 50)\n\nim.paste(imC, (0, 100))\nprint(im.getpixel((0, 100)) == imC.getpixel((0, 0)))   # True : im a été modifiée"
+        },
+        {
+          "text": "getpixel renvoie un tuple (R, V, B) de trois entiers entre 0 et 255. Chez nous, le pixel (130, 25) du perroquet vaut (139, 148, 81), mais la valeur exacte d'un pixel de JPEG peut varier d'une unité selon le décodeur. getpixel attend un seul argument, le couple (x, y) : d'où les doubles parenthèses, getpixel((x, y))."
+        },
+        {
+          "text": "crop((100, 0, 150, 50)) donne une image de 50 × 50 pixels. Le coin (x2, y2) est exclu, comme la borne de fin de range ou d'une tranche : les colonnes vont de 100 à 149 et les lignes de 0 à 49. crop renvoie une nouvelle image et ne touche pas à im."
+        },
+        {
+          "text": "paste, au contraire, modifie l'image sur laquelle on l'appelle, et renvoie None. Après la cellule de collage, im n'est plus l'image d'origine : pour la suite, on rouvre le fichier."
+        }
+      ]
+    },
+    {
+      "num": "2",
+      "title": "Rotation naïve, pixel par pixel",
+      "intro": "Lors d'une rotation de 90° dans le sens horaire d'une image carrée de côté n pixels, le pixel (xi, yi) arrive en (xr, yr) = (n − 1 − yi, xi). Sur une image de 8 pixels de côté, le pixel (1, 1) va en (6, 1), le pixel (7, 4) en (3, 7) et le pixel (4, 7) en (0, 4).",
+      "code": "# une autre image pour les tests\nim2 = Image.open(\"perroquet_256_cc.jpg\")\nim2\n\ndef rotation_naive(img):\n    largeur, hauteur = img.size\n    assert largeur == hauteur, \"Cette fonction ne traite que les images carrées\"\n\n    imNew = ...\n\n    ...\n\n    return ...\n\nrotationn_naive(im2)\n\n# chronométrer la fonction sur une image de 256 px de côté\nfrom timeit import timeit\n\nprint(timeit(\"rotation_naive(im2)\", number = 1, globals = globals()))",
+      "note": "Coquille du notebook : la cellule appelle rotationn_naive(im2), avec deux n, ce qui provoque une NameError. La fonction s'appelle rotation_naive.",
+      "questions": [
+        "Écrire rotation_naive(img), purement itérative.",
+        "Vérifier la formule sur les trois pixels d'exemple.",
+        "Chronométrer la fonction sur l'image de 256 × 256 pixels."
+      ],
+      "correction": [
+        {
+          "code": "from PIL import Image\nfrom timeit import timeit\n\ndef rotation_naive(img):\n    largeur, hauteur = img.size\n    assert largeur == hauteur, \"Cette fonction ne traite que les images carrées\"\n    n = largeur\n\n    imNew = Image.new('RGB', (n, n))\n\n    for x in range(n):\n        for y in range(n):\n            # le pixel (x, y) part en (n - 1 - y, x)\n            imNew.putpixel((n - 1 - y, x), img.getpixel((x, y)))\n\n    return imNew\n\nim2 = Image.open(\"perroquet_256_cc.jpg\")\ntournee = rotation_naive(im2)\n# contrôle avec la rotation intégrée de PIL (ROTATE_270 = 90° dans le sens horaire)\nprint(tournee.tobytes() == im2.transpose(Image.Transpose.ROTATE_270).tobytes())   # True\nprint(timeit(\"rotation_naive(im2)\", number = 1, globals = globals()))"
+        },
+        {
+          "text": "On parcourt les n² pixels de l'image de départ, et chacun est écrit une seule fois dans la nouvelle image : la complexité est O(n²), linéaire en nombre de pixels. Avec n = 8 : (1, 1) donne (8 − 1 − 1, 1) = (6, 1), (7, 4) donne (8 − 1 − 4, 7) = (3, 7), et (4, 7) donne (8 − 1 − 7, 4) = (0, 4)."
+        },
+        {
+          "text": "Pourquoi n − 1 − y ? La première ligne de l'image (y = 0) devient la dernière colonne (x = n − 1). Ici, y parcourt 0 à n − 1, donc n − 1 − y reste bien dans l'image. On peut le faire vérifier aux élèves sur un quadrillage 4 × 4 avant de coder."
+        },
+        {
+          "text": "Temps mesuré chez nous (Python 3.13, Pillow 12) : environ 0,07 s pour 256 × 256 pixels. Le corrigé de 2021 donnait 0,58 s dans Basthon. Pour comparer, im2.transpose(Image.Transpose.ROTATE_270), écrit en C, prend environ 0,1 ms."
+        }
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Un seul niveau : découper en quatre et permuter les carrés",
+      "intro": "Algorithme diviser pour régner : découper l'image en quatre carrés de même taille A (haut gauche), B (haut droite), C (bas gauche) et D (bas droite), créer une image vierge de même taille, puis y recoller les quatre carrés en les faisant tourner d'un cran dans le sens horaire. Hypothèse : les images sont carrées et leur côté est une puissance de 2.",
+      "code": "im2 = Image.open(\"perroquet_256_cc.jpg\")\n\nn, hauteur = im2.size\n\nm = n // 2\n\n#Découpe en quatre carrés\ncarreA = ...\ncarreB = ...\ncarreC = ...\ncarreD = ...\n\n#recombine l'image en faisant tourner les carrés\nimNew = Image.new('RGB', (n, n))\n\nimNew.paste(...)\n...\n...\n...\n\nimNew",
+      "questions": [
+        "Compléter les quatre crop et les quatre paste.",
+        "L'image obtenue est-elle tournée d'un quart de tour ?"
+      ],
+      "correction": [
+        {
+          "code": "from PIL import Image\n\nim2 = Image.open(\"perroquet_256_cc.jpg\")\n\nn, hauteur = im2.size\n\nm = n // 2\n\n#Découpe en quatre carrés\ncarreA = im2.crop((0, 0, m, m))      # haut gauche\ncarreB = im2.crop((m, 0, n, m))      # haut droite\ncarreC = im2.crop((0, m, m, n))      # bas gauche\ncarreD = im2.crop((m, m, n, n))      # bas droite\n\n#recombine l'image en faisant tourner les carrés\nimNew = Image.new('RGB', (n, n))\n\nimNew.paste(carreA, (m, 0))          # A : haut gauche -> haut droite\nimNew.paste(carreB, (m, m))          # B : haut droite -> bas droite\nimNew.paste(carreD, (0, m))          # D : bas droite  -> bas gauche\nimNew.paste(carreC, (0, 0))          # C : bas gauche  -> haut gauche\n\nprint(imNew.crop((m, 0, n, m)).tobytes() == carreA.tobytes())   # True"
+        },
+        {
+          "text": "Les quatre carrés font une permutation circulaire dans le sens horaire : A → haut droite, B → bas droite, D → bas gauche, C → haut gauche. Chaque coin est une image de m × m pixels, avec m = n // 2."
+        },
+        {
+          "text": "L'image n'est pas encore tournée : les quatre quarts ont changé de place, mais chacun garde son orientation d'origine. On voit un perroquet découpé en quatre morceaux droits. Pour obtenir la vraie rotation, il faut aussi faire tourner chaque quart, et c'est exactement le même problème en plus petit : d'où la récursivité de l'étape suivante."
+        }
+      ]
+    },
+    {
+      "num": "4",
+      "title": "rotation_dpr : la version récursive",
+      "intro": "Pour obtenir une rotation complète, on réapplique la même opération récursivement à chaque carré, jusqu'à des carrés de 1 pixel sur 1. rotation_dpr(img) prend une image PIL et renvoie une nouvelle image tournée de 90° dans le sens horaire.",
+      "code": "def rotation_dpr(img):\n\n    n, hauteur = img.size\n    assert n == hauteur, \"Cette fonction ne traite que les images carrées\"\n\n    m = n // 2\n\n    # Découpe en quatre carrés\n    carre_A = ...\n    carre_B = ...\n    ...\n\n    # On relance la fonction sur les 4 morceaux\n\n\n    # Recombine l'image en faisant tourner les carrés\n\n\n    return im_new\n\n\nrotation_dpr(im2)",
+      "questions": [
+        "Compléter rotation_dpr. Quel est le cas de base ?",
+        "Identifier les phases diviser, régner et combiner.",
+        "Pourquoi l'hypothèse « côté puissance de 2 » est-elle nécessaire ?"
+      ],
+      "correction": [
+        {
+          "code": "from PIL import Image\n\ndef rotation_dpr(img):\n\n    n, hauteur = img.size\n    assert n == hauteur, \"Cette fonction ne traite que les images carrées\"\n\n    # RÉGNER : un carré de 1 pixel est sa propre rotation\n    if n == 1:\n        return img.copy()\n\n    m = n // 2\n\n    # DIVISER : découpe en quatre carrés\n    carre_A = img.crop((0, 0, m, m))\n    carre_B = img.crop((m, 0, n, m))\n    carre_C = img.crop((0, m, m, n))\n    carre_D = img.crop((m, m, n, n))\n\n    # On relance la fonction sur les 4 morceaux\n    carre_A = rotation_dpr(carre_A)\n    carre_B = rotation_dpr(carre_B)\n    carre_C = rotation_dpr(carre_C)\n    carre_D = rotation_dpr(carre_D)\n\n    # COMBINER : recombine l'image en faisant tourner les carrés\n    im_new = Image.new('RGB', (n, n))\n    im_new.paste(carre_A, (m, 0))\n    im_new.paste(carre_B, (m, m))\n    im_new.paste(carre_D, (0, m))\n    im_new.paste(carre_C, (0, 0))\n\n    return im_new\n\n\nim2 = Image.open(\"perroquet_256_cc.jpg\")\nr = rotation_dpr(im2)\nprint(r.tobytes() == im2.transpose(Image.Transpose.ROTATE_270).tobytes())   # True"
+        },
+        {
+          "text": "Diviser : les quatre crop. Régner : les quatre appels récursifs, jusqu'au cas de base, une image de 1 pixel, qui est sa propre rotation. Combiner : les quatre paste en permutation circulaire. Pourquoi ça marche : si chaque quart est correctement tourné (hypothèse de récurrence) et que les quarts sont replacés par rotation d'un cran, alors toute l'image est tournée. Le résultat est identique pixel pour pixel à celui de rotation_naive et de transpose(ROTATE_270)."
+        },
+        {
+          "text": "Le corrigé de 2021 (rotationDpR) s'arrête un cran plus tôt, avec un test if m > 1 avant les appels récursifs : à n = 2, les quatre carrés de 1 pixel sont recollés directement. C'est équivalent. Le test n == 1 présente le cas de base de façon plus lisible pour des élèves, et il traite aussi une image de 1 pixel passée directement."
+        },
+        {
+          "text": "Puissance de 2 : à chaque niveau, n est divisé par 2 avec m = n // 2. Si n est impair, par exemple 3, les carrés n'ont plus tous la même taille, et crop((m, 0, n, m)) n'est plus carré : l'assert échoue dès l'appel récursif suivant. 256 = 2⁸ donne 8 niveaux de découpage."
+        }
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Critiquer l'efficacité de la méthode",
+      "code": "from timeit import timeit\n\nprint(timeit(\"rotation_dpr(im2)\", number = 1, globals = globals()))",
+      "questions": [
+        "Chronométrer rotation_dpr sur l'image de 256 × 256 pixels et comparer avec rotation_naive.",
+        "Critiquer l'efficacité de la méthode dans ce cas."
+      ],
+      "correction": [
+        {
+          "code": "from timeit import timeit\n\nt_naive = timeit(\"rotation_naive(im2)\", number = 1, globals = globals())\nt_dpr = timeit(\"rotation_dpr(im2)\", number = 1, globals = globals())\nprint(f\"naïve : {t_naive:.3f} s   diviser pour régner : {t_dpr:.3f} s\")"
+        },
+        {
+          "text": "Mesures chez nous (Python 3.13, Pillow 12) : environ 0,07 s pour la version naïve et 0,3 à 0,5 s pour la version diviser pour régner, soit 4 à 7 fois plus lent. Le corrigé de 2021 donnait 0,58 s contre 3,08 s dans Basthon, le même ordre de rapport."
+        },
+        {
+          "text": "Explication : la version récursive fait 1 + 4 + 16 + ... + 4⁸ = 87 381 appels. Chacun crée une nouvelle image et quatre découpes, soit environ 175 000 objets images pour 65 536 pixels. De plus, à chaque niveau, les paste recopient l'image entière : T(n) = 4T(n/2) + O(n²) donne O(n² log n) pixels copiés (9 niveaux pour 256 pixels de côté), contre O(n²) pour la version naïve qui déplace chaque pixel une seule fois."
+        },
+        {
+          "text": "Conclusion : ici, diviser pour régner n'apporte aucun gain. Le problème est déjà linéaire en nombre de pixels, et la recombinaison coûte autant que le problème lui-même. C'est le même constat qu'avec les occurrences du TP 1. L'intérêt est ailleurs : c'est un bel exemple visuel de récursivité, et les quatre sous-problèmes, indépendants, pourraient être traités en parallèle. Sur une matrice qu'on a le droit de modifier, il existe aussi une version en place qui n'utilise aucune image intermédiaire."
+        }
+      ]
+    },
+    {
+      "num": "6",
+      "title": "Dans les deux sens : l'argument reverse",
+      "intro": "Nouvelle fonction rotation_dpr_2(img, reverse=False) : avec reverse=True, la rotation se fait dans le sens anti-horaire.",
+      "code": "def rotation_dpr_2(img, reverse=False):\n\n    n, hauteur = img.size\n    assert n == hauteur, \"Cette fonction ne traite que les images carrées\"\n\n    m = n // 2\n\n    ...\n\nim2 = Image.open(\"perroquet_256_cc.jpg\")\nrotation_dpr_2(im2, reverse=True)",
+      "questions": [
+        "Écrire rotation_dpr_2. Qu'est-ce qui change par rapport à rotation_dpr ?",
+        "Comment vérifier le résultat sans regarder l'image ?"
+      ],
+      "correction": [
+        {
+          "code": "from PIL import Image\n\ndef rotation_dpr_2(img, reverse=False):\n\n    n, hauteur = img.size\n    assert n == hauteur, \"Cette fonction ne traite que les images carrées\"\n\n    if n == 1:\n        return img.copy()\n\n    m = n // 2\n\n    # on transmet reverse aux appels récursifs\n    carre_A = rotation_dpr_2(img.crop((0, 0, m, m)), reverse)\n    carre_B = rotation_dpr_2(img.crop((m, 0, n, m)), reverse)\n    carre_C = rotation_dpr_2(img.crop((0, m, m, n)), reverse)\n    carre_D = rotation_dpr_2(img.crop((m, m, n, n)), reverse)\n\n    im_new = Image.new('RGB', (n, n))\n    if not reverse:                  # sens horaire : A -> B -> D -> C -> A\n        im_new.paste(carre_A, (m, 0))\n        im_new.paste(carre_B, (m, m))\n        im_new.paste(carre_D, (0, m))\n        im_new.paste(carre_C, (0, 0))\n    else:                            # sens anti-horaire : A -> C -> D -> B -> A\n        im_new.paste(carre_A, (0, m))\n        im_new.paste(carre_C, (m, m))\n        im_new.paste(carre_D, (m, 0))\n        im_new.paste(carre_B, (0, 0))\n    return im_new\n\nim2 = Image.open(\"perroquet_256_cc.jpg\")\ngauche = rotation_dpr_2(im2, reverse=True)\nprint(gauche.tobytes() == im2.transpose(Image.Transpose.ROTATE_90).tobytes())   # True\nprint(rotation_dpr_2(gauche).tobytes() == im2.tobytes())                       # True : retour au départ"
+        },
+        {
+          "text": "Deux changements : la permutation des quatre carrés se fait dans l'autre sens (A va en bas à gauche, C en bas à droite, D en haut à droite, B en haut à gauche), et reverse doit être transmis aux quatre appels récursifs. Si on l'oublie, les quarts tournent dans le sens horaire alors que leur placement est anti-horaire, et l'image est fausse."
+        },
+        {
+          "text": "Vérifications sans regarder l'image : comparer avec transpose(Image.Transpose.ROTATE_90), qui est la rotation anti-horaire de PIL. On peut aussi vérifier qu'un quart de tour dans un sens suivi d'un quart de tour dans l'autre redonne l'image de départ, et que quatre quarts de tour dans le même sens aussi. Ce sont de bons tests à faire écrire aux élèves, car ils ne demandent aucune valeur de pixel calculée à la main."
+        }
+      ]
+    }
+  ]
+}

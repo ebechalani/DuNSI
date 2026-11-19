@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Tests/test_Calculatrice4.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">import</span> pytest
+
+<span class="PreProc">from</span> calculatrice <span class="PreProc">import</span> Calculatrice
+
+<span class="PreProc">from</span> datetime <span class="PreProc">import</span> datetime
+
+<span class="Statement">def</span> <span class="Identifier">pytest_generate_tests</span>(metafunc):
+    <span class="Comment"># called once per each test function</span>
+    funcarglist = metafunc.cls.params[metafunc.function.__name__]
+    argnames = <span class="Identifier">sorted</span>(funcarglist[<span class="Constant">0</span>])
+    metafunc.parametrize(argnames, [[funcargs[name] <span class="Statement">for</span> name <span class="Statement">in</span> argnames]
+            <span class="Statement">for</span> funcargs <span class="Statement">in</span> funcarglist])
+
+<span class="Statement">class</span> <span class="Identifier">TestClass</span>(<span class="Identifier">object</span>):
+    <span class="Comment"># a map specifying multiple argument sets for a test method</span>
+    params = {
+        <span class="Constant">'</span><span class="Constant">test_sommet</span><span class="Constant">'</span>: [<span class="Identifier">dict</span>(liste=[<span class="Constant">4</span>]), <span class="Identifier">dict</span>(liste=[<span class="Constant">2</span>,<span class="Constant">7</span>,<span class="Constant">12</span>]), <span class="Identifier">dict</span>(liste=[<span class="Constant">2</span>,<span class="Constant">4</span>,<span class="Constant">7</span>,-<span class="Constant">1</span>]),],
+        <span class="Constant">'</span><span class="Constant">test_somme</span><span class="Constant">'</span>: [<span class="Identifier">dict</span>(liste=[<span class="Constant">2</span>,-<span class="Constant">3</span>], resAttendu=<span class="Constant">5</span>), <span class="Identifier">dict</span>(liste=[<span class="Constant">2</span>,<span class="Constant">3</span>,<span class="Constant">6</span>], resAttendu=<span class="Constant">9</span>)],
+    }
+
+    <span class="PreProc">@</span><span class="Identifier">pytest.mark.skipif</span>(datetime.now().second &lt; <span class="Constant">30</span>, reason=<span class="Constant">&quot;</span><span class="Constant">à cette heure-ci, on ignore ce test</span><span class="Constant">&quot;</span>)
+    <span class="Statement">def</span> <span class="Identifier">test_sommet</span>(self, liste):
+        calc = Calculatrice()
+        <span class="Statement">for</span> i <span class="Statement">in</span> liste:
+            calc.empiler(i)
+        resAttendu = liste[-<span class="Constant">1</span>]
+        resEffectif = calc.sommet()
+        <span class="Statement">assert</span> resAttendu == resEffectif, <span class="Constant">&quot;</span><span class="Constant">le dernier nombre empilé est au sommet</span><span class="Constant">&quot;</span>
+
+    <span class="Statement">def</span> <span class="Identifier">test_somme</span>(self, liste,resAttendu):
+        calc = Calculatrice()
+        <span class="Statement">for</span> i <span class="Statement">in</span> liste:
+            calc.empiler(i)
+        <span class="Statement">if</span> calc.sommet() &lt; <span class="Constant">0</span>:
+            pytest.skip(<span class="Constant">&quot;</span><span class="Constant">Pas de nombre négatif en 2è paramètre de l'addition</span><span class="Constant">&quot;</span>)
+        calc.ajouter()
+        resEffectif = calc.sommet()
+        <span class="Statement">assert</span> resAttendu == resEffectif, <span class="Constant">&quot;</span><span class="Constant">la somme des 2 derniers nombres est au sommet</span><span class="Constant">&quot;</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

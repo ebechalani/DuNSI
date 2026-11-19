@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Prolongements sur la complexité</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1>Prolongements sur la complexité</h1>
+    <div id="contenu">
+      <h2>I. La fonction d'Ackermann</h2>
+      <p>La fonction d'Ackermann est un exemple classique de fonction récursive
+        qui "explose" très vite. Vous pouvez la tester grâce au fichier
+        <a href="complexiteAckermann.html">complexiteAckermann.py</a>.
+        Pour plus d'informations, voir <a href="https://fr.wikipedia.org/wiki/Fonction_d%27Ackermann">la
+          page qui y est consacrée</a> sur Wikipedia.
+        La définition de la fonction Ackermann est la suivante :</p>
+<pre class="algo">
+A(0, n) = n + 1
+A(m, 0) = A(m-1, 1) si m > 0
+A(m, n) = A(m-1, A(m, n-1)) si m > 0 et n > 0
+</pre>
+      <h2>II. Efficacité des langages de programmation</h2>
+      <p>Pour résoudre un problème efficacement, l'efficacité d'un langage de
+        programmation passe bien sûr après le problème de la complexité, Surtout
+        s'il s'agit de résoudre ponctuellement un gros problème. Mais s'il
+        s'agit de résoudre fréquemment des problèmes de tailles petites à
+        moyennes, la question est tout autre. À titre d'exemple, voici un
+        extrait d'une comparaison publiée sur la page
+        <a href="https://thenewstack.io/which-programming-languages-use-the-least-electricity/">https://thenewstack.io/which-programming-languages-use-the-least-electricity/</a> :</p>
+        <table border="1" class="centre">
+                <caption style="caption-side: bottom">Efficacité de langages de programmation</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Langage</th>
+                        <th scope="col">Efficacité en temps<br></th>
+                        <th scope="col">Efficacité en espace<br></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>C</td>
+                        <td style="text-align: center;">1</td>
+                        <td style="text-align: center;">1,17</td>
+                    </tr>
+                    <tr>
+                        <td>Java</td>
+                        <td style="text-align: center;">1,89</td>
+                        <td style="text-align: center;">6,01</td>
+                    </tr>
+                    <tr>
+                        <td>C#</td>
+                        <td style="text-align: center;">3,14</td>
+                        <td style="text-align: center;">2,85</td>
+                    </tr>
+                    <tr>
+                        <td>swift</td>
+                        <td style="text-align: center;">4,20</td>
+                        <td style="text-align: center;">2,71</td>
+                    </tr>
+                    <tr>
+                        <td>javascript</td>
+                        <td style="text-align: center;">6,52</td>
+                        <td style="text-align: center;">4,59</td>
+                    </tr>
+                    <tr>
+                        <td>PHP<br></td>
+                        <td style="text-align: center;">27,64</td>
+                        <td style="text-align: center;">2,57</td>
+                    </tr>
+                    <tr>
+                        <td>Python</td>
+                        <td style="text-align: center;">71,90</td>
+                        <td style="text-align: center;">2,80</td>
+                    </tr>
+                </tbody>
+            </table>
+      <h2>III. Pour aller encore plus loin</h2>
+      <p>L'étude de la complexité est un problème de recherche qui date des
+        "débuts" de l'informatique et qui est encore d'actualité. En 1965, Juris
+        Hartmanis et Richard E. Stearns définissent les premières classes de
+        complexité. Voici une présentation rapide de quelques classes de
+        complexité :</p>
+      <ul>
+        <li><strong>P</strong> : problèmes décidables en temps polynomial par
+          une machine déterministe : il y a un algorithme polynomial permettant
+          de résoudre le problème ;</li>
+        <li><strong>NP</strong> : problèmes décidables en temps polynomial par
+          une machine indéterministe : il y a un algorithme polynomial pour dire
+          si une solution candidate est effectivement une solution du problème ;</li>
+        <li><strong>EXPTIME</strong> : problèmes décidables en temps exponentiel
+          par une machine déterministe : il y a un algorithme exponentiel
+          permettant de résoudre le problème ;</li>
+        <li><strong>NEXPTIME</strong> : problèmes décidables en temps exponentiel
+          par une machine indéterministe : il y a un algorithme exponentiel pour
+          dire si une solution candidate est effectivement une solution du
+          problème.</li>
+      </ul>
+
+      <p>Il a été prouvé (démonstration triviale) que P ⊂ NP. Par contre, la
+        question P = NP reste un problème ouvert.</p>
+    </div>
+</div>
+</body>
+</html>

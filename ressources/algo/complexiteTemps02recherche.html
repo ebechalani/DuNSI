@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Complexite/complexiteTemps02recherche.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">from</span> random <span class="PreProc">import</span> shuffle, randint
+<span class="PreProc">import</span> matplotlib.pyplot <span class="Statement">as</span> plt
+
+<span class="Statement">def</span> <span class="Identifier">rechercheDicho</span>(liste, valeur, debutZoneRecherche, finZoneRecherche):
+  <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">  Fonction renvoyant l'indice d'une valeur si elle est présente dans liste,</span>
+<span class="Constant">  et renvoyant -1 sinon</span>
+<span class="Constant">  </span><span class="Constant">&quot;&quot;&quot;</span>
+  <span class="Statement">if</span> <span class="Identifier">len</span>(liste) == <span class="Constant">0</span>:
+    <span class="Statement">return</span> (-<span class="Constant">1</span>,<span class="Constant">1</span>)
+  indiceMilieu = <span class="Identifier">int</span>((debutZoneRecherche+finZoneRecherche)/<span class="Constant">2</span>)
+  valeurMediane = liste[indiceMilieu]
+  <span class="Statement">if</span> valeurMediane == valeur:
+    <span class="Statement">return</span> (indiceMilieu,<span class="Constant">1</span>)
+  <span class="Statement">elif</span> valeur &lt; valeurMediane <span class="Statement">and</span> indiceMilieu &gt; debutZoneRecherche:
+      retour = rechercheDicho(liste, valeur, debutZoneRecherche, indiceMilieu-<span class="Constant">1</span>)
+      <span class="Statement">return</span> (retour[<span class="Constant">0</span>], <span class="Constant">1</span>+retour[<span class="Constant">1</span>])
+  <span class="Statement">elif</span> valeur &gt; valeurMediane <span class="Statement">and</span> indiceMilieu &lt; finZoneRecherche:
+      retour = rechercheDicho(liste, valeur, indiceMilieu+<span class="Constant">1</span>, finZoneRecherche)
+      <span class="Statement">return</span> (retour[<span class="Constant">0</span>], <span class="Constant">1</span>+retour[<span class="Constant">1</span>])
+  <span class="Statement">else</span>:
+    <span class="Statement">return</span> (-<span class="Constant">1</span>,<span class="Constant">1</span>)
+
+<span class="Statement">def</span> <span class="Identifier">rechercheNaive</span>(liste, valeur):
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    Recheche Naive dans une liste triée.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Identifier">len</span>(liste)):
+        <span class="Statement">if</span> liste[i] == valeur:
+            <span class="Statement">return</span> (i,i)
+    <span class="Statement">return</span> (-<span class="Constant">1</span>,<span class="Identifier">len</span>(liste))
+
+<span class="Statement">def</span> <span class="Identifier">evalAlgo</span>(n):
+    rec1 = <span class="Constant">0</span>
+    rec2 = <span class="Constant">0</span>
+    NB_TESTS = <span class="Constant">100</span>
+    <span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, NB_TESTS):
+        liste = [x <span class="Statement">for</span> x <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, n)]
+        shuffle(liste)
+        valeur = randint(<span class="Constant">0</span>,n-<span class="Constant">1</span>)
+        rec1 += rechercheNaive(liste, valeur)[<span class="Constant">1</span>]
+        rec2 += rechercheDicho(liste, valeur, <span class="Constant">0</span>, n-<span class="Constant">1</span>)[<span class="Constant">1</span>]
+    <span class="Statement">return</span> (rec1/NB_TESTS, rec2/NB_TESTS)
+
+NB_MAX = <span class="Constant">500</span>
+abscisses = [n <span class="Statement">for</span> n <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">1</span>,NB_MAX)]
+res = [evalAlgo(n) <span class="Statement">for</span> n <span class="Statement">in</span> abscisses]
+
+ordonnees1 = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: x[<span class="Constant">0</span>], res))
+ordonnees2 = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: x[<span class="Constant">1</span>], res))
+
+plt.plot(abscisses, ordonnees1)
+plt.plot(abscisses, ordonnees2)
+
+plt.xlim(<span class="Constant">0</span>, NB_MAX)
+plt.ylim(<span class="Constant">0</span>, NB_MAX)
+
+plt.show()
+
+<span class="Identifier">print</span>(res)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

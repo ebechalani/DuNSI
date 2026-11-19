@@ -1,0 +1,169 @@
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="algorithmique.js"></script>
+    <title>Résolution du problème de rendu de monnaie</title>
+  </head>
+  <body>
+    <div id="main">
+    <h1 suivant="diviser.html">Résolution du problème de rendu de monnaie</h1>
+    <div id="contenu">
+    <h2>I. Formalisation de l'algorithme</h2>
+      <p>L'algorithme peut être décrit selon l'une des façons suivantes :</p>
+      <pre class="algo">
+rendre_monnaie(<span class="constant">somme</span>:<span class="comment">Nombre</span>, <span class="constant">listePieces</span>:<span class="comment">[Nombre*]</span>) retourne <span class="identifier">decomposition</span>:<span>[Nombre*]</span> :
+    initialiser <span class="identifier">somme_restant_à_atteindre</span> à <span class="constant">somme</span>
+    initialiser <span class="identifier">decomposition</span> à la liste vide
+  <span class="statement">deb</span>:
+    chercher la plus grande valeur dans <span class="constant">listePieces</span> < <span class="identifier">somme_restant_à_atteindre</span> et l'appeler <span class="identifier">piece</span>
+    ajouter <span class="identifier">pièce</span> à <span class="identifier">decomposition</span>
+    enlever <span class="identifier">pièce</span> à <span class="identifier">somme_restant_à_atteindre</span>
+    si <span class="identifier">somme_restant_à_atteindre</span> > 0, recommencer à <span class="statement">deb</span>
+</pre>
+<pre class="algo">
+rendre_monnaie(<span class="constant">somme</span>:<span class="comment">Nombre</span>, <span class="constant">listePieces</span>:<span class="comment">[Nombre*]</span>) retourne <span class="identifier">decomposition</span>:<span>[Nombre*]</span> :
+    initialiser <span class="identifier">somme_restant_à_atteindre</span> à <span class="constant">somme</span>
+    initialiser <span class="identifier">decomposition</span> à la liste vide
+    <b>tant_que</b> <span class="identifier">somme_restant_à_atteindre</span> > 0:
+      chercher la plus grande valeur dans <span class="constant">listePieces</span> < <span class="identifier">somme_restant_à_atteindre</span> et l'appeler <span class="identifier">piece</span>
+      ajouter <span class="identifier">pièce</span> à <span class="identifier">decomposition</span>
+      enlever <span class="identifier">pièce</span> à <span class="identifier">somme_restant_à_atteindre</span>
+</pre>
+<p>Dans un premier temps, on pourra laisser les élèves écrire la première version s'ils sont plus à l'aise avec
+  celle-ci, mais il faudra rapidement qu'ils arrivent à écrire directement la deuxième version.</p>
+    <h2>II. Passage à un programme</h2>
+<pre class="algo">
+def rendre_monnaie(<span class="constant">somme</span>, <span class="constant">liste_pieces</span>):
+"""
+Fonction déterminant comment rendre une certaine somme d'argent avec des pièces.
+somme: Nombre ; la somme qu'il faut rendre
+liste_pieces: [Nombre*] ; la liste des types de pièces disponibles
+retour: [Nombre*] ; la liste des pièces à rendre
+"""
+<span class="comment"># initialiser somme_restant_à_atteindre à somme</span>
+<span class="identifier">somme_restant_a_atteindre</span> = <span class="constant">somme</span>
+<span class="comment"># initialiser decomposition à la liste vide</span>
+<span class="identifier">decomposition</span> = []
+<span class="comment"># Prendre successivement la plus grande pièce possible
+#jusqu'à avoir atteint la bonne somme</span>
+<b>while</b> <span class="identifier">somme_restant_a_atteindre</span> > 0:
+  <span class="comment">#chercher la plus grande valeur dans listePieces < somme et l'appeler piece</span>
+  <span class="identifier">piece</span> = <em>chercher_plus_grande_piece_possible(<span class="constant">liste_pieces</span>, <span class="identifier">somme_restant_a_atteindre</span>)</em>
+  <span class="comment">#ajouter pièce à decomposition</span>
+  <span class="identifier">decomposition</span>.append(<span class="identifier">piece</span>)
+  <span class="comment"># enlever pièce à somme_restant_à_atteindre</span>
+  <span class="identifier">somme_restant_a_atteindre</span> = <span class="identifier">somme_restant_a_atteindre</span> - <span class="identifier">piece</span>
+  <strong>return</strong> <span class="identifier">decomposition</span>
+    </pre>
+
+<h2>III. La fonction chercher_plus_grande_piece_possible</h2>
+<h3>A. Analyse des hypothèses</h3>
+  <ul>
+    <li>liste triée</li>
+    <ul>
+      <li>Version en allant du plus petit au plus grand</li>
+<pre class="algo">
+chercher_plus_grande_piece_possible(listePieces, somme):
+  dernière_piece_vue = 0
+  <strong>tant_que</strong> <em>listePiecesPasComplètementParcourue</em> et <em>derniere_piece_vuePasTropGrande</em>:
+    <strong>si</strong> prochaine_piece_possible <= somme:
+      derniere_piece_vue = prochaine_piece_possible
+    passer à la pièce suivante
+  renvoyer dernière_piece_vue
+</pre>
+      <li>Version en  allant du plus grand au plus petit (<strong>analyser le problème de la terminaison</strong>)</li>
+<pre class="algo">
+chercher_plus_grande_piece_possible(listePieces, somme):
+  <strong>tant_que</strong> pieceCourante > somme:
+    passer à la pièce suivante
+  renvoyer pieceCourante
+</pre>
+      </ul>
+    <li>liste non triée (<strong>analyser la complexité par rapport aux cas précédents</strong>)</li>
+    <pre class="algo">
+    chercher_plus_grande_piece_possible(listePieces, somme):
+      pieceConvenable = prochainePiece
+      <strong>tant_que</strong> <em>listePiecesPasComplètementParcourue</em>:
+        <strong>si</strong> prochainePiece < somme et prochainePiece > pieceConvenable:
+          pieceConvenable = prochainePiece
+      renvoyer pieceConvenable
+    </pre>
+  </ul>
+  <h3>B. Trier la liste</h3>
+  <p>
+    Il est apparaît judicieux de trier la liste. On peut alors envisager où la trier : dans
+    <code>chercher_plus_grande_piece_possible()</code> ou dans <code>rendreMonnaie()</code>,
+    et à quel endroit dans ces fonctions.
+  </p>
+  <p>
+    Le tri n'a besoin d'être fait qu'une seule fois, car la liste des pièces triées ne change
+    pas tout au long du processus. Il est donc judicieux de trier cette liste avant la boucle
+    de la fonction <code>rendreMonnaie()</code>. On pourra alors assumer dans
+    <code>chercher_plus_grande_piece_possible()</code> que la liste des pièces est triée. Cela
+    peut d'ailleurs être traduit par une assertion <code>verifierListeTriee()</code>.
+  </p>
+  <p>Par ailleurs, un tri par ordre décroissant donne un test plus simple dans la boucle. À noter
+  que là encore, 2 solutions sont possibles :</p>
+  <ul>
+    <li>Trier la liste par ordre décroissant et la parcourir à partir de l'indice 0</li>
+    <li>Trier la liste par ordre croissant et la parcourir à partir du dernier indice</li>
+  </ul>
+  <p>Enfin, le parcours peut être fait de 2 façons possibles :</p>
+  <ul>
+    <li>Avec un <code>while</code>, et une condition de sortie bien défini ;</li>
+    <li>Avec un <code>for</code>, et un <code>break</code> pour sortir au bon moment.</li>
+  </ul>
+  <h3>C. Et en Python...</h3>
+<pre class="algo">
+def chercher_plus_grande_piece_possible(<span class="constant">listePieces</span>, <span class="constant">somme</span>):
+  <strong>assert</strong> <em>liste_croissante(<span class="constant">listePieces</span>)</em>
+  <span class="identifier">indice</span> = len(<span class="constant">listePieces</span>) - 1
+  <span class="identifier">pieceCourante</span>  = <span class="constant">listePieces</span>[<span class="identifier">indice</span>]
+  <strong>while</strong> <span class="identifier">pieceCourante</span> > <span class="constant">somme</span>:
+    <span class="identifier">indice</span> = <span class="identifier">indice</span> - 1
+    <span class="identifier">pieceCourante</span> = <span class="constant">listePieces</span>[<span class="identifier">indice</span>]
+  <strong>return</strong> <span class="identifier">pieceCourante</span>
+</pre>
+  <h3>D. Quant à l'assertion...</h3>
+<pre class="algo">
+def liste_croissante(<span class="constant">liste</span>):
+  <span class="identifier">indice</span> = 0
+  <span class="identifier">liste_triee</span> = True;
+  <strong>while</strong> <span class="identifier">indice</span> < len(<span class="constant">liste</span>) - 2 and <span class="identifier">liste_triee</span>:
+    <strong>if</strong> <span class="constant">liste</span>[<span class="identifier">indice</span>] > <span class="constant">liste</span>[<span class="identifier">indice</span> + 1]:
+      <span class="identifier">liste_triee</span> = False
+  <span class="identifier">indice</span> = <span class="identifier">indice</span> + 1
+  <strong>return</strong> <span class="identifier">liste_triee</span>
+</pre>
+  <h2>IV. Rajout du tri dans la fonction rendre_monnaie</h2>
+<pre class="algo">
+def rendre_monnaie(<span class="constant">somme</span>, <span class="constant">liste_pieces</span>):
+  """
+    Fonction déterminant comment rendre une certaine somme d'argent avec des pièces.
+    somme: Nombre ; la somme qu'il faut rendre
+    liste_pieces: [Nombre*] ; la liste des types de pièces disponibles
+    retour: [Nombre*] ; la liste des pièces à rendre
+  """
+  <span class="comment"># initialiser somme_restant_à_atteindre à somme</span>
+  <span class="identifier">somme_restant_a_atteindre</span> = <span class="constant">somme</span>
+  <span class="comment"># initialiser decomposition à la liste vide</span>
+  <span class="identifier">decomposition</span> = []
+  <span class="comment"># trier la liste par ordre croissant</span>
+  <span class="important"><span class="identifier">liste_pieces_triee</span> = sorted(<span class="constant">liste_pieces</span>)</span>
+  <span class="comment"># Prendre successivement la plus grande pièce possible
+  #jusqu'à avoir atteint la bonne somme</span>
+  <b>while</b> <span class="identifier">somme_restant_a_atteindre</span> > 0:
+    <span class="comment">#chercher la plus grande valeur dans listePieces < somme et l'appeler piece</span>
+    <span class="important"><span class="identifier">piece</span> = <em>chercher_plus_grande_piece_possible(<span class="identifier">liste_pieces_triee</span>, <span class="identifier">somme_restant_a_atteindre</span>)</em></span>
+    <span class="comment">#ajouter pièce à decomposition</span>
+    <span class="identifier">decomposition</span>.append(<span class="identifier">piece</span>)
+    <span class="comment"># enlever pièce à somme_restant_à_atteindre</span>
+    <span class="identifier">somme_restant_a_atteindre</span> = <span class="identifier">somme_restant_a_atteindre</span> - <span class="identifier">piece</span>
+    <strong>return</strong> <span class="identifier">decomposition</span>
+</pre>
+
+</div>
+</div>
+</body>
+</html>

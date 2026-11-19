@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Complexite/complexiteTemps01fibo.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">import</span> matplotlib.pyplot <span class="Statement">as</span> plt
+
+<span class="Statement">def</span> <span class="Identifier">fibo</span>(n):
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant"> fonction calculant le nombre de fibonacci et renvoyant un couple (valeur, complexité).</span>
+<span class="Constant">    Dans ce cas particulier, la complexité est justement égale à la valeur</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">if</span> n &lt; <span class="Constant">2</span>:
+        <span class="Statement">return</span> (<span class="Constant">1</span>,<span class="Constant">1</span>)
+    f1 = fibo(n-<span class="Constant">1</span>)
+    f2 = fibo(n-<span class="Constant">2</span>)
+    <span class="Statement">return</span> (f1[<span class="Constant">0</span>]+f2[<span class="Constant">0</span>], f1[<span class="Constant">1</span>]+f2[<span class="Constant">1</span>])
+
+listeFibo = [(<span class="Constant">1</span>,<span class="Constant">1</span>),(<span class="Constant">1</span>,<span class="Constant">1</span>)]
+<span class="Statement">def</span> <span class="Identifier">fiboMemo</span>(n):
+    <span class="Constant">&quot;&quot;&quot;</span><span class="Constant"> fonction calculant le nombre de fibonacci avec mémoïsation et renvoyant un</span>
+<span class="Constant">    couple (valeur, complexité).</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">if</span> n &gt;= <span class="Identifier">len</span>(listeFibo):
+        f1 = fiboMemo(n-<span class="Constant">1</span>)
+        f2 = fiboMemo(n-<span class="Constant">2</span>)
+        listeFibo.append((f1[<span class="Constant">0</span>]+ f2[<span class="Constant">0</span>],<span class="Constant">1</span>))
+    <span class="Statement">return</span> listeFibo[n]
+
+abscisses = [n <span class="Statement">for</span> n <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">20</span>)]
+ordonnees1 = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: fibo(x)[<span class="Constant">1</span>], abscisses))
+ordonnees2 = <span class="Identifier">list</span>(<span class="Identifier">map</span>(<span class="Statement">lambda</span> x: fiboMemo(x)[<span class="Constant">1</span>], abscisses))
+
+<span class="Identifier">print</span>(abscisses)
+<span class="Identifier">print</span>(ordonnees1)
+<span class="Identifier">print</span>(ordonnees2)
+
+plt.plot(abscisses, ordonnees1)
+plt.plot(abscisses, ordonnees2)
+
+
+plt.show()
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

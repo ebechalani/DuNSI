@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Complexite/complexiteEspace02triRapide.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.PreProc { color: #c000c0; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="PreProc">from</span> random <span class="PreProc">import</span> randint
+
+<span class="Comment">############################################################################</span>
+<span class="Comment">#  TRI RAPIDE EFFICACE EN ESPACE</span>
+<span class="Comment">############################################################################</span>
+<span class="Statement">def</span> <span class="Identifier">triRapideEfficace</span>(liste):
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    fonction qui initialise la fonction récursive de tri rapide d'une liste.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    trierEfficacement(liste, <span class="Constant">0</span>, <span class="Identifier">len</span>(liste)-<span class="Constant">1</span>)
+
+<span class="Statement">def</span> <span class="Identifier">trierEfficacement</span>(liste, indiceDebut, indiceFin):
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    fonction récursive qui trie une liste en utilisant la méthode trie rapide.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">if</span> (indiceFin &lt;= indiceDebut):
+        <span class="Statement">return</span>
+    indicePivot = randint(indiceDebut, indiceFin)
+    pivot = liste[indicePivot]
+    indicePivot = partitionnerEfficacement(liste, pivot, indiceDebut, indicePivot, indiceFin)
+    trierEfficacement(liste, indiceDebut, indicePivot-<span class="Constant">1</span>)
+    trierEfficacement(liste, indicePivot+<span class="Constant">1</span>, indiceFin)
+
+<span class="Statement">def</span> <span class="Identifier">partitionnerEfficacement</span>(liste, pivot, indiceDebut, indicePivot, indiceFin):
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    fonction qui partitionne une liste en fonction d'un pivot en mettant à gauche</span>
+<span class="Constant">    du pivot les éléments plus petits que le pivot et à droite les éléments plus</span>
+<span class="Constant">    grand. L'indice du pivot est susceptible d'être modifié au cours du traitement ;</span>
+<span class="Constant">    il est donc renvoyé par cette fonction.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    termine = <span class="Identifier">False</span>
+    indiceCourant = indiceDebut
+    <span class="Statement">while</span> indiceCourant &lt;= indiceFin:
+        <span class="Statement">if</span> liste[indiceCourant] &gt; pivot <span class="Statement">and</span> indiceCourant &lt; indicePivot:
+            liste[indicePivot] = liste[indiceCourant]
+            liste[indiceCourant] = liste[indicePivot-<span class="Constant">1</span>]
+            liste[indicePivot-<span class="Constant">1</span>] = pivot
+            indicePivot = indicePivot - <span class="Constant">1</span>
+        <span class="Statement">elif</span> liste[indiceCourant] &lt; pivot <span class="Statement">and</span> indiceCourant &gt; indicePivot:
+            liste[indicePivot] = liste[indiceCourant]
+            liste[indiceCourant] = liste[indicePivot+<span class="Constant">1</span>]
+            liste[indicePivot+<span class="Constant">1</span>] = pivot
+            indicePivot = indicePivot + <span class="Constant">1</span>
+        <span class="Statement">else</span>:
+            indiceCourant = indiceCourant + <span class="Constant">1</span>
+    <span class="Statement">return</span> indicePivot
+
+<span class="Comment">############################################################################</span>
+<span class="Comment">#  TRI RAPIDE NAIF</span>
+<span class="Comment">############################################################################</span>
+<span class="Statement">def</span> <span class="Identifier">trier</span>(liste):
+    <span class="Constant">&quot;&quot;&quot;</span>
+<span class="Constant">    fonction récursive qui trie une liste en utilisant la méthode trie rapide.</span>
+<span class="Constant">    </span><span class="Constant">&quot;&quot;&quot;</span>
+    <span class="Statement">if</span> liste == []:
+        <span class="Statement">return</span> []
+    indicePivot = randint(<span class="Constant">0</span>, <span class="Identifier">len</span>(liste)-<span class="Constant">1</span>)
+    pivot = liste[indicePivot]
+    liste[indicePivot:indicePivot+<span class="Constant">1</span>] = []
+    partition = partitionner(liste, pivot)
+    gaucheTriee = trier(partition[<span class="Constant">0</span>])
+    droiteTriee = trier(partition[<span class="Constant">1</span>])
+    <span class="Statement">return</span> gaucheTriee + [pivot] + droiteTriee
+
+<span class="Statement">def</span> <span class="Identifier">partitionner</span>(liste, pivot):
+    petits = []
+    grands = []
+    <span class="Statement">for</span> valeur <span class="Statement">in</span> liste:
+        <span class="Statement">if</span> valeur &lt;= pivot:
+            petits.append(valeur)
+        <span class="Statement">else</span>:
+            grands.append(valeur)
+    <span class="Statement">return</span> (petits, grands)
+
+liste = []
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>, <span class="Constant">30</span>):
+    liste.append(randint(<span class="Constant">1</span>,<span class="Constant">100</span>))
+
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">Liste de départ :</span><span class="Constant">&quot;</span>)
+<span class="Identifier">print</span>(liste)
+liste1 = liste[:]
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">Résultat du tri rapide efficace en espace :</span><span class="Constant">&quot;</span>)
+triRapideEfficace(liste1)
+<span class="Identifier">print</span>(liste1)
+<span class="Identifier">print</span>(<span class="Constant">&quot;</span><span class="Constant">Résultat du tri rapide naïf :</span><span class="Constant">&quot;</span>)
+liste2 = trier(liste)
+<span class="Identifier">print</span>(liste2)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

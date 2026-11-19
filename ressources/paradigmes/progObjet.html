@@ -1,0 +1,525 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="styleEcran.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="styleImprimante.css" media="print"/>
+<script src="algorithmique.js"></script>
+<title>Programmation orientée objet</title>
+</head>
+<body>
+<div id="main">
+  <h1 suivant="indexStructures.html">Programmation orientée objet</h1>
+<div id="contenu">
+  <h2>I. Introduction</h2>
+  <p>Le paradigme objet est un paradigme secondaire. Ainsi, on peut trouver des langages impératifs orientés objets (Java, Smalltalk) par exemple, mais aussi des langages fonctionnels (comme OCAML).</p>
+  <p>Le principe de base de la programmation orientée objet est le suivant : plutôt que d'avoir d'un côté des types de données, et de l'autre côté des fonctions pour manipuler les données, on va regrouper le tout. Et c'est ainsi que sont apparus plusieurs grands types de modèles orientés objets, dont celui que nous allons présenter ici, car c'est le plus utilisé, le plus connu, et le plus rigoureux : le modèle à base de classes.</p>
+  <p>Il existe d'autres types de modèles orientés objets (Javascript, par exemple, utilise un modèle à base de prototypes). Il y a malgré tout des points communs avec le modèle de classes. Concernant Python, je dirais qu'il s'agit d'un modèle à base de classes (car notions de classes et d'objets bien distinctes) mais <span style="text-decoration:line-through">dégénéré</span> mixé avec des aspects venant des modèles à prototypes. Cela en fait un langage à part du point de vue des aspects "orienté objet".
+  <p>Dans la suite du document, nous allons aborder l'essentiel des concepts objets. Pour chaque concept, après sa description informelle, nous donnerons sa représentation en UML, puis nous étudierons ce que cela donne en Python.</p>
+  <p>Il faut donc commencer par parler un peu d'UML. UML signifie <em>Unified Modeling Language</em>. Il s'agit d'un langage de modélisation créé dans les années 90 afin de permettre la modélisation d'un logiciel avant sa conception. Ce <em>langage</em> est en fait un ensemble d'une dizaine de <em>langages graphiques</em> permettant de représenter une spécification sous différents aspects. Nous n'utiserons qu'un de ces langages : celui des diagrammes de classes (abordé aussi dans la partie sur les bases de données).</p>
+  <h2>II. Notion de classe et d'objet</h2>
+  <h3>A. Dans un monde qui manque de classe...</h3>
+  <p>Dans la plupart des langages informatiques, on manipule des données typées. Par exemple, <code>3</code> est une donnée de type <code>Entier</code>, <code>true</code> est une donnée de type <code>Booléen</code>, etc.</p>
+<p>Lorsque ces types simples ne suffisent plus, de nombreux langages permettent de construire nos propres types et de leur donner un nom pour pouvoir les utiliser. Ces nouveaux types, constitués de plusieurs <em>champs</em> ou <em>attributs</em>, chacun ayant son propre type, sont souvent appelés <em>enregistrements</em>. Par exemple, en C, si on veut manipuler des points dans un espace à 2 dimensions, on pourra créer un nouveau type ainsi :</p>
+<pre class="algo">
+typedef {
+         double x;
+         double y
+        } point;
+</pre>
+  <p>Il sera alors possible de déclarer des variables de type <em>point</em> ainsi:
+    <pre class="algo">
+    	 point pt;
+   </pre>
+  </p>
+<p>Notez que cela peut ressembler un peu aux tuples de Python sauf que... il n'y a pas de type spécifique pour un profil de tuple particulier.</p>
+  <p>Ensuite, on pourra définir des fonctions manipulant des données de type <em>point</em>, comme une fonction <em>translater(dx, dy)</em> ou une fonction <em>distOrig()</em> qui donne la distance du point à l'origine (que l'on suppose avoir comme cordonnées (0,0)).
+    Mais tout cela sera un peu en désordre.</p>
+<p>Voilà par exemple ce que cela pourrait donner en Python :</p>
+<pre class="algo">
+from math import sqrt
+
+'''
+ Ici le point est représenté par un tuple de 2 entiers
+'''
+def translater(pt: tuple[int,int], dx: int, dy: int):
+  pt[0] += dx
+  pt[1] += dy
+
+def distOrig(pt : tuple[int,int]):
+  return sqrt(pt[0]*pt[0] + pt[1]*pt[1])
+</pre>
+<h3>B. Alors que quand on a la classe...</h3>
+<h4>1. Définitions</h4>
+<p>Dans les langages à base de classes, lorsqu'on a besoin d'un nouveau type, on le crée. Ces nouveaux types s'appellent des <strong>classes</strong>. Une classe est caractérisée par :
+<ul>
+  <li>un nom qui va correspondre à un nouveau type; </li>
+  <li>des <strong>attributs</strong> ou <strong>champs</strong> ou <strong>variables d'instance</strong> ; ie. des variables dont la valeur est propre à chaque donnée du type ce que sont "x" et "y" pour les points par exemple ;</li>
+  <li>des <strong>méthodes</strong> : ce sont des fonctions qui vont s'appliquer aux données du nouveau type ;</li>
+  <li>des <strong>constructeurs</strong> : ce sont des fonctions qui initialisent les variables d'instance des objets à leur création.</li>
+</ul>
+<p>On appelle <strong>objet</strong> ou <strong>instance</strong> une donnée dont le type correspond à une classe.</p>
+  <p class="nouveau">
+  <ul>
+    <li> Un objet doit d'abord être <strong>créé</strong>. Cela implique la réservation de l'espace mémoire nécessaire ainsi que son initialisation, faite en faisant appel à un <strong>constructeur</strong>.
+    </li>
+    <li>
+      Une fois l'objet créé, il est possible de lui appliquer les différentes méthodes définies dans sa classe, le passer en paramètre à d'autres méthodes, etc.
+    </li>
+    <li>
+    Lorsqu'un objet n'est plus nécessaire, il faut le détruire pour libérer la place mémoire qu'il occupait. Suivant les langages, la destruction d'un objet peut être soit explicite (c'est le cas en C++ par exemple, avec l'instruction <code>delete</code>) soit implicite (comme en Python ou en Java). Dans le cas d'une destruction implicite, c'est un processus spécifique, appelé <strong>ramasse-miettes</strong>, qui s'en charge. Ce processus détecte les objets devenus inutiles (car ils ne sont plus référencés) et les supprime (quand il y a du temps machine disponible ou que la mémoire commence à être remplie).
+    </li>
+  </ul>
+</p>
+<h4>2. Représentation en UML</h4>
+<p>En UML, on pourra représenter la classe Point ainsi :</p>
+<pre class="classe">
+Point
+<hr/>x: reel
+y: reel
+<hr/>Point(vx,vy)
+translater(dx : reel, dy: reel): void
+distOrig(): reel /*sans paramètre maintenant*/
+</pre>
+<p>Comme on peut le voir, une classe est représentée par un rectangle divisé en 3 parties :</p>
+<ul>
+  <li>En haut, le nom de la classe ;</li>
+  <li>Au milieu, les variables d'instance de la classe ;</li>
+  <li>En bas, les méthodes et constructeurs. Un constructeur apparaît comme une méthode ayant le même nom que la classe et n'ayant pas de type de retour.</li>
+</ul>
+<p>
+Par ailleurs, on peut constater que l'objet du type de la classe auquel on applique une méthode (souvent appelé <strong>l'objet courant</strong>) n'est pas indiqué parmi la liste des paramètres des méthodes. En effet, la méthode s'applique <em>de facto</em> à une instance de la classe ; celle-ci est donc implicite dans la déclaration de la méthode.</p>
+<h4>3. Manipuler les instances d'une classe</h4>
+<p>Voila maintenant à quoi pourrait ressembler une utilisation de cette classe (les notations utilisées ici ne sont pas issues d'un langage réel mais visent à montrer les points communs entre les langages orientés objet):</p>
+<pre class="haskell">
+<span class="entree">p1 = creer Point(3,4)</span>
+<span class="entree">p2 = creer Point(11,13)</span>
+<span class="entree">p3 = p1</span>
+<span class="entree">print(p1)</span>
+<span class="sortie">(3,4)</span>
+<span class="entree">print(p2)</span>
+<span class="sortie">(11,13)</span>
+<span class="entree">print(p3)</span>
+<span class="sortie">(3,4)</span>
+<span class="entree">d = p1.distOrig()</span>
+<span class="entree">print(d)</span>
+<span class="sortie">5</span>
+<span class="entree">p1.translater(2,3)</span>
+<span class="entree">p2.translater(1,2)</span>
+<span class="entree">print(p1)</span>
+<span class="sortie">(5,7)</span>
+<span class="entree">print(p2)</span>
+<span class="sortie">(12,14)</span>
+<span class="entree">print(p3)</span>
+<span class="sortie">(5,7)</span></pre>
+<p>À partir de cet exemple, on peut déjà noter un certain nombre de choses :</p>
+<ul>
+  <li>la construction d'un point fait appel à un constructeur (lignes 1 à 9) ;</li>
+  <li>pour <em>appliquer une méthode</em> à un objet, on utilise la notation pointée : <code><em>objet</em>.<em>méthode(paramètres</em>)</code> ; (lignes 10, 13, 14) ;</li>
+  <li>une méthode a accès aux variables d'instance (attributs) de l'objet auquel elle est appliquée (lignes 10 à 12) ;</li>
+  <li>une méthode peut modifier directement l'objet auquel elle est appliquée (lignes 13 à 18) ;</li>
+  <li>Les objets sont gérés <em>par référence</em> : la modification appliquée sur <code>p1</code> (ligne 13) se retrouve sur <code>p3</code> (ligne 20). </li>
+</ul>
+  <p> Pour bien comprendre le dernier point, on peut exécuter ce <a href="PythonObjet/2627/references.py">programme</a> en utilisant l'applicatiob web "Python Tutor" dont l'URL se trouve dans les commentaires du programme.
+  </p>
+<h4>4. Mise en oeuvre dans un langage de classes propre</h4>
+<p>Dans un langage à base de classes plutôt propre, comme Java, voilà comment on définirait la classe Point et comment on l'utiliserait (vous pouvez tester rapidement ce programme <a href="https://www.mycompiler.io/fr/online-java-compiler" target="_blank">là</a>) :</p>
+<pre class="algo">
+public class Point {
+    // déclaration des variables d'instance
+    private double x;
+    private double y;
+    
+    // déclaration d'un constructeur
+    Point(double initX, double initY) {
+        this.x = initX; //on peut aussi écrire x = initX
+        this.y = initY;
+    }
+    
+    // déclaration d'une méthode utilisant les attributs de l'objet auquel
+    // elle est appliquée
+    public double distOrig() {
+        return Math.sqrt(x*x + y*y);
+    }
+    
+    // déclaration d'une méthode modifiant l'objet auquel elle est appliquée
+    // et ne renvoyant rien
+    public void translater(double dx, double dy) {
+        this.x += dx;
+        this.y += dy;
+    }
+
+    public static void main(String args[]) {
+        Point p1 = new Point(3.0, 4.0);
+        System.out.println(p1.distOrig());
+        p1.translater(1,1);
+        System.out.println(p1.distOrig());
+    }
+    
+}</pre>
+
+<p>Comme on peut le voir dans ce type de langage :</p>
+<ul>
+  <li>Les variables d'instance sont clairement déclarées ;</li>
+  <li>À l'intérieur d'une méthode, utiliser une variable d'instance signifie utiliser la valeur de la variable d'instance de l'objet auquel la méthode est appliquée. Par exemple, dans la méthode <code>translater</code>, l'instruction <code>x += dx</code> signifie que l'on ajoute <code>dx</code> à la valeur de l'attribut <code>x</code> de l'objet auquel la méthode est appliquée.</li>
+</ul>
+<h4>5. Mise en oeuvre dans Python</h4>
+<p>Dans Python, il va y avoir quelques différences par rapport à l'exemple donné dans Java :</p>
+<ul>
+  <li>Une classe possède un seul constructeur appelé <code><strong>__init__</strong></code>&nbsp;;</li>
+  <li>Les variables d'instance ne sont pas déclarées explicitement dans la classe ; elles le sont en général implicitement via une initialisation dans le constructeur&nbsp;;</li>
+  <li>Dans les méthodes et constructeur, l'objet auquel la méthode est appliquée n'est pas implicite : il correspond au premier paramètre, nommé <em>par convention</em> <code><strong>self</strong></code>&nbsp;. Du coup, l'utilisation d'une variable d'instance de l'objet auquel la méthode est appliquée requiert, dans le corps de la méthode, de préfixer le nom de l'attribut par le nom du premier paramètre de la méthode (<code>self</code> par convention)&nbsp;</li>
+  <li>Il est possible d'écrire une méthode <code><strong>__str__()</strong></code>, renvoyant une chaîne de caractères. C'est cette chaîne qui sera affichée lorque'on passera l'objet en paramètre de la méthode <code>print</code>.</li>
+</ul>
+<p>Voila donc l'implantation de la classe Point en Python :
+<pre class="algo">
+from math import sqrt
+
+<span class="constant">class</span> Point:
+    def <span class="constant">__init__</span>(<span class="identifier">self</span>, initX, initY):
+      <span class="identifier">self</span>.x = initX
+      <span class="identifier">self</span>.y = initY
+
+    def translater(<span class="identifier">self</span>, dx, dy):
+        <span class="identifier">self</span>.x += dx
+        <span class="identifier">self</span>.y += dy
+
+    def module(<span class="identifier">self</span>):
+        return sqrt(<span class="identifier">self</span>.x*<span class="identifier">self</span>.x + <span class="identifier">self</span>.y * <span class="identifier">self</span>.y)
+
+    def <span class="constant">__str__</span>(<span class="identifier">self</span>):
+        return "(" + str(<span class="identifier">self</span>.x) + "," + str(<span class="identifier">self</span>.y) + ")"
+
+p1 = Point(3,4)
+print(p1)
+d = p1.module()
+print(d)
+p1.translater(1,1)
+print(p1)
+</pre>
+<p>Ainsi, en Python, la notation <code>p.translater(x,y)</code> peut être vue comme une ré-écriture de l'appel <em>translater(p, x, y)</em>.</p>
+
+<h2>III. Un concept clé : l'encapsulation</h2>
+<h3>A. Le concept</h3>
+<p>L'encapsulation est vraiment une notion clef des langages orientés objets. Ce concept consiste à interdire, depuis l'extérieur d'un objet (via un objet d'un autre type par exemple), tout accès direct, que ce soit en lecture ou en écriture, aux variables d'instances de l'objet. La seule façon d'y accéder consiste à passer par des méthodes.</p>
+<p>Il existe notamment 2 intérêts fondamentaux à l'encapsulation : </p>
+<ul>
+  <li>Garantir l'état des instances de la classe. Par exemple, interdire des points avec une ordonnée négative  ;</li>
+  <li>Permettre au créateur d'une classe de modifier la structure interne de la classe sans que cela n'impacte les utilisateurs de la classe.</li>
+</ul>
+<p>Suivant les langages, l'encapsulation peut être forcée, utilisable via des déclarations explicites, ou encore conventionnelle :</p>
+<ul>
+  <li>En Kotlin, l'encapsulation est forcée : les variables d'instance ne sont pas accessibles directement à l'extérieur de la classe ;</li>
+  <li>En Java, l'encapsulation est utilisable via des déclarations explicites ; il est en effet possible d'associer des <em>droits</em> aux attributs et aux méthodes. Pour mettre en oeuvre l'encapsulation, on associera aux attributs le droit <em>privé</em>, et on associera aux méthodes qui doivent être accessibles à l'extérieur de la classe le droit <em>public</em>;</li>
+  <li>En Python, l'encapsulation est purement conventionnelle : on peut toujours accéder aux variables d'instance d'un objet à l'extérieur de la classe. Mais c'est <strong>fortement déconseillé</strong>.
+</ul>
+<p>En respectant l'encapsulation, si l'on souhaite donner accès à un attribut depuis l'extérieur de la classe, on utilisera des méthodes dédiées, que l'on appelle des <strong>accesseurs</strong> :</p>
+<ul>
+  <li>Un <strong>accesseur en lecture</strong> est une méthode qui, se contente de renvoyer la valeur d'une variable d'instance. Par convention, son nom est le nom de la variable d'instance précédé de <em>get</em> ;</li>
+  <li>Un <strong>accesseur en écriture</strong> est une méthode qui se contente de modifier la valeur d'une variable d'instance, avec éventuellement une vérification de la nouvelle valeur. Par convention, son nom est le nom de la variable d'instance précédé de <em>set</em>.</li>
+</ul>
+<h3>B. En UML</h3>
+<p>En UML, le droit "privé" se représente en mettant un "-" devant un attribut ou une méthode, le droit "public" en mettant un "+". Si on veut que les coordonnées des points soient consultables hors des méthodes de la classe, et que l'ordonnée puisse être modifiée hors des méthodes de la classe, en interdisant les ordonnées négatives, on peut ré-écrire la déclaration de notre classe en UML ainsi :</p>
+<pre class="classe">
+Point
+<hr/>-x: reel
+-y: reel
+<hr/>+Point(vx,vy)
++get_x(): reel
++get_y(): reel
++set_y(valeur: reel): void
++translater(dx : reel, dy: reel): void
++module(): reel
+</pre>
+<h3>C. En Python</h3>
+<p>Comme cela a été dit plus haut, en Python même si on fait tout pour que l'encapsulation soit possible, il faudra encore la respecter explicitement (ie. rien n'est controlé par l'interpréteur) :</p>
+<pre class="algo">
+from math import sqrt
+
+class Point:
+    def __init__(self, initX, initY):
+      self.x = initX
+      <strong><span class="constant">self.y = 0</span></strong>
+      <strong><span class="constant">self.set_y(initY)</span></strong>
+
+<strong><span class="constant">    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def set_y(self, nouvelleValeur):
+        if (nouvelleValeur >= 0):
+            self.y = nouvelleValeur</span></strong>
+
+    def translater(self, dx, dy):
+        self.x += dx
+        self.y += dy
+
+    def module(self):
+        return sqrt(self.x*self.x + self.y * self.y)
+
+    def __str__(self):
+        return "(" + str(self.x) + "," + str(self.y) + ")"
+
+p1 = Point(3,4)
+print(p1.get_x())
+
+p1.set_y(-2)
+print(p1)
+
+<span class="constant"># Possible, mais à ne SURTOUT PAS FAIRE :</span>
+p1.y = 2
+print(p1)
+<span class="constant"># Car on peut alors aussi faire ça :</span>
+p1.y = -2
+print(p1)</pre>
+<div class="nouveau">
+  <h3>D. Simuler des attributs privés en Python</h3>
+  <p>En Python, lorsque le nom d'un attribut commence par "__", celui-ci est automatiquement renommé ainsi : <code>_<em>nomClasse</em>__<em>nomAttribut</em></code>. Étant ainsi renommé, il n'est plus aussi aisément accessible depuis l'extérieur de la classe. On peut donc définir plutôt la classe Point ainsi :</p>
+  <pre class='algo'>
+  class Point:
+    def __init__(self, initX, initY):
+      self.__x = initX
+      self.__y = initY
+
+    def get_x(self):
+        return self.__x
+
+    def get_y(self):
+        return self.__y
+
+    def set_y(self, nouvelleValeur):
+        self.__y = nouvelleValeur
+
+    def __str__(self):
+        return "(" + str(self.__x) + "," + str(self.__y) + ")"
+  </pre>
+
+  <p>
+    <strong>NB</strong>: si vous voulez tester les commandes suivantes dans votre interpréteur python, il faut au
+    préalable charge le code de la classe Point en tapant dans votre interpréteur :
+    <pre>   from Point import *</pre>
+  </p>
+  
+  <p>Voici une première conséquence d'une telle définition : </p>
+  <pre class="haskell">
+  <span class="entree">p1 = Point(3,4)</span>
+  <span class="entree">print(p1)</span>
+  <span class="sortie">(3,4)</span>
+  <span class="entre">print(p1.__x)</span>
+  <span class="sortie">  File "&lt;stdin&gt;", line 1, in &lt;module&gt;</span>
+  <span class="sortie">AttributeError: 'Point' object has no attribute '__x'</span></pre>
+
+  <p>D'ailleurs, si on affiche la liste des attributs définis sur l'objet référencé par la variable <code>p1</code>, on obtient l'affichage suivant :</p>
+  <pre class="haskell">
+  <span class="entree">p1.__dict__</span>
+  <span class="sortie">{'_Point__x': 3, '_Point__y': 4}</span></pre>
+
+  <p>Ce qui est plus génant par contre, ce sont les 2 comportements suivants :</p>
+  <ul>
+    <li>Il est possible de modifier la valeur de l'attribut <code>__x</code> sans passer par son accesseur :</li>
+    <pre class="haskell">
+    <span class="entree">p1._Point__x = 7</span>
+    <span class="entree">print(p1)</span>
+    <span class="sortie">(7, 4)</span></pre>
+    <li>On peut affecter une valeur à l'attribut __x de l'objet référencé par la variable <code>p1</code>, mais cela devient un nouvel attribut :</li>
+    <pre class="haskell">
+    <span class="entree">p1.__x = 8</span>
+    <span class="entree">print(p1)</span>
+    <span class="sortie">(7, 4)</span>
+    <span class="entree">print(p1.__x)</span>
+    <span class="sortie">8</span>
+    <span class="entree">p1.__dict__</span>
+    <span class="sortie">{'_Point__x': 7, '_Point__y': 4, '__x': 8}</span></pre>
+  </ul>
+  <br/>
+</div>
+
+<h2>IV. Rajouter des attributs à un objet</h2>
+<p>Dans un modèle à base de classes strict, une classe a un ensemble fixe d'attributs, et chaque objet aura une valeur pour chacun de ces attributs. Par ailleurs, un objet n'aura pas d'autres attributs que ceux de sa classe. En Python, ce n'est cependant pas le cas ; on peut rajouter des attributs à un objet, comme ici :
+<pre class="haskell">
+<span class="entree">p1 = Point(3,4)</scan>
+<span class="entree">p1.z = 2</scan>
+<span class="entree">print(p1.z)</scan>
+<span class="sortie">2</scan>
+<span class="entree">print(p1)</scan>
+<span class="sortie">(3,4)</span>
+<span class="entree">p1.__dict__</span>
+<span class="sortie">{'x': 4, 'y': 5, 'z': 4}</span>
+</pre>					  
+<p>Cependant, c'est <strong>fortement déconseillé</strong>.</p>
+<h2>V. Composition entre classes</h2>
+<p>Supposons que l'on veuille créer une classe pour représenter un segment nommé. Un segment est donc caractérisé par un nom, un point de départ et un point d'arrivée (pour simplifier, on supposera que les segments sont orientés). Ainsi, pour définir la classe <em>Segment</em>, il faudra passer par les classes <em>String</em> et <em>Point</em>.</p>
+<h3>A. Représentation en UML</h3>
+<p>En UML, on a plusieurs façons de représenter ces <em>associations</em> entre classes (vous vous souvenez de ce que vous avez vu sur les bases de données ?) :</p>
+<h4>1. Utiliser exclusivement des associations</h4>
+<p><img src="uml1.png" width="60%" alt="exemple d'associations"/></p>
+<h4>2. Utiliser exclusivement des attributs</h4>
+<p><img src="uml2.png" width="15%" alt="exemple d'attributs objets"/></p>
+<h4>3. Représentation mixte</h4>
+<p><img src="uml3.png" width="35%" alt="exemple de mélange attributs/associations"/></p>
+<h4>4. Alors, on choisit quoi ?</h4>
+<p>Aucun des représentations ci-dessus n'est fausse. On peut donc prendre l'une ou l'autre. Cependant, on s'orientera souvent vers la dernière car la classe <em>String</em> n'est pas une classe propre à notre application, contrairement à la classe <em>Point</em>.</p>
+<h3>B. Et en Python ?</h3>
+<p>En Python ces différentes représentations donneront le même code, à savoir celui-là :</p>
+<pre class="algo">
+class Segment:
+    def __init__(self:'Segment', nom: str, depart: 'Point', arrivee:'Point') -> None:
+        self.nom = nom
+        self.depart = depart
+        self.arrivee = arrivee
+
+    def __str__(self) -> str:
+        return self.nom + "[" + str(self.depart) + "," + str(self.arrivee) + "]"
+
+p1 = Point(1, 2)
+p2 = Point(3, 4)
+s = Segment("S1", p1, p2)
+print(s)
+</pre>
+<p>
+<strong>NB</strong>: dans ce code, j'ai utilisé pour les méthodes un typage explicite et facultatif autorisé en Python. Attention, il n'est pas du tout vérifié par l'interpréteur. Il est exploité par des vérificateurs spécifiques et par la plupart des environnements de développement pour Python comme pycharm par exemple. Dans la plupart des cas, ces outils déclenchent un warning en cas de problème lié au typage. 
+</p>
+<div class="exo">
+  <p><strong>Exercice 1</strong> : Complétez la classe Segment pour rajouter un accesseur en lecture pour le nom du segment, et des accesseurs en lecture et en écriture pour les 2 extrémités du segment.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr1"/></p>
+</div>
+<div class="correction" id="corr1">
+<pre class="algo">
+class Segment:
+    def __init__(self, nom, depart, arrivee):
+        self.nom = nom
+        self.depart = depart
+        self.arrivee = arrivee
+
+    def __str__(self):
+        return self.nom + "[" + str(self.depart) + "," + str(self.arrivee) + "]"
+
+    def get_nom(self):
+        return self.nom
+
+    def get_depart(self):
+        return self.depart
+
+    def get_arrivee(self):
+        return self.arrivee
+
+    def set_depart(self, nouveauDepart):
+        self.depart = nouveauDepart
+        
+    def set_arrivee(self, nouvelleArrivee):
+        self.arrivee = nouvelleArrivee
+</pre></div>
+
+<h2>VI. Héritage</h2>
+<h3>A. Concept et représentation en UML</h3>
+<p>Supposons que l'on veuille maintenant créer un logiciel permettant de gérer les classes d'un lycée (qui enseigne dans quelle classe, et quelle matière, qui est membre de quelle classe, quelles notes un élève a eu dans quelle matière, etc.). Nous allons ainsi devoir créer plusieurs classes, et notamment les suivantes :</p>
+<p><img src="uml4.png" width="60%" alt="exemple de diagramme de classes avec redondance"/></p>
+<p>Quand on regarde ce schéma, on s'aperçoit qu'il y a une certaine redondance entre les classes <em>Élève</em> et <em>Professeur</em>. On peut résumer ces redondances ici :</p>
+<pre class="classe">
+
+<hr/>-nom: String
+-prenom: String
+<hr/>getNom(): String
+getPrenom(): String
+setNom(nom: String): void
+</pre>
+<p>Ce que l'on vient d'isoler ici comme étant en commun dans les 2 classes <em>Élève</em> et <em>Professeur</em> pourrait être ce qui caractérise une <em>Personne</em>. Aussi, nous allons pouvoir créer cette nouvelle classe, <code>Personne</code>, et plutôt que de ré-écrire ces attributs et méthodes dans les classes <code>Eleve</code> et <code>Personne</code>, nous allons noter que ces 2 classes <strong>héritent</strong> de la classe Personne, ce qui signifie qu'elles intégreront tous les attributs et toutes les méthodes de la classe Personne.</p>
+<p>Pour savoir si on peut dire, en parlant de deux classes A et B, que <em>B hérite de A</em>, une autre façon de se poser la question est : est-ce-que un <em>B</em> <strong>est un (cas particulier de)</strong> <em>A</em> ? Ici : est-ce qu'un élève est une personne ? Est-ce-qu'un professeur est une personne ?</p>
+<p>En UML, le fait qu'une classe hérite d'une autre se représente avec un "grosse" flèche. On peut donc refaire notre schéma ainsi :</p>
+<p><img src="uml5.png" width="85%" alt="exemple d'héritage en UML"/></p>
+<p>Une relation d'héritage peut être décrite de plusieurs façons :</p>
+<ul>
+  <li><em>Personne</em> est la <strong>classe mère</strong> de <em>Élève</em> ;</li>
+  <li><em>Élève</em> est une <strong>classe fille</strong> de <em>Personne</em> ;</li>
+  <li><em>Personne</em> est la <strong>généralisation</strong> de <em>Élève</em> ;</li>
+  <li><em>Élève</em> est une <strong>spécialisation</strong> de <em>Personne</em>.</li>
+  
+</ul>
+<h3>B. L'héritage en Python</h3>
+<p>Nous allons commencer par écrire la classe <em>Personne</em> en Python :</p>
+<pre class="algo">
+class Personne:
+    def __init__(self, nom, prenom):
+        self.nom = nom
+        self.prenom = prenom
+
+    def get_nom(self):
+        return self.nom
+
+    def get_prenom(self):
+        return self.prenom
+
+    def set_nom(self, nom):
+        self.nom = nom
+
+    def __str__(self):
+        return self.prenom + " " + self.nom</pre>
+<p>Pour déclarer en Python qu'une classe <em>B</em> hérite d'une classe <em>A</em>, il faut, dans la déclaration de la classe <em>B</em>, faire suivre son nom du nom <em>A</em> entre parenthèses. La déclaration de la classe <em>Élève</em> commencera donc ainsi :</p>
+<pre class="algo">
+class Eleve<strong>(Personne)</strong>:
+</pre>
+<p>Lorsqu'une classe hérite d'une autre, il est indispensable, dans le constructeur de la classe fille, de commencer par appeler le constructeur de la classe mère. Ceci est réalisé en appelant la méthode <code>__init__()</code> sur l'objet renvoyé par la méthode prédéfinie <code>super()</code>. Par ailleurs, on ne met dans une classe fille que ce qui diffère de la classe mère. Voici donc la classe <em>Élève</em> un peu plus détaillée :</p>
+<pre class="algo">
+class Eleve(Personne):
+<strong>    def __init__(self, nom, prenom, date_naissance):
+        super().__init__(nom, prenom)
+        self.date_naissance = date_naissance
+
+    def get_date_naissance(self):
+        return self.date_naissance</strong></pre>
+<p>Il est également possible de donner dans une classe fille une nouvelle version d'une méthode qui existait dans la classe mère. On peut ainsi compléter notre classe <em>Élève</em> avec une nouvelle version de la méthode <code>__str__()</code> :</p>
+<pre class="algo">
+class Eleve(Personne):
+    def __init__(self, nom, prenom, date_naissance):
+        super().__init__(nom, prenom)
+        self.date_naissance = date_naissance
+
+    def get_date_naissance(self):
+        return self.date_naissance
+
+<strong>    def __str__(self):
+        return self.prenom + " " + self.nom + " [" + self.date_naissance + "]"</strong></pre>
+<p>Dans cette nouvelle version, on s'aperçoit qu'une partie de la méthode <code>__str__()</code> fait le travail qui était fait par la méthode <code>__str__</code> de la classe <em>Personne</em> (la classe mère). Aussi, plutôt que de ré-écrire cela, nous allons faire appel à la méthode <code>__str__()</code> de la classe mère explicitement (grâce à la fonction prédéfinie <code>super()</code>) ainsi :</p>
+<pre class="algo">
+class Eleve(Personne):
+    def __init__(self, nom, prenom, date_naissance):
+        super().__init__(nom, prenom)
+        self.date_naissance = date_naissance
+
+    def get_date_naissance(self):
+        return self.date_naissance
+
+    def __str__(self):
+        return <strong>super().__str__()</strong> + " [" + self.date_naissance + "]"</pre>
+<p>Il est possible de tester cette classe avec le petit exemple suivant : </p>
+<pre class="algo">
+e = Eleve("Mermet", "Bruno", "01/01/2000")
+
+print(e)
+print(e.get_nom())</pre>
+<!--<div class="exo">
+  <p><strong>Exercice 2</strong> : Que se passe-t-il si on omet le <code>super().</code> dans la méthode <code>__str__</code> de la classe <em>Élève</em> ?</p>
+  </div>-->
+<div class="exo">
+  <p><strong>Exercice 2</strong> : Écrivez le contenu de la classe <em>Professeur</em> en la faisant hériter de la classe <em>Personne</em>.</p>
+    <p><input type="button" class="correction" value="Correction" idCorrection="corr2"/></p>
+</div>
+<div class="correction" id="corr2">
+  <pre class="algo">
+class Professeur(Personne):
+    def __init__(self, nom, prenom, discipline):
+        super().__init__(nom, prenom)
+        self.discipline = discipline
+
+    def get_discipline(self):
+        return  self.discipline
+
+    def __str__(self):
+        return super().__str__() + " [" + self.discipline + "]"
+  </pre>
+</div>
+</div>
+</div>
+</body>
+</html>

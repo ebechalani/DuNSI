@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Preuve/preuve02horloge.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Statement">class</span> <span class="Identifier">Heure</span>:
+    <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, heures = <span class="Constant">0</span>, minutes = <span class="Constant">0</span>):
+        <span class="Statement">assert</span> heures &gt;= <span class="Constant">0</span> <span class="Statement">and</span> minutes &gt;= <span class="Constant">0</span>
+        self.heures = heures
+        self.minutes = minutes
+        self.invariant()
+
+    <span class="Statement">def</span> <span class="Identifier">incrementer</span>(self):
+        self.minutes = self.minutes + <span class="Constant">1</span>
+        self.invariant()
+
+    <span class="Statement">def</span> <span class="Identifier">invariant</span>(self):
+        <span class="Statement">assert</span> self.heures &gt;= <span class="Constant">0</span> <span class="Statement">and</span> self.heures &lt; <span class="Constant">24</span>
+        <span class="Statement">assert</span> self.minutes &gt;= <span class="Constant">0</span> <span class="Statement">and</span> self.minutes &lt; <span class="Constant">60</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

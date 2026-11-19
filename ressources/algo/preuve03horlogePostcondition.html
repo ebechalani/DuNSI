@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>~/Documents/Enseignement/Python/DIU2/Preuve/preuve03horlogePostcondition.py.html</title>
+<meta name="Generator" content="Vim/8.0">
+<meta name="plugin-version" content="vim7.4_v2">
+<meta name="syntax" content="python">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,expand_tabs,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.Comment { color: #0000c0; }
+.Constant { color: #c00000; }
+.Identifier { color: #008080; }
+.Statement { color: #af5f00; }
+-->
+</style>
+
+<link rel="stylesheet" type="text/css" href="styleCorrection.css"/>
+<script src="correction.js"></script>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+<span class="Statement">class</span> <span class="Identifier">Heure</span>:
+    <span class="Statement">def</span> <span class="Identifier">__init__</span>(self, heures = <span class="Constant">0</span>, minutes = <span class="Constant">0</span>):
+        <span class="Statement">assert</span> heures &gt;= <span class="Constant">0</span> <span class="Statement">and</span> minutes &gt;= <span class="Constant">0</span>
+        self.heures = heures
+        self.minutes = minutes
+        self.invariant()
+
+    <span class="Statement">def</span> <span class="Identifier">incrementer</span>(self):
+        self.invariant()
+
+        <span class="Comment">#pour la post-condition</span>
+        minutesAvant = self.minutes
+        heuresAvant = self.heures
+
+        <span class="Statement">if</span> (self.minutes &lt; <span class="Constant">59</span>):
+            self.minutes = self.minutes+<span class="Constant">1</span>
+        <span class="Statement">else</span>:
+            self.minutes = <span class="Constant">0</span>
+            <span class="Statement">if</span> self.heures &lt; <span class="Constant">23</span>:
+                self.heures = self.heures + <span class="Constant">1</span>
+            <span class="Statement">else</span>:
+                self.heures = <span class="Constant">0</span>
+        <span class="Comment">#POSTCONDITION</span>
+        <span class="Comment">#minutesAvant &lt; 59 =&gt; minutes = minutesAvant+1</span>
+        <span class="Statement">assert</span> minutesAvant == <span class="Constant">59</span> <span class="Statement">or</span> self.minutes == minutesAvant+<span class="Constant">1</span>
+        <span class="Comment">#minutesAvant = 59 &amp; heuresAvant &lt; 23 =&gt; minutes = 0 et heures = heuresAvant+1</span>
+        <span class="Statement">assert</span> minutesAvant !=<span class="Constant">59</span> <span class="Statement">or</span> heuresAvant == <span class="Constant">23</span> <span class="Statement">or</span> (self.heures == heuresAvant+<span class="Constant">1</span> <span class="Statement">and</span> self.minutes == <span class="Constant">0</span>)
+        <span class="Comment"># minutesAvant = 59 &amp; heuresAvant = 59 =&gt; minutes = 0 et heures = 0</span>
+        <span class="Statement">assert</span> minutesAvant != <span class="Constant">59</span> <span class="Statement">or</span> heuresAvant != <span class="Constant">59</span> <span class="Statement">or</span> (self.heures == <span class="Constant">0</span> <span class="Statement">and</span> self.minutes == <span class="Constant">0</span>)
+
+        self.invariant()
+
+    <span class="Statement">def</span> <span class="Identifier">__repr__</span>(self):
+        <span class="Statement">return</span> <span class="Identifier">repr</span>(self.heures)+<span class="Constant">&quot;</span><span class="Constant">:</span><span class="Constant">&quot;</span>+<span class="Identifier">repr</span>(self.minutes)
+
+    <span class="Statement">def</span> <span class="Identifier">invariant</span>(self):
+        <span class="Statement">assert</span> self.heures &gt;= <span class="Constant">0</span> <span class="Statement">and</span> self.heures &lt; <span class="Constant">24</span>
+        <span class="Statement">assert</span> self.minutes &gt;= <span class="Constant">0</span> <span class="Statement">and</span> self.minutes &lt; <span class="Constant">60</span>
+
+heure = Heure()
+<span class="Statement">for</span> i <span class="Statement">in</span> <span class="Identifier">range</span>(<span class="Constant">0</span>,<span class="Constant">1440</span>):
+    heure.incrementer()
+    <span class="Identifier">print</span>(heure)
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

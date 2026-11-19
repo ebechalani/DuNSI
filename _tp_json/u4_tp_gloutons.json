@@ -1,0 +1,415 @@
+{
+ "id": "tp-gloutons",
+ "bloc": "bloc2",
+ "jour": "En ligne — 24 septembre 2026 (FDIU)",
+ "theme": "Algorithmes gloutons",
+ "title": "TP — Les algorithmes gloutons",
+ "type": "tp",
+ "notebook": "FDIU_algorithmes_gloutons.ipynb",
+ "basthonUrl": "https://notebook.basthon.fr/?from=https://raw.githubusercontent.com/LANSIG/NSI/refs/heads/main/FDIU%20-%20Les%20algorithmes%20gloutons.ipynb",
+ "intro": "Un algorithme glouton résout un problème d'optimisation en appliquant toujours la même règle locale, sans jamais revenir en arrière. Simple à écrire, rapide — mais sans garantie d'optimalité. Ce TP le met à l'épreuve sur quatre problèmes : conversion en binaire, rendu de monnaie, sac à dos et planning de conférenciers, puis le compare à la recherche exhaustive. Les corrections sont désormais celles du formateur (FDIU), données lors de la séance du 1er octobre : son code est reproduit tel quel, aux retouches signalées près (print ajoutés autour des expressions nues, lignes propres à Basthon retirées, docstrings répétées omises), et il a été exécuté. Quand une cellule de réponse est restée vide dans sa correction, notre réponse est donnée et signalée comme telle ; les éléments qui commencent par « Complément : » viennent de notre première correction ; les erreurs repérées dans le code ou les encadrés officiels sont signalées et corrigées. Ouvre le notebook dans Basthon pour travailler, cherche par toi-même, puis déplie la correction.",
+ "steps": [
+  {
+   "num": "1",
+   "title": "Décimal vers binaire sur 16 bits",
+   "intro": "Premier problème glouton, le plus simple : à chaque rang, on prend le plus grand poids qui « tient » encore.",
+   "code": "def dec_vers_bin_16b(n):\n    # n est un entier de 0 a 65535, la fonction renvoie une chaine de 16 caracteres\n    # TODO : pour chaque rang i de 15 a 0\n    #          si n >= 2**i : ajouter \"1\" au resultat et retirer 2**i de n\n    #          sinon        : ajouter \"0\"\n    ...\n\nprint(dec_vers_bin_16b(42))     # attendu : 0000000000101010",
+   "note": "L'énoncé du notebook écrit « si n >= i² » : c'est une coquille. Le poids du rang i vaut 2 puissance i (2**i), pas i au carré. Avec i², la conversion serait fausse dès le rang 3. La correction du formateur le confirme : son énoncé corrigé écrit « si n >= 2 ** i : ajouter \"1\" au résultat, retirer 2 ** i de n ».",
+   "questions": [
+    "Écrire la fonction dec_vers_bin_16b.",
+    "En quoi cet algorithme est-il glouton ? Quelle est la règle locale, et pourquoi ne revient-on jamais en arrière ?",
+    "Pourquoi le résultat est-il ici toujours optimal, contrairement aux problèmes suivants ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur. Il suit exactement l'algorithme de l'énoncé, en ajoutant une précondition : l'assert refuse tout n hors de l'intervalle 0 à 65535, qui ne tiendrait pas sur 16 bits. Il teste sur 65535 et 10 (les appels du notebook sont ici entourés de print ; le test sur 42 est celui de l'énoncé du site)."
+    },
+    {
+     "code": "def dec_vers_bin_16b(n):\n    assert 0 <= n <= 65535\n    res = ''\n\n    for i in range(15, -1 , -1):\n        if n >= 2 ** i:\n            res += '1'\n            n -= 2 ** i\n        else:\n            res += '0'\n    return res\n\nprint(dec_vers_bin_16b(65535))   # 1111111111111111\nprint(dec_vers_bin_16b(10))      # 0000000000001010\nprint(dec_vers_bin_16b(42))      # 0000000000101010"
+    },
+    {
+     "text": "Notre correction (le formateur n'a pas rédigé de réponse aux deux questions de réflexion) : la règle locale est « prendre le plus grand poids disponible qui tient ». Elle est appliquée seize fois de suite, et une fois qu'un bit est écrit il n'est jamais remis en cause : c'est exactement la définition d'un algorithme glouton."
+    },
+    {
+     "text": "Notre correction, suite : ici le glouton est optimal, et ce n'est pas un hasard. Chaque poids vaut plus que la somme de tous les poids inférieurs (2**i > 2**(i-1) + ... + 2 + 1). Ne pas prendre un poids qui tient serait donc irrattrapable. C'est cette propriété qui manquera au système monétaire non canonique de l'étape 4."
+    }
+   ]
+  },
+  {
+   "num": "2",
+   "title": "Décimal vers binaire sans limite",
+   "intro": "Même stratégie, mais sans savoir à l'avance combien de bits seront nécessaires.",
+   "code": "def dec_vers_bin(n):\n    # TODO : chercher d'abord le plus grand poids utile, puis appliquer la meme regle\n    ...\n\ndef dec_vers_bin_while(n):\n    # TODO : une version avec une boucle while (cellule « Avec un while ? » du notebook)\n    #        au choix : chercher a chaque tour la plus grande puissance de 2 qui tient,\n    #        ou proceder par divisions successives par 2\n    ...\n\nfor n in (0, 5, 42, 1000):\n    print(n, dec_vers_bin(n), dec_vers_bin_while(n))",
+   "questions": [
+    "Écrire dec_vers_bin, qui n'a plus de borne supérieure.",
+    "Écrire une version avec un while (le formateur cherche la plus grande puissance de 2 qui tient ; les divisions successives par 2 sont une autre possibilité).",
+    "Quel cas particulier faut-il traiter à part dans les deux versions ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur. Sa cellule dec_vers_bin « stratégie gloutonne, sans limite » est restée vide (voir notre correction plus bas). Pour « Avec un while ? », il écrit une fonction auxiliaire qui donne l'exposant de la plus grande puissance de 2 inférieure ou égale à n, puis place directement les \"1\" dans une liste de caractères. Il réutilise le nom dec_vers_bin."
+    },
+    {
+     "code": "from math import log2, floor\n\ndef plus_grande_puissance_de_2(n):\n    assert n > 0, 'n doit être positif'\n    return floor(log2(n))\n\nprint(plus_grande_puissance_de_2(1))   # 0\n\n\ndef dec_vers_bin(n):\n    if n == 0:\n        return '0'\n\n    res = ['0'] * (plus_grande_puissance_de_2(n) + 1)\n\n    while n > 0:\n        i = plus_grande_puissance_de_2(n)\n        res[-1 - i] = '1'\n        n -= 2 ** i\n\n    return ''.join(res)\n\nprint(dec_vers_bin(256))   # 100000000"
+    },
+    {
+     "text": "Fonctionnement : res est une liste de '0' de la bonne longueur (nombre de bits du résultat). À chaque tour, i est l'exposant du plus grand poids qui tient encore ; le bit correspondant est en position i en partant de la droite, d'où l'indice négatif -1 - i. On retranche 2 ** i et on recommence. join recolle enfin les caractères. Le formateur montre au passage le fonctionnement de join :"
+    },
+    {
+     "code": "a = tuple('bonjour')\nprint(a)                   # ('b', 'o', 'n', 'j', 'o', 'u', 'r')\nprint('535524'.join(a))    # b535524o535524n535524j535524o535524u535524r"
+    },
+    {
+     "text": "Réponse à la question 3, d'après le code du formateur : le cas particulier est n = 0, traité en tête de fonction. Sans ce test, plus_grande_puissance_de_2(0) échouerait sur son assert (et log2(0) lèverait de toute façon une erreur de domaine)."
+    },
+    {
+     "text": "Erreur dans la correction officielle : log2 calcule en nombres flottants. Pour un grand n juste en dessous d'une puissance de 2, l'arrondi donne l'exposant supérieur. Avec n = 2**49 - 1, log2(n) vaut 49.0 au lieu d'un nombre légèrement inférieur à 49 : la fonction place un \"1\" au rang 49, retranche 2**49, n devient négatif et la boucle s'arrête. Résultat : \"1\" suivi de 49 zéros, soit 2**49, au lieu de 49 fois \"1\". Mesuré sur les nombres de la forme 2**k - 1 : le résultat est juste jusqu'à k = 48, faux dès k = 49. Les entiers usuels passent, mais l'énoncé annonce « pas de limite supérieure »."
+    },
+    {
+     "code": "n = 2 ** 49 - 1\nprint(log2(n))                             # 49.0 : arrondi flottant\nprint(dec_vers_bin(n) == format(n, 'b'))   # False"
+    },
+    {
+     "text": "Version corrigée : il suffit de calculer l'exposant en nombres entiers. Comme dec_vers_bin appelle plus_grande_puissance_de_2 au moment de son exécution, redéfinir la fonction auxiliaire suffit. (En Python, n.bit_length() - 1 donne aussi cet exposant, exactement.)"
+    },
+    {
+     "code": "def plus_grande_puissance_de_2(n):\n    \"\"\"Exposant de la plus grande puissance de 2 inferieure ou egale a n, en calcul entier.\"\"\"\n    assert n > 0, 'n doit être positif'\n    i = 0\n    while 2 ** (i + 1) <= n:\n        i += 1\n    return i\n\nprint(dec_vers_bin(2 ** 49 - 1) == format(2 ** 49 - 1, 'b'))   # True\nprint(dec_vers_bin(2 ** 200 - 1) == format(2 ** 200 - 1, 'b')) # True"
+    },
+    {
+     "text": "Notre correction pour la cellule laissée vide (dec_vers_bin avec la même boucle que l'étape 1) : sans borne connue, il faut d'abord trouver le plus grand poids utile, en doublant tant qu'on ne dépasse pas n. Ensuite, la boucle est identique à celle de l'étape 1. Tout est en entiers : pas de problème d'arrondi."
+    },
+    {
+     "code": "def dec_vers_bin(n):\n    if n == 0:\n        return \"0\"\n    poids = 1\n    while poids * 2 <= n:        # le plus grand poids qui ne depasse pas n\n        poids *= 2\n    resultat = \"\"\n    while poids >= 1:\n        if n >= poids:\n            resultat += \"1\"\n            n -= poids\n        else:\n            resultat += \"0\"\n        poids //= 2\n    return resultat"
+    },
+    {
+     "text": "Complément : la version par divisions successives lit les bits dans l'autre sens, du poids faible vers le poids fort, d'où la concaténation à gauche. Ce n'est plus une stratégie gloutonne, mais c'est la méthode que les élèves rencontrent le plus souvent."
+    },
+    {
+     "code": "def dec_vers_bin_while(n):\n    if n == 0:\n        return \"0\"\n    resultat = \"\"\n    while n > 0:\n        resultat = str(n % 2) + resultat\n        n = n // 2\n    return resultat\n\nfor n in (0, 5, 42, 1000):\n    print(n, dec_vers_bin(n), dec_vers_bin_while(n))"
+    },
+    {
+     "text": "Complément : dans ces deux versions aussi, n = 0 doit être traité à part. La boucle while ne s'exécuterait jamais et on renverrait la chaîne vide. Sur 16 bits le problème ne se posait pas, puisque la boucle for tournait de toute façon seize fois."
+    }
+   ]
+  },
+  {
+   "num": "3",
+   "title": "Le rendu de monnaie",
+   "intro": "On dispose d'un nombre illimité de pièces de 1, 2, 5, 10, 20, 50, 100 et 200 centimes. La règle gloutonne : toujours rendre la plus grosse pièce possible.",
+   "code": "def rendu_glouton(rst, lst_piece):\n    lst_rendu = []\n    i = 0\n    # TODO : tant qu'il reste quelque chose a rendre,\n    #        prendre la piece lst_piece[i] si elle tient, sinon passer a la suivante\n    return lst_rendu\n\neuro = [200, 100, 50, 20, 10, 5, 2, 1]\nrd = rendu_glouton(11, euro);  print(rd, rd == [10, 1])\nrd = rendu_glouton(48, euro);  print(rd, rd == [20, 20, 5, 2, 1])\nrd = rendu_glouton(52, euro);  print(rd, rd == [50, 2])",
+   "questions": [
+    "Écrire rendu_glouton et vérifier les trois tests.",
+    "Pourquoi la liste des pièces doit-elle être triée par ordre décroissant ?",
+    "Que fait l'indice i, et pourquoi ne le remet-on jamais à zéro ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur, d'abord sous forme de script, dans la cellule de l'énoncé (rst = 548). Il importe aussi tutor et appelle tutor() en fin de cellule pour visualiser l'exécution pas à pas : ces deux lignes sont omises ici, car le module tutor n'existe que dans Basthon."
+    },
+    {
+     "code": "rst = 548\n\nlst_piece = [200, 100, 50, 20, 10, 5, 2, 1]\nlst_rendu = []\ni = 0\n\nwhile rst > 0 and i < len(lst_piece):\n    if lst_piece[i] <= rst:\n        lst_rendu.append(lst_piece[i])\n        rst -= lst_piece[i]\n    else:\n        i += 1\n\nprint(lst_rendu)   # [200, 200, 100, 20, 20, 5, 2, 1]"
+    },
+    {
+     "text": "Puis la même chose en fonction. Version 1 du formateur, avec les tests du notebook :"
+    },
+    {
+     "code": "def rendu_glouton(rst, lst_piece):\n    lst_rendu = []\n    i = 0\n\n    while rst > 0 and i < len(lst_piece):\n        if lst_piece[i] <= rst:\n            lst_rendu.append(lst_piece[i])\n            rst -= lst_piece[i]\n        else:\n            i += 1\n\n    return lst_rendu\n\n\nprint(rendu_glouton(548, [200, 100, 50, 20, 10, 5, 2, 1]))   # [200, 200, 100, 20, 20, 5, 2, 1]\n\nrd = rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2, 1])\nprint(rd, rd == [10, 1])\nrd = rendu_glouton(48, [200, 100, 50, 20, 10, 5, 2, 1])\nprint(rd, rd == [20, 20, 5, 2, 1])\nrd = rendu_glouton(52, [200, 100, 50, 20, 10, 5, 2, 1])\nprint(rd, rd == [50, 2])"
+    },
+    {
+     "text": "Les trois tests affichent True. Le formateur donne ensuite une version 2, qui retire le test i < len(lst_piece) de la condition de boucle et force à la place l'usage de la dernière pièce (la plus petite) quand on y est arrivé :"
+    },
+    {
+     "code": "def rendu_glouton(rst, lst_piece):\n    lst_rendu = []\n    i = 0\n\n    while rst > 0:\n        if lst_piece[i] <= rst or i == len(lst_piece) - 1:\n            lst_rendu.append(lst_piece[i])\n            rst -= lst_piece[i]\n        else:\n            i += 1\n\n    return lst_rendu\n\n\nprint(rendu_glouton(548, [200, 100, 50, 20, 10, 5, 2, 1]))   # [200, 200, 100, 20, 20, 5, 2, 1]"
+    },
+    {
+     "text": "Avec l'euro, qui contient la pièce de 1, les deux versions donnent toujours le même résultat (vérifié pour toutes les sommes de 0 à 999) : arrivé à la pièce de 1, elle tient forcément. Elles diffèrent quand la plus petite pièce n'est pas 1 : c'est l'objet de l'étape 4. Attention aussi : la version 2 lève une IndexError si la liste de pièces est vide, la version 1 renvoie []."
+    },
+    {
+     "text": "Notre correction (le formateur n'a pas rédigé de réponse aux questions 2 et 3) : le tri décroissant EST la stratégie gloutonne, « la plus grosse pièce d'abord ». Avec une liste croissante, le même code rendrait 11 centimes avec onze pièces de 1 centime."
+    },
+    {
+     "text": "Notre correction, suite : i désigne la pièce qu'on essaie en ce moment. On ne le remet jamais à zéro parce qu'une pièce déclarée trop grosse le restera : le reste à rendre ne fait que diminuer. C'est le « on ne revient jamais en arrière » des algorithmes gloutons, et c'est aussi ce qui rend l'algorithme linéaire."
+    }
+   ]
+  },
+  {
+   "num": "4",
+   "title": "Quand le glouton se trompe",
+   "intro": "Un système de pièces est dit canonique si l'algorithme glouton y donne toujours le nombre minimal de pièces. L'euro l'est. Le système britannique d'avant 1971 — 30, 24, 12, 6, 3 et 1 pence — ne l'est pas.",
+   "code": "# Un systeme monetaire NON canonique\nprint(rendu_glouton(48, [30, 24, 12, 6, 3, 1]))\nprint(rendu_glouton(52, [30, 24, 12, 6, 3, 1]))\n\n# Et s'il n'y a plus de piece de 1 centime ?\nprint(rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2]))\n\n# TODO : pour chacun des trois cas, trouver a la main une meilleure solution",
+   "note": "Une fois la décision prise, l'algorithme glouton ne la remet jamais en cause — même quand elle le conduit dans une impasse.",
+   "questions": [
+    "Pour 48 pence, que rend le glouton ? Existe-t-il mieux ?",
+    "Pour 52 pence, même question.",
+    "Sans pièce de 1 centime, que se passe-t-il pour 11 centimes ? Le programme plante-t-il ?",
+    "Quelle solution correcte existe pourtant pour ces 11 centimes ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur. Sur le système britannique, le glouton rend [30, 12, 6] pour 48 pence et [30, 12, 6, 3, 1] pour 52 pence. La cellule « Réponse » sur l'optimalité est restée vide, mais le formateur répond par le code, en fin de notebook : une recherche exhaustive récursive, rendre_ex, qui trouve [24, 24] pour 48 pence."
+    },
+    {
+     "code": "# hypothèse : on a des pièces de 1cte\n\n\ndef rendre_ex(lst_piece, rst, i=0):\n    # plus de pièce\n    if i >= len(lst_piece):\n        # hypothese : toujours des pièces de 1\n        return [1] * rst\n\n    # plus rien a rendre\n    if rst == 0:\n        return []\n\n    # la piece i est trop grande\n    if lst_piece[i] > rst:\n        return rendre_ex(lst_piece, rst, i + 1)\n\n    # les solutions\n    sol_1 = [lst_piece[i]] + rendre_ex(lst_piece, rst - lst_piece[i], i)\n    sol_2 = rendre_ex(lst_piece, rst, i + 1)\n\n    if len(sol_1) < len(sol_2):\n        return sol_1\n    return sol_2\n\n\nprint(rendre_ex([30, 24, 12, 6, 3, 1], 48))   # [24, 24]\nprint(rendre_ex([30, 24, 12, 6, 3, 1], 52))   # [24, 24, 3, 1]"
+    },
+    {
+     "text": "Le schéma est celui de la recherche exhaustive de l'étape 8 : pour la pièce i, soit on la prend (et on reste sur i, car on peut la reprendre), soit on passe définitivement à la suivante, et on garde la solution qui utilise le moins de pièces. Pour 52 pence, elle trouve 4 pièces là où le glouton en rendait 5. Le formateur s'en sert aussi (module rcviz, dans Basthon) pour dessiner l'arbre des appels de rendre_ex([200, 100, 50, 20, 10, 5, 2, 1], 6)."
+    },
+    {
+     "text": "Attention à l'hypothèse écrite en tête : quand il n'y a plus de pièce à essayer, rendre_ex complète avec des pièces de 1. Sans pièce de 1, elle en invente donc : rendre_ex([200, 100, 50, 20, 10, 5, 2], 11) renvoie [10, 1]. Elle ne peut pas servir pour la question 3."
+    },
+    {
+     "text": "Sans pièce de 1 centime : ce qu'affiche le programme dépend de la version de rendu_glouton. Dans le notebook du formateur, la dernière définie est la version 2 (étape 3), qui force la plus petite pièce : elle affiche [10, 2], soit 12 centimes rendus pour 11 dus. C'est aussi la sortie imprimée dans le notebook élève. Avec la version 1, la boucle s'arrête quand i dépasse la fin de la liste et on obtient [10] : 10 centimes rendus sur 11. Dans les deux cas : pas de plantage, pas de boucle infinie, mais un résultat faux, sans aucun message."
+    },
+    {
+     "code": "# avec la version 2 du formateur (la derniere definie a l'etape 3)\nprint(rendu_glouton(11, [200, 100, 50, 20, 10, 5, 2]))   # [10, 2] : 12 centimes rendus"
+    },
+    {
+     "text": "Réponse du formateur à « Proposez une solution à la main » : [5, 2, 2, 2]. Sa conclusion de l'exercice : une fois qu'une « décision » a été prise, on ne revient pas en arrière ; on a choisi la pièce de 10 cts, même si cela conduit dans une impasse."
+    },
+    {
+     "text": "Le formateur ajoute un encadré « Système canonique : utilisation des conditions de Pearson (1994) ». Il y écrit : « Pearson a démontré que pour un système monétaire strictement décroissant c1 > c2 > … > cn = 1, le système est canonique si et seulement si c(k+1) ≤ c(k) / 2 pour tout k = 1, …, n − 1. Autrement dit, chaque pièce doit être au plus la moitié de la pièce précédente. D'où la suite 10, 5, 2, 1 que l'on retrouve dans la plupart des systèmes monétaires. »"
+    },
+    {
+     "text": "Erreur dans cet encadré : cette « condition de la moitié » n'est ni nécessaire ni suffisante, et ce n'est pas le résultat de Pearson. Le système (3, 2, 1) la viole (2 > 3 / 2) et il est pourtant canonique. Le système (12, 5, 1) la respecte (5 ≤ 6 et 1 ≤ 2,5) et il n'est pas canonique : pour 15, le glouton rend 12 + 1 + 1 + 1, soit 4 pièces, alors que 5 + 5 + 5 n'en demande que 3. Ce que Pearson a réellement établi (rapport de 1994, publié en 2005), c'est un algorithme en temps polynomial pour décider si un système est canonique : il n'existe pas de critère qui se lit à l'œil sur les valeurs. La condition se trouve vraie pour l'euro et fausse pour le système britannique (24 > 30 / 2), ce qui explique qu'elle semble fonctionner sur les exemples du TP. Vérification par le calcul :"
+    },
+    {
+     "code": "def nb_glouton(rst, lst_piece):\n    \"\"\"Nombre de pieces rendues par le glouton (lst_piece triee, decroissante).\"\"\"\n    nb = 0\n    for p in lst_piece:\n        nb += rst // p\n        rst = rst % p\n    return nb\n\ndef nb_min(rst, lst_piece):\n    \"\"\"Nombre minimal de pieces, par programmation dynamique.\"\"\"\n    mini = [0] + [float(\"inf\")] * rst\n    for s in range(1, rst + 1):\n        for p in lst_piece:\n            if p <= s and mini[s - p] + 1 < mini[s]:\n                mini[s] = mini[s - p] + 1\n    return mini[rst]\n\ndef est_canonique(lst_piece):\n    # Un plus petit contre-exemple, s'il existe, est inferieur a la somme\n    # des deux plus grosses pieces (Kozen et Zaks, 1994) : on teste jusque-la.\n    borne = lst_piece[0] + lst_piece[1]\n    return all(nb_glouton(s, lst_piece) == nb_min(s, lst_piece) for s in range(1, borne))\n\ndef condition_moitie(lst_piece):\n    return all(2 * lst_piece[k + 1] <= lst_piece[k] for k in range(len(lst_piece) - 1))\n\nfor systeme in ([200, 100, 50, 20, 10, 5, 2, 1], [30, 24, 12, 6, 3, 1],\n                [4, 3, 1], [3, 2, 1], [12, 5, 1]):\n    print(systeme, \"canonique :\", est_canonique(systeme),\n          \"| condition de la moitie :\", condition_moitie(systeme))\n\n# [200, 100, 50, 20, 10, 5, 2, 1] canonique : True | condition de la moitie : True\n# [30, 24, 12, 6, 3, 1] canonique : False | condition de la moitie : False\n# [4, 3, 1] canonique : False | condition de la moitie : False\n# [3, 2, 1] canonique : True | condition de la moitie : False\n# [12, 5, 1] canonique : False | condition de la moitie : True"
+    },
+    {
+     "text": "Complément : sur tous les systèmes de 2 à 4 pièces de valeurs inférieures à 30 (avec la pièce de 1), on trouve 176 systèmes canoniques qui violent la condition et 182 systèmes qui la respectent sans être canoniques. En classe, on retiendra seulement que l'euro est canonique, que ce n'est pas le cas de tous les systèmes, et que cela se vérifie par le calcul."
+    },
+    {
+     "text": "Complément : une référence exhaustive par programmation dynamique, qui calcule le vrai minimum sans supposer qu'il existe une pièce de 1. Elle trouve [24, 24] pour 48, [24, 24, 3, 1] pour 52 et [5, 2, 2, 2] pour 11 centimes sans pièce de 1 ; elle renvoie None si la somme est impossible à rendre."
+    },
+    {
+     "code": "def rendu_optimal(rst, lst_piece):\n    INF = float(\"inf\")\n    mini = [0] + [INF] * rst\n    choix = [None] * (rst + 1)\n    for somme in range(1, rst + 1):\n        for p in lst_piece:\n            if p <= somme and mini[somme - p] + 1 < mini[somme]:\n                mini[somme] = mini[somme - p] + 1\n                choix[somme] = p\n    if mini[rst] == INF:\n        return None                      # somme impossible a rendre\n    pieces = []\n    while rst > 0:\n        pieces.append(choix[rst])\n        rst -= choix[rst]\n    return sorted(pieces, reverse=True)\n\nprint(rendu_optimal(48, [30, 24, 12, 6, 3, 1]))          # [24, 24]\nprint(rendu_optimal(52, [30, 24, 12, 6, 3, 1]))          # [24, 24, 3, 1]\nprint(rendu_optimal(11, [200, 100, 50, 20, 10, 5, 2]))   # [5, 2, 2, 2]\nprint(rendu_optimal(3, [200, 100, 50, 20, 10, 5]))       # None"
+    }
+   ]
+  },
+  {
+   "num": "5",
+   "title": "Le sac à dos — critère 1 : la valeur",
+   "intro": "Quatre objets, décrits par un tuple (valeur, masse) : (5, 13), (4, 8), (3, 10) et (7, 12). Le sac accepte une masse maximale. Premier critère local : prendre d'abord l'objet le plus cher.",
+   "code": "valeur_masse_objets = [(5, 13), (4, 8), (3, 10), (7, 12)]\n\ndef masse(liste_objet):\n    # TODO : masse totale d'une liste d'objets\n    ...\n\ndef valeur(liste_objet):\n    # TODO : valeur totale d'une liste d'objets\n    ...\n\ndef sac_a_dos_1(masse_max, liste_objet):\n    # TODO : trier par valeur decroissante, puis prendre chaque objet s'il tient encore\n    ...\n\nsad = sac_a_dos_1(15, valeur_masse_objets); print(sad, sad == [(7, 12)])\nsad = sac_a_dos_1(21, valeur_masse_objets); print(sad, sad == [(7, 12), (4, 8)])\nsad = sac_a_dos_1(30, valeur_masse_objets); print(sad, sad == [(7, 12), (5, 13)])",
+   "questions": [
+    "Quel est le critère global à satisfaire dans le problème du sac à dos ?",
+    "Quels critères locaux peut-on appliquer à chaque étape ? En donner au moins deux.",
+    "Écrire masse, valeur et sac_a_dos_1, puis vérifier les trois tests.",
+    "À la main : avec un sac de 30 kg, quels objets faudrait-il vraiment prendre ?",
+    "Pourquoi sorted(liste, reverse=True) suffit-il ici, sans préciser de clé de tri ?"
+   ],
+   "correction": [
+    {
+     "text": "Réponses du formateur. Critère global : « la valeur des objets du sac ». Critères locaux possibles : « choisir les objets les plus chers », « choisir les plus légers », « choisir le plus grand rapport prix / masse (€/kg) »."
+    },
+    {
+     "text": "Réponse du formateur à la question « à la main » : « 30 kg, 14 €, avec les objets 1, 3 et 4 ». Dans la numérotation du tableau du notebook, l'objet 1 est (7, 12), l'objet 3 est (4, 8) et l'objet 4 est (3, 10)."
+    },
+    {
+     "text": "masse et valeur, par le formateur : il décompose chaque tuple directement dans la boucle for."
+    },
+    {
+     "code": "valeur_masse_objets = [(5, 13), (4, 8), (3, 10), (7, 12)]\n\ndef masse(liste_objet):\n    s = 0\n    for v, m in liste_objet:\n        s += m\n    return s\n\ndef valeur(liste_objet):\n    s = 0\n    for v, m in liste_objet:\n        s += v\n    return s\n\nprint(masse(valeur_masse_objets))    # 43\nprint(valeur(valeur_masse_objets))   # 19"
+    },
+    {
+     "text": "Pour sac_a_dos_1, le formateur donne deux versions. La première parcourt la liste triée avec un while et un indice, en diminuant la capacité restante masse_max à chaque objet pris ; elle affiche au passage la liste triée (print de mise au point)."
+    },
+    {
+     "code": "def sac_a_dos_1(masse_max, liste_objet):\n    \"\"\"Choisi les objets a mettre dans le sac a dos.\n\n    parametres\n    ----------\n    masse_max : int\n        la masse maxi du sac a dos\n    liste_objets : list [(prix, masse)]\n        La liste des caractéristiques des objets (prix, masse)\n\n    return\n    ------\n    list\n        une liste d'objets sélectionnés parmi liste_objets, sous forme de tuple (prix, masse).\n    \"\"\"\n    #ici, on maximise la valeur des objets\n    liste_objet_2 = sorted(liste_objet, reverse=True)\n    print(liste_objet_2)\n\n    sac = []\n    i = 0\n\n    while masse_max > 0 and i < len(liste_objet_2):\n        if liste_objet_2[i][1] <= masse_max:\n            sac.append(liste_objet_2[i])\n            masse_max -= liste_objet_2[i][1]\n        i += 1\n\n    return sac\n\n\nsad = sac_a_dos_1(30, valeur_masse_objets)\nprint(sad)\nprint(masse(sad), 'kg')\nprint(valeur(sad), '€')\n# [(7, 12), (5, 13), (4, 8), (3, 10)]\n# [(7, 12), (5, 13)]\n# 25 kg\n# 12 €"
+    },
+    {
+     "text": "La seconde remplace le while par un for, plus direct (la docstring, identique, est omise ici) :"
+    },
+    {
+     "code": "def sac_a_dos_1(masse_max, liste_objet):\n    #ici, on maximise la valeur des objets\n    liste_objet_2 = sorted(liste_objet, reverse=True)\n    # print(liste_objet_2)\n\n    sac = []\n\n    for obj in liste_objet_2:\n        if obj[1] <= masse_max:\n            sac.append(obj)\n            masse_max -= obj[1]\n\n    return sac\n\n\nsad = sac_a_dos_1(15, valeur_masse_objets)\nprint(sad, masse(sad), valeur(sad), sad == ([(7, 12)]))\nsad = sac_a_dos_1(21, valeur_masse_objets)\nprint(sad, masse(sad), valeur(sad), sad == ([(7, 12), (4, 8)]))\nsad = sac_a_dos_1(30, valeur_masse_objets)\nprint(sad, masse(sad), valeur(sad), sad == ([(7, 12), (5, 13)]))\n# [(7, 12)] 12 7 True\n# [(7, 12), (4, 8)] 20 11 True\n# [(7, 12), (5, 13)] 25 12 True"
+    },
+    {
+     "text": "À noter : l'énoncé du notebook demande que sac_a_dos_1 renvoie un tuple (liste des objets, valeur totale, masse du sac). Le formateur, comme les tests, renvoie seulement la liste des objets ; la valeur et la masse s'obtiennent ensuite avec valeur(sad) et masse(sad)."
+    },
+    {
+     "text": "Pourquoi sorted suffit sans clé : la réponse est dans l'encadré « Les secrets de sorted » du notebook. Si la liste contient des itérables, le tri se fait sur leur premier élément, ici la valeur. Pour trier sur un autre élément, il faut passer une fonction key, en général une lambda. Petite coquille dans l'exemple de cet encadré : la ligne commentée « tri sur le premier élément » écrit sorted(lst1) ; il faut lire sorted(list4) pour obtenir [(20, 462, 60), (139, 71, 343), (999, 90, 585)]."
+    },
+    {
+     "text": "Notre correction (la cellule « Réponse » sur l'optimalité des trois tests est restée vide chez le formateur) : à 15 kg, (7, 12) pour 7 € est optimal ; à 21 kg, (7, 12) + (4, 8) pour 11 € est optimal ; à 30 kg, le glouton prend (7, 12) puis (5, 13), soit 25 kg pour 12 €, et ne peut plus rien ajouter. Ce n'est pas optimal : (7, 12) + (4, 8) + (3, 10) remplit exactement les 30 kg pour 14 €, la réponse « à la main » du formateur. En prenant l'objet à 5 €, le glouton a consommé 13 kg pour pas grand-chose. Le critère « le plus cher d'abord » ignore la place occupée : d'où le critère 2, à l'étape suivante."
+    },
+    {
+     "text": "Complément : Python compare les tuples élément par élément ; sorted trie donc d'abord sur la valeur, et ne départage sur la masse qu'en cas d'égalité de valeur. Remarque aussi que la version du formateur diminue la capacité restante au fur et à mesure, ce qui évite de recalculer la masse du sac à chaque objet (notre première correction appelait masse(sac) dans la boucle)."
+    },
+    {
+     "text": "Complément : le critère « les plus légers d'abord », cité par le formateur, ne garantit rien non plus. Sur les quatre objets, il donne 4 € à 15 kg (au lieu de 7 €) et 7 € à 21 kg (au lieu de 11 €) ; il tombe sur l'optimum à 30 kg, par chance."
+    }
+   ]
+  },
+  {
+   "num": "6",
+   "title": "Le sac à dos — critère 2 : le rapport valeur/masse",
+   "intro": "Un critère plus fin : privilégier les objets qui rapportent le plus par kilo. On construit des triplets (valeur, masse, valeur/masse) et on trie sur le rapport.",
+   "code": "def sac_a_dos_2(masse_max, liste_objet):\n    # TODO : construire la liste des (valeur, masse, valeur/masse)\n    # TODO : la trier sur le rapport, par ordre decroissant\n    # TODO : puis prendre chaque objet s'il tient encore\n    ...\n\nprint(sac_a_dos_2(30, valeur_masse_objets))\n\n# La grande liste : 20 objets\nvaleur_masse = [(35, 120), (30, 30), (26, 50), (21, 20), (18, 40), (17, 60), (15, 30),\n                (14, 10), (13, 14), (11, 36), (10, 72), (9, 86), (8, 5), (7, 3), (6, 7),\n                (5, 23), (4, 49), (3, 57), (2, 69), (1, 12)]\n\nfor max_sac in (205, 420):\n    s1 = sac_a_dos_1(max_sac, valeur_masse)\n    s2 = sac_a_dos_2(max_sac, valeur_masse)\n    print(max_sac, \"kg :\", valeur(s1), \"EUR contre\", valeur(s2), \"EUR\")",
+   "questions": [
+    "Écrire sac_a_dos_2.",
+    "L'ordre des objets a-t-il changé par rapport au critère 1 ?",
+    "Sur les quatre objets avec un sac de 30 kg, ce critère fait-il mieux que le premier ?",
+    "Sur la grande liste, lequel des deux critères donne le meilleur résultat à 205 kg ? Et à 420 kg ?",
+    "Peut-on conclure qu'un critère est meilleur que l'autre ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur. Il montre deux façons de trier sur le rapport : en construisant les triplets (valeur, masse, valeur/masse) et en triant sur x[2], comme l'énoncé le propose, ou directement sur les couples, avec une clé qui calcule le rapport."
+    },
+    {
+     "code": "valeur_masse_2 = sorted([(v, m, v / m) for v, m in valeur_masse_objets], key=lambda x: x[2], reverse=True)\nprint(valeur_masse_2)\n# [(7, 12, 0.5833333333333334), (4, 8, 0.5), (5, 13, 0.38461538461538464), (3, 10, 0.3)]\n\nvaleur_masse_2 = sorted(valeur_masse_objets, key=lambda x: x[0] / x[1], reverse=True)\nprint(valeur_masse_2)\n# [(7, 12), (4, 8), (5, 13), (3, 10)]"
+    },
+    {
+     "text": "Notre correction (la cellule « l'ordre a-t-il changé ? » est restée vide chez le formateur) : oui. (4, 8) rapporte 0,5 €/kg et passe devant (5, 13), qui ne rapporte que 0,38 €/kg ; (7, 12), à 0,58 €/kg, reste en tête."
+    },
+    {
+     "text": "Sa fonction sac_a_dos_2 utilise la seconde forme, sans triplets (docstring omise) :"
+    },
+    {
+     "code": "def sac_a_dos_2(masse_max, liste_objet):\n    # créer une novelle liste d'objet, rangé sur le critère prix / masse\n    valeur_masse_2 = sorted(liste_objet, key=lambda x: x[0] / x[1], reverse=True)\n    # print(valeur_masse_2)\n    #ici, on maximise le rapport valeur/masse des objets\n    sac = []\n    for obj in valeur_masse_2:\n        if obj[1] <= masse_max:\n            sac.append(obj)\n            masse_max -= obj[1]\n    return sac\n\n\nsad = sac_a_dos_2(30, valeur_masse_objets)\nprint(sad)\nprint(masse(sad), 'kg')\nprint(valeur(sad), '€')\n# [(7, 12), (4, 8), (3, 10)]\n# 30 kg\n# 14 €"
+    },
+    {
+     "text": "Réponse du formateur sur l'optimalité à 30 kg : « cette fois ci oui, c'est la solution optimale » (14 € pour 30 kg, contre 12 € avec le critère 1)."
+    },
+    {
+     "text": "Le formateur teste ensuite les deux fonctions sur la grande liste :"
+    },
+    {
+     "code": "valeur_masse = [(35, 120), (30, 30), (26, 50), (21, 20), (18, 40), (17, 60), (15, 30),\n                (14, 10), (13, 14), (11, 36), (10, 72), (9, 86), (8, 5), (7, 3), (6, 7),\n                (5, 23), (4, 49), (3, 57), (2, 69), (1, 12)]\nprint(valeur(valeur_masse), '€', masse(valeur_masse), 'kg')   # 255 € 793 kg\n\nfor max_sac in (205, 420):          # deux cellules dans le notebook, une par capacite\n    print(max_sac, 'kg')\n    print('version 1')\n    sad = sac_a_dos_1(max_sac, valeur_masse)\n    print(sad)\n    print(valeur(sad), '€', masse(sad), 'kg')\n    print('version 2')\n    sad = sac_a_dos_2(max_sac, valeur_masse)\n    print(sad)\n    print(valeur(sad), '€', masse(sad), 'kg')"
+    },
+    {
+     "text": "Sorties obtenues : à 205 kg, la version 1 donne 99 € pour 205 kg et la version 2 donne 151 € pour 205 kg. À 420 kg, la version 1 donne 215 € pour 418 kg et la version 2 donne 210 € pour 400 kg."
+    },
+    {
+     "text": "Notre correction (la cellule « Réponse » est restée vide chez le formateur) : à 205 kg, le rapport écrase la valeur seule ; à 420 kg, le classement s'inverse. On ne peut donc pas conclure qu'un critère est toujours meilleur. Le rapport est meilleur en général, mais « en général » n'est pas « toujours » : un algorithme glouton n'a pas de garantie, seulement des tendances, et la seule façon de savoir est de mesurer."
+    },
+    {
+     "text": "Complément : pour trancher, une référence exhaustive. Celle-ci parcourt les masses atteignables et garde le meilleur sac pour chacune."
+    },
+    {
+     "code": "def sac_a_dos_optimal(masse_max, liste_objet):\n    meilleurs = {0: []}                    # masse -> meilleur sac de cette masse\n    for (v, m) in liste_objet:\n        nouveaux = dict(meilleurs)\n        for mm, sac in meilleurs.items():\n            if mm + m <= masse_max:\n                cand = sac + [(v, m)]\n                if valeur(cand) > valeur(nouveaux.get(mm + m, [])):\n                    nouveaux[mm + m] = cand\n        meilleurs = nouveaux\n    return max(meilleurs.values(), key=valeur)\n\nfor max_sac in (205, 420):\n    print(max_sac, 'kg : optimum', valeur(sac_a_dos_optimal(max_sac, valeur_masse)), '€')\n# 205 kg : optimum 152 €\n# 420 kg : optimum 215 €"
+    },
+    {
+     "text": "Complément : l'optimum vaut 152 € à 205 kg (le critère 2 s'en approche à 1 € près) et 215 € à 420 kg : le critère 1, réputé naïf, atteint donc l'optimum exact à 420 kg, par chance, pendant que le critère réputé plus fin s'arrête à 210 €."
+    }
+   ]
+  },
+  {
+   "num": "7",
+   "title": "Le planning des conférenciers — version gloutonne",
+   "intro": "Des conférenciers ne sont disponibles que sur un créneau donné. Il faut en caser le plus grand nombre possible dans une seule salle. Un créneau est un tuple (début, fin, nom).",
+   "code": "tab_conf_1 = [(3, 4, 'C1'), (0, 1, 'C2'), (2, 3, 'C3'), (1, 2, 'C4')]\n# TODO : ecrire tab_conf_2 et tab_conf_3 d'apres les schemas du notebook\ntab_conf_4 = [(0, 7, 'C1'), (2, 5, 'C2'), (6, 8, 'C3'), (1, 2, 'C4'), (5, 6, 'C5'),\n              (0, 2, 'C6'), (4, 7, 'C7'), (0, 1, 'C8'), (3, 6, 'C9'), (1, 3, 'C10'),\n              (4, 5, 'C11'), (6, 8, 'C12'), (0, 2, 'C13'), (5, 7, 'C14'), (1, 4, 'C15')]\n\ndef planning1(tab_inter):\n    # TODO : trier selon le critere local choisi, puis retenir les creneaux compatibles\n    ...\n\nprint(planning1(tab_conf_1))\nprint(planning1(tab_conf_4))",
+   "questions": [
+    "Proposer deux critères locaux possibles pour choisir les conférenciers.",
+    "Traduire les cas 2 et 3 des schémas en listes de tuples.",
+    "Écrire planning1 avec le critère qui vous paraît le meilleur.",
+    "Combien de conférenciers le cas 4 permet-il de caser ?"
+   ],
+   "correction": [
+    {
+     "text": "Réponse du formateur sur les critères locaux : « celui qui parle le moins longtemps », « celui qui commence en premier », « celui qui interfère le moins avec les autres », « celui qui finit le plus tôt — ce choix paraît le plus pertinent »."
+    },
+    {
+     "text": "Sa représentation des cas 2 et 3, et sa fonction planning1, qui trie sur l'heure de fin et renvoie les noms des conférenciers retenus. La variable debut contient l'heure à partir de laquelle la salle est libre, c'est-à-dire la fin du dernier exposé retenu."
+    },
+    {
+     "code": "# donnes par l'enonce\ntab_conf_1 = [(3, 4, 'C1'), (0, 1, 'C2'), (2, 3, 'C3'), (1, 2, 'C4')]\ntab_conf_4 = [(0, 7, 'C1'), (2, 5, 'C2'), (6, 8, 'C3'), (1, 2, 'C4'), (5, 6, 'C5'), \n            (0, 2, 'C6'), (4, 7, 'C7'), (0, 1, 'C8'), (3, 6, 'C9'), (1, 3, 'C10'), \n            (4, 5, 'C11'), (6, 8, 'C12'), (0, 2, 'C13'), (5, 7, 'C14'), (1, 4, 'C15')]\n\n# reponse du formateur\ntab_conf_2 = [(2, 4, 'C1'), (0, 1,'C2'), (1, 3,'C3'), (0, 2,'C4')]\ntab_conf_3 = [(0, 3, 'C1'), (1, 2,'C2'), (2, 3,'C3')]\n\n\ndef planning1(tab_inter):\n    tab_inter = sorted(tab_inter, key=lambda x: x[1])\n    # print(tab_inter)\n    planning = []\n\n    debut = 0\n    for c in tab_inter:\n        if c[0] >= debut:\n            planning.append(c[2])\n            debut = c[1]\n\n    return planning\n\n\nprint(planning1(tab_conf_1))   # ['C2', 'C4', 'C3', 'C1']\nprint(planning1(tab_conf_2))   # ['C2', 'C3']\nprint(planning1(tab_conf_3))   # ['C2', 'C3']\nprint(planning1(tab_conf_4))   # ['C8', 'C4', 'C2', 'C5', 'C3']"
+    },
+    {
+     "text": "Le cas 4 permet donc de caser 5 conférenciers : C8, C4, C2, C5 et C3."
+    },
+    {
+     "text": "Complément : pourquoi les autres critères échouent. Celui qui commence en premier peut occuper toute la matinée : au cas 3, C1 commence à 0 mais garde la salle jusqu'à 3, et le retenir interdirait tout le reste ; le critère de l'heure de fin l'écarte et en case deux. Le plus court peut tomber à cheval sur deux créneaux qu'il bloque tous les deux. Finir le plus tôt, c'est libérer la salle au plus vite et laisser le maximum de place à la suite : c'est le seul de ces critères qui soit démontrablement optimal."
+    },
+    {
+     "text": "Complément : « celui qui interfère le moins », le troisième critère du formateur, semble prometteur mais échoue lui aussi. Dans l'exemple ci-dessous, X ne chevauche que deux créneaux (B et C) : c'est lui que ce critère choisit en premier, et il en écarte deux à lui seul. On case 3 conférenciers au lieu de 4."
+    },
+    {
+     "code": "def chevauche(a, b):\n    return a[0] < b[1] and b[0] < a[1]\n\ndef planning_moins_genant(tab_inter):\n    \"\"\"Glouton : d'abord les creneaux qui chevauchent le moins d'autres creneaux.\"\"\"\n    def nb_conflits(c):\n        return sum(1 for d in tab_inter if d is not c and chevauche(c, d))\n    planning = []\n    for c in sorted(tab_inter, key=nb_conflits):\n        if all(not chevauche(c, d) for d in planning):\n            planning.append(c)\n    return sorted(planning)\n\ntab = [(0, 3, 'A'), (4, 7, 'B'), (8, 11, 'C'), (12, 15, 'D'), (6, 9, 'X'),\n       (2, 5, 'G1'), (2, 5, 'G2'), (2, 5, 'G3'),\n       (10, 13, 'H1'), (10, 13, 'H2'), (10, 13, 'H3')]\nprint([c[2] for c in planning_moins_genant(tab)])   # ['A', 'X', 'D']\nprint(planning1(tab))                               # ['A', 'B', 'C', 'D']"
+    }
+   ]
+  },
+  {
+   "num": "8",
+   "title": "Le planning — recherche exhaustive récursive",
+   "intro": "L'algorithme concurrent : explorer toutes les combinaisons et garder la meilleure. Pour chaque conférence, deux possibilités — la prendre ou non.",
+   "code": "def planning2(tab_inter, debut=0, i=0):\n    # Meilleur planning commencant a `debut` avec les conferences i et suivantes.\n    # TODO : s'il n'y a plus de conference -> planning vide\n    # TODO : si la conference i commence avant `debut` -> passer a i + 1\n    # TODO : sinon comparer les deux solutions (la prendre / ne pas la prendre)\n    ...\n\nfor tab in (tab_conf_1, tab_conf_2, tab_conf_3, tab_conf_4):\n    print(planning2(sorted(tab)))",
+   "note": "On passe sorted(tab) : l'algorithme suppose les conférences rangées par heure de début croissante.",
+   "questions": [
+    "Écrire planning2.",
+    "Le glouton trouve-t-il le même nombre de conférenciers que la recherche exhaustive ?",
+    "Modifier l'algorithme pour qu'à nombre égal il préfère le planning qui laisse le moins de trous.",
+    "Quelle est la complexité de planning2, et à quelle limite se heurte-t-elle ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur. Elle suit l'algorithme de l'énoncé et renvoie des listes de noms. La ligne print(debut, i) est une trace de mise au point : elle affiche une ligne par appel, 706 lignes pour le cas 4."
+    },
+    {
+     "code": "def planning2(tab_inter, debut=0, i=0):\n    print(debut, i)\n    if i >= len(tab_inter):\n        return []\n\n    if tab_inter[i][0] < debut:\n        return planning2(tab_inter, debut, i + 1)\n\n    sol_1 = [tab_inter[i][2]] + planning2(tab_inter, tab_inter[i][1], i + 1)\n    sol_2 = planning2(tab_inter, debut, i + 1)\n\n    if len(sol_1) >= len(sol_2):\n        return sol_1\n    return sol_2\n\n\nprint(planning2(sorted(tab_conf_4)))   # 706 lignes de trace, puis ['C8', 'C4', 'C2', 'C5', 'C12']"
+    },
+    {
+     "text": "Pour les quatre cas, la même fonction sans la ligne de trace :"
+    },
+    {
+     "code": "def planning2(tab_inter, debut=0, i=0):\n    if i >= len(tab_inter):\n        return []\n    if tab_inter[i][0] < debut:\n        return planning2(tab_inter, debut, i + 1)\n    sol_1 = [tab_inter[i][2]] + planning2(tab_inter, tab_inter[i][1], i + 1)\n    sol_2 = planning2(tab_inter, debut, i + 1)\n    if len(sol_1) >= len(sol_2):\n        return sol_1\n    return sol_2\n\n\nprint(planning2(sorted(tab_conf_1)))   # ['C2', 'C4', 'C3', 'C1']\nprint(planning2(sorted(tab_conf_2)))   # ['C2', 'C3']\nprint(planning2(sorted(tab_conf_3)))   # ['C2', 'C3']\nprint(planning2(sorted(tab_conf_4)))   # ['C8', 'C4', 'C2', 'C5', 'C12']"
+    },
+    {
+     "text": "La recherche exhaustive case 4, 2, 2 et 5 conférenciers : exactement autant que le glouton. Au cas 4, elle retient C12 là où le glouton retenait C3 ; ce sont deux créneaux identiques, de 6 h à 8 h."
+    },
+    {
+     "text": "Complément : ce n'est pas une coïncidence. Contrairement au sac à dos, le critère « finir le plus tôt » est démontrablement optimal. Ce problème s'appelle l'ordonnancement d'intervalles, et c'est l'un des rares où un glouton bien choisi garantit l'optimum."
+    },
+    {
+     "text": "Pour départager deux plannings de même taille, le formateur compare le cumul des temps de parole : à nombre égal, il garde sol_1 seulement si elle occupe strictement plus la salle, sinon sol_2."
+    },
+    {
+     "code": "def planning3(tab_inter, debut=0, i=0):\n    if i >= len(tab_inter):\n        return []\n\n    if tab_inter[i][0] < debut:\n        return planning3(tab_inter, debut, i + 1)\n\n    sol_1 = [tab_inter[i][2]] + planning3(tab_inter, tab_inter[i][1], i + 1)\n    sol_2 = planning3(tab_inter, debut, i + 1)\n\n    if len(sol_1) > len(sol_2):\n        return sol_1\n    if len(sol_1) == len(sol_2):\n        if cumul_temps(tab_inter, sol_1) > cumul_temps(tab_inter, sol_2):\n            return sol_1\n    return sol_2\n\ndef cumul_temps(tab_inter, sol):\n    \"\"\"Renvoi le cumul des temps de parole des intervenents de sol\n    \"\"\"\n    s = 0\n    for inter in tab_inter:\n        if inter[2] in sol:\n            s += inter[1] - inter[0]\n    return s\n\n\nprint(planning3(sorted(tab_conf_1)))   # ['C2', 'C4', 'C3', 'C1']\nprint(planning3(sorted(tab_conf_2)))   # ['C4', 'C1']\nprint(planning3(sorted(tab_conf_3)))   # ['C2', 'C3']\nprint(planning3(sorted(tab_conf_4)))   # ['C8', 'C15', 'C11', 'C5', 'C3']"
+    },
+    {
+     "text": "Au cas 2, la différence se voit : planning2 retenait C2 [0, 1] puis C3 [1, 3], soit 3 heures occupées ; planning3 retient C4 [0, 2] puis C1 [2, 4], soit 4 heures. Deux conférenciers dans les deux cas, mais une salle mieux remplie. Au cas 4, les deux plannings occupent la salle sans trou de 0 h à 8 h."
+    },
+    {
+     "text": "Complément : notre première correction départageait avec >= au lieu de > ; elle garde alors sol_1 en cas d'égalité parfaite et renvoie au cas 4 ['C8', 'C4', 'C2', 'C5', 'C12'], qui occupe aussi 8 heures. Les deux réponses sont également bonnes : seul le choix entre ex aequo change."
+    },
+    {
+     "text": "Notre correction pour la complexité (la cellule est restée vide chez le formateur) : chaque appel en déclenche deux, la complexité est exponentielle, en O(2 puissance n) dans le pire cas. Mesuré : planning2 fait 31, 19 et 11 appels pour les cas 1 à 3, et déjà 706 pour les 15 conférenciers du cas 4. Dans le pire cas, le nombre d'appels double à chaque conférencier ajouté : quelques dizaines suffisent à rendre le calcul impossible. C'est le prix de la garantie d'optimalité, et c'est le défaut que la programmation dynamique cherche à corriger."
+    }
+   ]
+  },
+  {
+   "num": "9",
+   "title": "Le coût de la récursivité : Fibonacci",
+   "intro": "Pour mesurer ce que coûte une exploration exhaustive naïve, un exemple plus simple : la suite de Fibonacci, où chaque terme est la somme des deux précédents.",
+   "code": "def fiboR(n):\n    # TODO : la version recursive, traduction directe de la definition\n    ...\n\n# Combien de temps pour fiboR(35) ?\n\ndicFibo = {..., ...}\n\ndef fiboD(n):\n    # TODO : la version dynamique, qui memorise les resultats deja calcules\n    ...\n\nprint(fiboD(60))",
+   "note": "Mémoriser les résultats déjà calculés pour ne pas les recalculer s'appelle la programmation dynamique. C'est la réponse standard au coût exponentiel de la récursivité naïve.",
+   "questions": [
+    "Écrire fiboR, la version récursive.",
+    "Pourquoi est-elle si lente ? Combien d'appels pour fiboR(6) ?",
+    "Écrire fiboD, la version qui mémorise ses résultats.",
+    "Que vaut fiboD(60) ? Pourquoi la version récursive ne peut-elle pas le calculer ?"
+   ],
+   "correction": [
+    {
+     "text": "Correction du formateur, version récursive :"
+    },
+    {
+     "code": "def fiboR(n):\n    if n <= 1:\n        return n\n\n    return fiboR(n - 1) + fiboR(n - 2)\n\nprint(fiboR(15))   # 610"
+    },
+    {
+     "text": "Le formateur visualise ensuite l'arbre des appels de fiboR(6) avec le module rcviz : from rcviz import viz, puis fiboR = viz(fiboR), fiboR(6) et fiboR.callgraph(). Ce module n'est pas disponible partout ; le dessin n'est pas reproduit ici."
+    },
+    {
+     "text": "Notre correction (pas de réponse écrite du formateur) : la version récursive est lente parce qu'elle recalcule sans cesse les mêmes valeurs. fiboR(6) appelle fiboR(5) et fiboR(4) ; fiboR(5) rappelle fiboR(4), qui a déjà été calculé. L'arbre compte 25 appels pour n = 6, et sa taille est multipliée par environ 1,6 à chaque incrément de n (le rapport tend vers le nombre d'or, 1,618…) : la complexité est exponentielle."
+    },
+    {
+     "text": "Version dynamique du formateur : le dictionnaire contient au départ les deux valeurs de base, et la recherche dans le dictionnaire sert de condition d'arrêt. Il trace aussi son arbre des appels avec rcviz, beaucoup plus petit."
+    },
+    {
+     "code": "dicFibo = {0: 0, 1: 1}\n\ndef fiboD(n):\n    if n not in dicFibo:\n        dicFibo[n] = fiboD(n - 1) + fiboD(n - 2)\n    return dicFibo[n]\n\nprint(fiboD(60))   # 1548008755920"
+    },
+    {
+     "text": "Notre correction (pas de réponse écrite du formateur) : fiboD(60) vaut 1 548 008 755 920, calculé instantanément, car chaque terme n'est calculé qu'une fois : la complexité est devenue linéaire. La version récursive naïve demanderait environ cinq mille milliards d'appels pour le même résultat ; mesuré sur une machine courante qui enchaîne près de 18 millions d'appels par seconde, cela représente un peu plus de trois jours de calcul. Le passage de l'un à l'autre tient en trois lignes."
+    }
+   ]
+  }
+ ]
+}

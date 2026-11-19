@@ -1,0 +1,222 @@
+{
+  "id": "tp-dpr-fusion",
+  "bloc": "bloc2",
+  "jour": "En ligne — 1er octobre 2026 (FDIU)",
+  "theme": "Algorithmique — diviser pour régner",
+  "title": "TP — Diviser pour régner (1) : occurrences et tri fusion",
+  "type": "tp",
+  "notebook": "FDIU_diviser_pour_regner.ipynb",
+  "aux": [
+    "ressources/dpr/_fusion.py",
+    "ressources/dpr/triClassique_V2.py"
+  ],
+  "intro": "TP du cours en ligne du 1er octobre 2026 (FDIU, DU Normandie). Le paradigme diviser pour régner tient en trois temps. DIVISER : découper le problème en sous-problèmes plus petits. RÉGNER : résoudre ces sous-problèmes, le plus souvent récursivement, jusqu'à un cas trivial. COMBINER : assembler les solutions des sous-problèmes en une solution du problème de départ. On l'applique d'abord à un problème où la méthode n'apporte rien (compter les occurrences d'un caractère), puis au tri fusion, où elle fait passer de O(n²) à O(n log n). Le notebook s'appuie sur deux modules fournis, _fusion.py et triClassique_V2.py, à placer à côté du notebook : le bouton Basthon du site les charge automatiquement avec le notebook. Les cellules rcviz (graphe des appels) et tutor ne fonctionnent que dans Basthon. Ouvre le notebook dans Basthon, cherche par toi-même, puis déplie la correction.",
+  "steps": [
+    {
+      "num": "1",
+      "title": "Compter les occurrences d'un caractère, en diviser pour régner",
+      "intro": "Premier exemple, volontairement simple : réécrire str.count en récursif. nb_occurence(chaine, x) renvoie le nombre d'occurrences du caractère x dans chaine, en respectant la casse et les accents (à ≠ a, A ≠ a). Interdit d'utiliser count() : on est justement en train de le réécrire.",
+      "code": "def nb_occurence(chaine, x):\n    ...\n\nnb_occurence('abracadabra', 'a')\n\n# Graphe des appels récursifs (Basthon uniquement)\nfrom rcviz import viz\nnb_occurence = viz(nb_occurence)\nnb_occurence('abracadabra', 'a')\nnb_occurence.callgraph()",
+      "note": "Les modules rcviz (graphe des appels récursifs) et tutor (exécution pas à pas) sont propres à Basthon : ailleurs, l'import échoue avec ModuleNotFoundError. On garde ces cellules, mais elles ne servent qu'à visualiser. Après la cellule rcviz, nb_occurence est remplacée par sa version « enveloppée » : il faut ré-exécuter la cellule de définition avant de chronométrer (étape 2).",
+      "questions": [
+        "Écrire nb_occurence en coupant la chaîne en deux moitiés.",
+        "Repérer dans le code les trois phases : diviser, régner, combiner.",
+        "Combien d'appels pour 'abracadabra' (11 caractères) ? Et pour une chaîne de n caractères ?",
+        "Quelle différence avec une version qui traite un seul caractère puis se rappelle sur le reste ?"
+      ],
+      "correction": [
+        {
+          "text": "Régner : une chaîne vide ou d'un seul caractère donne directement 0 ou 1. Diviser : sinon, on coupe la chaîne au milieu. Combiner : on additionne les deux comptes."
+        },
+        {
+          "code": "def nb_occurence(chaine, x):\n    # RÉGNER : cas trivial, chaîne vide ou d'un caractère\n    if len(chaine) <= 1:\n        if chaine == x:\n            return 1\n        return 0\n    # DIVISER : deux moitiés\n    k = len(chaine) // 2\n    # COMBINER : somme des deux sous-résultats\n    return nb_occurence(chaine[:k], x) + nb_occurence(chaine[k:], x)\n\nprint(nb_occurence('abracadabra', 'a'))                # 5\nprint(nb_occurence('abracadabra', 'A'))                # 0 : la casse compte\nprint(nb_occurence('à la mer, à la plage', 'à'))       # 2 : les accents aussi"
+        },
+        {
+          "text": "Le test len(chaine) <= 1 traite aussi la chaîne vide. Avec un test == 1, l'appel nb_occurence('', 'a') ne s'arrêterait jamais, car ''[:0] et ''[0:] valent encore ''."
+        },
+        {
+          "text": "Nombre d'appels : chaque appel sur une chaîne d'au moins 2 caractères en déclenche exactement deux, et les feuilles de l'arbre sont les n caractères. Un arbre binaire à n feuilles a n − 1 nœuds internes, soit 2n − 1 appels : 21 pour 'abracadabra', ce qu'on vérifie avec un compteur. La profondeur est d'environ log2(n) : 5 niveaux ici."
+        },
+        {
+          "text": "La variante « réduire » proposée dans le corrigé du formateur traite le dernier caractère puis se rappelle sur les n − 1 autres. Elle est correcte, mais ce n'est plus diviser pour régner au sens strict : il n'y a qu'un sous-problème, à peine plus petit. Elle fait n + 1 appels sur une profondeur n, et lève RecursionError dès 1 000 caractères (limite par défaut de Python). La version qui coupe en deux ne descend qu'à une profondeur d'environ 17 pour 100 000 caractères."
+        },
+        {
+          "code": "def nb_occurence_2(chaine, x):\n    if not chaine:\n        return 0\n    c = 1 if chaine[-1] == x else 0\n    return c + nb_occurence_2(chaine[:-1], x)\n\nprint(nb_occurence_2('abracadabra', 'a'))     # 5\nprint(nb_occurence('a' * 100000, 'a'))        # 100000, sans dépasser la pile"
+        }
+      ]
+    },
+    {
+      "num": "2",
+      "title": "Version itérative et course contre la montre (timeit)",
+      "intro": "Le notebook propose de mesurer les deux versions avec timeit, sur 100 000 appels chacune.",
+      "code": "from timeit import timeit\n\n# version itérative\ndef nb_occurence_i(chaine, x):\n    ...\n\nassert not hasattr(nb_occurence, 'callgraph'), 'Recharger cette fonction sans viz'\n# (notebook : f-strings réécrites sans f-string, voir la note)\nprint('Version récursive :', timeit(\"nb_occurence('abracadabra', 'a')\", number=100000, globals=globals()), 's')\nprint('Version itérative :', timeit(\"nb_occurence_i('abracadabra', 'a')\", number=100000, globals=globals()), 's')",
+      "note": "Deux pièges dans cette cellule. 1) L'assert vérifie que nb_occurence n'est plus la version enveloppée par rcviz : ré-exécuter d'abord la cellule de définition. 2) Le notebook écrit ces deux affichages sous la forme print(f'Version récursive : {timeit(\"nb_occurence('abracadabra', 'a')\", number=100000, globals=globals())}s') : des apostrophes à l'intérieur d'une f-string elle-même délimitée par des apostrophes. Python l'accepte depuis la version 3.12, celle qu'utilise Basthon aujourd'hui. Avec Python 3.11 ou une version antérieure, c'est une SyntaxError (« f-string: unterminated string »). On les a donc réécrits ci-dessus sans f-string, et la correction calcule les temps à part : les deux marchent avec toutes les versions.",
+      "questions": [
+        "Compléter nb_occurence_i avec une boucle et un compteur.",
+        "Comparer les temps des deux versions. Laquelle est la plus rapide, et pourquoi ?",
+        "Quelle est la complexité de chacune ?"
+      ],
+      "correction": [
+        {
+          "code": "from timeit import timeit\n\ndef nb_occurence_i(chaine, x):\n    c = 0\n    for u in chaine:\n        if u == x:\n            c += 1\n    return c\n\nassert not hasattr(nb_occurence, 'callgraph'), 'Recharger cette fonction sans viz'\nt_rec = timeit(\"nb_occurence('abracadabra', 'a')\", number=100000, globals=globals())\nt_ite = timeit(\"nb_occurence_i('abracadabra', 'a')\", number=100000, globals=globals())\nprint(f\"Version récursive : {t_rec}s\")\nprint(f\"Version itérative : {t_ite}s\")"
+        },
+        {
+          "text": "Sur notre machine (Python 3.11), on obtient environ 0,15 s pour la version récursive et 0,02 s pour l'itérative, soit un facteur 7. Le notebook affiche 0,34 s et 0,055 s dans Basthon, soit un facteur 6. Les valeurs dépendent de la machine, mais le rapport reste du même ordre."
+        },
+        {
+          "text": "Explication : le problème est déjà linéaire, un simple parcours suffit. La version diviser pour régner fait le même nombre de comparaisons (n), mais elle y ajoute 2n − 1 appels de fonction et la copie des tranches chaine[:k] et chaine[k:]. Chaque niveau de l'arbre recopie toute la chaîne, donc O(n log n) caractères sont copiés au total, contre O(n) opérations pour la boucle."
+        },
+        {
+          "text": "C'est la conclusion du notebook : ici, diviser pour régner n'a pas de sens. En général, l'efficacité d'un algorithme diviser pour régner dépend surtout du coût de la recombinaison et de ce que la division fait gagner. En classe, c'est un bon contre-exemple à montrer avant le tri fusion : récursif ne veut pas dire plus rapide."
+        }
+      ]
+    },
+    {
+      "num": "3",
+      "title": "Tester la fonction _fusion fournie",
+      "intro": "Le tri fusion, inventé par John von Neumann en 1945, repose sur deux fonctions. fusion réunit deux listes triées en une seule liste triée : ce sont les phases régner et combiner. tri_fusion coupe la liste en deux, se rappelle sur chaque moitié et fusionne les résultats : c'est la phase diviser. Le module _fusion.py fournit une fonction _fusion déjà corrigée, que l'on commence par tester.",
+      "code": "# pour les tests et les essais (tutor et rcviz : Basthon uniquement)\nfrom doctest import run_docstring_examples\nfrom tutor import tutor\nfrom rcviz import viz\n\nfrom _fusion import _fusion\n\n# deux listes triées indépendamment\na = [1, 4, 8]\nb = [2, 3, 12]\n_fusion(a, b)\n\n# À vous de jouer : proposez quelques tests supplémentaires\n",
+      "note": "Le bouton Basthon du site charge _fusion.py avec le notebook. Sinon, hors Capytale, il faut télécharger _fusion.py (lien dans le notebook, dépôt LANSIG/NSI) et le placer à côté du notebook. Dans Basthon : Fichier → Ouvrir..., puis le déclarer comme module. Une curiosité du module : ses doctests appellent fusion(...) et non _fusion(...). La commande python3 -m doctest _fusion.py signale donc 5 échecs (NameError), alors que la fonction est juste.",
+      "questions": [
+        "Que renvoie _fusion([1, 4, 8], [2, 3, 12]) ?",
+        "Proposer des tests supplémentaires : le notebook laisse trois cellules vides.",
+        "Quels cas limites faut-il absolument tester ?"
+      ],
+      "correction": [
+        {
+          "text": "La cellule affiche [1, 2, 3, 4, 8, 12]."
+        },
+        {
+          "code": "from _fusion import _fusion\n\nassert _fusion([1, 4, 8], [2, 3, 12]) == [1, 2, 3, 4, 8, 12]\n# listes vides\nassert _fusion([], []) == []\nassert _fusion([], [1, 2]) == [1, 2]\nassert _fusion([3], []) == [3]\n# une liste entièrement avant l'autre, dans les deux sens\nassert _fusion([1, 2], [5, 6, 7]) == [1, 2, 5, 6, 7]\nassert _fusion([5, 6, 7], [1, 2]) == [1, 2, 5, 6, 7]\n# doublons, y compris d'une liste à l'autre\nassert _fusion([1, 1, 2], [1, 2, 2]) == [1, 1, 1, 2, 2, 2]\n# négatifs et longueurs différentes\nassert _fusion([-5, 0], [-7, 10, 11]) == [-7, -5, 0, 10, 11]\n# les listes de départ ne sont pas modifiées\na, b = [1, 3], [2, 4]\n_fusion(a, b)\nassert a == [1, 3] and b == [2, 4]\n# comparaison avec sorted sur des listes aléatoires\nfrom random import randint\nfor _ in range(100):\n    x = sorted(randint(-20, 20) for _ in range(randint(0, 15)))\n    y = sorted(randint(-20, 20) for _ in range(randint(0, 15)))\n    assert _fusion(x, y) == sorted(x + y)\nprint(\"tous les tests passent\")"
+        },
+        {
+          "text": "Cas limites à couvrir : une ou deux listes vides, une liste épuisée avant l'autre (dans les deux sens), des doublons, des longueurs différentes, et le fait que les listes passées en argument ne sont pas modifiées. Comparer avec sorted(x + y) sur des listes aléatoires est une bonne habitude."
+        },
+        {
+          "text": "Remarque : à égalité, _fusion prend l'élément de b, car le test a[i] < b[j] est strict. Le résultat est juste, mais le tri obtenu n'est pas stable : deux éléments égaux peuvent échanger leur ordre. Avec a[i] <= b[j], la fusion devient stable. C'est le choix fait à l'étape 6."
+        }
+      ]
+    },
+    {
+      "num": "4",
+      "title": "La fonction récursive tri_fusion",
+      "intro": "_fusion étant fournie, on écrit le tri : diviser la liste en deux jusqu'à obtenir des listes d'un seul élément, déjà triées, puis fusionner à la remontée.",
+      "code": "def tri_fusion (lst):\n    \"\"\" Tri une liste suivant un algorithme de tri-fusion\n    Ne modifie pas la liste de départ\n\n    Tests automatiques :\n    >>> tri_fusion([39, 19, 13, 25, 29, 37, 18, 23, 17, 28, 14, 15, 6, 16, 10, 20, 3, 35, 1, 24, 5, 32, 33, 30, 21, 4, 38, 0, 11, 36, 8, 7, 34, 9, 27, 22, 26, 31, 2, 12])\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]\n    >>> tri_fusion([-2, -12, 4, 78])\n    [-12, -2, 4, 78]\n    >>> tri_fusion([-2, -12, 4, 78, -15])\n    [-15, -12, -2, 4, 78]\n    >>> tri_fusion([])\n    []\n    \"\"\"\n    ...\n\nrun_docstring_examples(tri_fusion, globals())\n\ntri_fusion([45, 6, 78, 45, 33, 1, 0])\n\n# Graphe des appels (Basthon uniquement)\nfrom rcviz import viz\ntri_fusion = viz(tri_fusion)\ntri_fusion([45, 6, 78, 45, 33, 1, 0])\ntri_fusion.callgraph()",
+      "questions": [
+        "Écrire tri_fusion(lst), récursive, en s'appuyant sur _fusion. Elle renvoie une nouvelle liste triée sans modifier lst.",
+        "Pourquoi le cas de base doit-il être len(lst) <= 1, et pas len(lst) == 1 ?",
+        "Que renvoie tri_fusion([45, 6, 78, 45, 33, 1, 0]) ? Combien d'appels pour ces 7 éléments ?"
+      ],
+      "correction": [
+        {
+          "code": "from doctest import run_docstring_examples\nfrom _fusion import _fusion\n\ndef tri_fusion(lst):\n    \"\"\" Tri une liste suivant un algorithme de tri-fusion\n    Ne modifie pas la liste de départ\n\n    Tests automatiques :\n    >>> tri_fusion([39, 19, 13, 25, 29, 37, 18, 23, 17, 28, 14, 15, 6, 16, 10, 20, 3, 35, 1, 24, 5, 32, 33, 30, 21, 4, 38, 0, 11, 36, 8, 7, 34, 9, 27, 22, 26, 31, 2, 12])\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]\n    >>> tri_fusion([-2, -12, 4, 78])\n    [-12, -2, 4, 78]\n    >>> tri_fusion([-2, -12, 4, 78, -15])\n    [-15, -12, -2, 4, 78]\n    >>> tri_fusion([])\n    []\n    \"\"\"\n    # RÉGNER : une liste de 0 ou 1 élément est déjà triée\n    if len(lst) <= 1:\n        return lst[:]\n    # DIVISER\n    milieu = len(lst) // 2\n    gauche = tri_fusion(lst[:milieu])\n    droite = tri_fusion(lst[milieu:])\n    # COMBINER\n    return _fusion(gauche, droite)\n\nrun_docstring_examples(tri_fusion, globals())    # n'affiche rien : tout passe\nprint(tri_fusion([45, 6, 78, 45, 33, 1, 0]))      # [0, 1, 6, 33, 45, 45, 78]"
+        },
+        {
+          "text": "run_docstring_examples n'affiche rien quand tous les tests passent : le silence est ici une bonne nouvelle."
+        },
+        {
+          "text": "Le doctest tri_fusion([]) piège le cas de base. Avec if len(lst) == 1, la liste vide est coupée en deux listes vides, indéfiniment, jusqu'à RecursionError. C'est précisément le défaut du corrigé public de 2021 (triFusion avec taille == 1), que la version 2026 du notebook détecte grâce à ce test."
+        },
+        {
+          "text": "La liste de départ n'est jamais modifiée : les tranches lst[:milieu] et lst[milieu:] sont des copies, et _fusion construit une nouvelle liste. Dans le cas de base, on renvoie lst[:] plutôt que lst, pour ne jamais rendre l'argument lui-même. Renvoyer lst passe aussi les tests, mais pour une liste de 0 ou 1 élément le « résultat » serait alors la même liste que l'argument."
+        },
+        {
+          "text": "Pour 7 éléments, on compte 13 appels (2n − 1, comme à l'étape 1) sur 4 niveaux. Le graphe rcviz de Basthon montre la division à la descente et la fusion à la remontée."
+        }
+      ]
+    },
+    {
+      "num": "5",
+      "title": "Complexité : tris lents contre tri fusion",
+      "intro": "Le module triClassique_V2.py fournit triSelection, triInsertion et triBulle, trois tris en place vus en Première. On compare les temps.",
+      "code": "from triClassique_V2 import *\n\nfrom random import shuffle\nfrom timeit import timeit\n\nassert not hasattr(tri_fusion, 'callgraph'), 'Recharger cette fonction sans viz'\n\nfor n in [100, 1000, 10000]:\n    a = [x for x in range(n)]\n    shuffle(a)\n\n    a1 = a.copy()\n    print(F\"{n} éléments triés par sélection en {timeit('triSelection(a1)', number = 1, globals = globals())}s\")\n    a1 = a.copy()\n    print(F\"{n} éléments triés par insertion en {timeit('triInsertion(a1)', number = 1, globals = globals())}s\")\n    a1 = a.copy()\n    print(F\"{n} éléments triés par fusion en {timeit('tri_fusion(a1)', number = 1, globals = globals())}s\")\n\nfor n in [100, 1000, 10000, 100000, 1000000]:\n    a = [x for x in range(n)]\n    shuffle(a)\n\n    print(F\"{n} éléments triés par fusion en {timeit('a2 = tri_fusion(a)', number = 1, globals = globals())}s\")\n\nfor n in [100, 1000, 10000, 100000, 1000000]:\n    a = [x for x in range(n)]\n    shuffle(a)\n\n    print(F\"{n} éléments triés par sorted en {timeit('a2 = sorted(a)', number = 1, globals = globals())}s\")",
+      "note": "Le bouton Basthon du site charge aussi triClassique_V2.py ; sinon, hors Capytale, il faut le télécharger. Ses tris travaillent en place, d'où a1 = a.copy() avant chaque mesure : sinon le deuxième tri recevrait une liste déjà triée. Si tri_fusion est encore enveloppée par rcviz, l'assert bloque. Sans l'assert, on obtient une KeyError venue de rcviz, comme dans le corrigé du formateur : il faut ré-exécuter la définition de tri_fusion. Le bloc de test de triClassique_V2.py contient d'ailleurs ce piège : b = a ne copie pas la liste, si bien que les deuxième et troisième tris y reçoivent une liste déjà triée.",
+      "questions": [
+        "Lancer les trois cellules de mesure et relever les temps.",
+        "Indiquer la complexité temporelle des deux tris lents au programme de Première.",
+        "Pourquoi qualifie-t-on le tri fusion de tri rapide ?"
+      ],
+      "correction": [
+        {
+          "text": "Mesures sur notre machine (Python 3.11), en secondes. Dans Basthon, tout est environ 20 fois plus lent (le corrigé 2021 donne 0,19 s pour 1 000 éléments triés par sélection), mais les rapports sont les mêmes."
+        },
+        {
+          "code": "n          sélection   insertion   tri_fusion   sorted\n100        0,0001      0,0001      0,0001       0,00001\n1 000      0,009       0,013       0,001        0,0001\n10 000     0,92        1,45        0,013        0,001\n100 000    —           —           0,17         0,020\n1 000 000  —           —           2,9          0,29"
+        },
+        {
+          "text": "Lecture du tableau : quand n est multiplié par 10, le temps des tris par sélection et par insertion est multiplié par environ 100, signe d'un comportement quadratique. Celui du tri fusion est multiplié par un peu plus de 10 : un facteur 10 pour n, et un facteur log n qui grandit lentement."
+        },
+        {
+          "text": "Tri par sélection : O(n²) dans tous les cas. Il fait n(n − 1)/2 comparaisons, même sur une liste déjà triée. Tri par insertion : O(n²) dans le pire cas (liste triée à l'envers) et en moyenne, mais O(n) dans le meilleur cas (liste déjà triée)."
+        },
+        {
+          "text": "Tri fusion : O(n log n) dans tous les cas. Il y a environ log2(n) niveaux de découpage (20 pour un million d'éléments) et, à chaque niveau, les fusions traitent n éléments en tout, en temps linéaire. La relation de récurrence T(n) = 2T(n/2) + O(n) donne O(n log n). C'est en ce sens qu'il est « rapide » : pour n = 1 000 000, n² vaut 10¹², alors que n·log2(n) vaut environ 2 × 10⁷."
+        },
+        {
+          "text": "sorted (Timsort, écrit en C, hybride du tri fusion et du tri par insertion) est encore 10 fois plus rapide : même complexité O(n log n), mais une constante bien plus petite. Attention au vocabulaire en classe : « tri rapide » désigne aussi le quicksort, un autre algorithme diviser pour régner. Contrepartie du tri fusion : il n'est pas en place. Il utilise O(n) mémoire supplémentaire pour les listes intermédiaires."
+        }
+      ]
+    },
+    {
+      "num": "6",
+      "title": "La fonction fusion, version 1 (append, extend, slicing)",
+      "intro": "On n'utilise plus _fusion : on écrit sa propre fonction itérative fusion(lst_a, lst_b), qui reçoit deux listes triées et renvoie leur fusion triée. Version 1 : la plus simple, avec les méthodes des listes Python (append, extend, slicing).",
+      "code": "def fusion(lst_a, lst_b):\n    \"\"\" réalise la fusion de deux listes triées\n    en une grande liste trieé.\n\n    Tests automatiques :\n    >>> fusion([], [])\n    []\n    >>> fusion([1, 2], [])\n    [1, 2]\n    >>> fusion([], [1, 2])\n    [1, 2]\n    >>> fusion([1, 3, 4, 5], [6, 7, 8, 9])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion([6, 7, 8, 9], [1, 3, 4, 5])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion(list(range(0, 20, 2)), list(range(1, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> fusion(list(range(1, 20, 2)), list(range(0, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]\n    >>> fusion(a, b)\n    [1, 1, 2, 2, 3, 3, 4, 4]\n    >>> a\n    [1, 2, 3, 4]\n    >>> b\n    [1, 2, 3, 4]\n    \"\"\"\n    ...\n\na = [1, 1, 4, 8, 15, 101, 103]\nb = [1, 2, 3, 12, 15, 46, 48, 78, 85]\nfusion(a, b)\n\nrun_docstring_examples(fusion, globals())",
+      "note": "Dans le notebook distribué, run_docstring_examples(fusion, globals()) a produit une NameError : la cellule d'imports (from doctest import run_docstring_examples) n'avait pas été exécutée. Après un redémarrage du noyau, il faut toujours ré-exécuter les cellules d'import.",
+      "questions": [
+        "Écrire fusion en utilisant append, extend et le slicing.",
+        "Quelle est sa complexité ?",
+        "Dans tri_fusion, remplacer _fusion par fusion : le tri reste-t-il juste ?"
+      ],
+      "correction": [
+        {
+          "code": "def fusion(lst_a, lst_b):\n    \"\"\" réalise la fusion de deux listes triées\n    en une grande liste trieé.\n\n    Tests automatiques :\n    >>> fusion([], [])\n    []\n    >>> fusion([1, 2], [])\n    [1, 2]\n    >>> fusion([], [1, 2])\n    [1, 2]\n    >>> fusion([1, 3, 4, 5], [6, 7, 8, 9])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion([6, 7, 8, 9], [1, 3, 4, 5])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion(list(range(0, 20, 2)), list(range(1, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> fusion(list(range(1, 20, 2)), list(range(0, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]\n    >>> fusion(a, b)\n    [1, 1, 2, 2, 3, 3, 4, 4]\n    >>> a\n    [1, 2, 3, 4]\n    >>> b\n    [1, 2, 3, 4]\n    \"\"\"\n    resultat = []\n    i, j = 0, 0                      # i parcourt lst_a, j parcourt lst_b\n    while i < len(lst_a) and j < len(lst_b):\n        if lst_a[i] <= lst_b[j]:     # <= : à égalité, on prend dans lst_a (tri stable)\n            resultat.append(lst_a[i])\n            i += 1\n        else:\n            resultat.append(lst_b[j])\n            j += 1\n    # l'une des deux listes est épuisée : on recopie la fin de l'autre\n    resultat.extend(lst_a[i:])\n    resultat.extend(lst_b[j:])\n    return resultat\n\na = [1, 1, 4, 8, 15, 101, 103]\nb = [1, 2, 3, 12, 15, 46, 48, 78, 85]\nprint(fusion(a, b))\nrun_docstring_examples(fusion, globals())    # rien à signaler"
+        },
+        {
+          "text": "fusion(a, b) renvoie [1, 1, 1, 2, 3, 4, 8, 12, 15, 15, 46, 48, 78, 85, 101, 103] et les 11 exemples du docstring passent."
+        },
+        {
+          "text": "Principe : deux indices avancent chacun dans sa liste. À chaque tour, on recopie le plus petit des deux éléments pointés. Quand une liste est épuisée, extend recopie d'un coup la fin de l'autre ; l'une des deux tranches est alors vide. Complexité : O(len(lst_a) + len(lst_b)), car chaque élément est recopié une seule fois. C'est cette fusion en temps linéaire qui fait l'efficacité du tri fusion."
+        },
+        {
+          "text": "Le test lst_a[i] <= lst_b[j], plutôt que <, rend la fusion stable : à égalité, l'élément de la liste de gauche passe en premier. Le tri fusion conserve alors l'ordre initial des éléments égaux, ce qui compte quand on trie des enregistrements selon une clé. Le corrigé du formateur teste lst_a[ia] >= lst_b[ib] et prend donc dans lst_b à égalité : le résultat est juste, mais le tri n'est pas stable."
+        },
+        {
+          "code": "def tri_fusion(lst):\n    if len(lst) <= 1:\n        return lst[:]\n    milieu = len(lst) // 2\n    return fusion(tri_fusion(lst[:milieu]), tri_fusion(lst[milieu:]))   # fusion au lieu de _fusion\n\nfrom random import randint\nfor _ in range(200):\n    lst = [randint(-50, 50) for _ in range(randint(0, 40))]\n    assert tri_fusion(lst) == sorted(lst)\nprint(tri_fusion([45, 6, 78, 45, 33, 1, 0]))   # [0, 1, 6, 33, 45, 45, 78]"
+        }
+      ]
+    },
+    {
+      "num": "7",
+      "title": "La fonction fusion_2, sans append, extend ni slicing",
+      "intro": "Version 2, « moins pythonesque » : la même fusion, mais sans append, sans extend et sans tranches.",
+      "code": "# version moins python\n# sans : append, extend, slicing\n\ndef fusion_2(lst_a, lst_b):\n    \"\"\" réalise la fusion de deux listes triées\n    en une grande liste trieé.\n\n    Tests automatiques :\n    >>> fusion_2([], [])\n    []\n    >>> fusion_2([1, 2], [])\n    [1, 2]\n    >>> fusion_2([], [1, 2])\n    [1, 2]\n    >>> fusion_2([1, 3, 4, 5], [6, 7, 8, 9])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion_2([6, 7, 8, 9], [1, 3, 4, 5])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion_2(list(range(0, 20, 2)), list(range(1, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> fusion_2(list(range(1, 20, 2)), list(range(0, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]\n    >>> fusion_2(a, b)\n    [1, 1, 2, 2, 3, 3, 4, 4]\n    >>> a\n    [1, 2, 3, 4]\n    >>> b\n    [1, 2, 3, 4]\n    \"\"\"\n    ...\n\na = [-1, 1, 1, 4, 8, 15, 142, 143]\nb = [1, 2, 3, 12, 15, 46, 48, 78, 125]\nfusion2(a, b)\n\nrun_docstring_examples(fusion_2, globals())",
+      "note": "Coquille du notebook : la cellule de test appelle fusion2(a, b), ce qui provoque une NameError. La fonction s'appelle fusion_2.",
+      "questions": [
+        "Écrire fusion_2 sans append, extend ni slicing.",
+        "Comparer les temps de fusion et de fusion_2 sur de grandes listes.",
+        "Laquelle des deux se transpose le plus directement dans un autre langage ?"
+      ],
+      "correction": [
+        {
+          "text": "Sans append, on réserve d'emblée une liste résultat de la bonne taille, [0] * (na + nb), puis on la remplit case par case. Une seule boucle suffit : on prend dans lst_a si lst_b est épuisée, ou si l'élément courant de lst_a est le plus petit. Sinon, on prend dans lst_b."
+        },
+        {
+          "code": "def fusion_2(lst_a, lst_b):\n    \"\"\" réalise la fusion de deux listes triées\n    en une grande liste trieé.\n\n    Tests automatiques :\n    >>> fusion_2([], [])\n    []\n    >>> fusion_2([1, 2], [])\n    [1, 2]\n    >>> fusion_2([], [1, 2])\n    [1, 2]\n    >>> fusion_2([1, 3, 4, 5], [6, 7, 8, 9])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion_2([6, 7, 8, 9], [1, 3, 4, 5])\n    [1, 3, 4, 5, 6, 7, 8, 9]\n    >>> fusion_2(list(range(0, 20, 2)), list(range(1, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> fusion_2(list(range(1, 20, 2)), list(range(0, 20, 2)))\n    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]\n    >>> a, b = [1, 2, 3, 4], [1, 2, 3, 4]\n    >>> fusion_2(a, b)\n    [1, 1, 2, 2, 3, 3, 4, 4]\n    >>> a\n    [1, 2, 3, 4]\n    >>> b\n    [1, 2, 3, 4]\n    \"\"\"\n    na, nb = len(lst_a), len(lst_b)\n    resultat = [0] * (na + nb)       # réservée d'avance, remplie case par case\n    i, j = 0, 0\n    for k in range(na + nb):\n        # on prend dans lst_a si lst_b est épuisée, ou si lst_a[i] est le plus petit\n        if j >= nb or (i < na and lst_a[i] <= lst_b[j]):\n            resultat[k] = lst_a[i]\n            i += 1\n        else:\n            resultat[k] = lst_b[j]\n            j += 1\n    return resultat\n\na = [-1, 1, 1, 4, 8, 15, 142, 143]\nb = [1, 2, 3, 12, 15, 46, 48, 78, 125]\nprint(fusion_2(a, b))\nrun_docstring_examples(fusion_2, globals())"
+        },
+        {
+          "text": "Résultat : [-1, 1, 1, 1, 2, 3, 4, 8, 12, 15, 15, 46, 48, 78, 125, 142, 143], et les doctests passent. Le corrigé du formateur écrit trois boucles while : une boucle principale tant que les deux listes ont des éléments, puis une boucle pour vider le reste de chaque liste. Les deux écritures sont équivalentes."
+        },
+        {
+          "code": "from timeit import timeit\na = list(range(1_000_000))\nt1 = timeit('fusion(a, a)', number=1, globals=globals())\nt2 = timeit('fusion_2(a, a)', number=1, globals=globals())\nprint(f\"fusion   : {t1:.3f} s\")\nprint(f\"fusion_2 : {t2:.3f} s\")"
+        },
+        {
+          "text": "Les deux fonctions sont en O(n) : seule la constante diffère, et elle dépend surtout de l'écriture de la boucle (nombre de tests et d'appels à len par tour) et de la version de Python. Le formateur, dans Basthon, sur deux listes de 10 millions d'éléments, trouve fusion plus rapide (3,28 s contre 3,88 s pour sa version à trois while). Chez nous, sur deux listes d'un million d'éléments, la fusion_2 ci-dessus est plutôt plus rapide avec Python 3.11 (environ 0,1 s, contre 0,13 à 0,3 s pour fusion selon les essais), et l'écart est faible avec Python 3.13 (0,16 à 0,18 s pour fusion_2, 0,18 à 0,23 s pour fusion). Leçon pour la classe : on ne départage deux écritures de même complexité qu'en mesurant."
+        },
+        {
+          "text": "fusion_2 se traduit telle quelle en C ou en Java, où un tableau a une taille fixe et où append, extend et les tranches n'existent pas."
+        }
+      ]
+    }
+  ]
+}
