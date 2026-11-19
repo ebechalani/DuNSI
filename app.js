@@ -448,6 +448,31 @@ const SESSIONS_ENLIGNE = [
     ],
   },
   {
+    id: 'arbres-2026-11-19',
+    iso: '2026-11-19', dateLabel: '19 novembre 2026', bloc: 'bloc5',
+    titre: 'Algorithmique avancée : les arbres binaires',
+    formateur: 'Université de Caen Normandie (Bloc 5)', mode: 'distanciel', duree: '~3 h',
+    base: '',
+    index: 'ressources/arbres/Arbres.pdf',
+    parties: [
+      { titre: 'Introduction : autour de l\'algorithmique', items: [
+        { t: 'Algorithmes, complexité, exécution d\'un programme Python, timeit', f: 'Autour de l\'algorithmique — algorithmes, complexité et exécution d\'un programme Python' },
+        { t: 'Diaporama « Autour de l\'algorithmique » (G. Richard, PDF)',       u: 'ressources/arbres/Intro-Algo.pdf' },
+      ]},
+      { titre: 'CM 5 : structures arborescentes', items: [
+        { t: 'Définitions inductives et vocabulaire',                 f: 'Arbres — définitions inductives et vocabulaire' },
+        { t: 'Propriétés inductives et représentation en Python',     f: 'Arbres binaires — propriétés inductives et représentation en Python' },
+        { t: 'Parcours : largeur, préfixe, infixe, suffixe',          f: 'Parcours d\'arbres binaires — largeur, profondeur, préfixe, infixe, suffixe' },
+        { t: 'Diaporama du cours (PDF)',                              u: 'ressources/arbres/Arbres.pdf' },
+        { t: 'Arbre.py — la classe Noeud donnée en séance',           u: 'ressources/arbres/Arbre.py' },
+      ]},
+      { titre: 'TD : arbres binaires', items: [
+        { t: 'Énoncé du TD (PDF) — TP corrigé pas à pas dans l\'onglet 🧪 TP', u: 'ressources/arbres/TD-Arbres.pdf' },
+        { t: 'Toutes les solutions, autovérifiées (script Python)',             u: 'ressources/arbres/solution_td_arbres.py' },
+      ]},
+    ],
+  },
+  {
     id: 'paradigmes-2026-10-22',
     iso: '2026-10-22', dateLabel: '22 octobre 2026', bloc: 'bloc4',
     titre: 'Paradigmes de programmation : la programmation fonctionnelle (Haskell) — et fin de SQL',
@@ -504,6 +529,7 @@ const RESSOURCES_OFFICIEL = [
   { icon: '🗄️', title: 'Bloc 4 — Bases de données (B. Mermet, en ligne)', desc: 'Chapitre 1 complet : BDD relationnelles (DF, formes normales), modèle conceptuel, contraintes de référence, SGBD, SQL (LID/LMD/LDD), sqlite3 en Python, web côté serveur — Jour en ligne 10 septembre', url: 'https://bases-de-donnees-26b46e.gitlab.io/indexBD.html' },
   { icon: '📐', title: 'Bloc 2 Algorithmique — copie locale du chapitre (B. Mermet)', desc: 'Les 30 pages du chapitre et leurs schémas, consultables hors ligne : gloutons, diviser pour régner, k plus proches voisins, validation, preuve de programme et ses exercices corrigés, tests unitaires, complexité (séances des 17 septembre, 1er et 8 octobre)', url: 'ressources/algo/index.html' },
   { icon: '🧠', title: 'Bloc 4 — Paradigmes de programmation (B. Mermet) — copie locale', desc: 'Chapitre 2 : introduction, programmation fonctionnelle (λ-calcul, Haskell : types, récursivité, map/filter/fold), programmation logique (Prolog), programmation objet (classes, encapsulation, héritage) — séance du 22 octobre', url: 'ressources/paradigmes/indexParadigmes.html' },
+  { icon: '🌳', title: 'Arbres binaires — cours, TD et solutions (Unicaen)', desc: 'Séance du 19 novembre (Bloc 5) : CM « structures arborescentes », TD « arbres binaires » corrigé dans l\'onglet TP, script de solutions autovérifié, classe Noeud — copies locales', url: 'ressources/arbres/Arbres.pdf' },
   { icon: '✂️', title: 'Notebooks « Diviser pour régner » (FDIU)', desc: 'Tri fusion (1er octobre), Karatsuba (8 et 15 octobre), rotation d\'image — copies locales avec leurs modules, s\'ouvrent dans Basthon ; les trois TP corrigés sont dans l\'onglet TP', url: 'basthon:ressources/dpr/FDIU_diviser_pour_regner.ipynb|ressources/dpr/_fusion.py|ressources/dpr/triClassique_V2.py' },
   { icon: '✅', title: 'TP gloutons — correction officielle du formateur (FDIU)', desc: 'Le notebook corrigé donné en séance le 1er octobre : conversion binaire, rendu de monnaie et conditions de Pearson, sac à dos, planning, recherche exhaustive — s\'ouvre dans Basthon', url: 'basthon:ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb' },
   { icon: '💾', title: 'Support BDD — copie locale + scripts ludothèque', desc: 'Les 7 pages du chapitre, les schémas et les 4 scripts Python du TP (creationTable…, lectureLudotheque.py), consultables hors ligne', url: 'ressources/bdd/indexBD.html' },
@@ -1226,6 +1252,1356 @@ function projetCategorie(f) { return (f.topic || '').replace(/^Projet ·\s*/, ''
 
 // ── Données TP ───────────────────────────────────────────
 const TPS = [
+  // ── TP — Arbres binaires : parcours, feuilles, profondeurs, expressions ──
+  {
+    id: "tp-arbres-binaires", bloc: "bloc5", jour: "En ligne — 19 novembre 2026",
+    theme: "Algorithmique avancée — arbres binaires",
+    title: "TP — Arbres binaires : parcours, feuilles, profondeurs, expressions",
+    type: 'tp',
+    original: "TD-Arbres.pdf",
+    intro: "TD « Arbres binaires » du cours de L2 « Algorithmique et structures de données » (Université de Caen Normandie), adapté pour la formation NSI et traité lors de la séance DIU du 19 novembre 2026, avec le CM 5 « Structures arborescentes ». Toutes les questions sont corrigées en Python avec la classe Noeud donnée en séance (fichier Arbre.py : valeur, gauche, droite ; l'arbre vide est None). L'étape x.y correspond à l'exercice x, question y : exercice 1, parcours de l'arbre A, nombre de feuilles, copie et parcours préfixe itératif avec une pile ; exercice 2, profondeurs, niveaux et longueurs de cheminement (LC, LCE) ; exercice 3, arbres d'expressions arithmétiques. Conventions du cours : la racine est de profondeur 0, l'arbre vide a pour hauteur −1. Chaque étape donne un squelette (signature, docstring, doctests) : complète-le, lance doctest.testmod(), puis déplie la correction. Les corrections s'exécutent dans l'ordre, chacune s'appuyant sur les précédentes ; le script solution_td_arbres.py les réunit toutes et vérifie chaque résultat. Pour la mise en œuvre en classe, voir aussi les fiches « Piles et files : LIFO, FIFO et applications » et « Les listes chaînées » (bloc 4), le « Parcours guidé — Pile, File et Arbre » et le « Projet — Arbre binaire de recherche » (bloc 0).",
+    steps: [
+      {
+        num: "1.1", title: "L'arbre A et ses quatre parcours, à la main",
+        intro: "Exercice 1, question 1. Voici l'arbre A de la figure 1 du TD, recopié nœud par nœud ; ∅ désigne un sous-arbre vide. Avant de programmer quoi que ce soit, on donne à la main l'ordre de visite des nœuds pour chacun des parcours vus en cours (CM 5, diapositives 20 à 25).",
+        code: `#                        a
+#                /               \\
+#               b                 c
+#             /   \\             /   \\
+#            d     ∅           ∅     e
+#          /   \\                   /    \\
+#         ∅     f                 g      h
+#              / \\              /   \\   / \\
+#             ∅   ∅            i     j ∅   ∅
+#                             / \\   / \\
+#                            ∅   ∅ ∅   ∅
+#
+# Donnez, à la main, l'ordre de visite des nœuds de A :
+prefixe  = "..."   # 1. parcours préfixe
+postfixe = "..."   # 2. parcours postfixe (ou suffixe)
+largeur  = "..."   # 3. parcours en largeur
+infixe   = "..."   # 4. parcours infixe : le quatrième parcours du cours, oublié par l'énoncé`,
+        note: "Coquille de l'énoncé : la question 1 annonce « les quatre parcours suivants » mais n'en énumère que trois (préfixe, postfixe, largeur). Le quatrième parcours du cours est le parcours infixe ; on le traite partout, et la question 3 (« chacun des quatre ordres ») confirme qu'il était prévu.",
+        questions: [
+          "Donnez l'ordre de visite des nœuds de A pour le parcours préfixe, le parcours postfixe (ou suffixe) et le parcours en largeur.",
+          "L'énoncé annonce « quatre parcours » mais n'en liste que trois : quel est le quatrième ? Donnez aussi son ordre de visite.",
+          "Combien A a-t-il de nœuds, de nœuds internes et de feuilles ?"
+        ],
+        correction: [
+          { text: "Méthode du cours (diapositive 22) : dans un parcours en profondeur, on part de la racine, on descend le plus à gauche possible puis on remonte ; chaque nœud est visité trois fois : à la première visite (en arrivant), à la deuxième (après son sous-arbre gauche) et à la troisième (après son sous-arbre droit). Pour A, la suite complète des visites est : a b d d f f f d b b a c c e g i i i g j j j g e h h h e c a. Le parcours préfixe garde la première occurrence de chaque nœud, l'infixe la deuxième, le postfixe la troisième." },
+          { code: `# Réponses de la question 1 (vérifiées par programme à l'étape 1.3)
+prefixe  = "a b d f c e g i j h"   # racine, puis sous-arbre gauche, puis sous-arbre droit
+infixe   = "d f b a c i g j e h"   # sous-arbre gauche, puis racine, puis sous-arbre droit
+postfixe = "f d b i j g h e c a"   # sous-arbre gauche, puis sous-arbre droit, puis racine
+largeur  = "a b c d e f g h i j"   # niveau 0, puis niveau 1, ... chaque niveau de gauche à droite` },
+          { text: "Le quatrième parcours est le parcours infixe (ou symétrique), présenté en cours à la diapositive 24 : la liste de l'énoncé s'arrête à trois, c'est une coquille. On traite donc les quatre ordres dans tout le TP." },
+          { text: "Deux pièges classiques en préfixe et en postfixe : d n'a pas de fils gauche, donc f vient juste après d en préfixe et juste avant d en postfixe ; c n'a pas de fils gauche, donc en infixe c est affiché tout de suite après a, avant tout son sous-arbre droit." },
+          { text: "A compte N(A) = 10 nœuds : 6 nœuds internes (a, b, c, d, e, g) et 4 feuilles (f, h, i, j). On retrouve bien N(A) = Ni(A) + Nf(A) = 6 + 4 (cours, diapositive 10). Ces trois nombres serviront aux questions 4 à 6." }
+        ]
+      },
+      {
+        num: "1.2", title: "Représentation chaînée de A en Python",
+        intro: "Exercice 1, question 2. En Python, la « structure nœud » du TD devient la classe Noeud donnée en séance (fichier Arbre.py). Le « pointeur sur nœud » est une référence vers un objet Noeud, et le pointeur nul est None : un arbre binaire est donc représenté par (une référence vers) sa racine, et l'arbre vide par None.",
+        code: `class Noeud:
+    def __init__(self, valeur, gauche=None, droite=None):
+        self.valeur = valeur      # Contenu du nœud
+        self.gauche = gauche      # Sous-arbre gauche
+        self.droite = droite      # Sous-arbre droit
+
+
+def parenthese(B):
+    """Notation parenthésée de l'arbre B (∅ pour l'arbre vide).
+
+    >>> parenthese(Noeud('x', None, Noeud('y')))
+    'x(∅,y)'
+    >>> parenthese(None)
+    '∅'
+    """
+    ...
+
+
+A = ...   # à compléter : construire l'arbre A de la figure 1`,
+        note: "Le TD note le fils droit « droit » ; la classe Noeud d'Arbre.py l'appelle « droite ». On garde ici la classe telle quelle : A->gauche s'écrit A.gauche et A->droit s'écrit A.droite.",
+        questions: [
+          "Dessinez la représentation chaînée de A : chaque nœud est une case à trois champs (gauche, valeur, droit).",
+          "Construisez A en Python avec la classe Noeud. Combien d'objets Noeud faut-il créer ? Combien de champs valent None ?",
+          "Écrivez parenthese(B), qui renvoie la notation parenthésée d'un arbre, pour contrôler la construction."
+        ],
+        correction: [
+          { text: "Dessin de la représentation chaînée : chaque case [gauche|valeur|droit] est un objet Noeud, * est une référence vers un autre nœud, ∅ est None. La variable A n'est qu'une référence vers la case de la racine." },
+          { code: `#  A
+#  |
+#  v
+# [*|a|*]-----------------------+
+#  |                            |
+#  v                            v
+# [*|b|∅]                      [∅|c|*]
+#  |                                |
+#  v                                v
+# [∅|d|*]                          [*|e|*]-----------+
+#      |                            |                |
+#      v                            v                v
+#     [∅|f|∅]                      [*|g|*]-----+    [∅|h|∅]
+#                                   |          |
+#                                   v          v
+#                                  [∅|i|∅]    [∅|j|∅]` },
+          { text: "On crée exactement 10 objets Noeud, un par nœud. On peut construire l'arbre de bas en haut (les feuilles d'abord) ou d'un seul coup par des appels imbriqués : les deux écritures donnent le même arbre." },
+          { code: `class Noeud:
+    def __init__(self, valeur, gauche=None, droite=None):
+        self.valeur = valeur      # Contenu du nœud
+        self.gauche = gauche      # Sous-arbre gauche
+        self.droite = droite      # Sous-arbre droit
+
+
+# Construction de bas en haut : chaque nœud est créé après ses fils.
+f = Noeud('f')
+d = Noeud('d', None, f)
+b = Noeud('b', d, None)
+i = Noeud('i')
+j = Noeud('j')
+g = Noeud('g', i, j)
+h = Noeud('h')
+e = Noeud('e', g, h)
+c = Noeud('c', None, e)
+A = Noeud('a', b, c)
+
+# La même chose en une seule expression (l'indentation suit la forme de l'arbre) :
+A = Noeud('a',
+          Noeud('b',
+                Noeud('d', None, Noeud('f')),
+                None),
+          Noeud('c',
+                None,
+                Noeud('e',
+                      Noeud('g', Noeud('i'), Noeud('j')),
+                      Noeud('h'))))
+
+
+def parenthese(B):
+    """Notation parenthésée de l'arbre B (∅ pour l'arbre vide).
+
+    >>> parenthese(Noeud('x', None, Noeud('y')))
+    'x(∅,y)'
+    >>> parenthese(None)
+    '∅'
+    """
+    if B is None:
+        return '∅'
+    if B.gauche is None and B.droite is None:      # une feuille : sa valeur seule
+        return str(B.valeur)
+    return f"{B.valeur}({parenthese(B.gauche)},{parenthese(B.droite)})"
+
+
+print(parenthese(A))      # a(b(d(∅,f),∅),c(∅,e(g(i,j),h)))
+assert parenthese(A) == "a(b(d(∅,f),∅),c(∅,e(g(i,j),h)))"
+assert A.droite.droite.gauche.droite.valeur == 'j'    # A->droit->droit->gauche->droit` },
+          { text: "Champs à None : chaque feuille en a 2 (4 feuilles, donc 8), et b, c, d en ont 1 chacun, soit 11 en tout. C'est un cas particulier d'un fait général : un arbre binaire à N nœuds a 2N champs de fils, dont N − 1 sont occupés (chaque nœud sauf la racine a exactement un parent) ; il reste donc N + 1 = 11 champs à None. Ce décompte resservira à la question 6." }
+        ]
+      },
+      {
+        num: "1.3", title: "Une procédure par parcours",
+        intro: "Exercice 1, question 3. Une procédure par ordre : préfixe, infixe, postfixe (récursives, calquées sur la définition inductive des arbres binaires) et largeur (itérative, avec une file). Chaque procédure affiche les valeurs sur une même ligne, séparées par des espaces.",
+        code: `from collections import deque
+
+
+def affichePrefixe(A):
+    """Affiche les nœuds de A dans l'ordre préfixe (racine, gauche, droite).
+
+    >>> affichePrefixe(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixe(None)            # arbre vide : rien à afficher
+    """
+    ...
+
+
+def afficheInfixe(A):
+    """Affiche les nœuds de A dans l'ordre infixe (gauche, racine, droite).
+
+    >>> afficheInfixe(A)                # doctest: +NORMALIZE_WHITESPACE
+    d f b a c i g j e h
+    """
+    ...
+
+
+def affichePostfixe(A):
+    """Affiche les nœuds de A dans l'ordre postfixe (gauche, droite, racine).
+
+    >>> affichePostfixe(A)              # doctest: +NORMALIZE_WHITESPACE
+    f d b i j g h e c a
+    """
+    ...
+
+
+def afficheLargeur(A):
+    """Affiche les nœuds de A niveau par niveau, chaque niveau de gauche à droite.
+
+    >>> afficheLargeur(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b c d e f g h i j
+    """
+    ...
+
+
+import doctest
+doctest.testmod()`,
+        note: "Les procédures affichent avec print(..., end=\" \") : la ligne se termine par un espace et sans retour à la ligne. La directive # doctest: +NORMALIZE_WHITESPACE demande à doctest d'ignorer ces différences d'espaces. Pour lancer les tests d'un notebook ou d'un script : import doctest puis doctest.testmod().",
+        questions: [
+          "Écrivez les trois procédures récursives affichePrefixe, afficheInfixe et affichePostfixe. Qu'est-ce qui change de l'une à l'autre ?",
+          "Écrivez afficheLargeur avec une file. Pourquoi une file, et pas une pile ?",
+          "Vérifiez par programme les réponses données à la main à l'étape 1.1."
+        ],
+        correction: [
+          { text: "Les trois parcours en profondeur ont exactement le même squelette : cas de base l'arbre vide (on ne fait rien), sinon deux appels récursifs sur les sous-arbres. Seule la place de l'affichage change : avant les deux appels (première visite, préfixe), entre eux (deuxième visite, infixe) ou après (troisième visite, postfixe)." },
+          { code: `from collections import deque
+
+
+def affichePrefixe(A):
+    """Affiche les nœuds de A dans l'ordre préfixe (racine, gauche, droite).
+
+    >>> affichePrefixe(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixe(None)            # arbre vide : rien à afficher
+    """
+    if A is not None:
+        print(A.valeur, end=" ")        # 1re visite
+        affichePrefixe(A.gauche)
+        affichePrefixe(A.droite)
+
+
+def afficheInfixe(A):
+    """Affiche les nœuds de A dans l'ordre infixe (gauche, racine, droite).
+
+    >>> afficheInfixe(A)                # doctest: +NORMALIZE_WHITESPACE
+    d f b a c i g j e h
+    """
+    if A is not None:
+        afficheInfixe(A.gauche)
+        print(A.valeur, end=" ")        # 2e visite
+        afficheInfixe(A.droite)
+
+
+def affichePostfixe(A):
+    """Affiche les nœuds de A dans l'ordre postfixe (gauche, droite, racine).
+
+    >>> affichePostfixe(A)              # doctest: +NORMALIZE_WHITESPACE
+    f d b i j g h e c a
+    """
+    if A is not None:
+        affichePostfixe(A.gauche)
+        affichePostfixe(A.droite)
+        print(A.valeur, end=" ")        # 3e visite
+
+
+def afficheLargeur(A):
+    """Affiche les nœuds de A niveau par niveau, chaque niveau de gauche à droite.
+
+    >>> afficheLargeur(A)               # doctest: +NORMALIZE_WHITESPACE
+    a b c d e f g h i j
+    """
+    if A is None:
+        return
+    file = deque([A])                   # file des nœuds en attente
+    while file:
+        n = file.popleft()              # on défile le plus ancien
+        print(n.valeur, end=" ")
+        if n.gauche is not None:
+            file.append(n.gauche)       # on enfile ses fils, le gauche d'abord
+        if n.droite is not None:
+            file.append(n.droite)` },
+          { text: "Le parcours en largeur ne se prête pas à une écriture récursive directe : il faut mémoriser les nœuds découverts mais pas encore traités, et les traiter dans l'ordre où on les a découverts (premier entré, premier sorti). C'est exactement une file. Avec une pile, on obtiendrait un parcours en profondeur (voir l'étape 1.8). La deque du module collections fournit append et popleft en temps constant ; list.pop(0) marcherait aussi mais coûte un décalage de toute la liste." },
+          { text: "Pour comparer un affichage à une chaîne attendue, on capture ce qui est affiché. La petite fonction sortie ci-dessous resservira dans tout le TP." },
+          { code: `import contextlib
+import io
+
+
+def sortie(procedure, *args):
+    """Exécute procedure(*args) et renvoie ce qu'elle a affiché, espaces normalisés."""
+    tampon = io.StringIO()
+    with contextlib.redirect_stdout(tampon):
+        procedure(*args)
+    return " ".join(tampon.getvalue().split())
+
+
+for nom, procedure, attendu in [("préfixe", affichePrefixe, prefixe),
+                                ("infixe", afficheInfixe, infixe),
+                                ("postfixe", affichePostfixe, postfixe),
+                                ("largeur", afficheLargeur, largeur)]:
+    obtenu = sortie(procedure, A)
+    print(f"{nom:9} {obtenu}")
+    assert obtenu == attendu          # les réponses de l'étape 1.1 sont justes
+# préfixe   a b d f c e g i j h
+# infixe    d f b a c i g j e h
+# postfixe  f d b i j g h e c a
+# largeur   a b c d e f g h i j` },
+          { text: "Complément : la suite des trois visites de la diapositive 22 s'obtient en affichant à chacune des trois places à la fois. C'est un bon exercice pour les élèves, qui y voient les trois parcours d'un coup." },
+          { code: `def afficheTroisVisites(A):
+    if A is not None:
+        print(A.valeur, end=" ")        # 1re visite
+        afficheTroisVisites(A.gauche)
+        print(A.valeur, end=" ")        # 2e visite
+        afficheTroisVisites(A.droite)
+        print(A.valeur, end=" ")        # 3e visite
+
+
+print(sortie(afficheTroisVisites, A))
+# a b d d f f f d b b a c c e g i i i g j j j g e h h h e c a
+assert sortie(afficheTroisVisites, A) == "a b d d f f f d b b a c c e g i i i g j j j g e h h h e c a"` }
+        ]
+      },
+      {
+        num: "1.4", title: "nombreFeuilles1 : combien d’appels récursifs ?",
+        intro: "Exercice 1, question 4. La procédure de l'énoncé, traduite en Python. On cherche le nombre d'appels récursifs en fonction du nombre Ni de nœuds internes, on le démontre, puis on le vérifie avec un compteur.",
+        code: `def nombreFeuilles1(A):
+    """Nombre de feuilles de l'arbre binaire A (traduction directe de l'énoncé).
+
+    >>> nombreFeuilles1(A)
+    4
+    >>> nombreFeuilles1(None)
+    0
+    """
+    if A is None:
+        return 0
+    else:
+        if A.gauche is None and A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles1(A.gauche) + nombreFeuilles1(A.droite)
+
+
+# À compléter : la même procédure, qui incrémente un compteur à chaque appel.
+compteur = {"appels": 0}
+
+
+def nombreFeuilles1Compte(A):
+    """Comme nombreFeuilles1, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles1Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    12
+    """
+    ...`,
+        questions: [
+          "Combien d'appels récursifs nombreFeuilles1(A) déclenche-t-il, en fonction du nombre Ni de nœuds internes ? Démontrez-le.",
+          "Combien de ces appels portent sur un arbre vide ?",
+          "Vérifiez la formule avec un compteur, sur A puis sur d'autres arbres."
+        ],
+        correction: [
+          { text: "Réponse : nombreFeuilles1(A) déclenche exactement 2 × Ni(A) appels récursifs (2 × Ni + 1 appels en comptant l'appel initial). Pour A, Ni = 6 : 12 appels récursifs, 13 appels en tout." },
+          { text: "Démonstration. Regardons qui lance chaque appel récursif. Un appel sur l'arbre vide ou sur une feuille n'en lance aucun : il renvoie 0 ou 1 directement. Un appel sur un nœud interne en lance exactement deux, un par sous-arbre, même si l'un des deux est vide. Enfin, chaque nœud n'est le sujet que d'un seul appel (celui que lance son parent, ou l'appel initial pour la racine). Le nombre d'appels récursifs est donc 2 fois le nombre de nœuds internes. Par récurrence structurelle, si R(A) désigne ce nombre : R(∅) = 0 et R(feuille) = 0 = 2 × 0 ; pour un nœud interne, R(A) = 2 + R(Ag) + R(Ad) = 2 + 2 Ni(Ag) + 2 Ni(Ad) = 2 Ni(A), puisque Ni(A) = 1 + Ni(Ag) + Ni(Ad)." },
+          { text: "Appels sur l'arbre vide : les sous-arbres vides pendants d'un nœud interne. On a vu à l'étape 1.2 qu'il y a N + 1 champs à None en tout ; les feuilles en possèdent 2 × Nf, il en reste N + 1 − 2 Nf = Ni − Nf + 1 accrochés aux nœuds internes. Pour A : 6 − 4 + 1 = 3 appels inutiles (fils droit de b, fils gauche de c, fils gauche de d). Ce sont eux que nombreFeuilles2 va supprimer." },
+          { code: `def nombreFeuilles1(A):
+    """Nombre de feuilles de l'arbre binaire A (traduction directe de l'énoncé).
+
+    >>> nombreFeuilles1(A)
+    4
+    >>> nombreFeuilles1(None)
+    0
+    """
+    if A is None:
+        return 0
+    else:
+        if A.gauche is None and A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles1(A.gauche) + nombreFeuilles1(A.droite)
+
+
+compteur = {"appels": 0, "vides": 0}
+
+
+def nombreFeuilles1Compte(A):
+    """Comme nombreFeuilles1, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles1Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    12
+    """
+    compteur["appels"] += 1
+    if A is None:
+        compteur["vides"] += 1
+        return 0
+    else:
+        if A.gauche is None and A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles1Compte(A.gauche) + nombreFeuilles1Compte(A.droite)
+
+
+def appelsRecursifs(procedure, B):
+    """Nombre d'appels récursifs déclenchés par procedure(B), appel initial exclu."""
+    compteur["appels"] = 0
+    compteur["vides"] = 0
+    procedure(B)
+    return compteur["appels"] - 1
+
+
+# Taille et nombre de nœuds internes, sur le modèle des définitions inductives de N et Nf (cours, diapositive 16)
+def taille(B):
+    if B is None:
+        return 0
+    return 1 + taille(B.gauche) + taille(B.droite)
+
+
+def nbInternes(B):
+    if B is None or (B.gauche is None and B.droite is None):
+        return 0
+    return 1 + nbInternes(B.gauche) + nbInternes(B.droite)
+
+
+print(taille(A), nbInternes(A), nombreFeuilles1(A))     # 10 6 4
+print(appelsRecursifs(nombreFeuilles1Compte, A), compteur["vides"])   # 12 3
+assert appelsRecursifs(nombreFeuilles1Compte, A) == 2 * nbInternes(A) == 12
+assert compteur["vides"] == nbInternes(A) - nombreFeuilles1(A) + 1 == 3` },
+          { text: "Pour tester sur d'autres arbres, trois familles d'arbres de taille quelconque : le peigne (arbre filiforme, chaque nœud n'a qu'un fils gauche), l'arbre parfait de hauteur h (tous les niveaux pleins) et un arbre aléatoire à n nœuds (taille du sous-arbre gauche tirée au hasard). Elles resserviront aux étapes 1.6, 2.4 et 2.6." },
+          { code: `import random
+
+
+def peigne(n):
+    """Arbre filiforme à n nœuds : chaque nœud n'a qu'un fils, à gauche."""
+    B = None
+    for k in range(n, 0, -1):
+        B = Noeud(k, B, None)
+    return B
+
+
+def parfait(h, valeur=1):
+    """Arbre parfait de hauteur h (2**(h+1) - 1 nœuds) ; parfait(-1) est l'arbre vide."""
+    if h < 0:
+        return None
+    return Noeud(valeur, parfait(h - 1, 2 * valeur), parfait(h - 1, 2 * valeur + 1))
+
+
+def aleatoire(n, rng):
+    """Arbre binaire aléatoire à n nœuds."""
+    if n == 0:
+        return None
+    k = rng.randrange(n)                 # taille du sous-arbre gauche, entre 0 et n - 1
+    return Noeud(n, aleatoire(k, rng), aleatoire(n - 1 - k, rng))
+
+
+rng = random.Random(2026)
+for B in [peigne(1), peigne(10), parfait(3), aleatoire(20, rng), aleatoire(200, rng)]:
+    assert appelsRecursifs(nombreFeuilles1Compte, B) == 2 * nbInternes(B)
+print("2 × Ni vérifié sur tous les arbres testés")` }
+        ]
+      },
+      {
+        num: "1.5", title: "nombreFeuilles2 : quatre cas, le moins de tests possible",
+        intro: "Exercice 1, question 5. Cette fois, l'arbre est supposé non vide, et on ne s'appelle jamais sur un sous-arbre vide. On distingue les quatre cas de l'indication : a) feuille ; b) gauche vide, droit non vide ; c) droit vide, gauche non vide ; d) deux sous-arbres non vides.",
+        code: `def nombreFeuilles2(A):
+    """Nombre de feuilles de l'arbre binaire A, supposé NON VIDE.
+
+    >>> nombreFeuilles2(A)
+    4
+    >>> nombreFeuilles2(Noeud('x'))
+    1
+    """
+    ...`,
+        questions: [
+          "Écrivez nombreFeuilles2 en distinguant les quatre cas a), b), c), d).",
+          "Quel est le nombre minimal de tests ? Justifiez qu'on ne peut pas faire mieux.",
+          "Que se passe-t-il si on appelle nombreFeuilles2(None) ? Comment obtenir une fonction utilisable sur tout arbre ?"
+        ],
+        correction: [
+          { text: "On teste d'abord le fils gauche, puis, dans chacune des deux branches, le fils droit. Chaque combinaison des deux réponses correspond à exactement un des quatre cas." },
+          { code: `def nombreFeuilles2(A):
+    """Nombre de feuilles de l'arbre binaire A, supposé NON VIDE.
+
+    >>> nombreFeuilles2(A)
+    4
+    >>> nombreFeuilles2(Noeud('x'))
+    1
+    """
+    if A.gauche is None:
+        if A.droite is None:
+            return 1                                    # a) une feuille
+        else:
+            return nombreFeuilles2(A.droite)            # b) seul le droit est non vide
+    else:
+        if A.droite is None:
+            return nombreFeuilles2(A.gauche)            # c) seul le gauche est non vide
+        else:
+            return nombreFeuilles2(A.gauche) + nombreFeuilles2(A.droite)   # d)
+
+
+def nombreFeuilles(A):
+    """Version utilisable sur tout arbre, y compris l'arbre vide."""
+    return 0 if A is None else nombreFeuilles2(A)
+
+
+assert nombreFeuilles2(A) == nombreFeuilles1(A) == 4
+assert nombreFeuilles(None) == 0` },
+          { text: "Nombre minimal de tests : 2 tests à chaque appel (et 3 tests écrits dans le code). On ne peut pas faire moins : il y a quatre cas à distinguer et un test n'a que deux issues ; un seul test ne sépare que deux situations, il en faut donc au moins deux (log₂ 4 = 2). La version ci-dessus les atteint : quel que soit le cas, exactement deux tests sont évalués." },
+          { text: "Comparaison : nombreFeuilles1 fait 1 test sur un arbre vide, 3 tests sur une feuille (A vide ? gauche vide ? droit vide ?) et 2 ou 3 sur un nœud interne selon que le « et » court-circuite ou non ; en plus, elle fait des appels sur des arbres vides. nombreFeuilles2 ne teste jamais si A est vide : c'est la précondition « A non vide » qui le permet, et chaque appel récursif la respecte puisqu'on ne descend que dans un sous-arbre non vide." },
+          { text: "Appelée sur None, nombreFeuilles2 lève AttributeError ('NoneType' object has no attribute 'gauche') : c'est la précondition violée. L'enveloppe nombreFeuilles traite l'arbre vide une fois pour toutes, à l'extérieur de la récursion." }
+        ]
+      },
+      {
+        num: "1.6", title: "Nombre d’appels de nombreFeuilles2 et comparaison",
+        intro: "Exercice 1, question 6. On compte les appels récursifs de nombreFeuilles2 en fonction du nombre N de nœuds, puis on compare les deux procédures sur plusieurs arbres.",
+        code: `def nombreFeuilles2Compte(A):
+    """Comme nombreFeuilles2, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles2Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    9
+    """
+    ...
+
+
+# À compléter : un tableau N, Ni, Nf, appels de nombreFeuilles1, appels de nombreFeuilles2
+# pour A, un peigne, un arbre parfait et quelques arbres aléatoires
+# (fonctions taille, nbInternes, appelsRecursifs, peigne, parfait et aleatoire de la correction 1.4).`,
+        questions: [
+          "Combien d'appels récursifs nombreFeuilles2(A) déclenche-t-il, en fonction du nombre N de nœuds ?",
+          "Comparez sur plusieurs arbres le nombre d'appels des deux procédures. Quand sont-ils égaux ? Quand l'écart est-il maximal ?"
+        ],
+        correction: [
+          { text: "Réponse : N − 1 appels récursifs (N appels en tout). nombreFeuilles2 est appelée une fois et une seule sur chaque nœud de l'arbre, jamais sur un arbre vide : la racine par l'appel initial, chacun des N − 1 autres nœuds par son parent. Pour A : 9 appels récursifs, contre 12 pour nombreFeuilles1." },
+          { code: `def nombreFeuilles2Compte(A):
+    """Comme nombreFeuilles2, mais compte ses appels dans compteur["appels"].
+
+    >>> compteur["appels"] = 0
+    >>> nombreFeuilles2Compte(A)
+    4
+    >>> compteur["appels"] - 1           # appels récursifs (sans l'appel initial)
+    9
+    """
+    compteur["appels"] += 1
+    if A.gauche is None:
+        if A.droite is None:
+            return 1
+        else:
+            return nombreFeuilles2Compte(A.droite)
+    else:
+        if A.droite is None:
+            return nombreFeuilles2Compte(A.gauche)
+        else:
+            return nombreFeuilles2Compte(A.gauche) + nombreFeuilles2Compte(A.droite)
+
+
+rng = random.Random(19)
+arbres = [("arbre A", A), ("peigne(10)", peigne(10)), ("parfait(3)", parfait(3)),
+          ("aléatoire(20)", aleatoire(20, rng)), ("aléatoire(100)", aleatoire(100, rng)),
+          ("aléatoire(1000)", aleatoire(1000, rng))]
+
+print(f"{'arbre':16}{'N':>6}{'Ni':>6}{'Nf':>6}{'nf1':>7}{'nf2':>7}")
+for nom, B in arbres:
+    N, Ni = taille(B), nbInternes(B)
+    Nf = N - Ni
+    a1 = appelsRecursifs(nombreFeuilles1Compte, B)
+    a2 = appelsRecursifs(nombreFeuilles2Compte, B)
+    print(f"{nom:16}{N:>6}{Ni:>6}{Nf:>6}{a1:>7}{a2:>7}")
+    assert a1 == 2 * Ni and a2 == N - 1
+    assert a1 - a2 == Ni - Nf + 1 >= 0` },
+          { code: `# Sortie obtenue :
+# arbre                N    Ni    Nf    nf1    nf2
+# arbre A             10     6     4     12      9
+# peigne(10)          10     9     1     18      9
+# parfait(3)          15     7     8     14     14
+# aléatoire(20)       20    11     9     22     19
+# aléatoire(100)     100    67    33    134     99
+# aléatoire(1000)   1000   661   339   1322    999` },
+          { text: "Écart : nombreFeuilles1 fait 2 Ni appels, nombreFeuilles2 en fait N − 1 = Ni + Nf − 1. La différence vaut Ni − Nf + 1 : c'est exactement le nombre d'appels de nombreFeuilles1 sur un sous-arbre vide (étape 1.4). Elle n'est jamais négative, car dans tout arbre binaire non vide Nf ≤ Ni + 1." },
+          { text: "Égalité lorsque Nf = Ni + 1, c'est-à-dire lorsque chaque nœud interne a deux fils : l'arbre est localement complet (la notion de l'exercice 3), comme l'arbre parfait du tableau. Écart maximal pour un arbre filiforme, comme le peigne : une seule feuille, Ni = N − 1, donc nombreFeuilles1 fait 2(N − 1) appels, deux fois plus que nombreFeuilles2. Dans tous les cas les deux procédures restent linéaires en N : on gagne au mieux un facteur 2, pas un ordre de grandeur." }
+        ]
+      },
+      {
+        num: "1.7", title: "copieArbre : une copie sans nœud commun",
+        intro: "Exercice 1, question 7. Copier un arbre, c'est créer un nouveau nœud pour chaque nœud de A. Une simple affectation B = A ne copie rien : elle crée un second nom pour le même arbre. On vérifie avec l'opérateur is qu'aucun nœud n'est partagé.",
+        code: `def copieArbre(A):
+    """Renvoie une copie de A : même forme, mêmes valeurs, aucun nœud commun.
+
+    >>> B = copieArbre(A)
+    >>> parenthese(B) == parenthese(A)
+    True
+    >>> B is A
+    False
+    >>> copieArbre(None) is None
+    True
+    """
+    ...
+
+
+def noeuds(A):
+    """Liste des nœuds (des objets Noeud) de A, en ordre préfixe."""
+    ...
+
+
+def aucunNoeudCommun(A, B):
+    """True si aucun objet Noeud n'appartient à la fois à A et à B (test avec is)."""
+    ...`,
+        questions: [
+          "Écrivez copieArbre(A), récursive.",
+          "Écrivez noeuds(A) et aucunNoeudCommun(A, B), qui compare les nœuds avec is, et vérifiez la copie.",
+          "Pourquoi B = A et Noeud(A.valeur, A.gauche, A.droite) ne sont-ils pas des copies ?"
+        ],
+        correction: [
+          { text: "Même schéma que les parcours : l'arbre vide se copie en l'arbre vide ; sinon on crée un nouveau nœud dont les fils sont les copies des sous-arbres. C'est un parcours postfixe : les fils sont copiés avant que leur parent soit créé." },
+          { code: `def copieArbre(A):
+    """Renvoie une copie de A : même forme, mêmes valeurs, aucun nœud commun.
+
+    >>> B = copieArbre(A)
+    >>> parenthese(B) == parenthese(A)
+    True
+    >>> B is A
+    False
+    >>> copieArbre(None) is None
+    True
+    """
+    if A is None:
+        return None
+    return Noeud(A.valeur, copieArbre(A.gauche), copieArbre(A.droite))
+
+
+def noeuds(A):
+    """Liste des nœuds (des objets Noeud) de A, en ordre préfixe."""
+    if A is None:
+        return []
+    return [A] + noeuds(A.gauche) + noeuds(A.droite)
+
+
+def aucunNoeudCommun(A, B):
+    """True si aucun objet Noeud n'appartient à la fois à A et à B (test avec is)."""
+    for x in noeuds(A):
+        for y in noeuds(B):
+            if x is y:
+                return False
+    return True
+
+
+B = copieArbre(A)
+assert parenthese(B) == parenthese(A)             # même arbre...
+assert aucunNoeudCommun(A, B)                     # ... mais aucun nœud partagé
+assert len(noeuds(B)) == 10
+
+alias = A                                         # pas une copie : un second nom
+assert alias is A and not aucunNoeudCommun(A, alias)
+
+fausse = Noeud(A.valeur, A.gauche, A.droite)      # copie de la racine seulement
+assert fausse is not A                            # la racine est neuve...
+assert fausse.gauche is A.gauche                  # ... mais les sous-arbres sont partagés
+assert not aucunNoeudCommun(A, fausse)
+
+B.gauche.valeur = 'B'                             # modifier la copie...
+assert A.gauche.valeur == 'b'                     # ... ne modifie pas A
+fausse.gauche.valeur = 'X'                        # modifier la fausse copie...
+print(A.gauche.valeur)                            # X : A a été modifié !
+A.gauche.valeur = 'b'                             # on remet A en état
+assert parenthese(A) == "a(b(d(∅,f),∅),c(∅,e(g(i,j),h)))"` },
+          { text: "Pourquoi is et pas == ? Pour la classe Noeud, qui ne définit pas __eq__, == compare aussi les identités ; mais is dit explicitement ce qu'on veut tester : « est-ce le même objet en mémoire ? ». C'est le lien avec la fiche « Valeur vs Référence & gestion de la mémoire » (bloc0)." },
+          { text: "aucunNoeudCommun compare chaque nœud de A à chaque nœud de B : N² comparaisons, sans importance ici. Complément pour aller plus vite : comparer les ensembles {id(x) for x in noeuds(A)} et {id(y) for y in noeuds(B)}, qui sont disjoints exactement quand aucun nœud n'est partagé (tant que les deux arbres existent, deux objets distincts ont des id distincts)." },
+          { text: "La copie est « profonde » pour la structure, pas pour les valeurs : les valeurs sont partagées. Avec des chaînes ou des entiers, non modifiables, cela ne pose aucun problème ; avec des valeurs modifiables (des listes), il faudrait aussi les copier." }
+        ]
+      },
+      {
+        num: "1.8", title: "affichePrefixeIteratif : le parcours préfixe avec une pile",
+        intro: "Exercice 1, question 8. On remplace la récursivité par une pile explicite, qui mémorise les nœuds en attente de traitement. On initialise la pile avec la racine, puis, tant qu'elle n'est pas vide, on dépile le sommet, on l'affiche et on empile ses fils non vides. Avant d'écrire la procédure, on exécute l'algorithme à la main sur le sous-arbre de racine e.",
+        code: `def affichePrefixeIteratif(A, trace=False):
+    """Affiche les nœuds de A dans l'ordre préfixe, sans récursivité, avec une pile.
+    Si trace vaut True, affiche aussi le contenu de la pile à chaque tour.
+
+    >>> affichePrefixeIteratif(A)        # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixeIteratif(None)
+    """
+    ...`,
+        questions: [
+          "Exécutez l'algorithme à la main sur le sous-arbre de racine e (5 nœuds) : contenu de la pile à chaque tour.",
+          "Dans quel ordre faut-il empiler les deux fils ? Que se passe-t-il dans l'autre ordre ?",
+          "Écrivez affichePrefixeIteratif et vérifiez qu'il donne le même affichage qu'affichePrefixe."
+        ],
+        correction: [
+          { text: "Le dernier nœud empilé est le premier dépilé. Pour que le sous-arbre gauche soit traité avant le droit, il faut donc empiler le fils droit d'abord, puis le fils gauche : le gauche se retrouve au sommet." },
+          { code: `# Exécution à la main sur le sous-arbre de racine e (sommet de la pile à droite) :
+#
+#            e
+#          /   \\
+#         g     h
+#        / \\
+#       i   j
+#
+# tour  pile avant      on dépile   on affiche   on empile (droit puis gauche)
+#  1    [e]             e           e            h, g
+#  2    [h, g]          g           g            j, i
+#  3    [h, j, i]       i           i            -
+#  4    [h, j]          j           j            -
+#  5    [h]             h           h            -
+#       []              fin                      affichage : e g i j h` },
+          { code: `def affichePrefixeIteratif(A, trace=False):
+    """Affiche les nœuds de A dans l'ordre préfixe, sans récursivité, avec une pile.
+    Si trace vaut True, affiche aussi le contenu de la pile à chaque tour.
+
+    >>> affichePrefixeIteratif(A)        # doctest: +NORMALIZE_WHITESPACE
+    a b d f c e g i j h
+    >>> affichePrefixeIteratif(None)
+    """
+    if A is None:
+        return
+    pile = [A]                            # sommet = fin de la liste
+    while pile:
+        if trace:
+            print("pile :", [n.valeur for n in pile], end=" -> ")
+        n = pile.pop()                    # on dépile le sommet
+        print(n.valeur, end=" ")
+        if trace:
+            print()
+        if n.droite is not None:          # le droit d'abord...
+            pile.append(n.droite)
+        if n.gauche is not None:          # ... pour que le gauche soit au sommet
+            pile.append(n.gauche)
+
+
+affichePrefixeIteratif(A.droite.droite, trace=True)     # le sous-arbre de racine e
+# pile : ['e'] -> e
+# pile : ['h', 'g'] -> g
+# pile : ['h', 'j', 'i'] -> i
+# pile : ['h', 'j'] -> j
+# pile : ['h'] -> h
+assert sortie(affichePrefixeIteratif, A) == sortie(affichePrefixe, A) == prefixe
+rng = random.Random(8)
+for _ in range(20):
+    B = aleatoire(rng.randrange(60), rng)
+    assert sortie(affichePrefixeIteratif, B) == sortie(affichePrefixe, B)
+
+
+def affichePrefixeMauvaisOrdre(A):        # le gauche empilé en premier : l'erreur classique
+    pile = [A] if A is not None else []
+    while pile:
+        n = pile.pop()
+        print(n.valeur, end=" ")
+        for fils in (n.gauche, n.droite):
+            if fils is not None:
+                pile.append(fils)
+
+
+print(sortie(affichePrefixeMauvaisOrdre, A))     # a c e h g j i b d f
+assert sortie(affichePrefixeMauvaisOrdre, A) == "a c e h g j i b d f"` },
+          { text: "Dans l'autre ordre (gauche empilé d'abord), le fils droit est traité avant le gauche : on obtient le parcours « racine, droite, gauche », c'est-à-dire le préfixe de l'arbre miroir. Sur A, cela donnerait a c e h g j i b d f." },
+          { text: "La pile explicite joue le rôle de la pile des appels de la version récursive : chaque nœud empilé est un appel « en attente ». Remplacer la pile par une file (on retire le plus ancien) et empiler le gauche d'abord donne exactement le parcours en largeur de l'étape 1.3 : les deux parcours ne diffèrent que par la structure d'attente. C'est le lien avec la fiche « Piles et files : LIFO, FIFO et applications » (bloc4)." }
+        ]
+      },
+      {
+        num: "2.1", title: "Profondeur et niveaux des nœuds de A",
+        intro: "Exercice 2, question 1. Rappel du cours (diapositive 12) : la profondeur p(x) d'un nœud x est la longueur du chemin allant de la racine jusqu'à x, c'est-à-dire le nombre d'arêtes à descendre. Définition inductive : la racine est de profondeur 0, et si x est le parent de y alors p(y) = p(x) + 1. Le niveau i est formé de tous les nœuds de profondeur i.",
+        code: `#                        a
+#                /               \\
+#               b                 c
+#             /   \\             /   \\
+#            d     ∅           ∅     e
+#          /   \\                   /    \\
+#         ∅     f                 g      h
+#              / \\              /   \\   / \\
+#             ∅   ∅            i     j ∅   ∅
+#                             / \\   / \\
+#                            ∅   ∅ ∅   ∅
+#
+# Nœuds de chaque niveau de A (à compléter) :
+niveaux = {0: "...", 1: "...", 2: "...", 3: "...", 4: "...", 5: "..."}`,
+        questions: [
+          "Quelle est la profondeur de la racine ?",
+          "Donnez les nœuds de A de niveau 0, 1, 2, 3, 4 et 5.",
+          "Quelle est la hauteur de A ? Que dire du niveau 5 ?"
+        ],
+        correction: [
+          { text: "La racine est de profondeur 0 : le chemin qui va de la racine à elle-même est (a), qui a un seul nœud, donc une longueur 1 − 1 = 0 (un chemin de k nœuds a pour longueur k − 1, diapositive 11)." },
+          { code: `niveaux = {0: "a",
+           1: "b c",
+           2: "d e",
+           3: "f g h",
+           4: "i j",
+           5: ""}          # aucun nœud de profondeur 5
+
+
+def hauteur(B):
+    """Hauteur de B, avec la convention du cours : l'arbre vide a pour hauteur -1.
+
+    >>> hauteur(A)
+    4
+    >>> hauteur(Noeud('x')), hauteur(None)
+    (0, -1)
+    """
+    if B is None:
+        return -1
+    return 1 + max(hauteur(B.gauche), hauteur(B.droite))` },
+          { text: "La hauteur de A est la plus grande profondeur d'un nœud : h(A) = 4, atteinte par i et j. Le niveau 5 est donc vide. La question est un petit piège volontaire : il faut savoir répondre « aucun nœud », et le programme de l'étape 2.2 doit, lui aussi, ne rien afficher pour k = 5 sans provoquer d'erreur." }
+        ]
+      },
+      {
+        num: "2.2", title: "afficheNiveau(A, k) : les nœuds d’un niveau donné",
+        intro: "Exercice 2, question 2. Indication du TD : k est la longueur du chemin qu'il reste à parcourir pour atteindre un nœud de profondeur k. Quand k vaut 0, on est sur un nœud du niveau cherché. Quand on descend dans un sous-arbre, il reste un pas de moins à faire.",
+        code: `def afficheNiveau(A, k):
+    """Affiche, de gauche à droite, les nœuds de profondeur k de l'arbre A.
+
+    >>> afficheNiveau(A, 3)              # doctest: +NORMALIZE_WHITESPACE
+    f g h
+    >>> afficheNiveau(A, 5)              # niveau vide : rien n'est affiché
+    """
+    ...`,
+        questions: [
+          "Écrivez afficheNiveau(A, k), récursive. Quels sont les cas de base ?",
+          "Affichez tous les niveaux de A, de 0 à 5, et comparez avec l'étape 2.1.",
+          "Combien d'appels coûte afficheNiveau(A, k) ? En déduire le coût d'un parcours en largeur obtenu en appelant afficheNiveau pour k = 0, 1, …, h(A)."
+        ],
+        correction: [
+          { text: "Deux cas de base : l'arbre vide (rien à afficher, quel que soit k) et k = 0 (on est sur le niveau cherché : on affiche la racine et on ne descend pas plus bas). Sinon, on cherche le niveau k − 1 dans chacun des deux sous-arbres, d'abord le gauche pour respecter l'ordre de gauche à droite." },
+          { code: `def afficheNiveau(A, k):
+    """Affiche, de gauche à droite, les nœuds de profondeur k de l'arbre A.
+
+    >>> afficheNiveau(A, 3)              # doctest: +NORMALIZE_WHITESPACE
+    f g h
+    >>> afficheNiveau(A, 5)              # niveau vide : rien n'est affiché
+    """
+    if A is None:
+        return
+    if k == 0:
+        print(A.valeur, end=" ")
+    else:
+        afficheNiveau(A.gauche, k - 1)       # un pas de moins à faire
+        afficheNiveau(A.droite, k - 1)
+
+
+for k in range(6):
+    print(f"niveau {k} :", sortie(afficheNiveau, A, k))
+    assert sortie(afficheNiveau, A, k) == niveaux[k]
+# niveau 0 : a
+# niveau 1 : b c
+# niveau 2 : d e
+# niveau 3 : f g h
+# niveau 4 : i j
+# niveau 5 :` },
+          { text: "Coût : afficheNiveau(A, k) visite tous les nœuds de profondeur inférieure ou égale à k (plus quelques arbres vides), et pas les autres. Enchaîner les niveaux 0 à h(A) donne bien le parcours en largeur, mais en revisitant les premiers niveaux à chaque fois : sur un peigne de N nœuds, cela fait de l'ordre de N²/2 visites, contre N pour la version avec une file de l'étape 1.3. C'est un bon argument à donner aux élèves pour justifier la file." },
+          { code: `def largeurParNiveaux(A):
+    for k in range(hauteur(A) + 1):
+        afficheNiveau(A, k)
+
+
+assert sortie(largeurParNiveaux, A) == sortie(afficheLargeur, A) == largeur` }
+        ]
+      },
+      {
+        num: "2.3", title: "Longueur de cheminement de A, à la main",
+        intro: "Exercice 2, question 3. La longueur de cheminement LC(A) est la somme des profondeurs de tous les nœuds de A (cours, diapositive 13). À la main, le plus sûr est de regrouper les nœuds par niveau : chaque nœud du niveau k apporte k.",
+        code: `# LC(A) = somme, sur tous les nœuds x de A, de p(x)
+# Niveau par niveau (étape 2.1) : à compléter
+LC_A = ...`,
+        questions: [
+          "Calculez LC(A) à la main.",
+          "Recalculez-la par programme, sans encore écrire LC : en comptant les nœuds de chaque niveau."
+        ],
+        correction: [
+          { text: "Regroupement par niveaux : 0 × 1 (a) + 1 × 2 (b, c) + 2 × 2 (d, e) + 3 × 3 (f, g, h) + 4 × 2 (i, j) = 0 + 2 + 4 + 9 + 8 = 23." },
+          { code: `#  niveau k   nœuds      nombre   contribution k × nombre
+#     0       a            1         0
+#     1       b c          2         2
+#     2       d e          2         4
+#     3       f g h        3         9
+#     4       i j          2         8
+#                                  ----
+#                          LC(A) =  23
+LC_A = 0 * 1 + 1 * 2 + 2 * 2 + 3 * 3 + 4 * 2
+assert LC_A == 23` },
+          { text: "Vérification par programme : on adapte afficheNiveau pour qu'elle compte au lieu d'afficher, puis on fait la somme des k × (nombre de nœuds au niveau k). C'est une méthode différente de celle de l'étape 2.4, ce qui en fait un bon contrôle croisé." },
+          { code: `def compteNiveau(A, k):
+    """Nombre de nœuds de profondeur k dans A."""
+    if A is None:
+        return 0
+    if k == 0:
+        return 1
+    return compteNiveau(A.gauche, k - 1) + compteNiveau(A.droite, k - 1)
+
+
+def LCparNiveaux(A):
+    return sum(k * compteNiveau(A, k) for k in range(hauteur(A) + 1))
+
+
+print([compteNiveau(A, k) for k in range(6)], LCparNiveaux(A))    # [1, 2, 2, 3, 2, 0] 23
+assert LCparNiveaux(A) == LC_A == 23` }
+        ]
+      },
+      {
+        num: "2.4", title: "LC(A) avec la procédure auxiliaire LCaux",
+        intro: "Exercice 2, question 4. LCaux(B, p) calcule, pour un sous-arbre B de A dont la racine est à la profondeur p dans A, la somme des profondeurs (dans A) des nœuds de B. La racine de B apporte p, et ses deux sous-arbres ont leur racine à la profondeur p + 1.",
+        code: `def LCaux(B, p):
+    """Somme des profondeurs des nœuds de B, sachant que la racine de B
+    est à la profondeur p.
+
+    >>> LCaux(A.droite, 1)               # c, e, g, h, i, j : 1+2+3+3+4+4
+    17
+    """
+    ...
+
+
+def LC(A):
+    """Longueur de cheminement de A : somme des profondeurs de tous ses nœuds.
+
+    >>> LC(A)
+    23
+    >>> LC(None), LC(Noeud('x'))
+    (0, 0)
+    """
+    ...`,
+        questions: [
+          "Écrivez LCaux(B, p) puis LC(A).",
+          "Pourquoi a-t-on besoin d'un paramètre supplémentaire p ?",
+          "Complément : démontrez que LC(A) = LC(Ag) + LC(Ad) + N(A) − 1 et déduisez-en une version sans paramètre auxiliaire."
+        ],
+        correction: [
+          { code: `def LCaux(B, p):
+    """Somme des profondeurs des nœuds de B, sachant que la racine de B
+    est à la profondeur p.
+
+    >>> LCaux(A.droite, 1)               # c, e, g, h, i, j : 1+2+3+3+4+4
+    17
+    """
+    if B is None:
+        return 0
+    return p + LCaux(B.gauche, p + 1) + LCaux(B.droite, p + 1)
+
+
+def LC(A):
+    """Longueur de cheminement de A : somme des profondeurs de tous ses nœuds.
+
+    >>> LC(A)
+    23
+    >>> LC(None), LC(Noeud('x'))
+    (0, 0)
+    """
+    return LCaux(A, 0)                    # la racine de A est à la profondeur 0
+
+
+assert LC(A) == LC_A == 23` },
+          { text: "Le paramètre p transporte une information qui vient d'en haut : la profondeur d'un nœud dépend du chemin depuis la racine de A, pas seulement du sous-arbre B. Un appel récursif sur B seul ne peut pas la deviner : on la lui transmet. C'est le schéma classique de la fonction auxiliaire avec un accumulateur descendant ; LC se contente de lancer LCaux avec p = 0, la profondeur de la racine." },
+          { text: "Complément. Dans A, chaque nœud de Ag est un cran plus profond que dans Ag pris seul ; même chose pour Ad. Donc LC(A) = 0 (la racine) + (LC(Ag) + N(Ag)) + (LC(Ad) + N(Ad)) = LC(Ag) + LC(Ad) + N(A) − 1, puisque N(Ag) + N(Ad) = N(A) − 1. Pour A : LC(Ag) = 0 + 1 + 2 = 3 (b, d, f), LC(Ad) = 0 + 1 + 2 + 2 + 3 + 3 = 11 (c, e, g, h, i, j), et 3 + 11 + 10 − 1 = 23. Cette version recalcule les tailles ; on peut renvoyer le couple (LC, N) pour rester linéaire." },
+          { code: `def LCetTaille(A):
+    """Renvoie le couple (LC(A), N(A)), en un seul parcours."""
+    if A is None:
+        return 0, 0
+    lg, ng = LCetTaille(A.gauche)
+    ld, nd = LCetTaille(A.droite)
+    n = ng + nd + 1
+    return lg + ld + n - 1, n
+
+
+assert LCetTaille(A) == (23, 10)
+rng = random.Random(4)
+for _ in range(30):
+    B = aleatoire(rng.randrange(80), rng)
+    assert LC(B) == LCparNiveaux(B) == LCetTaille(B)[0]` }
+        ]
+      },
+      {
+        num: "2.5", title: "Longueur de cheminement externe de A, à la main",
+        intro: "Exercice 2, question 5. La longueur de cheminement externe LCE(A) est la somme des profondeurs des feuilles de A seulement ; autrement dit, la somme des longueurs de toutes les branches (chemins de la racine à une feuille).",
+        code: `# LCE(A) = somme, sur toutes les feuilles x de A, de p(x)
+# Feuilles de A et leurs profondeurs : à compléter
+LCE_A = ...`,
+        questions: [
+          "Listez les feuilles de A et leur profondeur, puis calculez LCE(A).",
+          "Retrouvez le résultat en listant les branches de A."
+        ],
+        correction: [
+          { text: "Les feuilles de A sont f, h, i et j. Leurs profondeurs : f et h au niveau 3, i et j au niveau 4. LCE(A) = 3 + 3 + 4 + 4 = 14." },
+          { code: `#  branche (racine -> feuille)   longueur = profondeur de la feuille
+#  a b d f                          3
+#  a c e g i                        4
+#  a c e g j                        4
+#  a c e h                          3
+#                                  ---
+#                       LCE(A) =   14
+LCE_A = 3 + 4 + 4 + 3
+assert LCE_A == 14` },
+          { text: "Attention aux nœuds qui n'ont qu'un fils (b, c, d) : ce ne sont pas des feuilles, ils ne comptent pas, même si l'un de leurs sous-arbres est vide. C'est l'erreur la plus fréquente, et elle reviendra dans le code de l'étape 2.6 (le cas « arbre vide » ne doit pas être confondu avec le cas « feuille »)." }
+        ]
+      },
+      {
+        num: "2.6", title: "LCE(A) récursive avec LCEaux ; sommes et appels",
+        intro: "Exercice 2, question 6. Même schéma qu'à l'étape 2.4, mais seules les feuilles apportent leur profondeur. On compte ensuite le nombre de sommes et d'appels récursifs en fonction du nombre Ni de nœuds internes.",
+        code: `def LCEaux(B, p):
+    """Somme des profondeurs des feuilles de B, la racine de B étant à la profondeur p.
+
+    >>> LCEaux(A.droite, 1)              # feuilles i, j, h : 4 + 4 + 3
+    11
+    """
+    ...
+
+
+def LCE(A):
+    """Longueur de cheminement externe de A : somme des profondeurs de ses feuilles.
+
+    >>> LCE(A)
+    14
+    >>> LCE(None), LCE(Noeud('x'))
+    (0, 0)
+    """
+    ...`,
+        questions: [
+          "Écrivez LCEaux(B, p) puis LCE(A).",
+          "Combien de sommes et combien d'appels récursifs le calcul de LCE(A) effectue-t-il, en fonction du nombre Ni de nœuds internes ? Vérifiez avec des compteurs."
+        ],
+        correction: [
+          { text: "Trois cas : arbre vide (0), feuille (elle apporte sa profondeur p), nœud interne (somme des contributions de ses deux sous-arbres, dont la racine est à la profondeur p + 1)." },
+          { code: `def LCEaux(B, p):
+    """Somme des profondeurs des feuilles de B, la racine de B étant à la profondeur p.
+
+    >>> LCEaux(A.droite, 1)              # feuilles i, j, h : 4 + 4 + 3
+    11
+    """
+    if B is None:
+        return 0
+    if B.gauche is None and B.droite is None:      # une feuille
+        return p
+    return LCEaux(B.gauche, p + 1) + LCEaux(B.droite, p + 1)
+
+
+def LCE(A):
+    """Longueur de cheminement externe de A : somme des profondeurs de ses feuilles.
+
+    >>> LCE(A)
+    14
+    >>> LCE(None), LCE(Noeud('x'))
+    (0, 0)
+    """
+    return LCEaux(A, 0)
+
+
+assert LCE(A) == LCE_A == 14` },
+          { text: "Décompte. Les appels sur un arbre vide ou une feuille ne font ni somme ni appel. Chaque appel sur un nœud interne fait exactement 2 appels récursifs et 1 somme (le + entre les deux résultats). Au total : Ni sommes et 2 Ni appels récursifs de LCEaux, sans compter l'appel LCEaux(A, 0) lancé par LCE ; ces 2 Ni appels portent sur chacun des N − 1 nœuds autres que la racine, plus Ni − Nf + 1 sous-arbres vides. Pour A, Ni = 6 : 12 appels récursifs et 6 sommes. Si l'on compte aussi les incréments p + 1 comme des additions, il faut en ajouter 2 Ni (1 seule par nœud interne si on calcule p + 1 une fois dans une variable)." },
+          { code: `compteLCE = {"appels": 0, "sommes": 0}
+
+
+def LCEauxCompte(B, p):
+    compteLCE["appels"] += 1
+    if B is None:
+        return 0
+    if B.gauche is None and B.droite is None:
+        return p
+    compteLCE["sommes"] += 1
+    return LCEauxCompte(B.gauche, p + 1) + LCEauxCompte(B.droite, p + 1)
+
+
+def mesureLCE(B):
+    compteLCE["appels"] = compteLCE["sommes"] = 0
+    resultat = LCEauxCompte(B, 0)
+    return resultat, compteLCE["appels"] - 1, compteLCE["sommes"]   # appels récursifs
+
+
+print(mesureLCE(A))          # (14, 12, 6) : LCE, appels récursifs, sommes
+rng = random.Random(6)
+for B in [A, peigne(15), parfait(4)] + [aleatoire(rng.randrange(1, 90), rng) for _ in range(20)]:
+    valeur, appels, sommes = mesureLCE(B)
+    Ni = nbInternes(B)
+    assert valeur == LCE(B) and appels == 2 * Ni and sommes == Ni` },
+          { text: "Comme pour nombreFeuilles1, une partie de ces appels porte sur des arbres vides (Ni − Nf + 1 d'entre eux, 3 pour A). On peut les éviter avec la technique de nombreFeuilles2 (ne descendre que dans les sous-arbres non vides) : on tombe alors à N − 1 appels récursifs, et à Nf − 1 sommes : une par nœud à deux fils, et un arbre binaire non vide a toujours exactement Nf − 1 nœuds à deux fils (pour A : a, e, g)." }
+        ]
+      },
+      {
+        num: "2.7", title: "LCEIt : version itérative avec une file de couples",
+        intro: "Exercice 2, question 7. On fait un parcours en largeur de A avec une file, mais on enfile des couples (nœud, profondeur). Un compteur, initialisé à 0, reçoit la profondeur de chaque feuille rencontrée.",
+        code: `from collections import deque
+
+
+def LCEIt(A):
+    """Longueur de cheminement externe de A, sans récursivité :
+    parcours en largeur avec une file de couples (nœud, profondeur).
+
+    >>> LCEIt(A)
+    14
+    >>> LCEIt(None)
+    0
+    """
+    ...`,
+        questions: [
+          "Écrivez LCEIt(A) avec une file (collections.deque) de couples (nœud, profondeur).",
+          "Faites tourner la file à la main sur A : dans quel ordre les feuilles sont-elles rencontrées ?",
+          "Pourquoi faut-il stocker la profondeur avec le nœud ?"
+        ],
+        correction: [
+          { code: `from collections import deque
+
+
+def LCEIt(A):
+    """Longueur de cheminement externe de A, sans récursivité :
+    parcours en largeur avec une file de couples (nœud, profondeur).
+
+    >>> LCEIt(A)
+    14
+    >>> LCEIt(None)
+    0
+    """
+    if A is None:
+        return 0
+    total = 0
+    file = deque([(A, 0)])                # la racine, à la profondeur 0
+    while file:
+        n, p = file.popleft()
+        if n.gauche is None and n.droite is None:
+            total += p                    # une feuille : on ajoute sa profondeur
+        else:
+            if n.gauche is not None:
+                file.append((n.gauche, p + 1))
+            if n.droite is not None:
+                file.append((n.droite, p + 1))
+    return total
+
+
+assert LCEIt(A) == LCE(A) == 14
+rng = random.Random(7)
+for _ in range(30):
+    B = aleatoire(rng.randrange(120), rng)
+    assert LCEIt(B) == LCE(B)` },
+          { text: "Déroulé sur A (tête de la file à gauche) : (a,0) ; (b,1) (c,1) ; (c,1) (d,2) ; (d,2) (e,2) ; (e,2) (f,3) ; (f,3) (g,3) (h,3) ; f est une feuille, total = 3 ; (g,3) (h,3) ; (h,3) (i,4) (j,4) ; h feuille, total = 6 ; (i,4) (j,4) ; i feuille, total = 10 ; j feuille, total = 14 ; la file est vide. Les feuilles sont rencontrées dans l'ordre du parcours en largeur : f, h, i, j." },
+          { text: "La profondeur d'un nœud n'est pas stockée dans le nœud (la classe Noeud n'a que valeur, gauche et droite) et ne se déduit pas du nœud seul. On la calcule au moment où on découvre le nœud, à partir de celle de son parent (p + 1, la définition inductive du cours), et on la range avec lui dans la file : c'est le rôle que jouait le paramètre p dans LCEaux. Le même couple (nœud, profondeur) dans une pile au lieu d'une file marcherait aussi : pour une somme, l'ordre de visite est indifférent." }
+        ]
+      },
+      {
+        num: "3.1", title: "L’arbre de l’expression (((a ∗ c) + (d ∗ b)) ∗ (b + a))",
+        intro: "Exercice 3, question 1. Une expression arithmétique est une lettre, ou (E1 + E2), ou (E1 ∗ E2). Son arbre a une lettre à chaque feuille et un opérateur à chaque nœud interne, qui a toujours deux fils : c'est un arbre binaire localement complet. En Python, on note l'opérateur ∗ avec le caractère ordinaire *.",
+        code: `# Dessinez l'arbre de (((a * c) + (d * b)) * (b + a)), puis construisez-le :
+E = ...
+
+
+def estLocalementComplet(B):
+    """True si chaque nœud de B qui n'est pas une feuille a deux fils.
+
+    >>> estLocalementComplet(E)
+    True
+    >>> estLocalementComplet(A)
+    False
+    """
+    ...`,
+        questions: [
+          "Dessinez l'arbre de l'expression (((a ∗ c) + (d ∗ b)) ∗ (b + a)). Quelle est sa racine ?",
+          "Construisez-le en Python et vérifiez qu'il est localement complet.",
+          "Que donnent les parcours préfixe, infixe et postfixe de cet arbre ?"
+        ],
+        correction: [
+          { text: "La racine est l'opérateur « principal », celui qui est entouré par les parenthèses les plus extérieures seulement : le ∗ du milieu. Son fils gauche est l'arbre de ((a ∗ c) + (d ∗ b)), son fils droit celui de (b + a). On recommence dans chaque sous-expression." },
+          { code: `#                  *
+#              /       \\
+#            +           +
+#          /   \\        / \\
+#         *     *      b   a
+#        / \\   / \\
+#       a   c d   b
+E = Noeud('*',
+          Noeud('+',
+                Noeud('*', Noeud('a'), Noeud('c')),
+                Noeud('*', Noeud('d'), Noeud('b'))),
+          Noeud('+', Noeud('b'), Noeud('a')))
+
+
+def estLocalementComplet(B):
+    """True si chaque nœud de B qui n'est pas une feuille a deux fils.
+
+    >>> estLocalementComplet(E)
+    True
+    >>> estLocalementComplet(A)
+    False
+    """
+    if B is None:
+        return True
+    if (B.gauche is None) != (B.droite is None):    # exactement un fils vide
+        return False
+    return estLocalementComplet(B.gauche) and estLocalementComplet(B.droite)
+
+
+print(sortie(affichePrefixe, E))     # * + * a c * d b + b a     (notation polonaise)
+print(sortie(afficheInfixe, E))      # a * c + d * b * b + a     (parenthèses perdues !)
+print(sortie(affichePostfixe, E))    # a c * d b * + b a + *     (notation polonaise inverse)
+assert sortie(affichePostfixe, E) == "a c * d b * + b a + *"
+assert taille(E) == 11 and nbInternes(E) == 5 and nombreFeuilles2(E) == 6
+assert appelsRecursifs(nombreFeuilles1Compte, E) == appelsRecursifs(nombreFeuilles2Compte, E) == 10` },
+          { text: "L'arbre a 11 nœuds : 5 opérateurs (nœuds internes) et 6 lettres (feuilles). Dans un arbre localement complet non vide on a toujours Nf = Ni + 1, et c'est exactement le cas où nombreFeuilles1 et nombreFeuilles2 font le même nombre d'appels (étape 1.6) : 10 ici." },
+          { text: "Les trois parcours donnent trois notations de la même expression. Le préfixe donne la notation polonaise (opérateur avant ses opérandes), le postfixe la notation polonaise inverse, celle des calculatrices à pile : on l'évalue de gauche à droite avec une pile, sans aucune parenthèse. L'infixe redonne l'écriture usuelle, mais sans les parenthèses, et a ∗ c + d ∗ b ∗ b + a ne se lit pas comme l'expression de départ : pour la retrouver, il faut ajouter une parenthèse ouvrante à la première visite de chaque nœud interne et une fermante à la troisième (fonction chaineExp de l'étape 3.3)." }
+        ]
+      },
+      {
+        num: "3.2", title: "valeurExp(E, V) : évaluer l’expression",
+        intro: "Exercice 3, question 2. Une valuation V associe un entier naturel à chaque lettre. La valeur V(E) se définit en suivant le schéma d'induction : V(lettre) est donnée, V((E1 + E2)) = V(E1) + V(E2) et V((E1 ∗ E2)) = V(E1) × V(E2). En Python, V peut être un dictionnaire ou une fonction ; on accepte les deux.",
+        code: `def valeurExp(E, V):
+    """Valeur de l'expression d'arbre E pour la valuation V.
+    V est un dictionnaire {lettre: entier} ou une fonction lettre -> entier.
+
+    >>> valeurExp(E, {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> valeurExp(E, lambda lettre: 2)
+    32
+    """
+    ...`,
+        questions: [
+          "Écrivez valeurExp(E, V), récursive, pour V dictionnaire ou fonction.",
+          "Calculez à la main la valeur de E pour a = 1, b = 2, c = 3, d = 4, puis pour la valuation constante égale à 2.",
+          "Quel parcours valeurExp effectue-t-elle ?"
+        ],
+        correction: [
+          { code: `def valeurExp(E, V):
+    """Valeur de l'expression d'arbre E pour la valuation V.
+    V est un dictionnaire {lettre: entier} ou une fonction lettre -> entier.
+
+    >>> valeurExp(E, {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> valeurExp(E, lambda lettre: 2)
+    32
+    """
+    if E.gauche is None and E.droite is None:      # une feuille : une lettre
+        return V(E.valeur) if callable(V) else V[E.valeur]
+    g = valeurExp(E.gauche, V)                     # arbre localement complet :
+    d = valeurExp(E.droite, V)                     # les deux fils existent
+    if E.valeur == '+':
+        return g + d
+    if E.valeur == '*':
+        return g * d
+    raise ValueError(f"opérateur inconnu : {E.valeur!r}")
+
+
+V = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+assert valeurExp(E, V) == ((1 * 3) + (4 * 2)) * (2 + 1) == 33
+assert valeurExp(E, lambda lettre: ord(lettre) - ord('a') + 1) == 33   # a=1, b=2, c=3, d=4
+assert valeurExp(E, lambda lettre: 2) == 32
+assert valeurExp(Noeud('z'), {'z': 7}) == 7` },
+          { text: "À la main avec a = 1, b = 2, c = 3, d = 4 : (a ∗ c) = 3, (d ∗ b) = 8, leur somme vaut 11, (b + a) = 3, et 11 × 3 = 33. Avec la valuation constante 2 : 4 + 4 = 8, puis 8 × 4 = 32." },
+          { text: "valeurExp est un parcours postfixe : on ne peut appliquer l'opérateur d'un nœud qu'après avoir évalué ses deux sous-arbres (troisième visite). L'arbre étant localement complet et non vide, on n'a pas de cas « arbre vide » : un nœud est soit une feuille, soit un opérateur avec deux fils." },
+          { text: "Le test callable(V) permet d'accepter les deux formes. Le TD parle d'une fonction V : A → ℕ ; le dictionnaire est la façon la plus naturelle de donner une fonction sur un ensemble fini en Python, et les élèves de Première le connaissent bien. Avec un dictionnaire incomplet, une lettre absente lève KeyError." }
+        ]
+      },
+      {
+        num: "3.3", title: "arbreExp : construire l’arbre en lisant l’expression caractère par caractère",
+        intro: "Exercice 3, question 3. La procédure lit l'expression un caractère à la fois et construit l'arbre en suivant le schéma d'induction : si le caractère lu est une lettre, c'est une feuille ; si c'est une parenthèse ouvrante, on lit récursivement E1, puis l'opérateur, puis récursivement E2, puis la parenthèse fermante. Ici, au lieu du clavier, la procédure lit dans un itérateur de caractères (par exemple iter(\"(a+b)\")), ce qui la rend testable.",
+        code: `LETTRES = "abcdefghijklmnopqrstuvwxyz"
+
+
+def lireCar(source):
+    """Prochain caractère de l'itérateur source, en sautant les espaces ;
+    renvoie '' quand il n'y a plus rien à lire."""
+    ...
+
+
+def arbreExp(source):
+    """Lit une expression arithmétique dans l'itérateur de caractères source
+    et renvoie son arbre. Lève ValueError si l'expression est incorrecte.
+
+    >>> parenthese(arbreExp(iter("((a*c)+b)")))
+    '+(*(a,c),b)'
+    """
+    ...
+
+
+def arbreExpChaine(texte):
+    """Arbre de l'expression contenue dans la chaîne texte (rien ne doit rester après).
+
+    >>> valeurExp(arbreExpChaine("(((a*c)+(d*b))*(b+a))"), {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> arbreExpChaine("(a+b))")
+    Traceback (most recent call last):
+    ...
+    ValueError: caractères en trop après l'expression : ')'
+    """
+    ...`,
+        note: "Adaptation de l'énoncé : le TD demande une lecture « au clavier, caractère par caractère ». Pour que la procédure soit testable (doctests, notebook, correction automatique), elle lit ici dans un itérateur de caractères passé en paramètre, par exemple iter(\"(a+b)\"). Le principe est identique ; la dernière réponse de la correction montre comment la brancher sur le clavier. On tolère aussi les espaces, que l'énoncé écrit pour la lisibilité. On a choisi l'option « avec contrôle d'erreur » : toute expression incorrecte lève ValueError avec un message précis.",
+        questions: [
+          "Écrivez lireCar puis arbreExp, récursive, qui lit l'expression caractère par caractère.",
+          "Ajoutez un contrôle d'erreur : quelles expressions incorrectes faut-il détecter, et où ?",
+          "Écrivez chaineExp(E), la fonction réciproque, et vérifiez que chaineExp(arbreExpChaine(s)) redonne s.",
+          "Comment revenir à une vraie lecture au clavier ?"
+        ],
+        correction: [
+          { text: "Le programme suit la grammaire : chaque appel de arbreExp lit exactement une expression, ni plus ni moins, et laisse l'itérateur juste après elle. C'est ce qui permet à l'appel qui lit (E1 op E2) d'enchaîner naturellement la lecture de E1, de l'opérateur, de E2 et de la parenthèse fermante. Le contrôle d'erreur se fait à chaque caractère attendu : une lettre ou « ( » au début d'une expression, « + » ou « * » après E1, « ) » après E2, et rien après l'expression complète." },
+          { code: `LETTRES = "abcdefghijklmnopqrstuvwxyz"
+
+
+def lireCar(source):
+    """Prochain caractère de l'itérateur source, en sautant les espaces ;
+    renvoie '' quand il n'y a plus rien à lire."""
+    for car in source:
+        if car != ' ':
+            return car
+    return ''
+
+
+def arbreExp(source):
+    """Lit une expression arithmétique dans l'itérateur de caractères source
+    et renvoie son arbre. Lève ValueError si l'expression est incorrecte.
+
+    >>> parenthese(arbreExp(iter("((a*c)+b)")))
+    '+(*(a,c),b)'
+    """
+    car = lireCar(source)
+    if car != '' and car in LETTRES:          # cas (a) : une lettre, c'est une feuille
+        return Noeud(car)
+    if car == '(':                            # cas (b) : (E1 op E2)
+        gauche = arbreExp(source)
+        op = lireCar(source)
+        if op not in ('+', '*'):
+            raise ValueError(f"opérateur + ou * attendu, lu : {op!r}")
+        droite = arbreExp(source)
+        fin = lireCar(source)
+        if fin != ')':
+            raise ValueError(f"parenthèse fermante attendue, lu : {fin!r}")
+        return Noeud(op, gauche, droite)
+    raise ValueError(f"lettre ou parenthèse ouvrante attendue, lu : {car!r}")
+
+
+def arbreExpChaine(texte):
+    """Arbre de l'expression contenue dans la chaîne texte (rien ne doit rester après).
+
+    >>> valeurExp(arbreExpChaine("(((a*c)+(d*b))*(b+a))"), {'a': 1, 'b': 2, 'c': 3, 'd': 4})
+    33
+    >>> arbreExpChaine("(a+b))")
+    Traceback (most recent call last):
+    ...
+    ValueError: caractères en trop après l'expression : ')'
+    """
+    source = iter(texte)
+    arbre = arbreExp(source)
+    reste = lireCar(source)
+    if reste != '':
+        raise ValueError(f"caractères en trop après l'expression : {reste!r}")
+    return arbre
+
+
+def chaineExp(E):
+    """Réciproque : l'expression complètement parenthésée de l'arbre E."""
+    if E.gauche is None and E.droite is None:
+        return E.valeur
+    return "(" + chaineExp(E.gauche) + E.valeur + chaineExp(E.droite) + ")"
+
+
+s = "(((a*c)+(d*b))*(b+a))"
+F = arbreExpChaine(s)
+assert parenthese(F) == parenthese(E) == "*(+(*(a,c),*(d,b)),+(b,a))"
+assert chaineExp(F) == s
+assert valeurExp(arbreExpChaine("(((a * c) + (d * b)) * (b + a))"), V) == 33   # espaces tolérés
+assert parenthese(arbreExpChaine("x")) == "x"
+
+for mauvaise in ["", "a+b", "(a+b", "(a-b)", "(a+b))", "(A+b)", "((a+b)", "(a+)", "()"]:
+    try:
+        arbreExpChaine(mauvaise)
+    except ValueError as erreur:
+        print(f"{mauvaise!r:10} refusée : {erreur}")
+    else:
+        raise AssertionError(f"{mauvaise!r} aurait dû être refusée")
+# ''         refusée : lettre ou parenthèse ouvrante attendue, lu : ''
+# 'a+b'      refusée : caractères en trop après l'expression : '+'
+# '(a+b'     refusée : parenthèse fermante attendue, lu : ''
+# '(a-b)'    refusée : opérateur + ou * attendu, lu : '-'
+# '(a+b))'   refusée : caractères en trop après l'expression : ')'
+# '(A+b)'    refusée : lettre ou parenthèse ouvrante attendue, lu : 'A'
+# '((a+b)'   refusée : opérateur + ou * attendu, lu : ''
+# '(a+)'     refusée : lettre ou parenthèse ouvrante attendue, lu : ')'
+# '()'       refusée : lettre ou parenthèse ouvrante attendue, lu : ')'` },
+          { text: "Piège Python à signaler aux élèves : en fin de lecture, lireCar renvoie la chaîne vide, et '' in LETTRES vaut True (la chaîne vide est sous-chaîne de toute chaîne). Sans le test car != '', une expression tronquée créerait une feuille vide au lieu de lever une erreur. Pour l'opérateur, le problème ne se pose pas : on le compare au tuple ('+', '*'), dont la chaîne vide ne fait pas partie." },
+          { text: "Retour au clavier, comme dans l'énoncé : iter(lambda: sys.stdin.read(1), '') est un itérateur qui lit l'entrée standard un caractère à la fois, jusqu'à la fin. On peut donc écrire def arbreExpClavier(): return arbreExp(iter(lambda: sys.stdin.read(1), '')) après import sys. La logique de lecture est inchangée : seule la source des caractères diffère. Plus simple pour une classe : arbreExpChaine(input(\"Expression : \")), qui lit une ligne puis la parcourt caractère par caractère." },
+          { text: "Complément : arbreExp est un analyseur « par descente récursive », la technique utilisée par les compilateurs et interpréteurs pour construire l'arbre syntaxique d'un programme (cours, diapositive 5). Elle est possible ici parce que l'expression est complètement parenthésée : le premier caractère suffit toujours à savoir quel cas de la définition inductive s'applique." }
+        ]
+      }
+    ]
+  },
   // ── TP — Les algorithmes gloutons ──
   {
     id: "tp-gloutons", bloc: "bloc2", jour: "En ligne — 24 septembre 2026 (FDIU)",

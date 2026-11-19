@@ -1,0 +1,72 @@
+{
+ "fiches": [
+  {
+   "file": "_fiches_intro_algo_bloc5.json",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — introduction",
+   "date": "2026-11-19T08"
+  },
+  {
+   "file": "_fiches_arbres.json",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — arbres binaires",
+   "date": "2026-11-19T09"
+  }
+ ],
+ "ressources": [
+  {
+   "title": "TD — Arbres binaires (énoncé, Unicaen)",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — arbres binaires",
+   "description": "Énoncé du TD de la séance du 19 novembre : parcours, nombre de feuilles, copie, préfixe itératif avec une pile, profondeurs, longueurs de cheminement, expressions arithmétiques. Corrigé pas à pas dans l'onglet TP.",
+   "file_path": "ressources/arbres/TD-Arbres.pdf",
+   "file_name": "TD-Arbres.pdf",
+   "file_type": "application/pdf"
+  },
+  {
+   "title": "CM — Structures arborescentes (Unicaen)",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — arbres binaires",
+   "description": "Diaporama du cours du 19 novembre : schémas d'induction, vocabulaire (profondeur, niveau, hauteur, LC, LCE), propriétés des arbres binaires, structure de nœud, parcours en largeur et en profondeur.",
+   "file_path": "ressources/arbres/Arbres.pdf",
+   "file_name": "Arbres_CM5_structures_arborescentes.pdf",
+   "file_type": "application/pdf"
+  },
+  {
+   "title": "Autour de l'algorithmique (G. Richard, Unicaen)",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — introduction",
+   "description": "Diaporama d'introduction de la séance du 19 novembre : domaine algorithmique, complexité, du code source à l'exécution (CPython), mesurer un programme avec timeit.",
+   "file_path": "ressources/arbres/Intro-Algo.pdf",
+   "file_name": "Intro-Algo_Richard.pdf",
+   "file_type": "application/pdf"
+  },
+  {
+   "title": "Arbre.py — la classe Noeud donnée en séance",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — arbres binaires",
+   "description": "Classe Noeud (valeur, gauche, droite), point de départ du TD et des fiches sur les arbres binaires.",
+   "file_path": "ressources/arbres/Arbre.py",
+   "file_name": "Arbre_seance_2026-11-19.py",
+   "file_type": "text/x-python"
+  },
+  {
+   "title": "TD Arbres binaires — solutions complètes (script Python)",
+   "bloc": "bloc5",
+   "topic": "Algorithmique avancée — arbres binaires",
+   "description": "Toutes les fonctions du TD corrigées (parcours, feuilles, copie, pile, niveaux, LC, LCE, expressions), qui construisent l'arbre A et vérifient leurs propres résultats (asserts et doctests).",
+   "file_path": "ressources/arbres/solution_td_arbres.py",
+   "file_name": "solution_td_arbres.py",
+   "file_type": "text/x-python"
+  }
+ ],
+ "patches": [
+  {
+   "fiche_id": "04a579a5-3616-4f9a-b697-ed74f8aa955a",
+   "field": "content",
+   "old": "Chaque nœud a deux enfants. ",
+   "new": "Chaque nœud a au plus deux enfants : un sous-arbre gauche et un sous-arbre droit, chacun pouvant être vide (voir la fiche « Arbres — définitions inductives et vocabulaire »). ",
+   "why": "Un nœud d'arbre binaire a AU PLUS deux enfants (cours du 19 novembre : un nœud interne en a au moins un, une feuille aucun)."
+  }
+ ]
+}
