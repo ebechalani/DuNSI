@@ -1,0 +1,234 @@
+{
+  "id": "tp-dpr-karatsuba",
+  "bloc": "bloc2",
+  "jour": "En ligne — 8 et 15 octobre 2026 (FDIU)",
+  "theme": "Algorithmique — diviser pour régner",
+  "title": "TP — Diviser pour régner (2) : la multiplication de Karatsuba",
+  "type": "tp",
+  "notebook": "FDIU_diviser_pour_regner_2_karatsuba.ipynb",
+  "intro": "TP du cours en ligne des 8 et 15 octobre 2026 (FDIU, DU Normandie), terminé en séance le 15 octobre. Multiplier deux nombres de n chiffres comme à l'école demande n² multiplications de deux chiffres. Anatoli Karatsuba a montré en 1960 (publication en 1962) qu'on peut faire mieux : on coupe chaque nombre en deux moitiés, M = a·10^k + b et N = c·10^k + d, et trois produits de moitiés suffisent au lieu de quatre. Appliquée récursivement, l'idée donne une complexité en O(n^1,585). Les nombres sont représentés par des listes de chiffres, poids faible en tête. On construit d'abord les outils (conversions, mise en forme, addition, comparaison, soustraction), puis mul_Kara, et on compte les multiplications élémentaires. Ouvre le notebook dans Basthon, cherche par toi-même, puis déplie la correction.",
+  "steps": [
+    {
+      "num": "1",
+      "title": "conv : d'un entier à la liste de ses chiffres (récursif)",
+      "intro": "On représente un nombre par la liste de ses chiffres, poids faible en tête : 123456 s'écrit [6, 5, 4, 3, 2, 1]. Avec cette convention, l'indice d'un chiffre est exactement sa puissance de 10, et ajouter des zéros en fin de liste ne change pas la valeur du nombre.",
+      "code": "from doctest import run_docstring_examples\n\ndef conv(x) :\n    \"\"\"\n    Conversion d'un entier x de n chiffre en décimal\n    vers une liste de n élément. Chaque élément étant un chiffre de 0 à 9.\n    La liste est remplie Poids faible en tête\n\n    Tests automatiques:\n    >>> conv(12345)\n    [5, 4, 3, 2, 1]\n    >>> conv(0)\n    [0]\n    >>> conv(1000)\n    [0, 0, 0, 1]\n    \"\"\"\n    ...\n\nconv(12345)\n\nrun_docstring_examples(conv, globals())",
+      "questions": [
+        "Écrire conv(x), obligatoirement de façon récursive.",
+        "Quel est le cas de base ? Pourquoi conv(0) doit-il renvoyer [0] et pas une liste vide ?"
+      ],
+      "correction": [
+        {
+          "code": "from doctest import run_docstring_examples\n\ndef conv(x) :\n    \"\"\"\n    Conversion d'un entier x de n chiffre en décimal\n    vers une liste de n élément. Chaque élément étant un chiffre de 0 à 9.\n    La liste est remplie Poids faible en tête\n\n    Tests automatiques:\n    >>> conv(12345)\n    [5, 4, 3, 2, 1]\n    >>> conv(0)\n    [0]\n    >>> conv(1000)\n    [0, 0, 0, 1]\n    \"\"\"\n    if x < 10:                       # un seul chiffre : cas de base\n        return [x]\n    return [x % 10] + conv(x // 10)  # le chiffre des unités, puis les autres\n\nprint(conv(12345))                   # [5, 4, 3, 2, 1]\nrun_docstring_examples(conv, globals())"
+        },
+        {
+          "text": "x % 10 donne le chiffre des unités et x // 10 le nombre privé de ce chiffre. Le cas de base est x < 10, c'est-à-dire un nombre d'un seul chiffre. Avec un cas de base « x == 0 renvoie [] », conv(0) renverrait une liste vide, qui ne représente aucun nombre, et toutes les fonctions suivantes devraient traiter ce cas à part. La convention retenue : un nombre a toujours au moins un chiffre."
+        },
+        {
+          "text": "Profondeur de récursion : un appel par chiffre. Pour les nombres de 94 chiffres de l'étape 9, on reste très loin de la limite de 1 000 appels."
+        }
+      ]
+    },
+    {
+      "num": "2",
+      "title": "conv_inv : de la liste de chiffres à l'entier (récursif)",
+      "code": "def conv_inv(lst):\n    \"\"\"\n    Conversion d'une liste de n élément. Chaque élément étant un chiffre de 0 à 9.\n    vers un entier x de n chiffre en décimal.\n    La liste est remplie Poids faible en tête\n\n    Tests automatiques:\n    >>> conv_inv([5, 4, 3, 2, 1])\n    12345\n    >>> conv_inv([0])\n    0\n    >>> conv_inv([0, 0, 0, 1])\n    1000\n    \"\"\"\n    ...\n\nconv_inv([5, 4, 3, 2, 1])\n\nrun_docstring_examples(conv_inv, globals())",
+      "note": "En 2026, la consigne impose la récursivité pour les deux conversions. Le corrigé public de 2021 écrivait conv_inv (alors convInv) avec une boucle, ce qu'autorisait l'ancienne consigne.",
+      "questions": [
+        "Écrire conv_inv(lst), elle aussi de façon récursive."
+      ],
+      "correction": [
+        {
+          "code": "def conv_inv(lst):\n    \"\"\"\n    Conversion d'une liste de n élément. Chaque élément étant un chiffre de 0 à 9.\n    vers un entier x de n chiffre en décimal.\n    La liste est remplie Poids faible en tête\n\n    Tests automatiques:\n    >>> conv_inv([5, 4, 3, 2, 1])\n    12345\n    >>> conv_inv([0])\n    0\n    >>> conv_inv([0, 0, 0, 1])\n    1000\n    \"\"\"\n    if len(lst) == 1:                # un seul chiffre : cas de base\n        return lst[0]\n    return lst[0] + 10 * conv_inv(lst[1:])\n\nprint(conv_inv([5, 4, 3, 2, 1]))     # 12345\nrun_docstring_examples(conv_inv, globals())"
+        },
+        {
+          "text": "Idée : [5, 4, 3, 2, 1] vaut 5 + 10 × (valeur de [4, 3, 2, 1]). C'est le schéma de Horner, lu du poids faible vers le poids fort. Les deux fonctions sont réciproques : conv_inv(conv(x)) == x pour tout entier naturel x."
+        }
+      ]
+    },
+    {
+      "num": "3",
+      "title": "meme_len : égaliser les longueurs",
+      "intro": "Pour additionner ou couper deux nombres chiffre à chiffre, il est pratique que leurs listes aient la même longueur. Ajouter des zéros en poids fort, c'est-à-dire en fin de liste, ne change pas la valeur : 000322 = 322.",
+      "code": "def meme_len(l1, l2):\n    \"\"\"\n    Compare la longueur des deux listes l1 et l2.\n    Ajoute des zéros (en poids fort donc sans changer la valeur du nombre global\n    a l'une ou l'autre des listes pour que les deux aient la même longueur.\n\n    tests automatiques\n    >>> a = [5, 4, 3, 2, 1]\n    >>> b = [1]\n    >>> meme_len(a, b)\n    >>> a\n    [5, 4, 3, 2, 1]\n    >>> b\n    [1, 0, 0, 0, 0]\n    >>> b = [0, 0, 0, 0, 0, 0, 0, 1]\n    >>> meme_len(a,b)\n    >>> a\n    [5, 4, 3, 2, 1, 0, 0, 0]\n    >>> b\n    [0, 0, 0, 0, 0, 0, 0, 1]\n    \"\"\"\n    ...\n\na = [5, 4, 3, 2, 1]\nb = [1]\nmeme_len(a, b)\nb\n\nrun_docstring_examples(meme_len, globals())",
+      "questions": [
+        "Écrire meme_len(l1, l2).",
+        "Que renvoie cette fonction ? Comment le voit-on dans les doctests ?"
+      ],
+      "correction": [
+        {
+          "code": "def meme_len(l1, l2):\n    \"\"\"\n    Compare la longueur des deux listes l1 et l2.\n    Ajoute des zéros (en poids fort donc sans changer la valeur du nombre global\n    a l'une ou l'autre des listes pour que les deux aient la même longueur.\n\n    tests automatiques\n    >>> a = [5, 4, 3, 2, 1]\n    >>> b = [1]\n    >>> meme_len(a, b)\n    >>> a\n    [5, 4, 3, 2, 1]\n    >>> b\n    [1, 0, 0, 0, 0]\n    >>> b = [0, 0, 0, 0, 0, 0, 0, 1]\n    >>> meme_len(a,b)\n    >>> a\n    [5, 4, 3, 2, 1, 0, 0, 0]\n    >>> b\n    [0, 0, 0, 0, 0, 0, 0, 1]\n    \"\"\"\n    while len(l1) < len(l2):\n        l1.append(0)\n    while len(l2) < len(l1):\n        l2.append(0)\n\na = [5, 4, 3, 2, 1]\nb = [1]\nmeme_len(a, b)\nprint(b)                             # [1, 0, 0, 0, 0]\nrun_docstring_examples(meme_len, globals())"
+        },
+        {
+          "text": "meme_len ne renvoie rien (None) : elle modifie en place la plus courte des deux listes. Dans les doctests, la ligne >>> meme_len(a, b) n'est suivie d'aucune sortie, et c'est en affichant a et b ensuite qu'on constate l'effet. Une seule des deux boucles while s'exécute effectivement. C'est pour cette raison que add, sub et mul_Kara travaillent sur des copies : sans elles, les listes de l'utilisateur seraient allongées."
+        }
+      ]
+    },
+    {
+      "num": "4",
+      "title": "supp_zero : retirer les zéros inutiles",
+      "code": "def supp_zero(lst):\n    \"\"\"\n    Suppression des 0 en poids fort\n    dans la liste lst qui est modifiée par cette fonction\n    tests automatiques\n    >>> a = [5, 4, 3, 2, 1, 0, 0, 0]\n    >>> supp_zero(a)\n    >>> a\n    [5, 4, 3, 2, 1]\n    >>> b = [1, 0, 0, 0, 0]\n    >>> supp_zero(b)\n    >>> b\n    [1]\n    >>> c = [0, 0, 0, 0, 0]\n    >>> supp_zero(c)\n    >>> c\n    [0]\n    \"\"\"\n    ...\n\nb = [1, 2, 0, 0, 0]\nsupp_zero(b)\nb\n\nrun_docstring_examples(supp_zero, globals())",
+      "questions": [
+        "Écrire supp_zero(lst), qui retire en place les zéros de poids fort.",
+        "Quel cas particulier le dernier doctest vérifie-t-il ?"
+      ],
+      "correction": [
+        {
+          "code": "def supp_zero(lst):\n    \"\"\"\n    Suppression des 0 en poids fort\n    dans la liste lst qui est modifiée par cette fonction\n    tests automatiques\n    >>> a = [5, 4, 3, 2, 1, 0, 0, 0]\n    >>> supp_zero(a)\n    >>> a\n    [5, 4, 3, 2, 1]\n    >>> b = [1, 0, 0, 0, 0]\n    >>> supp_zero(b)\n    >>> b\n    [1]\n    >>> c = [0, 0, 0, 0, 0]\n    >>> supp_zero(c)\n    >>> c\n    [0]\n    \"\"\"\n    while len(lst) > 1 and lst[-1] == 0:   # on garde toujours au moins un chiffre\n        lst.pop()\n\nb = [1, 2, 0, 0, 0]\nsupp_zero(b)\nprint(b)                                   # [1, 2]\nrun_docstring_examples(supp_zero, globals())"
+        },
+        {
+          "text": "Les zéros de poids fort sont en fin de liste : pop() les retire un par un, en temps constant. Le dernier doctest, ajouté en 2026, vérifie que le nombre 0 garde un chiffre : [0, 0, 0, 0, 0] doit devenir [0] et non []. D'où la condition len(lst) > 1, testée en premier : si la liste ne contient plus qu'un élément, on s'arrête avant de regarder lst[-1]."
+        }
+      ]
+    },
+    {
+      "num": "5",
+      "title": "add : l'addition posée",
+      "intro": "Exemple : [9, 9, 9, 9] + [1] = [0, 0, 0, 0, 1], c'est-à-dire 9999 + 1 = 10000.",
+      "code": "def add(lst1, lst2):\n    \"\"\"\n    Addition des deux nombres lstA et lstB sous forme de liste de chiffre, poids faible en tête.\n    lstA et lstB ne sont pas modifiées par la fonction\n    retourne le résultat sous forme d'une liste\n\n    Tests automatiques\n    >>> a = [2, 5]\n    >>> b = [9, 2]\n    >>> add(a,b)\n    [1, 8]\n    >>> a = [8, 9, 9, 9]\n    >>> b = [1]\n    >>> add(a,b)\n    [9, 9, 9, 9]\n    >>> a\n    [8, 9, 9, 9]\n    >>> b\n    [1]\n    >>> a = [9, 9, 9, 9]\n    >>> b = [1]\n    >>> add(a,b)\n    [0, 0, 0, 0, 1]\n    >>> a\n    [9, 9, 9, 9]\n    >>> b\n    [1]\n    >>> a = [5, 4, 3, 2, 1]\n    >>> b = [5, 6, 7, 8, 9]\n    >>> add(a,b)\n    [0, 1, 1, 1, 1, 1]\n    >>> a\n    [5, 4, 3, 2, 1]\n    >>> b\n    [5, 6, 7, 8, 9]\n    \"\"\"\n    ...\n\na = [8, 9, 9, 9]\nb = [1]\nadd(a,b)\n\na = [9, 9, 9, 9]\nb = [1]\nadd(a,b)\n\nrun_docstring_examples(add, globals())",
+      "questions": [
+        "Écrire add(lst1, lst2) sans modifier les listes passées en argument.",
+        "Quel test échoue si l'on oublie la retenue finale ?"
+      ],
+      "correction": [
+        {
+          "code": "def add(lst1, lst2):\n    \"\"\"\n    Addition des deux nombres lstA et lstB sous forme de liste de chiffre, poids faible en tête.\n    lstA et lstB ne sont pas modifiées par la fonction\n    retourne le résultat sous forme d'une liste\n\n    Tests automatiques\n    >>> a = [2, 5]\n    >>> b = [9, 2]\n    >>> add(a,b)\n    [1, 8]\n    >>> a = [8, 9, 9, 9]\n    >>> b = [1]\n    >>> add(a,b)\n    [9, 9, 9, 9]\n    >>> a\n    [8, 9, 9, 9]\n    >>> b\n    [1]\n    >>> a = [9, 9, 9, 9]\n    >>> b = [1]\n    >>> add(a,b)\n    [0, 0, 0, 0, 1]\n    >>> a\n    [9, 9, 9, 9]\n    >>> b\n    [1]\n    >>> a = [5, 4, 3, 2, 1]\n    >>> b = [5, 6, 7, 8, 9]\n    >>> add(a,b)\n    [0, 1, 1, 1, 1, 1]\n    >>> a\n    [5, 4, 3, 2, 1]\n    >>> b\n    [5, 6, 7, 8, 9]\n    \"\"\"\n    l1 = lst1[:]                     # copies : lst1 et lst2 restent intactes\n    l2 = lst2[:]\n    meme_len(l1, l2)\n    retenue = 0\n    result = []\n    for i in range(len(l1)):\n        s = l1[i] + l2[i] + retenue\n        result.append(s % 10)        # le chiffre des unités va au résultat\n        retenue = s // 10            # celui des dizaines part en retenue\n    if retenue != 0:                 # retenue finale : un chiffre de plus\n        result.append(retenue)\n    return result\n\nprint(add([8, 9, 9, 9], [1]))        # [9, 9, 9, 9]\nprint(add([9, 9, 9, 9], [1]))        # [0, 0, 0, 0, 1]\nrun_docstring_examples(add, globals())"
+        },
+        {
+          "text": "C'est l'addition posée de l'école primaire, de droite à gauche dans l'écriture usuelle, donc de gauche à droite dans la liste. Sans les deux dernières lignes, 9999 + 1 donnerait [0, 0, 0, 0], soit 0, et les doctests [0, 0, 0, 0, 1] et [0, 1, 1, 1, 1, 1] échoueraient. En 2021, le notebook donnait cette fonction avec précisément cette omission, à retrouver par les tests. En 2026, on l'écrit entièrement."
+        }
+      ]
+    },
+    {
+      "num": "6",
+      "title": "plus_grand : comparer deux nombres",
+      "code": "def plus_grand(lst1, lst2):\n    \"\"\"\n    Compare les valeurs de lst1 et lst2\n    si lst1 >= lst2 retourne True\n    sinon, retourne False\n\n    Tests automatiques\n    >>> a = [1, 2, 3, 4, 5]\n    >>> b = [1, 2, 3, 4, 5]\n    >>> plus_grand(a, b)\n    True\n    >>> b = [2, 2, 3, 4, 5]\n    >>> plus_grand(a, b)\n    False\n    >>> plus_grand(b, a)\n    True\n    >>> a = [7, 7, 3, 1, 3]\n    >>> b = [3, 0, 4, 3, 9]\n    >>> plus_grand(b, a)\n    True\n    \"\"\"\n    ...\n\na = [1, 7, 3, 1, 3]\nb = [2, 7, 3, 1, 3]\nplus_grand(b, a)\n\nb = [5, 4]\na = [0]\nplus_grand(b, a)\n\nrun_docstring_examples(plus_grand, globals())",
+      "questions": [
+        "Écrire plus_grand(lst1, lst2), qui renvoie True si lst1 ≥ lst2.",
+        "Dans quel sens faut-il parcourir les listes ?",
+        "Que se passe-t-il si une liste porte des zéros inutiles en poids fort ?"
+      ],
+      "correction": [
+        {
+          "code": "def plus_grand(lst1, lst2):\n    \"\"\"\n    Compare les valeurs de lst1 et lst2\n    si lst1 >= lst2 retourne True\n    sinon, retourne False\n\n    Tests automatiques\n    >>> a = [1, 2, 3, 4, 5]\n    >>> b = [1, 2, 3, 4, 5]\n    >>> plus_grand(a, b)\n    True\n    >>> b = [2, 2, 3, 4, 5]\n    >>> plus_grand(a, b)\n    False\n    >>> plus_grand(b, a)\n    True\n    >>> a = [7, 7, 3, 1, 3]\n    >>> b = [3, 0, 4, 3, 9]\n    >>> plus_grand(b, a)\n    True\n    \"\"\"\n    l1 = lst1[:]\n    l2 = lst2[:]\n    meme_len(l1, l2)                         # mêmes longueurs\n    for i in range(len(l1) - 1, -1, -1):     # du poids fort vers le poids faible\n        if l1[i] > l2[i]:\n            return True\n        if l1[i] < l2[i]:\n            return False\n    return True                              # tous les chiffres sont égaux\n\nprint(plus_grand([2, 7, 3, 1, 3], [1, 7, 3, 1, 3]))   # True  : 31372 >= 31371\nprint(plus_grand([5, 4], [0]))                         # True  : 45 >= 0\nprint(plus_grand([5, 0, 0], [9]))                      # False : 5 < 9\nrun_docstring_examples(plus_grand, globals())"
+        },
+        {
+          "text": "On compare comme dans un dictionnaire, mais à partir du poids fort, donc en partant de la fin de la liste. Le premier chiffre différent décide. Si tous les chiffres sont égaux, les nombres sont égaux et la réponse est True (≥)."
+        },
+        {
+          "text": "Le piège est de comparer d'abord les longueurs, comme le faisait le corrigé de 2021. Ce raccourci est faux dès qu'une liste porte des zéros de poids fort : [5, 0, 0] (qui vaut 5) serait déclaré plus grand que [9]. Égaliser les longueurs avec meme_len sur des copies règle le problème."
+        }
+      ]
+    },
+    {
+      "num": "7",
+      "title": "sub : la soustraction posée",
+      "intro": "sub(lst1, lst2) renvoie lst1 − lst2, avec la précondition lst1 ≥ lst2. Le notebook fournit le début de la fonction.",
+      "code": "def sub(lst1, lst2):\n    \"\"\"Renvoie lst1 - lst2 sans modifier lst1 et lst2.\n    La méthode utilisée est celle des soustractions posées comme a l'école primaire\n\n    Tests automatiques\n    >>> a = [2, 2, 3, 4, 5]\n    >>> b = [1, 2, 3, 4, 5]\n    >>> sub(a, b)\n    [1]\n    >>> b = [1]\n    >>> a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]\n    >>> sub(a, b)\n    [9, 9, 9, 9, 9, 9, 9, 9, 9]\n    \"\"\"\n    l1 = lst1[:]\n    l2 = lst2[:]\n    meme_len(l1, l2)\n    retenue = 0\n    result = []\n\n    ...\n\nb = [1]\na = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]\nsub(a, b)\n\nb = [1]\na = [1]\nsub(a, b)\n\nb = [2]\na = [1]\nsub(a, b)\n\nrun_docstring_examples(sub, globals())",
+      "questions": [
+        "Compléter sub.",
+        "Que renvoient les trois cellules de test ? Commenter la dernière.",
+        "Pourquoi appeler supp_zero à la fin ?"
+      ],
+      "correction": [
+        {
+          "code": "def sub(lst1, lst2):\n    \"\"\"Renvoie lst1 - lst2 sans modifier lst1 et lst2.\n    La méthode utilisée est celle des soustractions posées comme a l'école primaire\n\n    Tests automatiques\n    >>> a = [2, 2, 3, 4, 5]\n    >>> b = [1, 2, 3, 4, 5]\n    >>> sub(a, b)\n    [1]\n    >>> b = [1]\n    >>> a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]\n    >>> sub(a, b)\n    [9, 9, 9, 9, 9, 9, 9, 9, 9]\n    \"\"\"\n    l1 = lst1[:]\n    l2 = lst2[:]\n    meme_len(l1, l2)\n    retenue = 0\n    result = []\n\n    for i in range(len(l1)):\n        chiffre = l1[i] - l2[i] - retenue\n        if chiffre < 0:              # on emprunte une dizaine au rang suivant\n            chiffre += 10\n            retenue = 1\n        else:\n            retenue = 0\n        result.append(chiffre)\n    supp_zero(result)\n    return result\n\nprint(sub([0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1]))   # [9, 9, 9, 9, 9, 9, 9, 9, 9]\nprint(sub([1], [1]))                               # [0]\nprint(sub([1], [2]))                               # [9] : faux, précondition violée\nrun_docstring_examples(sub, globals())"
+        },
+        {
+          "text": "Résultats : 1000000000 − 1 = 999999999, soit neuf 9 ; 1 − 1 = 0, soit [0] grâce à supp_zero qui garde un chiffre."
+        },
+        {
+          "text": "sub([1], [2]) renvoie [9] : c'est faux, parce que la précondition lst1 ≥ lst2 n'est pas respectée. La retenue qui reste à 1 à la fin de la boucle signale qu'on a « emprunté » au-delà du dernier chiffre : on obtient le complément à 10 de −1, comme en complément à deux pour les entiers machine. C'est pour cette raison que mul_Kara doit comparer avant de soustraire (avec plus_grand) et gérer le signe à part. Pour une version défensive, on peut ajouter assert retenue == 0 avant le return."
+        },
+        {
+          "text": "supp_zero est nécessaire parce que la différence a souvent moins de chiffres que lst1 : 22345 − 12345 donne [1, 0, 0, 0, 0] avant nettoyage, et [1] après. Sans ce nettoyage, les zéros inutiles s'accumuleraient au fil des appels récursifs de mul_Kara et fausseraient les longueurs."
+        }
+      ]
+    },
+    {
+      "num": "8",
+      "title": "mul_Kara : la multiplication de Karatsuba",
+      "intro": "Avec M = a·10^k + b et N = c·10^k + d, on calcule t1 = a·c, t2 = b·d et t3 = (a − b)·(c − d), puis M·N = t1·10^(2k) + (t1 + t2 − t3)·10^k + t2. Trois produits de moitiés au lieu de quatre, appliqués récursivement jusqu'à des nombres d'un chiffre. Voici la version à trous proposée dans l'aide du notebook.",
+      "code": "def mul_Kara(lst1, lst2):\n    \"\"\"Multiplication des deux listes lst1 et lst2 avec la méthode de KARATSUBA\n    Fonctions récursive qui ne modifie pas lst1 et lst2.\n    \"\"\"\n    global compt_mul\n    # copie les listes pour ne pas les modifier\n    l1 = lst1[:]\n    l2 = lst2[:]\n    # ajuste les longueurs des listes éventuellement\n    meme_len(l1, l2)\n\n    # condition d'arrêt\n    # les listes ont un seul éléments\n    ...\n\n    # les listes ont plus que 1 élément\n    # on les coupe en deux\n    ...\n\n    # on applique ensuite Karatsuba sur les 4 parties\n    t1 = ...\n    t2 = ...\n\n    # t3 = (a - b) * (c - d) = t31 * t32\n    # attention au signe, le résultat peut être négatif\n    sign = 1 # on démarre avec un signe +\n    ...\n\n    t3 = ...\n\n    # t = t1 + t2 - t3\n    # selon signe de t3\n    if sign > 0:\n        t = ...\n    else:\n        t = ...\n    # on a tout pour calculer le résultat\n    # t1 * 10^2k + (t1 + t2 - t3) * 10^k + t2\n    # t1 * 10^2k = [0] * 2 * k + ac on ajoute 2k 0 en poids faible\n    # t = (t1 + t2 - t3)\n    # donc t * 10^k = [0] * k + t on ajoute k 0 en poids faible\n    # reste plus qu'à ajouter t2 et on peut retourner le résultat\n    res = ...\n\n    supp_zero(res)\n\n    return res",
+      "questions": [
+        "Compléter mul_Kara.",
+        "Montrer que a·c + b·d − (a − b)·(c − d) = a·d + b·c, et en déduire la formule de Karatsuba.",
+        "Lors du découpage, quelle moitié de la liste correspond à a, et laquelle à b ?",
+        "Pourquoi faut-il gérer un signe pour t3, et comment ?",
+        "Quel est le rôle de [0] * k et de [0] * 2 * k ?"
+      ],
+      "correction": [
+        {
+          "code": "compt_mul = 0\n\ndef mul_Kara(lst1, lst2):\n    \"\"\"Multiplication des deux listes lst1 et lst2 avec la méthode de KARATSUBA\n    Fonctions récursive qui ne modifie pas lst1 et lst2.\n    \"\"\"\n    global compt_mul\n    # copie les listes pour ne pas les modifier\n    l1 = lst1[:]\n    l2 = lst2[:]\n    # ajuste les longueurs des listes éventuellement\n    meme_len(l1, l2)\n\n    # condition d'arrêt : les listes ont un seul élément\n    if len(l1) == 1:\n        compt_mul += 1                       # une multiplication élémentaire\n        return conv(l1[0] * l2[0])           # 0 à 81 : un ou deux chiffres\n\n    # on coupe en deux : poids faibles en tête de liste\n    k = len(l1) // 2\n    b, a = l1[:k], l1[k:]                    # M = a * 10^k + b\n    d, c = l2[:k], l2[k:]                    # N = c * 10^k + d\n    for part in (a, b, c, d):\n        supp_zero(part)\n\n    # on applique ensuite Karatsuba sur les 4 parties\n    t1 = mul_Kara(a, c)\n    t2 = mul_Kara(b, d)\n\n    # t3 = (a - b) * (c - d) = t31 * t32, en valeur absolue\n    sign = 1 # on démarre avec un signe +\n    if plus_grand(a, b):\n        t31 = sub(a, b)\n    else:\n        t31 = sub(b, a)\n        sign = -sign\n    if plus_grand(c, d):\n        t32 = sub(c, d)\n    else:\n        t32 = sub(d, c)\n        sign = -sign\n\n    t3 = mul_Kara(t31, t32)\n\n    # t = t1 + t2 - t3, selon le signe de t3\n    if sign > 0:\n        t = sub(add(t1, t2), t3)\n    else:\n        t = add(add(t1, t2), t3)\n    # t1 * 10^2k + t * 10^k + t2\n    res = add(add([0] * (2 * k) + t1, [0] * k + t), t2)\n\n    supp_zero(res)\n\n    return res\n\nprint(conv_inv(mul_Kara(conv(1234), conv(5678))), 1234 * 5678)   # 7006652 7006652"
+        },
+        {
+          "text": "La formule : (a − b)(c − d) = ac − ad − bc + bd, donc ac + bd − (a − b)(c − d) = ad + bc. Or (a·10^k + b)(c·10^k + d) = ac·10^(2k) + (ad + bc)·10^k + bd. Le coefficient du milieu, qui demandait deux produits (ad et bc), s'obtient avec un seul produit nouveau, t3, en réutilisant t1 = ac et t2 = bd déjà calculés."
+        },
+        {
+          "text": "Découpage : les poids faibles sont en tête de liste, donc b = l1[:k] (les k chiffres de poids faible) et a = l1[k:] (les poids forts). C'est l'inverse de l'écriture usuelle : 1234 = 12·10² + 34 donne a = 12 et b = 34, mais la liste [4, 3, 2, 1] se coupe en [4, 3] → b et [2, 1] → a. On applique ensuite supp_zero à chaque moitié : une moitié comme [0, 5] (soit 50) devient [0, 5], mais [3, 0] (soit 3) devient [3], ce qui raccourcit les appels suivants."
+        },
+        {
+          "text": "Signe : sub ne sait calculer que x − y avec x ≥ y (étape 7). On calcule donc les valeurs absolues t31 = abs(a − b) et t32 = abs(c − d) en comparant d'abord avec plus_grand. Chaque inversion change le signe : sign vaut +1 si le produit (a − b)(c − d) est positif, −1 sinon. Ensuite, t1 + t2 − t3 devient sub(add(t1, t2), t3) si le signe est positif, et add(add(t1, t2), t3) s'il est négatif. Comme t1 + t2 − t3 = ad + bc ≥ 0, la soustraction ne viole jamais sa précondition."
+        },
+        {
+          "text": "Décalages : multiplier par 10^k revient à ajouter k zéros en poids faible, donc en tête de liste. [0] * k + t vaut t·10^k, et [0] * (2 * k) + t1 vaut t1·10^(2k). C'est une simple concaténation, sans aucune multiplication. Les notes de séance du 15 octobre le soulignent : « ajouter k zéros en tête de liste, opération très rapide »."
+        },
+        {
+          "text": "Les notes du 15 octobre écrivent T3 = (A + B) × (C + D) − T1 − T2. C'est une autre variante de Karatsuba, elle aussi juste, puisque (a + b)(c + d) − ac − bd = ad + bc. Mais ce n'est pas celle du notebook, et ce n'est pas celle qui a produit les chiffres annoncés en séance (voir l'étape 9). Le support fait foi : t3 = (a − b)(c − d) et recombinaison t1 + t2 − t3. La variante additive évite la gestion du signe, mais a + b peut avoir un chiffre de plus que a, ce qui déséquilibre le découpage."
+        }
+      ]
+    },
+    {
+      "num": "9",
+      "title": "Compter les multiplications : Karatsuba contre la méthode naïve",
+      "intro": "On ajoute un compteur global compt_mul, incrémenté à chaque multiplication de deux chiffres, et on compare les deux algorithmes sur deux nombres de 94 chiffres. mul_naive est fournie par le notebook.",
+      "code": "a = 1234567890123456789012345678909999999912659845589961469813613131313131361368874655441588556585\nb = 9876543210987654321098765432100000000000002256622541258562555855654555215254438542435435435435\nres = a * b\n\nprint('n vaut', max((len(str(a)), len(str(b)))))\n\nres\n\nglobal compt_mul\ncompt_mul = 0\n\nres1 = mul_Kara(conv(a), conv(b))\nassert conv_inv(res1) == res, \"Résultat faux\"\n\nprint(compt_mul, \"multiplications élémentaires\")\n\n# ── cellule : mul_naive, fournie ──\ndef mul_naive(lA, lB):\n    \"\"\"Multiplication naive (comme a l'école primaire) entre les deux listes lA et lB.\n    Renvoi le résultat et ne modifie pas les les listes lA et lB\n\n    \"\"\"\n    l1 = lA[:]\n    l2 = lB[:]\n    #pour compter le nombre de multiplication élémentaire\n    global compt_mul\n\n    res = []   # matrice des multiplications chiffre par chiffre\n    for i in range(len(l1)):\n        # pour chaque chiffre de l1 : l1[i]\n        # que l'on multiplie par l2\n        # le résultat est une liste qu'on ajoute dans res\n        r = 0   # retenue nulle au début\n        res.append([0] * i)    # on décale d'un cran a chaque chiffre de l1, comme on met des points à l'école ...\n        for j in range(len(l2)):\n            compt_mul += 1\n            result = l1[i] * l2[j] + r\n            res[i].append(result % 10)    # le chiffre des unité va au résultat\n            r = result // 10    # celui des dizaine part en retenue\n        if r != 0:\n            # si il reste une reteune a la fin, on l'ajoute. ça fera un chiffre de plus en poids fort\n            res[i].append(r)\n\n    result = []    # resultat final\n    for i in range(len(res)):\n        result = add(result, res[i])\n\n    return result\n\n# ── cellule de comparaison (le notebook y répète « global compt_mul », inutile hors d'une fonction) ──\ncompt_mul = 0\n\nres2 = mul_naive(conv(a), conv(b))\nassert conv_inv(res2) == res, \"Résultat faux\"\n\nprint(compt_mul, \"multiplications élémentaires\")",
+      "note": "Le notebook demande de « modifier » mul_naive pour compter les multiplications, mais la version distribuée contient déjà global compt_mul et compt_mul += 1 : il n'y a rien à ajouter. Pour mul_Kara, le seul endroit où l'on multiplie deux chiffres est le cas de base, et c'est donc là qu'il faut incrémenter le compteur.",
+      "questions": [
+        "Où placer compt_mul += 1 dans mul_Kara ?",
+        "Combien de multiplications élémentaires pour chaque algorithme sur ces deux nombres de 94 chiffres ?",
+        "Retrouve-t-on les chiffres annoncés en séance le 15 octobre (8 836 en naïf, 1 631 avec Karatsuba) ?",
+        "Justifier la complexité O(n^1,585) annoncée par le notebook."
+      ],
+      "correction": [
+        {
+          "code": "# mul_naive est fournie complète par le notebook (compteur compris) : on l'exécute telle quelle\ndef mul_naive(lA, lB):\n    \"\"\"Multiplication naive (comme a l'école primaire) entre les deux listes lA et lB.\n    Renvoi le résultat et ne modifie pas les les listes lA et lB\n    \"\"\"\n    l1 = lA[:]\n    l2 = lB[:]\n    global compt_mul\n    res = []                         # une ligne de l'opération posée par chiffre de l1\n    for i in range(len(l1)):\n        r = 0\n        res.append([0] * i)          # décalage d'un cran par chiffre, comme les points à l'école\n        for j in range(len(l2)):\n            compt_mul += 1\n            result = l1[i] * l2[j] + r\n            res[i].append(result % 10)\n            r = result // 10\n        if r != 0:\n            res[i].append(r)\n    result = []\n    for i in range(len(res)):\n        result = add(result, res[i])\n    return result\n\na = 1234567890123456789012345678909999999912659845589961469813613131313131361368874655441588556585\nb = 9876543210987654321098765432100000000000002256622541258562555855654555215254438542435435435435\nres = a * b\nprint('n vaut', max((len(str(a)), len(str(b)))))       # n vaut 94\n\ncompt_mul = 0\nres1 = mul_Kara(conv(a), conv(b))\nassert conv_inv(res1) == res, \"Résultat faux\"\nprint(compt_mul, \"multiplications élémentaires\")        # 1631\n\ncompt_mul = 0\nres2 = mul_naive(conv(a), conv(b))\nassert conv_inv(res2) == res, \"Résultat faux\"\nprint(compt_mul, \"multiplications élémentaires\")        # 8836"
+        },
+        {
+          "text": "Le produit exact, que les deux assert vérifient, vaut 12193263113702179522618503273461057764471006900190764091568644761816761846721929774232466032890349854526993364608631765217879873131435397995180712503649251954354772524515604414702611589475 (188 chiffres)."
+        },
+        {
+          "text": "On retrouve exactement les chiffres de la séance : 1 631 multiplications élémentaires avec Karatsuba et 8 836 avec la méthode naïve, soit 5,4 fois moins. Le chiffre naïf s'explique sans calcul : 94 × 94 = 8 836, un produit par couple de chiffres."
+        },
+        {
+          "text": "Le chiffre de Karatsuba, lui, dépend des détails de l'implémentation. On obtient 1 631 avec le compteur dans le cas de base et supp_zero appliqué aux quatre moitiés a, b, c et d, comme ci-dessus. Sans ces supp_zero, on en compte 1 641. Avec la variante (a + b)(c + d) mentionnée dans les notes, on en compte 2 731. C'est donc bien la variante du notebook, avec (a − b)(c − d), qui a été exécutée en séance. Le corrigé public de 2021 annonçait 1 653 et 6 862 : son second opérande ne comptait que 73 chiffres (94 × 73 = 6 862), et notre fonction redonne bien 1 653 sur ces nombres-là."
+        },
+        {
+          "text": "Complexité : multiplier deux nombres de n chiffres demande 3 multiplications de nombres de n/2 chiffres, plus des additions, soustractions et décalages en O(n). La relation T(n) = 3T(n/2) + O(n) donne log2(n) niveaux et 3^log2(n) = n^log2(3) ≈ n^1,585 multiplications élémentaires. Exemple du notebook : 1234 × 5678 demande 9 multiplications au lieu de 16, ce que notre compteur confirme. Sur deux nombres aléatoires de n chiffres (tirage fixé par Random(2026) dans solution_dpr.py ; un autre tirage donne des valeurs voisines), on mesure :"
+        },
+        {
+          "code": "n chiffres   Karatsuba   naïve    n^1,585\n4            9           16       9\n16           79          256      81\n64           725         4 096    729\n256          6 475       65 536   6 562"
+        },
+        {
+          "text": "Mise en garde pour le choix des exemples : avec deux nombres formés uniquement de 9, a − b vaut 0 à chaque niveau. Karatsuba ne fait alors que 2n − 1 multiplications (127 pour n = 64), ce qui donne une image trop flatteuse de l'algorithme. Pour la culture : CPython multiplie lui-même ses grands entiers avec Karatsuba dès qu'ils dépassent 70 « chiffres » internes de 30 bits (environ 630 chiffres décimaux), et des algorithmes encore plus rapides existent pour des nombres bien plus grands (Toom-Cook, FFT)."
+        }
+      ]
+    },
+    {
+      "num": "10",
+      "title": "Lancer tous les tests automatiques",
+      "code": "import doctest\ndoctest.testmod()",
+      "questions": [
+        "Que doit afficher doctest.testmod() quand toutes les fonctions sont justes ?"
+      ],
+      "correction": [
+        {
+          "code": "import doctest\nprint(doctest.testmod())"
+        },
+        {
+          "text": "Dans le notebook, testmod() parcourt toutes les fonctions définies dans les cellules et exécute leurs exemples. Avec les fonctions corrigées, on obtient TestResults(failed=0, attempted=57) : 3 exemples pour conv, 3 pour conv_inv, 9 pour meme_len, 9 pour supp_zero, 18 pour add, 9 pour plus_grand et 6 pour sub. mul_Kara et mul_naive n'ont pas de doctest. Un échec indique la fonction, l'exemple, la sortie attendue et la sortie obtenue."
+        }
+      ]
+    }
+  ]
+}

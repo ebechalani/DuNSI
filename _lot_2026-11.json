@@ -1,0 +1,207 @@
+{
+ "fiches": [
+  {
+   "file": "_fiches_sql_complements.json",
+   "bloc": "bloc4",
+   "topic": "Bases de données (SQL)",
+   "date": "2026-10-15T08",
+   "dates": {
+    "bdd-normalisation-seance-17-sept": "2026-09-17T08",
+    "sql-requetes-parametrees": "2026-10-22T08"
+   }
+  },
+  {
+   "file": "_fiches_algo_validation_tests.json",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — correction des algorithmes",
+   "date": "2026-09-17T13"
+  },
+  {
+   "file": "_fiches_algo_preuve.json",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — correction des algorithmes",
+   "date": "2026-10-01T08"
+  },
+  {
+   "file": "_fiches_algo_preuve_python.json",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — correction des algorithmes",
+   "date": "2026-10-01T09"
+  },
+  {
+   "file": "_fiches_dpr.json",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — diviser pour régner",
+   "date": "2026-10-01T13",
+   "dates": {
+    "dpr-karatsuba": "2026-10-08T13"
+   }
+  },
+  {
+   "file": "_fiches_algo_complexite.json",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — complexité",
+   "date": "2026-10-08T08"
+  },
+  {
+   "file": "_fiches_paradigmes_fonctionnel.json",
+   "bloc": "bloc4",
+   "topic": "Paradigmes de programmation",
+   "date": "2026-10-22T09"
+  },
+  {
+   "file": "_fiches_paradigmes_logique_objet.json",
+   "bloc": "bloc4",
+   "topic": "Paradigmes de programmation",
+   "date": "2026-10-22T10"
+  }
+ ],
+ "ressources": [
+  {
+   "title": "TP — Diviser pour régner (1) : occurrences et tri fusion (notebook FDIU)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — diviser pour régner",
+   "description": "Notebook original du TP du 1er octobre : occurrences en diviser pour régner et en itératif, fusion, tri fusion, complexité comparée aux tris classiques. Il importe _fusion.py et triClassique_V2.py, que le bouton Basthon du TP charge avec lui.",
+   "file_path": "ressources/dpr/FDIU_diviser_pour_regner.ipynb",
+   "file_name": "FDIU_diviser_pour_regner.ipynb",
+   "file_type": "application/x-ipynb+json"
+  },
+  {
+   "title": "TP — Diviser pour régner (2) : Karatsuba (notebook FDIU)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — diviser pour régner",
+   "description": "Notebook original des 8 et 15 octobre : nombres en listes de chiffres, addition, comparaison, soustraction, multiplication de Karatsuba et multiplication naïve avec compteur de multiplications.",
+   "file_path": "ressources/dpr/FDIU_diviser_pour_regner_2_karatsuba.ipynb",
+   "file_name": "FDIU_diviser_pour_regner_2_karatsuba.ipynb",
+   "file_type": "application/x-ipynb+json"
+  },
+  {
+   "title": "TP — Diviser pour régner (3) : rotation d'image (notebook FDIU)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — diviser pour régner",
+   "description": "Notebook original du 8 octobre : rotation d'une image carrée d'un quart de tour par diviser pour régner, avec PIL. L'image perroquet_256_cc.jpg est chargée avec le notebook par le bouton Basthon du TP.",
+   "file_path": "ressources/dpr/FDIU_rotation_image_dpr.ipynb",
+   "file_name": "FDIU_rotation_image_dpr.ipynb",
+   "file_type": "application/x-ipynb+json"
+  },
+  {
+   "title": "Diviser pour régner — solutions des trois TP (script Python)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — diviser pour régner",
+   "description": "Script autonome : toutes les fonctions corrigées des TP tri fusion, Karatsuba et rotation d'image, qui vérifie ses propres résultats (asserts et doctests). À lancer à côté de _fusion.py, triClassique_V2.py et de l'image.",
+   "file_path": "ressources/dpr/solution_dpr.py",
+   "file_name": "solution_dpr.py",
+   "file_type": "text/x-python"
+  },
+  {
+   "title": "TP gloutons — correction officielle du formateur (notebook FDIU)",
+   "bloc": "bloc2",
+   "topic": "Algorithmes gloutons",
+   "description": "Le notebook corrigé donné en séance le 1er octobre. Deux points sont faux et corrigés dans le TP du site : l'encadré « conditions de Pearson » et le calcul de dec_vers_bin avec log2 (erreur d'arrondi dès 2⁴⁹ − 1).",
+   "file_path": "ressources/glouton/FDIU_algorithmes_gloutons_correction_formateur.ipynb",
+   "file_name": "FDIU_algorithmes_gloutons_correction_formateur.ipynb",
+   "file_type": "application/x-ipynb+json"
+  },
+  {
+   "title": "Bloc 2 Algorithmique — chapitre complet (copie locale, B. Mermet)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — correction des algorithmes",
+   "description": "Les 30 pages du chapitre consultables hors ligne : gloutons, diviser pour régner, k plus proches voisins, validation, preuve de programme et ses exercices, tests unitaires, complexité.",
+   "file_path": "ressources/algo/index.html",
+   "file_name": "algo_index.html",
+   "file_type": "text/html"
+  },
+  {
+   "title": "Preuve de programme — code écrit en séance le 1er octobre (personne.py)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — correction des algorithmes",
+   "description": "Classe Personne du formateur : invariant de classe (majeur ⇔ âge ≥ 18) vérifié par assert, attribut privé __nom, et la démonstration finale où une affectation directe depuis l'extérieur casse l'invariant.",
+   "file_path": "ressources/algo/seance-2026-10-01/personne.py",
+   "file_name": "personne_seance_2026-10-01.py",
+   "file_type": "text/x-python"
+  },
+  {
+   "title": "Preuve de programme — notes du formateur en séance le 1er octobre (exemple.txt)",
+   "bloc": "bloc2",
+   "topic": "Algorithmique — correction des algorithmes",
+   "description": "Brouillon écrit en direct : assertions et pytest, skolémisation, pré et postconditions (add, minimum, augmenter), preuve de l'invariant et du variant de maximum, tentative de preuve de l'Horloge. Remis au propre dans les fiches Preuve.",
+   "file_path": "ressources/algo/seance-2026-10-01/exemple.txt",
+   "file_name": "exemple_seance_2026-10-01.txt",
+   "file_type": "text/plain"
+  },
+  {
+   "title": "Bloc 4 — Paradigmes de programmation (copie locale, B. Mermet)",
+   "bloc": "bloc4",
+   "topic": "Paradigmes de programmation",
+   "description": "Chapitre 2 consultable hors ligne : introduction, programmation fonctionnelle (Haskell), type abstrait Liste, programmation logique (Prolog), programmation objet.",
+   "file_path": "ressources/paradigmes/indexParadigmes.html",
+   "file_name": "paradigmes_index.html",
+   "file_type": "text/html"
+  }
+ ],
+ "patches": [
+  {
+   "fiche_id": "c82f5f76-7963-44c8-8053-7e082ef89498",
+   "field": "content",
+   "old": "R2 = (NomJeu, Éditeur, NbJoueursMin, NbJoueursMax, Durée, NationalitéÉditeur)\nR3 = (NomIllustrateur, PrénomIllustrateur, NationalitéIllustrateur)\n```\nPassage en 3FN : pour chaque DF (nonClé1 → nonClé2), on crée la table (nonClé1, nonClé2) et on retire nonClé2 de la relation de départ. Ici seule Éditeur → NationalitéÉditeur viole la 3FN :",
+   "new": "R2 = (NomJeu, Éditeur, NbJoueursMin, NbJoueursMax, Durée)\nR3 = (NomIllustrateur, PrénomIllustrateur, NationalitéIllustrateur)\n```\n**Erratum (séance du 17 septembre)** : le support écrit (exercice 6) place aussi NationalitéÉditeur dans R2 ; c'est une faute de frappe, la version faite en direct en cours était correcte. La méthode part des DF de la couverture minimale : NomJeu → NationalitéÉditeur n'en fait pas partie (elle s'obtient par transitivité, via Éditeur), elle n'ajoute donc rien à R2. Détails dans la fiche « Bases de données — erratum 2FN, limites de la 3FN et conception par diagramme de classes ».\nPassage en 3FN : pour chaque DF (nonClé1 → nonClé2), on crée la table (nonClé1, nonClé2) et on retire nonClé2 de la relation de départ s'il y figure. Ici, la seule DF de ce type est Éditeur → NationalitéÉditeur : on ajoute R2b ; comme NationalitéÉditeur n'est pas dans R2, il n'y a rien à retirer et R2a est simplement R2 :",
+   "why": "Erratum annoncé en séance le 17 septembre : R2 en 2FN contient Éditeur mais pas NationalitéÉditeur (faute de frappe du support bdr.html, exercice 6, que la fiche reprenait) ; le passage en 3FN n'a donc rien à retirer de R2, il ajoute seulement R2b."
+  },
+  {
+   "fiche_id": "bda2f01f-83dd-4dcc-ae5b-ea103199b44b",
+   "field": "content",
+   "old": "Étape 3 : pour chaque association **1-N**, créer une relation avec les clés des deux classes ; sa clé est celle de la classe côté *.",
+   "new": "Étape 3 : pour chaque association **1-N** (cardinalité maximale 1 d'un côté et * de l'autre, quelle que soit la cardinalité minimale), créer une relation avec les clés des deux classes ; sa clé est celle de la classe côté *. Exemple : publie, avec 0..1 côté Éditeur et * côté Jeu, est une association 1-N, d'où Publie(#IdJeu, #IdÉditeur) de clé IdJeu. (Règle corrigée par le formateur sur sa page : une version antérieure définissait l'association 1-N par « cardinalité minimale 1 et maximale * », ce qui excluait publie.)",
+   "why": "La page modeleConceptuel.html a été corrigée par le formateur : une association 1-N se définit par ses cardinalités maximales (1 d'un côté, * de l'autre), et non plus par « cardinalité minimale 1 et maximale * ». La fiche ne donnait aucune définition de 1-N, ce qui laissait la place à l'ancienne lecture ; on ajoute la définition corrigée et l'exemple de publie (0..1), qu'elle seule couvre."
+  },
+  {
+   "fiche_id": "bda2f01f-83dd-4dcc-ae5b-ea103199b44b",
+   "field": "exercices",
+   "old": "Éditeur–Jeu 1 côté éditeur (un jeu a exactement un éditeur dans notre cahier des charges), 0..* côté jeu ;",
+   "new": "Éditeur–Jeu 0..1 côté éditeur (un seul éditeur par jeu dans notre cahier des charges, mais il peut être inconnu au moment de la saisie), 0..* côté jeu — c'est une association 1-N au sens de la règle corrigée ;",
+   "why": "Le diagramme du support (cardinalite2.png) porte 0..1 côté Éditeur pour l'association publie, et la séance du 17 septembre l'a justifié (un seul éditeur, mais éventuellement inconnu) ; la fiche indiquait « 1 », cardinalité qui n'est pas celle du formateur."
+  },
+  {
+   "fiche_id": "bda2f01f-83dd-4dcc-ae5b-ea103199b44b",
+   "field": "exercices",
+   "old": "Question ouverte (à poser en cours) : comment traduire un attribut d'association (la moyenne Élève–Matière) dans le modèle relationnel ?",
+   "new": "Question posée en cours, réponse du 17 septembre : comment traduire un attribut d'association (la moyenne Élève–Matière) dans le modèle relationnel ?\nCorrection : on crée le schéma de l'association N-M comme d'habitude, puis on y ajoute l'attribut comme attribut non clé : Suit(#IdÉlève, #IdMatière, Note), de clé (IdÉlève, IdMatière) — une note par couple (élève, matière). Voir la fiche « Bases de données — erratum 2FN, limites de la 3FN et conception par diagramme de classes », section 8.",
+   "why": "La question laissée ouverte par la fiche a reçu sa réponse en séance le 17 septembre (traduction d'un attribut d'association) ; on remplace la question ouverte par la réponse du formateur."
+  },
+  {
+   "fiche_id": "adbec75d-2617-4b23-a51e-5e50b028c547",
+   "field": "content",
+   "old": "Un second cas, plus sournois : s'il n'y a plus de pièce de 1 centime, rendre 11 centimes donne `[10]` — l'algorithme s'arrête en ayant rendu 10 centimes sur 11, sans erreur ni message.",
+   "new": "Un second cas, plus sournois : s'il n'y a plus de pièce de 1 centime, rendre 11 centimes donne `[10]` avec la première version de `rendu_glouton` du TP — l'algorithme s'arrête en ayant rendu 10 centimes sur 11, sans erreur ni message.\nLa seconde version donnée par le formateur, qui force l'usage de la plus petite pièce, affiche `[10, 2]` : 12 centimes rendus pour 11 dus. C'est la sortie imprimée dans le notebook du TP. Dans les deux cas, le résultat est faux et silencieux.",
+   "why": "La correction officielle (séance du 1er octobre) contient deux versions de rendu_glouton ; la dernière définie dans le notebook, celle qui produit la sortie affichée, rend [10, 2] et non [10]. Vérifié en exécutant les deux versions."
+  },
+  {
+   "fiche_id": "adbec75d-2617-4b23-a51e-5e50b028c547",
+   "field": "content",
+   "old": "| Sac à dos | la plus grande valeur | non |",
+   "new": "| Sac à dos | la plus grande valeur | non |\n| Sac à dos | le plus léger | non |",
+   "why": "La correction officielle cite trois critères locaux pour le sac à dos : les plus chers, les plus légers, le meilleur rapport prix/masse. Le critère « le plus léger » manque au tableau ; mesuré : 4 € au lieu de 7 € à 15 kg et 7 € au lieu de 11 € à 21 kg sur les quatre objets du TP."
+  },
+  {
+   "fiche_id": "adbec75d-2617-4b23-a51e-5e50b028c547",
+   "field": "content",
+   "old": "| Conférenciers | celui dont l'exposé est le plus court | non |",
+   "new": "| Conférenciers | celui dont l'exposé est le plus court | non |\n| Conférenciers | celui qui chevauche le moins d'autres créneaux | non |",
+   "why": "La correction officielle cite quatre critères pour le planning, dont « celui qui interfère le moins avec les autres », absent du tableau. Il n'est pas optimal : contre-exemple exécuté dans le TP (étape 7), 3 conférenciers au lieu de 4."
+  },
+  {
+   "fiche_id": "adbec75d-2617-4b23-a51e-5e50b028c547",
+   "field": "content",
+   "old": "« Finir le plus tôt », c'est libérer la salle au plus vite — et c'est la bonne idée.",
+   "new": "« Finir le plus tôt », c'est libérer la salle au plus vite — et c'est la bonne idée.\nMême « celui qui interfère le moins avec les autres », critère cité dans la correction du formateur, échoue : avec A [0, 3], B [4, 7], C [8, 11], D [12, 15], X [6, 9], trois copies de [2, 5] et trois copies de [10, 13], X ne chevauche que B et C. Il est choisi en premier et l'on case A, X, D, soit 3 conférenciers, au lieu de A, B, C, D.",
+   "why": "Précise la fiche à partir de la liste de critères de la correction officielle ; contre-exemple vérifié par exécution (glouton du moins de conflits : ['A', 'X', 'D'] ; glouton de l'heure de fin : ['A', 'B', 'C', 'D'])."
+  },
+  {
+   "fiche_id": "adbec75d-2617-4b23-a51e-5e50b028c547",
+   "field": "exercices",
+   "old": "Remarque importante : il n'existe pas de règle simple permettant de dire au premier coup d'œil si un système est canonique — on le vérifie par le calcul.",
+   "new": "Remarque importante : il n'existe pas de règle simple permettant de dire au premier coup d'œil si un système est canonique — on le vérifie par le calcul.\nAttention à l'encadré « conditions de Pearson (1994) » de la correction officielle du TP. Il affirme qu'un système est canonique si et seulement si chaque pièce vaut au plus la moitié de la précédente. C'est faux dans les deux sens.\n(3, 2, 1) viole cette condition, puisque 2 > 3 / 2, et il est pourtant canonique.\n(12, 5, 1) la respecte et n'est pas canonique : pour 15, le glouton rend 12 + 1 + 1 + 1, soit 4 pièces, alors que 5 + 5 + 5 n'en demande que 3.\nCe que Pearson a réellement établi, c'est un algorithme en temps polynomial pour tester si un système est canonique : un calcul, pas une règle à lire sur les valeurs.\nLe système (4, 3, 1) de cet exercice viole la condition et n'est pas canonique : ici la règle tombe juste, mais par hasard.",
+   "why": "La correction officielle (séance du 1er octobre) énonce une « condition de Pearson » qui contredit cette remarque. La fiche a raison et la correction officielle a tort : contre-exemples (3, 2, 1) et (12, 5, 1) vérifiés par programmation dynamique, et sur tous les systèmes de 2 à 4 pièces inférieures à 30, 176 systèmes canoniques violent la condition et 182 la respectent sans être canoniques. On garde la remarque et on désamorce l'encadré, que les collègues retrouveront dans le notebook."
+  }
+ ]
+}

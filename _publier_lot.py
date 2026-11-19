@@ -9,13 +9,14 @@
 #
 # Manifeste :
 # {
-#   "fiches":     [ { "file": "_fiches_x.json", "bloc": "bloc2", "topic": "…", "date": "2026-10-01T09" } ],
+#   "fiches":     [ { "file": "_fiches_x.json", "bloc": "bloc2", "topic": "…", "date": "2026-10-01T09",
+#                     "dates": { "id-de-fiche": "2026-10-08T09" } } ],
 #   "ressources": [ { "title", "bloc", "topic", "description", "file_path", "file_name", "file_type" } ],
 #   "patches":    [ { "fiche_id", "field", "old", "new", "why" } ]
 # }
 # Dans un fichier de fiches, l'ordre du tableau est l'ordre du cours : la fiche i reçoit
 # created_at = <date>:<i minutes>, et le site trie par created_at.
-import sys, json, os, urllib.request, urllib.error, urllib.parse
+import sys, re, json, os, urllib.request, urllib.error, urllib.parse
 sys.stdout.reconfigure(encoding='utf-8')
 
 URL = 'https://tnkwbcevfyslpetuuxlu.supabase.co'
@@ -46,7 +47,8 @@ def fiches_du_manifeste(m):
         for i, f in enumerate(donnees):
             lignes.append({
                 'title': f['title'], 'bloc': lot['bloc'], 'topic': lot['topic'],
-                'created_at': f"{lot['date']}:{i:02d}:00+00:00",
+                # "dates" : {id: "AAAA-MM-JJTHH"} pour dater une fiche d'un autre jour que son lot
+                'created_at': f"{lot.get('dates', {}).get(f.get('id'), lot['date'])}:{i:02d}:00+00:00",
                 **{c: f.get(c) or '' for c in CHAMPS},
                 'code_example': None,   # le code est intercalé dans content (blocs ```)
             })
@@ -63,8 +65,9 @@ def verifier(m, fiches):
         fences = f['content'].count('```') + f['exercices'].count('```')
         if fences % 2:
             print(f"!! blocs de code impairs : {f['title']}"); ok = False
-        if not f['content'].lstrip().startswith('1)'):
-            print(f"!! le contenu ne commence pas par « 1) » : {f['title']}"); ok = False
+        # Un court chapeau avant la première section est permis ; la section 1) doit exister.
+        if not re.search(r'^1\) ', f['content'], re.M):
+            print(f"!! aucune section « 1) » dans le contenu : {f['title']}"); ok = False
     for r in m.get('ressources', []):
         if not os.path.exists(os.path.join(HERE, r['file_path'])):
             print(f"!! ressource absente du dépôt : {r['file_path']}"); ok = False
@@ -105,9 +108,11 @@ def appliquer_patches(patches):
         if not lignes:
             print(f"!! fiche introuvable : {p['fiche_id']}"); continue
         actuel = lignes[0][p['field']] or ''
-        n = actuel.count(p['old'])
-        if n == 0 and p['new'] in actuel:
+        # Le nouveau texte d'abord : un correctif qui AJOUTE après « old » contient « old »,
+        # qui resterait donc présent une fois le correctif appliqué.
+        if p['new'] in actuel:
             print(f"  déjà appliqué : {lignes[0]['title']} / {p['field']}"); continue
+        n = actuel.count(p['old'])
         if n != 1:
             print(f"!! « old » trouvé {n} fois dans {lignes[0]['title']} / {p['field']} — correctif sauté"); continue
         st, rep = requete('PATCH', f"fiches?id=eq.{p['fiche_id']}",
