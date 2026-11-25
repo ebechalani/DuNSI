@@ -35,6 +35,11 @@ const EVAL_PRESENTATION = [
   { id: 'ev_p4', label: "5 min — Présentation d'un exercice ou d'une famille d'exercices" },
   { id: 'ev_p5', label: '5 min — Conclusion' },
 ]
+// Documents produits pour l'évaluation : copies locales servies depuis ressources/evaluation/
+const EVAL_DOCS = [
+  { icon: '📄', title: 'Rapport papier — version 2 (PDF, 19 pages)', desc: 'Approche générale, séance 2 détaillée (RIP et OSPF), exercices corrigés, extrait de devoir, annexe de l\'oral. Reste à compléter par le trinôme : noms, citations du programme à vérifier.', url: 'ressources/evaluation/Protocoles_de_routage_NSI_Terminale_v2.pdf' },
+  { icon: '🎤', title: 'Oral — fiche de préparation (PDF, 3 pages)', desc: 'Repères de temps des cinq temps de 5 minutes, valeurs à connaître, questions probables du jury, liste de vérification.', url: 'ressources/evaluation/Oral_fiche_de_preparation.pdf' },
+]
 
 const RESSOURCES_MERMET = [
   { icon: '🧠', title: "Bloc 1 — Didactique de l'informatique", desc: 'Pensée informatique, approche instrumentale, didactique', url: 'https://mermet.users.greyc.fr/Enseignement/EnseignementInformatiqueLycee/Havre/Didactique/index.html' },
@@ -8860,6 +8865,15 @@ function renderEval() {
         <div class="deadline-days">${txt}</div>
       </div>`
   }).join('')
+
+  document.getElementById('eval-docs').innerHTML = EVAL_DOCS.map(d => `
+    <div class="agenda-row">
+      <a class="agenda-link" href="${d.url}" target="_blank" rel="noopener">
+        <span class="agenda-fiche-icon">${d.icon}</span>
+        <span><strong>${escapeHtml(d.title)}</strong><br><span class="eval-doc-desc">${escapeHtml(d.desc)}</span></span>
+        <span class="agenda-arrow">↗</span>
+      </a>
+    </div>`).join('')
 
   renderChecklist('eval-rapport-general',  EVAL_RAPPORT_GENERAL)
   renderChecklist('eval-rapport-seance',   EVAL_RAPPORT_SEANCE)

@@ -882,6 +882,8 @@ textarea { resize: vertical; }
 }
 .agenda-link:hover { background: #f0f6ff; }
 .agenda-link .agenda-arrow { margin-left: auto; color: var(--muted); font-size: 0.8rem; }
+/* onglet Évaluation : ligne de description sous le titre d'un document */
+.eval-doc-desc { color: var(--muted); font-size: 0.82rem; }
 /* bouton ouvrant la fiche interne */
 .agenda-fiche-btn {
   border: none; background: none; cursor: pointer;
