@@ -37,7 +37,7 @@ const EVAL_PRESENTATION = [
 ]
 // Documents produits pour l'évaluation : copies locales servies depuis ressources/evaluation/
 const EVAL_DOCS = [
-  { icon: '📄', title: 'Rapport papier — version 2 (PDF, 19 pages)', desc: 'Approche générale, séance 2 détaillée (RIP et OSPF), exercices corrigés, extrait de devoir, annexe de l\'oral. Reste à compléter par le trinôme : noms, citations du programme à vérifier.', url: 'ressources/evaluation/Protocoles_de_routage_NSI_Terminale_v2.pdf' },
+  { icon: '📄', title: 'Rapport papier — version 2 (PDF, 19 pages)', desc: 'Approche générale, séance 2 détaillée (RIP et OSPF), exercices corrigés, extrait de devoir, annexe de l\'oral.', url: 'ressources/evaluation/Protocoles_de_routage_NSI_Terminale_v2.pdf' },
   { icon: '🎤', title: 'Oral — fiche de préparation (PDF, 3 pages)', desc: 'Repères de temps des cinq temps de 5 minutes, valeurs à connaître, questions probables du jury, liste de vérification.', url: 'ressources/evaluation/Oral_fiche_de_preparation.pdf' },
 ]
 
